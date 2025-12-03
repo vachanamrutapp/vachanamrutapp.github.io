@@ -313,6 +313,36 @@ function setupNavigation() {
 
     // Initially hide back button
     backBtn.style.display = 'none';
+
+    // Swipe to go back
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        // Check if swipe is horizontal and long enough (right swipe)
+        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50) {
+            // Right swipe - go back
+            if (backBtn.style.display !== 'none') {
+                backBtn.click();
+            }
+        }
+    }
 }
 
 // Add Font Awesome for icons
