@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="gu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +12,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <header id="header">
         <button id="back-btn" style="display:none;"><i class="fas fa-arrow-left"></i></button>
-        <h1>વચનામૃત</h1>
+        <img src="images/logo-vachanamrut.png" alt="Vachanamrut Logo" id="navbar-logo">
     </header>
     <main id="main-content">
         <div id="sections-screen" class="screen active">
@@ -29,11 +33,16 @@
         <div id="vachanamrut-detail-screen" class="screen">
             <div id="vachanamrut-card" class="glass-card">
                 <h3 id="vachanamrut-title"></h3>
+                <div id="vachanamrut-video"></div>
                 <div id="vachanamrut-setting"></div>
                 <div id="vachanamrut-text"></div>
+                <div id="vachanamrut-footer-text"></div>
             </div>
         </div>
     </main>
+    <footer id="footer">
+        <p>પૂર્ણ પુરુષોત્તમ ભગવાન શ્રી સ્વામિનારાયણની પરાવાણી</p>
+    </footer>
     <script src="js/app.js"></script>
     <script>
         // Register service worker
@@ -46,4 +55,5 @@
         }
     </script>
 </body>
+
 </html>

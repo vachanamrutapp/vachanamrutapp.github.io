@@ -1,5 +1,6 @@
 // Global variables
 let vachanamrutData = [];
+let videoData = [];
 let sections = [];
 let currentSection = null;
 
@@ -12,30 +13,39 @@ const vachanamrutsList = document.getElementById('vachanamruts-list');
 const sectionTitle = document.getElementById('section-title');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
+const vachanamrutVideo = document.getElementById('vachanamrut-video');
 const vachanamrutSetting = document.getElementById('vachanamrut-setting');
 const vachanamrutText = document.getElementById('vachanamrut-text');
+const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text');
 const backBtn = document.getElementById('back-btn');
+const footer = document.getElementById('footer');
 
 // Initialize app
 async function init() {
     try {
-        // Load all vachanamrut data
-        await loadVachanamrutData();
-        
+        // Load all data
+        await Promise.all([
+            loadVachanamrutData(),
+            loadVideoData()
+        ]);
+
         // Process sections from data
         processSections();
-        
+
         // Render sections
         renderSections();
-        
+
         // Setup navigation
         setupNavigation();
-        
+
+        // Initial screen setup
+        showScreen('sections-screen');
+
         // Register service worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js');
         }
-        
+
     } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('main-content').innerHTML = '<p>Error loading data. Please check your connection.</p>';
@@ -45,7 +55,7 @@ async function init() {
 // Load all vachanamrut data
 async function loadVachanamrutData() {
     const promises = [];
-    
+
     // Load files from 1 to 262 (approximate total count)
     for (let i = 1; i <= 262; i++) {
         promises.push(
@@ -56,27 +66,47 @@ async function loadVachanamrutData() {
                     }
                     return null;
                 })
+                .then(data => {
+                    if (data) {
+                        data.id = i; // Assign ID based on file number
+                        return data;
+                    }
+                    return null;
+                })
                 .catch(() => null)
         );
     }
-    
+
     const results = await Promise.all(promises);
     vachanamrutData = results.filter(data => data !== null);
-    
+
     console.log(`Loaded ${vachanamrutData.length} vachanamruts`);
+}
+
+// Load video data
+async function loadVideoData() {
+    try {
+        const response = await fetch('./assets/youtube_videos.json');
+        if (response.ok) {
+            videoData = await response.json();
+            console.log(`Loaded ${videoData.length} videos`);
+        }
+    } catch (error) {
+        console.error('Error loading video data:', error);
+    }
 }
 
 // Process sections from loaded data
 function processSections() {
     const sectionMap = {};
-    
+
     vachanamrutData.forEach(item => {
         const vachanamrutText = item.vachanamrut.trim();
-        
+
         // Extract section name and number
         let sectionName = '';
         let sectionNumber = 0;
-        
+
         if (vachanamrutText.includes('ગઢડા પ્રથમ')) {
             sectionName = 'ગઢડા પ્રથમ';
             const match = vachanamrutText.match(/ગઢડા પ્રથમ (\d+)/);
@@ -114,7 +144,7 @@ function processSections() {
             const match = vachanamrutText.match(/ગઢડા અંત્ય (\d+)/);
             sectionNumber = match ? parseInt(match[1]) : 0;
         }
-        
+
         if (sectionName) {
             if (!sectionMap[sectionName]) {
                 sectionMap[sectionName] = [];
@@ -125,23 +155,23 @@ function processSections() {
             });
         }
     });
-    
+
     // Convert to array and sort
     sections = Object.entries(sectionMap).map(([name, vachanamruts]) => {
         // Sort vachanamruts by section number
         vachanamruts.sort((a, b) => a.sectionNumber - b.sectionNumber);
-        
+
         return {
             name: name,
             count: vachanamruts.length,
             vachanamruts: vachanamruts
         };
     });
-    
+
     // Sort sections in the desired order
     const sectionOrder = [
         'ગઢડા પ્રથમ',
-        'સારંગપુર', 
+        'સારંગપુર',
         'કારિયાણી',
         'લોયા',
         'પંચાળા',
@@ -150,20 +180,20 @@ function processSections() {
         'અમદાવાદ',
         'ગઢડા અંત્ય'
     ];
-    
+
     sections.sort((a, b) => {
         const aIndex = sectionOrder.indexOf(a.name);
         const bIndex = sectionOrder.indexOf(b.name);
         return aIndex - bIndex;
     });
-    
+
     console.log('Processed sections:', sections);
 }
 
 // Render sections (landing page)
 function renderSections() {
     sectionsList.innerHTML = '';
-    
+
     sections.forEach(section => {
         const card = document.createElement('div');
         card.className = 'section-card';
@@ -173,7 +203,7 @@ function renderSections() {
                 <span class="section-count">(${section.count})</span>
             </div>
         `;
-        
+
         card.addEventListener('click', () => showSection(section));
         sectionsList.appendChild(card);
     });
@@ -183,27 +213,25 @@ function renderSections() {
 function showSection(section) {
     currentSection = section;
     sectionTitle.textContent = `${section.name} (${section.count})`;
-    
+
     vachanamrutsList.innerHTML = '';
-    
+
     section.vachanamruts.forEach(vachanamrut => {
         const item = document.createElement('div');
         item.className = 'vachanamrut-item';
-        
+
         // Clean title
         const title = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
-        
+
         item.innerHTML = `
-            <div class="vachanamrut-header">
-                <span class="vachanamrut-number">${vachanamrut.vachanamrut.trim()}</span>
-                <span class="vachanamrut-title">${title}</span>
-            </div>
+            <span class="vachanamrut-number">${vachanamrut.vachanamrut.trim()}</span>
+            <span class="vachanamrut-title">${title}</span>
         `;
-        
+
         item.addEventListener('click', () => showVachanamrut(vachanamrut));
         vachanamrutsList.appendChild(item);
     });
-    
+
     showScreen('vachanamruts-screen');
     backBtn.style.display = 'block';
 }
@@ -211,17 +239,40 @@ function showSection(section) {
 // Show vachanamrut detail
 function showVachanamrut(vachanamrut) {
     vachanamrutTitle.textContent = vachanamrut.vachanamrut.trim();
-    
+
+    // Video embed
+    vachanamrutVideo.innerHTML = '';
+    if (vachanamrut.id) {
+        const video = videoData.find(v => v.number === vachanamrut.id);
+        if (video && video.videoId) {
+            vachanamrutVideo.innerHTML = `
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${video.videoId}" 
+                        title="${video.title}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            `;
+        }
+    }
+
     // Clean and format setting
     const setting = vachanamrut.setting ? vachanamrut.setting.replace(/\n/g, ' ').trim() : '';
     vachanamrutSetting.textContent = setting;
-    
+
     // Clean and format text
     const text = vachanamrut.text ? vachanamrut.text.replace(/\n/g, '\n\n').trim() : '';
-    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph => 
+    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph =>
         paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
     ).join('');
-    
+
+    // Set footer text
+    const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+    vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+
     showScreen('vachanamrut-detail-screen');
 }
 
@@ -231,9 +282,20 @@ function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
-    
+
     // Show requested screen
     document.getElementById(screenId).classList.add('active');
+
+    // Reset scroll position
+    window.scrollTo(0, 0);
+    document.getElementById('main-content').scrollTo(0, 0);
+
+    // Toggle footer visibility
+    if (screenId === 'sections-screen' || screenId === 'vachanamruts-screen') {
+        footer.style.display = 'block';
+    } else {
+        footer.style.display = 'none';
+    }
 }
 
 // Setup navigation
@@ -248,7 +310,7 @@ function setupNavigation() {
             backBtn.style.display = 'none';
         }
     });
-    
+
     // Initially hide back button
     backBtn.style.display = 'none';
 }
