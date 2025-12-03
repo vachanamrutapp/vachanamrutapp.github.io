@@ -1,16 +1,26 @@
-const CACHE_NAME = '1.0.2';
+const CACHE_NAME = '1.0.3';
+
+// Generate list of vachanamrut data files (1 to 262)
+const DATA_FILES = [];
+for (let i = 1; i <= 262; i++) {
+    DATA_FILES.push(`./assets/data/vachanamrut-${i}.json`);
+}
+
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './css/styles.css',
     './js/app.js',
     './manifest.json',
+    './assets/youtube_videos.json',
+    './assets/chapter-mappings.json',
     './images/logo-vachanamrut.png',
     './images/swaminarayan-bg.jpg',
     './images/192.png',
     './images/512.png',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap'
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap',
+    ...DATA_FILES
 ];
 
 // Install event - cache assets
