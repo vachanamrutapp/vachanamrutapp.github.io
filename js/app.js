@@ -4,10 +4,12 @@ let videoData = [];
 let sections = [];
 let currentSection = null;
 let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
+let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
+const menuScreen = document.getElementById('menu-screen');
 const sectionsList = document.getElementById('sections-list');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
@@ -17,7 +19,134 @@ const vachanamrutText = document.getElementById('vachanamrut-text');
 const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text');
 const backBtn = document.getElementById('back-btn');
 let bookmarkBtn = document.getElementById('bookmark-btn');
+const fabBtn = document.getElementById('fab-btn');
 const footer = document.getElementById('footer');
+
+// ... (init function remains same)
+
+// Show vachanamrut detail
+function showVachanamrut(vachanamrut, pushState = true) {
+    // Ensure ID is a number
+    const safeId = parseInt(vachanamrut.id);
+
+
+    // Update URL
+    if (pushState) {
+        const newUrl = `${window.location.pathname}?id=${safeId}`;
+        window.history.pushState({ vachanamrutId: safeId }, '', newUrl);
+    }
+
+    // Clean number and title
+    const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+    const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+
+    // Check if favourite
+    const isFav = favourites.includes(safeId);
+    const heartIconClass = isFav ? 'fas' : 'far';
+
+    // Set title with both number and name AND share button AND heart button
+    vachanamrutTitle.innerHTML = `
+        <div class="title-container">
+            <button id="heart-btn" class="icon-btn heart-btn" aria-label="Favourite">
+                <i class="${heartIconClass} fa-heart"></i>
+            </button>
+            <div class="title-content">
+                <span class="v-number">${cleanNumber}</span><br>
+                <span class="v-title-text">${cleanTitle}</span>
+            </div>
+            <button id="share-btn" class="icon-btn" aria-label="Share">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+    `;
+
+    // Setup heart button
+    document.getElementById('heart-btn').addEventListener('click', () => {
+        toggleFavourite(safeId);
+    });
+
+    // Setup share button
+    const shareBtn = document.getElementById('share-btn');
+    shareBtn.addEventListener('click', async () => {
+        const shareData = {
+            title: `Vachanamrut ${cleanNumber}`,
+            text: `${cleanNumber} - ${cleanTitle}`,
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+
+            }
+        } else {
+            // Fallback to clipboard
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                // Show toast or feedback
+                const originalIcon = shareBtn.innerHTML;
+                shareBtn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    shareBtn.innerHTML = originalIcon;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+    });
+
+    // Video embed
+    vachanamrutVideo.innerHTML = '';
+    if (vachanamrut.id) {
+        const video = videoData.find(v => v.number === vachanamrut.id);
+        if (video && video.videoId) {
+            vachanamrutVideo.innerHTML = `
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${video.videoId}" 
+                        title="${video.title}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            `;
+        }
+    }
+
+    // Clean and format setting
+    const setting = vachanamrut.setting ? vachanamrut.setting.replace(/\n/g, ' ').trim() : '';
+    vachanamrutSetting.textContent = setting;
+
+    // Clean and format text
+    const text = vachanamrut.text ? vachanamrut.text.replace(/\n/g, '\n\n').trim() : '';
+    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph =>
+        paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
+    ).join('');
+
+    // Set footer text
+    const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+    vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+
+    showScreen('vachanamrut-detail-screen');
+    backBtn.style.display = 'block';
+    bookmarkBtn.style.display = 'block';
+    fabBtn.style.display = 'none'; // Hide FAB in detail view
+
+    // Update bookmark button state
+    updateBookmarkButtonState(vachanamrut.id);
+
+    // Setup bookmark click listener (remove old listeners to prevent duplicates)
+    const newBookmarkBtn = bookmarkBtn.cloneNode(true);
+    bookmarkBtn.parentNode.replaceChild(newBookmarkBtn, bookmarkBtn);
+    bookmarkBtn = newBookmarkBtn; // Update global reference
+
+    // Add event listener
+    bookmarkBtn.addEventListener('click', () => {
+        toggleBookmark(vachanamrut.id);
+    });
+}
 
 // Initialize app
 async function init() {
@@ -38,11 +167,23 @@ async function init() {
         // Setup navigation
         setupNavigation();
 
+        // Setup Menu
+        setupMenu();
+
+        // Capture deep link ID before showScreen clears the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const deepLinkId = urlParams.get('id');
+
         // Initial screen setup
         showScreen('home-screen');
 
-        // Auto-scroll to bookmark if exists
-        if (bookmarkedVachanamrutId) {
+        // Auto-scroll to bookmark if exists (only if not deep linking)
+        if (deepLinkId) {
+            const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
+            if (vachanamrut) {
+                showVachanamrut(vachanamrut, true); // Push state to restore URL after showScreen cleared it
+            }
+        } else if (bookmarkedVachanamrutId) {
             scrollToBookmark();
         }
 
@@ -50,6 +191,18 @@ async function init() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js');
         }
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.vachanamrutId) {
+                const vachanamrut = vachanamrutData.find(v => v.id === event.state.vachanamrutId);
+                if (vachanamrut) {
+                    showVachanamrut(vachanamrut, false);
+                }
+            } else {
+                showScreen('home-screen', false);
+            }
+        });
 
     } catch (error) {
         console.error('Error loading data:', error);
@@ -84,8 +237,6 @@ async function loadVachanamrutData() {
 
     const results = await Promise.all(promises);
     vachanamrutData = results.filter(data => data !== null);
-
-    console.log(`Loaded ${vachanamrutData.length} vachanamruts`);
 }
 
 // Load video data
@@ -94,7 +245,7 @@ async function loadVideoData() {
         const response = await fetch('./assets/youtube_videos.json');
         if (response.ok) {
             videoData = await response.json();
-            console.log(`Loaded ${videoData.length} videos`);
+
         }
     } catch (error) {
         console.error('Error loading video data:', error);
@@ -107,7 +258,7 @@ async function loadChapterMappings() {
         const response = await fetch('./assets/chapter-mappings.json');
         if (response.ok) {
             sections = await response.json();
-            console.log('Loaded chapter mappings');
+
         }
     } catch (error) {
         console.error('Error loading chapter mappings:', error);
@@ -136,7 +287,7 @@ function processSections() {
         }
     });
 
-    console.log('Processed sections:', sections);
+
 }
 
 // Render sections (landing page)
@@ -225,66 +376,6 @@ function showSection(section) {
     // No longer needed
 }
 
-// Show vachanamrut detail
-function showVachanamrut(vachanamrut) {
-    // Clean number and title
-    const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
-    const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
-
-    // Set title with both number and name
-    vachanamrutTitle.innerHTML = `<span class="v-number">${cleanNumber}</span><br><span class="v-title-text">${cleanTitle}</span>`;
-
-    // Video embed
-    vachanamrutVideo.innerHTML = '';
-    if (vachanamrut.id) {
-        const video = videoData.find(v => v.number === vachanamrut.id);
-        if (video && video.videoId) {
-            vachanamrutVideo.innerHTML = `
-                <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/${video.videoId}" 
-                        title="${video.title}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            `;
-        }
-    }
-
-    // Clean and format setting
-    const setting = vachanamrut.setting ? vachanamrut.setting.replace(/\n/g, ' ').trim() : '';
-    vachanamrutSetting.textContent = setting;
-
-    // Clean and format text
-    const text = vachanamrut.text ? vachanamrut.text.replace(/\n/g, '\n\n').trim() : '';
-    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph =>
-        paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
-    ).join('');
-
-    // Set footer text
-    const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
-    vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
-
-    showScreen('vachanamrut-detail-screen');
-    backBtn.style.display = 'block';
-    bookmarkBtn.style.display = 'block';
-
-    // Update bookmark button state
-    updateBookmarkButtonState(vachanamrut.id);
-
-    // Setup bookmark click listener (remove old listeners to prevent duplicates)
-    const newBookmarkBtn = bookmarkBtn.cloneNode(true);
-    bookmarkBtn.parentNode.replaceChild(newBookmarkBtn, bookmarkBtn);
-    bookmarkBtn = newBookmarkBtn; // Update global reference
-
-    // Add event listener
-    bookmarkBtn.addEventListener('click', () => {
-        toggleBookmark(vachanamrut.id);
-    });
-}
-
 // Toggle bookmark
 function toggleBookmark(id) {
     if (bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === id) {
@@ -298,6 +389,29 @@ function toggleBookmark(id) {
     }
     updateBookmarkButtonState(id);
     renderSections(); // Re-render to update indicators
+}
+
+// Toggle Favourite
+function toggleFavourite(id) {
+    const index = favourites.indexOf(id);
+    if (index === -1) {
+        favourites.push(id);
+    } else {
+        favourites.splice(index, 1);
+    }
+    localStorage.setItem('favourites', JSON.stringify(favourites));
+
+    // Update UI
+    const btn = document.getElementById('heart-btn');
+    if (btn) {
+        const isFav = favourites.includes(id);
+        btn.innerHTML = `<i class="${isFav ? 'fas' : 'far'} fa-heart"></i>`;
+    }
+
+    // Refresh list if open
+    if (menuScreen.classList.contains('active')) {
+        renderFavourites();
+    }
 }
 
 // Update bookmark button icon
@@ -350,8 +464,83 @@ function scrollToBookmark() {
     }
 }
 
+// Render Favourites List
+function renderFavourites() {
+    const list = document.getElementById('favourites-list');
+    const msg = document.getElementById('no-favourites-msg');
+
+    list.innerHTML = '';
+
+    if (favourites.length === 0) {
+        msg.style.display = 'block';
+        return;
+    }
+
+    msg.style.display = 'none';
+
+    favourites.forEach(id => {
+        const vachanamrut = vachanamrutData.find(v => v.id === id);
+        if (vachanamrut) {
+            const card = document.createElement('div');
+            card.className = 'fav-card';
+
+            const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+            const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+
+            card.innerHTML = `
+                <div class="fav-number">${cleanNumber}</div>
+                <div class="fav-title">${cleanTitle}</div>
+            `;
+
+            card.addEventListener('click', () => {
+                showVachanamrut(vachanamrut);
+            });
+
+            list.appendChild(card);
+        }
+    });
+}
+
+// Setup Menu Logic
+function setupMenu() {
+    // FAB Click
+    fabBtn.addEventListener('click', () => {
+        showScreen('menu-screen');
+        renderFavourites();
+    });
+
+    // Tab Switching
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            // Add active class
+            tab.classList.add('active');
+            const targetId = `${tab.dataset.tab}-content`;
+            document.getElementById(targetId).classList.add('active');
+
+            if (tab.dataset.tab === 'favourites') {
+                renderFavourites();
+            }
+        });
+    });
+
+    // Reset App Button
+    document.getElementById('reset-app-btn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset the app? This will delete all bookmarks and favourites.')) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
+}
+
 // Show screen
-function showScreen(screenId) {
+function showScreen(screenId, pushState = true) {
     // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
@@ -369,6 +558,18 @@ function showScreen(screenId) {
         footer.style.display = 'block';
         backBtn.style.display = 'none';
         bookmarkBtn.style.display = 'none';
+        fabBtn.style.display = 'flex';
+
+        // Clear URL query param if going home
+        if (pushState) {
+            const newUrl = window.location.pathname;
+            window.history.pushState({}, '', newUrl);
+        }
+    } else if (screenId === 'menu-screen') {
+        footer.style.display = 'none';
+        backBtn.style.display = 'block';
+        bookmarkBtn.style.display = 'none';
+        fabBtn.style.display = 'none';
     } else {
         footer.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
@@ -380,6 +581,13 @@ function setupNavigation() {
     backBtn.addEventListener('click', () => {
         if (vachanamrutDetailScreen.classList.contains('active')) {
             // Go back to home screen
+            showScreen('home-screen');
+
+            // Scroll to bookmark if exists
+            if (bookmarkedVachanamrutId) {
+                scrollToBookmark();
+            }
+        } else if (menuScreen.classList.contains('active')) {
             showScreen('home-screen');
         }
     });

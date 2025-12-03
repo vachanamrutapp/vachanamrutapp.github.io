@@ -36,7 +36,25 @@
                 <div id="vachanamrut-footer-text"></div>
             </div>
         </div>
+        <div id="menu-screen" class="screen">
+            <div class="menu-header">
+                <button class="tab-btn active" data-tab="favourites">Favourites</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+            <div id="favourites-content" class="tab-content active">
+                <div id="favourites-list"></div>
+                <div id="no-favourites-msg" style="display: none;">No favourites yet.</div>
+            </div>
+            <div id="settings-content" class="tab-content">
+                <div class="settings-card glass-card">
+                    <h3>App Settings</h3>
+                    <button id="reset-app-btn" class="danger-btn">Reset App Data</button>
+                    <p class="settings-note">This will clear all bookmarks and favourites.</p>
+                </div>
+            </div>
+        </div>
     </main>
+    <button id="fab-btn" class="fab-btn"><i class="fas fa-cog"></i></button>
     <footer id="footer">
         <p>પૂર્ણ પુરુષોત્તમ ભગવાન શ્રી સ્વામિનારાયણની પરાવાણી</p>
     </footer>
