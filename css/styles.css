@@ -104,6 +104,33 @@ header {
     color: #D32F2F;
 }
 
+#bookmark-btn {
+    position: absolute;
+    right: 20px;
+    background: transparent;
+    color: #B71C1C;
+    /* Gold */
+    border: none;
+    padding: 8px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: none;
+    display: none;
+    /* Hidden by default */
+}
+
+#bookmark-btn:hover {
+    transform: scale(1.1);
+    color: #D32F2F;
+}
+
 main {
     flex: 1;
     padding: 110px 16px 80px 16px;
@@ -140,25 +167,36 @@ main {
 
 /* Sections list (Landing page) */
 #sections-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
     padding: 10px 0;
 }
 
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .section-card {
-    background: rgba(255, 230, 150, 0.4);
-    /* Golden translucent */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
+    /* Liquid Gold Gradient */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 16px 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .section-card:hover {
@@ -172,15 +210,46 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex: 1;
+}
+
+.section-icon {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    margin-left: 15px;
+}
+
+.section-card.active .section-icon {
+    transform: rotate(90deg);
+}
+
+.vachanamruts-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 10px;
+    /* Removed background and overlap for cleaner look */
+}
+
+.vachanamruts-dropdown.active {
+    max-height: 3000px;
+    /* Large enough to fit content */
+    padding: 10px;
+    margin-top: 10px;
 }
 
 .section-name {
     color: var(--secondary-color);
     font-weight: 700;
-    font-size: 1.9rem;
-    /* Increased by 50% from 1.25rem */
+    font-size: 2.0rem;
+    /* Reduced by 10% from 2.2rem */
     margin: 0;
-    font-family: 'Noto Sans Gujarati', sans-serif;
+    font-family: 'Noto Sans Gujarati',
+        sans-serif;
 }
 
 .section-count {
@@ -217,16 +286,18 @@ main {
 }
 
 .vachanamrut-item {
-    background: rgba(255, 230, 150, 0.4);
-    /* Golden translucent */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
+    /* Liquid Gold Gradient */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 16px;
     padding: 16px 20px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
 }
@@ -244,6 +315,12 @@ main {
     min-width: 40px;
     flex-shrink: 0;
     /* Prevent shrinking */
+}
+
+.bookmark-indicator {
+    color: var(--secondary-color);
+    margin-right: 10px;
+    font-size: 0.9rem;
 }
 
 .vachanamrut-title {
@@ -276,6 +353,19 @@ main {
     text-align: center;
     border-bottom: 2px solid rgba(183, 28, 28, 0.1);
     padding-bottom: 15px;
+}
+
+.v-number {
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+}
+
+.v-title-text {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    font-weight: 500;
+    display: block;
+    margin-top: 5px;
 }
 
 .video-container {
@@ -386,7 +476,7 @@ main {
     }
 
     .section-name {
-        font-size: 1.1rem;
+        font-size: 1.6rem;
     }
 
     .glass-card {

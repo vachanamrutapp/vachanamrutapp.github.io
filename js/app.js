@@ -3,14 +3,12 @@ let vachanamrutData = [];
 let videoData = [];
 let sections = [];
 let currentSection = null;
+let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
 
 // DOM elements
-const sectionsScreen = document.getElementById('sections-screen');
-const vachanamrutsScreen = document.getElementById('vachanamruts-screen');
+const sectionsScreen = document.getElementById('home-screen');
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
 const sectionsList = document.getElementById('sections-list');
-const vachanamrutsList = document.getElementById('vachanamruts-list');
-const sectionTitle = document.getElementById('section-title');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
 const vachanamrutVideo = document.getElementById('vachanamrut-video');
@@ -18,6 +16,7 @@ const vachanamrutSetting = document.getElementById('vachanamrut-setting');
 const vachanamrutText = document.getElementById('vachanamrut-text');
 const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text');
 const backBtn = document.getElementById('back-btn');
+let bookmarkBtn = document.getElementById('bookmark-btn');
 const footer = document.getElementById('footer');
 
 // Initialize app
@@ -26,7 +25,8 @@ async function init() {
         // Load all data
         await Promise.all([
             loadVachanamrutData(),
-            loadVideoData()
+            loadVideoData(),
+            loadChapterMappings()
         ]);
 
         // Process sections from data
@@ -39,7 +39,12 @@ async function init() {
         setupNavigation();
 
         // Initial screen setup
-        showScreen('sections-screen');
+        showScreen('home-screen');
+
+        // Auto-scroll to bookmark if exists
+        if (bookmarkedVachanamrutId) {
+            scrollToBookmark();
+        }
 
         // Register service worker
         if ('serviceWorker' in navigator) {
@@ -96,95 +101,39 @@ async function loadVideoData() {
     }
 }
 
+// Load chapter mappings
+async function loadChapterMappings() {
+    try {
+        const response = await fetch('./assets/chapter-mappings.json');
+        if (response.ok) {
+            sections = await response.json();
+            console.log('Loaded chapter mappings');
+        }
+    } catch (error) {
+        console.error('Error loading chapter mappings:', error);
+    }
+}
+
+// Process sections from loaded data
 // Process sections from loaded data
 function processSections() {
-    const sectionMap = {};
+    // Map vachanamruts to sections based on the loaded mappings
+    sections.forEach(section => {
+        // The section.vachanamruts currently holds IDs from the JSON
+        // We need to check if it's an array of numbers (IDs) or already objects (if re-run)
+        if (Array.isArray(section.vachanamruts) && section.vachanamruts.length > 0 && typeof section.vachanamruts[0] === 'number') {
+            const ids = section.vachanamruts;
 
-    vachanamrutData.forEach(item => {
-        const vachanamrutText = item.vachanamrut.trim();
+            // Map IDs to actual Vachanamrut objects
+            const vachanamrutObjects = ids.map(id => vachanamrutData.find(v => v.id === id)).filter(v => v !== undefined);
 
-        // Extract section name and number
-        let sectionName = '';
-        let sectionNumber = 0;
-
-        if (vachanamrutText.includes('ગઢડા પ્રથમ')) {
-            sectionName = 'ગઢડા પ્રથમ';
-            const match = vachanamrutText.match(/ગઢડા પ્રથમ (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('સારંગપુર')) {
-            sectionName = 'સારંગપુર';
-            const match = vachanamrutText.match(/સારંગપુર (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('કારિયાણી')) {
-            sectionName = 'કારિયાણી';
-            const match = vachanamrutText.match(/કારિયાણી (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('લોયા')) {
-            sectionName = 'લોયા';
-            const match = vachanamrutText.match(/લોયા (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('પંચાળા')) {
-            sectionName = 'પંચાળા';
-            const match = vachanamrutText.match(/પંચાળા (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('ગઢડા મધ્ય')) {
-            sectionName = 'ગઢડા મધ્ય';
-            const match = vachanamrutText.match(/ગઢડા મધ્ય (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('વરતાલ')) {
-            sectionName = 'વરતાલ';
-            const match = vachanamrutText.match(/વરતાલ (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('અમદાવાદ')) {
-            sectionName = 'અમદાવાદ';
-            const match = vachanamrutText.match(/અમદાવાદ (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
-        } else if (vachanamrutText.includes('ગઢડા અંત્ય')) {
-            sectionName = 'ગઢડા અંત્ય';
-            const match = vachanamrutText.match(/ગઢડા અંત્ય (\d+)/);
-            sectionNumber = match ? parseInt(match[1]) : 0;
+            // Update the section with objects and count
+            section.vachanamruts = vachanamrutObjects;
+            section.count = vachanamrutObjects.length;
+        } else if (Array.isArray(section.vachanamruts) && section.vachanamruts.length === 0) {
+            // Empty section or already processed but empty
+            section.count = 0;
         }
-
-        if (sectionName) {
-            if (!sectionMap[sectionName]) {
-                sectionMap[sectionName] = [];
-            }
-            sectionMap[sectionName].push({
-                ...item,
-                sectionNumber: sectionNumber
-            });
-        }
-    });
-
-    // Convert to array and sort
-    sections = Object.entries(sectionMap).map(([name, vachanamruts]) => {
-        // Sort vachanamruts by section number
-        vachanamruts.sort((a, b) => a.sectionNumber - b.sectionNumber);
-
-        return {
-            name: name,
-            count: vachanamruts.length,
-            vachanamruts: vachanamruts
-        };
-    });
-
-    // Sort sections in the desired order
-    const sectionOrder = [
-        'ગઢડા પ્રથમ',
-        'સારંગપુર',
-        'કારિયાણી',
-        'લોયા',
-        'પંચાળા',
-        'ગઢડા મધ્ય',
-        'વરતાલ',
-        'અમદાવાદ',
-        'ગઢડા અંત્ય'
-    ];
-
-    sections.sort((a, b) => {
-        const aIndex = sectionOrder.indexOf(a.name);
-        const bIndex = sectionOrder.indexOf(b.name);
-        return aIndex - bIndex;
     });
 
     console.log('Processed sections:', sections);
@@ -195,6 +144,11 @@ function renderSections() {
     sectionsList.innerHTML = '';
 
     sections.forEach(section => {
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'section-wrapper';
+
+        // Create Header Card
         const card = document.createElement('div');
         card.className = 'section-card';
         card.innerHTML = `
@@ -202,43 +156,83 @@ function renderSections() {
                 <h3 class="section-name">${section.name}</h3>
                 <span class="section-count">(${section.count})</span>
             </div>
+            <i class="fas fa-chevron-right section-icon"></i>
         `;
 
-        card.addEventListener('click', () => showSection(section));
-        sectionsList.appendChild(card);
+        // Create Dropdown Container
+        const dropdown = document.createElement('div');
+        dropdown.className = 'vachanamruts-dropdown';
+        dropdown.id = `dropdown-${section.name.replace(/\s+/g, '-')}`;
+
+        // Toggle Event
+        card.addEventListener('click', () => {
+            const isActive = card.classList.contains('active');
+
+            // Close all other sections (Accordion behavior)
+            document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.vachanamruts-dropdown').forEach(d => d.classList.remove('active'));
+
+            if (!isActive) {
+                card.classList.add('active');
+                dropdown.classList.add('active');
+
+                // Populate if empty
+                if (dropdown.children.length === 0) {
+                    renderVachanamruts(section, dropdown);
+                }
+            }
+        });
+
+        wrapper.appendChild(card);
+        wrapper.appendChild(dropdown);
+        sectionsList.appendChild(wrapper);
     });
 }
 
-// Show section vachanamruts
-function showSection(section) {
-    currentSection = section;
-    sectionTitle.textContent = `${section.name} (${section.count})`;
-
-    vachanamrutsList.innerHTML = '';
-
+// Render Vachanamruts inside dropdown
+function renderVachanamruts(section, container) {
     section.vachanamruts.forEach(vachanamrut => {
         const item = document.createElement('div');
         item.className = 'vachanamrut-item';
+        item.dataset.id = vachanamrut.id; // Add ID for scrolling
 
         // Clean title
         const title = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+        const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
 
         item.innerHTML = `
-            <span class="vachanamrut-number">${vachanamrut.vachanamrut.trim()}</span>
+            <span class="vachanamrut-number">${cleanNumber}</span>
             <span class="vachanamrut-title">${title}</span>
         `;
 
-        item.addEventListener('click', () => showVachanamrut(vachanamrut));
-        vachanamrutsList.appendChild(item);
-    });
+        // Add bookmark indicator if matches
+        if (bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === vachanamrut.id) {
+            const indicator = document.createElement('i');
+            indicator.className = 'fas fa-bookmark bookmark-indicator';
+            item.insertBefore(indicator, item.firstChild);
+        }
 
-    showScreen('vachanamruts-screen');
-    backBtn.style.display = 'block';
+        item.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent bubbling to section card
+            showVachanamrut(vachanamrut);
+        });
+        container.appendChild(item);
+    });
+}
+
+// Show section vachanamruts - DEPRECATED/REMOVED
+function showSection(section) {
+    // No longer needed
 }
 
 // Show vachanamrut detail
 function showVachanamrut(vachanamrut) {
-    vachanamrutTitle.textContent = vachanamrut.vachanamrut.trim();
+    // Clean number and title
+    const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+    const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+
+    // Set title with both number and name
+    vachanamrutTitle.innerHTML = `<span class="v-number">${cleanNumber}</span><br><span class="v-title-text">${cleanTitle}</span>`;
 
     // Video embed
     vachanamrutVideo.innerHTML = '';
@@ -274,6 +268,86 @@ function showVachanamrut(vachanamrut) {
     vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
 
     showScreen('vachanamrut-detail-screen');
+    backBtn.style.display = 'block';
+    bookmarkBtn.style.display = 'block';
+
+    // Update bookmark button state
+    updateBookmarkButtonState(vachanamrut.id);
+
+    // Setup bookmark click listener (remove old listeners to prevent duplicates)
+    const newBookmarkBtn = bookmarkBtn.cloneNode(true);
+    bookmarkBtn.parentNode.replaceChild(newBookmarkBtn, bookmarkBtn);
+    bookmarkBtn = newBookmarkBtn; // Update global reference
+
+    // Add event listener
+    bookmarkBtn.addEventListener('click', () => {
+        toggleBookmark(vachanamrut.id);
+    });
+}
+
+// Toggle bookmark
+function toggleBookmark(id) {
+    if (bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === id) {
+        // Remove bookmark
+        bookmarkedVachanamrutId = null;
+        localStorage.removeItem('bookmarkedVachanamrutId');
+    } else {
+        // Set bookmark
+        bookmarkedVachanamrutId = id;
+        localStorage.setItem('bookmarkedVachanamrutId', id);
+    }
+    updateBookmarkButtonState(id);
+    renderSections(); // Re-render to update indicators
+}
+
+// Update bookmark button icon
+function updateBookmarkButtonState(currentId) {
+    const btn = document.getElementById('bookmark-btn');
+    if (bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === currentId) {
+        btn.innerHTML = '<i class="fas fa-bookmark"></i>'; // Solid icon
+    } else {
+        btn.innerHTML = '<i class="far fa-bookmark"></i>'; // Regular icon
+    }
+}
+
+// Scroll to bookmark
+function scrollToBookmark() {
+    // Find section containing the bookmarked ID
+    const section = sections.find(s => s.vachanamruts.some(v => v.id === parseInt(bookmarkedVachanamrutId)));
+
+    if (section) {
+        // Find the dropdown and card for this section
+        const dropdown = document.getElementById(`dropdown-${section.name.replace(/\s+/g, '-')}`);
+        const card = dropdown.previousElementSibling; // The section card
+
+        if (card && dropdown) {
+            // Expand the section
+            card.classList.add('active');
+            dropdown.classList.add('active');
+
+            // Render items if not already rendered
+            if (dropdown.children.length === 0) {
+                renderVachanamruts(section, dropdown);
+            }
+
+            // Find the specific item and scroll to it
+            // Need a small timeout to allow rendering/expansion
+            setTimeout(() => {
+                const item = Array.from(dropdown.children).find(child =>
+                    parseInt(child.dataset.id) === parseInt(bookmarkedVachanamrutId)
+                );
+
+                if (item) {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Optional: Add a highlight effect
+                    item.style.background = 'rgba(255, 215, 0, 0.3)';
+                    setTimeout(() => {
+                        item.style.background = '';
+                    }, 2000);
+                }
+            }, 300);
+        }
+    }
 }
 
 // Show screen
@@ -290,11 +364,14 @@ function showScreen(screenId) {
     window.scrollTo(0, 0);
     document.getElementById('main-content').scrollTo(0, 0);
 
-    // Toggle footer visibility
-    if (screenId === 'sections-screen' || screenId === 'vachanamruts-screen') {
+    // Toggle footer and navbar buttons visibility
+    if (screenId === 'home-screen') {
         footer.style.display = 'block';
+        backBtn.style.display = 'none';
+        bookmarkBtn.style.display = 'none';
     } else {
         footer.style.display = 'none';
+        // Buttons are handled in showVachanamrut for detail screen
     }
 }
 
@@ -302,12 +379,8 @@ function showScreen(screenId) {
 function setupNavigation() {
     backBtn.addEventListener('click', () => {
         if (vachanamrutDetailScreen.classList.contains('active')) {
-            // Go back to vachanamruts list
-            showScreen('vachanamruts-screen');
-        } else if (vachanamrutsScreen.classList.contains('active')) {
-            // Go back to sections
-            showScreen('sections-screen');
-            backBtn.style.display = 'none';
+            // Go back to home screen
+            showScreen('home-screen');
         }
     });
 
@@ -336,8 +409,9 @@ function setupNavigation() {
         const diffY = touchEndY - touchStartY;
 
         // Check if swipe is horizontal and long enough (right swipe)
-        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50) {
-            // Right swipe - go back
+        // AND check if swipe started from the left edge (within 50px)
+        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50 && touchStartX < 50) {
+            // Right swipe from edge - go back
             if (backBtn.style.display !== 'none') {
                 backBtn.click();
             }
