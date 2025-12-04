@@ -32,7 +32,9 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Update URL
     if (pushState) {
-        const newUrl = `${window.location.pathname}?id=${safeId}`;
+        // Clean URL: remove index.html if present
+        const cleanPath = window.location.pathname.replace('index.html', '');
+        const newUrl = `${cleanPath}?id=${safeId}`;
         window.history.pushState({ vachanamrutId: safeId }, '', newUrl);
     }
 
@@ -68,10 +70,14 @@ function showVachanamrut(vachanamrut, pushState = true) {
     // Setup share button
     const shareBtn = document.getElementById('share-btn');
     shareBtn.addEventListener('click', async () => {
+        // Generate clean share URL
+        const cleanPath = window.location.pathname.replace('index.html', '');
+        const shareUrl = `${window.location.origin}${cleanPath}?id=${safeId}`;
+
         const shareData = {
             title: `Vachanamrut ${cleanNumber}`,
             text: `${cleanNumber} - ${cleanTitle}`,
-            url: window.location.href
+            url: shareUrl
         };
 
         if (navigator.share) {
