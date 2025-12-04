@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.0.3';
+const CACHE_NAME = '1.0.4';
 
 // Generate list of vachanamrut data files (1 to 262)
 const DATA_FILES = [];
@@ -53,7 +53,7 @@ self.addEventListener('activate', event => {
 // Fetch event - serve from cache, fall back to network
 self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request)
+        caches.match(event.request, { ignoreSearch: true })
             .then(response => {
                 // Cache hit - return response
                 if (response) {

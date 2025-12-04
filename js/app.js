@@ -170,21 +170,24 @@ async function init() {
         // Setup Menu
         setupMenu();
 
-        // Capture deep link ID before showScreen clears the URL
+        // Capture deep link ID
         const urlParams = new URLSearchParams(window.location.search);
         const deepLinkId = urlParams.get('id');
 
         // Initial screen setup
-        showScreen('home-screen');
-
-        // Auto-scroll to bookmark if exists (only if not deep linking)
         if (deepLinkId) {
             const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
             if (vachanamrut) {
                 showVachanamrut(vachanamrut, true); // Push state to restore URL after showScreen cleared it
+            } else {
+                showScreen('home-screen'); // Invalid ID, go home
             }
-        } else if (bookmarkedVachanamrutId) {
-            scrollToBookmark();
+        } else {
+            showScreen('home-screen');
+            // Auto-scroll to bookmark if exists
+            if (bookmarkedVachanamrutId) {
+                scrollToBookmark();
+            }
         }
 
         // Register service worker
@@ -595,36 +598,8 @@ function setupNavigation() {
     // Initially hide back button
     backBtn.style.display = 'none';
 
-    // Swipe to go back
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
-
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
-
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const diffX = touchEndX - touchStartX;
-        const diffY = touchEndY - touchStartY;
-
-        // Check if swipe is horizontal and long enough (right swipe)
-        // AND check if swipe started from the left edge (within 50px)
-        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50 && touchStartX < 50) {
-            // Right swipe from edge - go back
-            if (backBtn.style.display !== 'none') {
-                backBtn.click();
-            }
-        }
-    }
+    // Initially hide back button
+    backBtn.style.display = 'none';
 }
 
 // Add Font Awesome for icons
@@ -635,8 +610,29 @@ function loadFontAwesome() {
     document.head.appendChild(link);
 }
 
+// Display App Version from SW
+async function displayAppVersion() {
+    try {
+        const response = await fetch('./sw.js');
+        if (response.ok) {
+            const text = await response.text();
+            const match = text.match(/const CACHE_NAME = ['"]([^'"]+)['"]/);
+            if (match && match[1]) {
+                const version = match[1];
+                const versionElement = document.getElementById('app-version');
+                if (versionElement) {
+                    versionElement.textContent = `Version: ${version}`;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching SW version:', error);
+    }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     loadFontAwesome();
     init();
+    displayAppVersion();
 });

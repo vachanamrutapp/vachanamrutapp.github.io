@@ -458,6 +458,19 @@ main {
     font-family: 'Noto Sans Gujarati', sans-serif;
 }
 
+.settings-note {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+.settings-version {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 20px;
+    font-family: monospace;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     header {
@@ -554,14 +567,14 @@ footer {
     position: fixed;
     bottom: 30px;
     right: 10px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: linear-gradient(135deg, #FFC107, #FF8F00);
     color: #B71C1C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
