@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.0.4';
+const CACHE_NAME = '1.0.5';
 
 // Generate list of vachanamrut data files (1 to 262)
 const DATA_FILES = [];
@@ -25,10 +25,12 @@ const ASSETS_TO_CACHE = [
 
 // Install event - cache assets
 self.addEventListener('install', event => {
+    // Force waiting service worker to become active
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-
                 return cache.addAll(ASSETS_TO_CACHE);
             })
     );
@@ -36,17 +38,20 @@ self.addEventListener('install', event => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
+    // Claim any clients immediately, so they're controlled by this new SW
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== CACHE_NAME) {
-
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
+        Promise.all([
+            self.clients.claim(),
+            caches.keys().then(cacheNames => {
+                return Promise.all(
+                    cacheNames.map(cacheName => {
+                        if (cacheName !== CACHE_NAME) {
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            })
+        ])
     );
 });
 
