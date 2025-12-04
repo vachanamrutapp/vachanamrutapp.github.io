@@ -172,7 +172,17 @@ async function init() {
 
         // Capture deep link ID
         const urlParams = new URLSearchParams(window.location.search);
-        const deepLinkId = urlParams.get('id');
+        let deepLinkId = urlParams.get('id');
+
+        // Fallback: Check hash (e.g., #id=127 or #127)
+        if (!deepLinkId && window.location.hash) {
+            const hash = window.location.hash.substring(1); // Remove #
+            if (hash.startsWith('id=')) {
+                deepLinkId = hash.split('=')[1];
+            } else if (!isNaN(parseInt(hash))) {
+                deepLinkId = hash;
+            }
+        }
 
         // DEBUG: Temporary logging
 
@@ -185,10 +195,8 @@ async function init() {
         debugDiv.style.zIndex = '9999';
         debugDiv.style.padding = '10px';
         debugDiv.style.fontSize = '12px';
-        debugDiv.innerHTML = `URL: ${window.location.href}<br>ID: ${deepLinkId}<br>Data: ${vachanamrutData.length}`;
+        debugDiv.innerHTML = `URL: ${window.location.href}<br>ID: ${deepLinkId}<br>Hash: ${window.location.hash}<br>Data: ${vachanamrutData.length}`;
         document.body.appendChild(debugDiv);
-
-
         // Initial screen setup
         if (deepLinkId) {
             const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
