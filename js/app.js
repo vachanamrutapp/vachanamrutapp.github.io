@@ -190,19 +190,7 @@ async function init() {
             }
         }
 
-        // DEBUG: Temporary logging
 
-        const debugDiv = document.createElement('div');
-        debugDiv.style.position = 'fixed';
-        debugDiv.style.top = '0';
-        debugDiv.style.left = '0';
-        debugDiv.style.background = 'rgba(0,0,0,0.8)';
-        debugDiv.style.color = 'white';
-        debugDiv.style.zIndex = '9999';
-        debugDiv.style.padding = '10px';
-        debugDiv.style.fontSize = '12px';
-        debugDiv.innerHTML = `URL: ${window.location.href}<br>ID: ${deepLinkId}<br>Hash: ${window.location.hash}<br>Data: ${vachanamrutData.length}`;
-        document.body.appendChild(debugDiv);
         // Initial screen setup
         if (deepLinkId) {
             const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
