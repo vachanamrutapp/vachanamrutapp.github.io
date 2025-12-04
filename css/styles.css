@@ -439,7 +439,7 @@ main {
 #vachanamrut-text {
     font-size: 1.38rem;
     line-height: 1.9;
-    color: #2d3748;
+    color: #000000;
     text-align: justify;
     font-weight: 400;
     font-family: 'Noto Serif', 'Georgia', serif;
@@ -505,8 +505,8 @@ main {
     }
 
     #vachanamrut-text {
-        font-size: 1.05rem;
-        line-height: 1.75;
+        font-size: 1.3rem;
+        line-height: 1.8;
     }
 }
 
@@ -538,8 +538,8 @@ main {
     }
 
     #vachanamrut-text {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 1.25rem;
+        line-height: 1.75;
     }
 }
 
