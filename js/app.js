@@ -9,7 +9,8 @@ let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
-const menuScreen = document.getElementById('menu-screen');
+const favouritesScreen = document.getElementById('favourites-screen');
+const settingsScreen = document.getElementById('settings-screen');
 const sectionsList = document.getElementById('sections-list');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
@@ -523,31 +524,43 @@ function renderFavourites() {
 
 // Setup Menu Logic
 function setupMenu() {
-    // FAB Click
+    const fabMenu = document.getElementById('fab-menu');
+    const fabFavourites = document.getElementById('fab-favourites');
+    const fabSettings = document.getElementById('fab-settings');
+    let isMenuOpen = false;
+
+    // FAB Click - Toggle menu
     fabBtn.addEventListener('click', () => {
-        showScreen('menu-screen');
-        renderFavourites();
+        isMenuOpen = !isMenuOpen;
+
+        if (isMenuOpen) {
+            // Open menu
+            fabMenu.classList.add('active');
+            fabBtn.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+            // Close menu
+            fabMenu.classList.remove('active');
+            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+        }
     });
 
-    // Tab Switching
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
+    // Favourites button click
+    fabFavourites.addEventListener('click', () => {
+        showScreen('favourites-screen');
+        renderFavourites();
+        // Close menu
+        isMenuOpen = false;
+        fabMenu.classList.remove('active');
+        fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+    });
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
-
-            // Add active class
-            tab.classList.add('active');
-            const targetId = `${tab.dataset.tab}-content`;
-            document.getElementById(targetId).classList.add('active');
-
-            if (tab.dataset.tab === 'favourites') {
-                renderFavourites();
-            }
-        });
+    // Settings button click
+    fabSettings.addEventListener('click', () => {
+        showScreen('settings-screen');
+        // Close menu
+        isMenuOpen = false;
+        fabMenu.classList.remove('active');
+        fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
     });
 
     // Reset App Button
@@ -585,7 +598,7 @@ function showScreen(screenId, pushState = true) {
             const newUrl = window.location.pathname;
             window.history.pushState({}, '', newUrl);
         }
-    } else if (screenId === 'menu-screen') {
+    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -607,7 +620,7 @@ function setupNavigation() {
             if (bookmarkedVachanamrutId) {
                 scrollToBookmark();
             }
-        } else if (menuScreen.classList.contains('active')) {
+        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active')) {
             showScreen('home-screen');
         }
     });
