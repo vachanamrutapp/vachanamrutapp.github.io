@@ -174,6 +174,21 @@ async function init() {
         const urlParams = new URLSearchParams(window.location.search);
         const deepLinkId = urlParams.get('id');
 
+        // DEBUG: Temporary logging
+
+        const debugDiv = document.createElement('div');
+        debugDiv.style.position = 'fixed';
+        debugDiv.style.top = '0';
+        debugDiv.style.left = '0';
+        debugDiv.style.background = 'rgba(0,0,0,0.8)';
+        debugDiv.style.color = 'white';
+        debugDiv.style.zIndex = '9999';
+        debugDiv.style.padding = '10px';
+        debugDiv.style.fontSize = '12px';
+        debugDiv.innerHTML = `URL: ${window.location.href}<br>ID: ${deepLinkId}<br>Data: ${vachanamrutData.length}`;
+        document.body.appendChild(debugDiv);
+
+
         // Initial screen setup
         if (deepLinkId) {
             const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
@@ -209,7 +224,7 @@ async function init() {
 
     } catch (error) {
         console.error('Error loading data:', error);
-        document.getElementById('main-content').innerHTML = '<p>Error loading data. Please check your connection.</p>';
+        document.getElementById('main-content').innerHTML = `<p>Error loading data: ${error.message}</p>`;
     }
 }
 
