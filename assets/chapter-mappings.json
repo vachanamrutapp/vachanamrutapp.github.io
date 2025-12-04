@@ -1,6 +1,7 @@
 [
     {
         "name": "ગઢડા પ્રથમ",
+        "nameEn": "Gadhada I",
         "vachanamruts": [
             1,
             2,
@@ -84,6 +85,7 @@
     },
     {
         "name": "સારંગપુર",
+        "nameEn": "Sarangpur",
         "vachanamruts": [
             79,
             80,
@@ -107,6 +109,7 @@
     },
     {
         "name": "કારિયાણી",
+        "nameEn": "Kariyani",
         "vachanamruts": [
             97,
             98,
@@ -124,6 +127,7 @@
     },
     {
         "name": "લોયા",
+        "nameEn": "Loya",
         "vachanamruts": [
             109,
             110,
@@ -147,6 +151,7 @@
     },
     {
         "name": "પંચાળા",
+        "nameEn": "Panchala",
         "vachanamruts": [
             127,
             128,
@@ -159,6 +164,7 @@
     },
     {
         "name": "ગઢડા મધ્ય",
+        "nameEn": "Gadhada II",
         "vachanamruts": [
             134,
             135,
@@ -231,6 +237,7 @@
     },
     {
         "name": "વરતાલ",
+        "nameEn": "Vartal",
         "vachanamruts": [
             201,
             202,
@@ -256,6 +263,7 @@
     },
     {
         "name": "અમદાવાદ",
+        "nameEn": "Amdavad",
         "vachanamruts": [
             221,
             222,
@@ -264,6 +272,7 @@
     },
     {
         "name": "ગઢડા અંત્ય",
+        "nameEn": "Gadhada III",
         "vachanamruts": [
             224,
             225,

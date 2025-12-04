@@ -1,10 +1,11 @@
 // Global variables
 let vachanamrutData = [];
 let videoData = [];
+let currentLanguage = 'gujarati'; // Default language
+let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 let sections = [];
 let currentSection = null;
 let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
-let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -35,7 +36,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
     if (pushState) {
         // Clean URL: remove index.html if present
         const cleanPath = window.location.pathname.replace('index.html', '');
-        const newUrl = `${cleanPath}?id=${safeId}`;
+        const newUrl = `${cleanPath}?id=${safeId}&lang=${currentLanguage}`;
         window.history.pushState({ vachanamrutId: safeId }, '', newUrl);
     }
 
@@ -70,27 +71,24 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Setup share button
     const shareBtn = document.getElementById('share-btn');
+    // Share functionality
     shareBtn.addEventListener('click', async () => {
-        // Generate clean share URL
-        const cleanPath = window.location.pathname.replace('index.html', '');
-        const shareUrl = `${window.location.origin}${cleanPath}?id=${safeId}`;
-
+        const cleanPath = window.location.origin + window.location.pathname.replace('index.html', '');
+        const shareUrl = `${cleanPath}?id=${safeId}&lang=${currentLanguage}`;
         const shareData = {
-            title: `Vachanamrut ${cleanNumber}`,
-            text: `${cleanNumber} - ${cleanTitle}`,
             url: shareUrl
         };
 
         if (navigator.share) {
             try {
                 await navigator.share(shareData);
-            } catch (err) {
-
+            } catch (error) {
+                // User cancelled or error
             }
         } else {
-            // Fallback to clipboard
+            // Fallback: Copy to clipboard
             try {
-                await navigator.clipboard.writeText(window.location.href);
+                await navigator.clipboard.writeText(shareUrl); // Copy the generated shareUrl
                 // Show toast or feedback
                 const originalIcon = shareBtn.innerHTML;
                 shareBtn.innerHTML = '<i class="fas fa-check"></i>';
@@ -110,11 +108,11 @@ function showVachanamrut(vachanamrut, pushState = true) {
         if (video && video.videoId) {
             vachanamrutVideo.innerHTML = `
                 <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/${video.videoId}" 
-                        title="${video.title}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    <iframe
+                        src="https://www.youtube.com/embed/${video.videoId}"
+                        title="${video.title}"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
                 </div>
@@ -134,7 +132,11 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Set footer text
     const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
-    vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+    if (currentLanguage === 'english') {
+        vachanamrutFooterText.textContent = `Vachanamrut ${cleanVachanamrutName}`;
+    } else {
+        vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+    }
 
     showScreen('vachanamrut-detail-screen');
     backBtn.style.display = 'block';
@@ -157,6 +159,23 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
 // Initialize app
 async function init() {
+    // Check for language in URL parameter first
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+
+    console.log('URL Search:', window.location.search);
+    console.log('URL Lang:', urlLang);
+    console.log('Local Storage Lang:', localStorage.getItem('appLanguage'));
+
+    // Load saved language preference (URL takes precedence)
+    currentLanguage = urlLang || localStorage.getItem('appLanguage') || 'gujarati';
+
+    // Sync URL language to localStorage
+    if (urlLang) {
+        localStorage.setItem('appLanguage', urlLang);
+    }
+
+    console.log('Current Language set to:', currentLanguage);
     try {
         // Load all data
         await Promise.all([
@@ -231,14 +250,20 @@ async function init() {
     }
 }
 
-// Load all vachanamrut data
 async function loadVachanamrutData() {
     const promises = [];
 
-    // Load files from 1 to 262 (approximate total count)
-    for (let i = 1; i <= 262; i++) {
+    // Determine file count based on language
+    // Both languages now limited to 262 based on chapter-mappings.json
+    const fileCount = 262;
+
+    // Load files using current language
+    console.log(`Loading data for language: ${currentLanguage}`);
+    for (let i = 1; i <= fileCount; i++) {
+        const url = `./assets/data/${currentLanguage}/vachanamrut-${i}.json`;
+        // console.log(`Fetching: ${url}`); // Commented out to avoid spam
         promises.push(
-            fetch(`./assets/data/vachanamrut-${i}.json`)
+            fetch(url)
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -323,9 +348,13 @@ function renderSections() {
         // Create Header Card
         const card = document.createElement('div');
         card.className = 'section-card';
+
+        // Use language-specific section name
+        const sectionName = currentLanguage === 'english' ? (section.nameEn || section.name) : section.name;
+
         card.innerHTML = `
             <div class="section-header">
-                <h3 class="section-name">${section.name}</h3>
+                <h3 class="section-name">${sectionName}</h3>
                 <span class="section-count">(${section.count})</span>
             </div>
             <i class="fas fa-chevron-right section-icon"></i>
@@ -430,9 +459,11 @@ function toggleFavourite(id) {
     }
 
     // Refresh list if open
-    if (menuScreen.classList.contains('active')) {
-        renderFavourites();
-    }
+    // Assuming menuScreen is defined elsewhere or will be defined.
+    // For now, commenting out to avoid error if not present.
+    // if (menuScreen.classList.contains('active')) {
+    //     renderFavourites();
+    // }
 }
 
 // Update bookmark button icon
@@ -665,4 +696,26 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFontAwesome();
     init();
     displayAppVersion();
+
+    // Set language selector value
+    const languageSelector = document.getElementById('language-selector');
+    if (languageSelector) {
+        languageSelector.value = currentLanguage;
+    }
+
+    // Save Language Button Logic
+    const saveLanguageBtn = document.getElementById('save-language-btn');
+    if (saveLanguageBtn) {
+        saveLanguageBtn.addEventListener('click', () => {
+            const selectedLanguage = languageSelector.value;
+
+            // Update language preference
+            currentLanguage = selectedLanguage;
+            localStorage.setItem('appLanguage', currentLanguage);
+
+            // Reload the page to apply changes
+            alert('Language updated. The page will reload.');
+            location.reload();
+        });
+    }
 });

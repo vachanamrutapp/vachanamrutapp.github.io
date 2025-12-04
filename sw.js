@@ -1,9 +1,14 @@
 const CACHE_NAME = '1.0.0';
 
-// Generate list of vachanamrut data files (1 to 262)
+// Generate list of vachanamrut data files
 const DATA_FILES = [];
+// Gujarati files (1 to 262)
 for (let i = 1; i <= 262; i++) {
-    DATA_FILES.push(`./assets/data/vachanamrut-${i}.json`);
+    DATA_FILES.push(`./assets/data/gujarati/vachanamrut-${i}.json`);
+}
+// English files (1 to 262)
+for (let i = 1; i <= 262; i++) {
+    DATA_FILES.push(`./assets/data/english/vachanamrut-${i}.json`);
 }
 
 const ASSETS_TO_CACHE = [
@@ -12,8 +17,8 @@ const ASSETS_TO_CACHE = [
     './css/styles.css',
     './js/app.js',
     './manifest.json',
-    './assets/youtube_videos.json',
     './assets/chapter-mappings.json',
+    './assets/youtube_videos.json',
     './images/logo-vachanamrut.png',
     './images/swaminarayan-bg.jpg',
     './images/192.png',
@@ -30,8 +35,26 @@ self.addEventListener('install', event => {
 
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => {
-                return cache.addAll(ASSETS_TO_CACHE);
+            .then(async cache => {
+                // Cache core assets normally
+                await cache.addAll(ASSETS_TO_CACHE);
+
+                // Cache data files with cache busting to ensure fresh content
+                const promises = DATA_FILES.map(async url => {
+                    try {
+                        // Add random query param to bypass browser cache
+                        const cacheBustedUrl = `${url}?t=${Date.now()}`;
+                        const response = await fetch(cacheBustedUrl);
+                        if (response.ok) {
+                            // Store under the original clean URL so app can find it
+                            return cache.put(url, response);
+                        }
+                    } catch (error) {
+                        console.error('Failed to cache:', url, error);
+                    }
+                });
+
+                return Promise.all(promises);
             })
     );
 });
