@@ -131,7 +131,7 @@ header {
 
 main {
     flex: 1;
-    padding: 110px 16px 80px 16px;
+    padding: 90px 16px 80px 16px;
     /* Added bottom padding for footer */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -163,12 +163,270 @@ main {
     border-radius: 20px;
 }
 
-/* Sections list (Landing page) */
-#sections-list {
+/* Chapter Grid (Home Screen) */
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 5px 0;
+}
+
+@media (max-width: 700px) {
+    .chapter-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* Chapter Tile - Matching Gita Gyan Layout */
+.chapter-tile {
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
+    /* Golden Glass */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 16px 16px 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.15);
+    position: relative;
+    overflow: visible;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 10px 0;
+}
+
+.chapter-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top right, rgba(255, 180, 80, 0.25), transparent 70%);
+    pointer-events: none;
+}
+
+.chapter-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(139, 90, 43, 0.25);
+    border-color: rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.5), rgba(255, 215, 0, 0.2));
+}
+
+.chapter-tile:active {
+    transform: translateY(-2px);
+}
+
+/* Number circle on left edge */
+.chapter-number {
+    position: absolute;
+    top: 16px;
+    left: 14px;
+    background: linear-gradient(135deg, #FFB300, #FF8F00);
+    color: #5D4037;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    padding-top: 2px;
+    /* Visual centering */
+}
+
+/* Header row with title and count */
+.chapter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-left: 44px;
+    padding-top: 5px;
+    min-height: 36px;
+}
+
+/* Main title (Gujarati/Sanskrit) */
+.chapter-name {
+    color: #B71C1C;
+    font-weight: 700;
+    font-size: 1.35rem;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    line-height: 1.2;
+    margin: 0;
+    flex: 1;
+}
+
+/* Count badge on same row as title */
+.chapter-count {
+    background: rgba(255, 200, 100, 0.5);
+    color: #B71C1C;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+/* Description below title row */
+.chapter-description {
+    color: #5D4037;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Section Header Card (Section Detail Screen) */
+.section-header-card {
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.15);
+    text-align: center;
+    position: relative;
+}
+
+.section-header-card #section-title {
+    color: #B71C1C;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    text-shadow: none;
+}
+
+.section-header-card #section-description {
+    color: #5D4037;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+    /* Removed bottom margin */
+}
+
+.section-image-container {
+    width: 100%;
+    margin: 15px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(139, 90, 43, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.section-image {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Vachanamrut Grid (Section Detail Screen) */
+.vachanamrut-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Vachanamrut Tile (in grid) */
+.vachanamrut-tile {
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
+    /* Golden Glass */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid rgba(255, 215, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(139, 90, 43, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.vachanamrut-tile:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 25px rgba(139, 90, 43, 0.2);
+    border-color: rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.5), rgba(255, 215, 0, 0.2));
+}
+
+.vachanamrut-tile:active {
+    transform: translateX(2px);
+}
+
+.vachanamrut-tile-number {
+    background: linear-gradient(135deg, #FFB300, #FF8F00);
+    color: #5D4037;
+    min-width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    /* Circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 3px 10px rgba(255, 143, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    flex-shrink: 0;
+    padding-top: 2px;
+    /* Visual centering */
+}
+
+.vachanamrut-tile-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.vachanamrut-tile-name {
+    color: #B71C1C;
+    font-weight: 600;
+    font-size: 1.3rem;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vachanamrut-tile-title {
+    color: #5D4037;
+    font-size: 1.05rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.vachanamrut-tile-bookmark {
+    color: #B71C1C;
+    font-size: 1rem;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .section-wrapper {
@@ -483,7 +741,7 @@ main {
     }
 
     main {
-        padding: 80px 12px 20px 12px;
+        padding: 80px 12px 80px 12px;
     }
 
     #sections-list {
@@ -516,7 +774,7 @@ main {
     }
 
     main {
-        padding: 75px 10px 20px 10px;
+        padding: 75px 10px 80px 10px;
     }
 
     .section-card {
@@ -547,10 +805,10 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: rgba(255, 230, 150, 0.3);
-    /* Lighter/Translucent Golden */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #FFC107, #FF8F00);
+    /* Match Header Gradient */
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     color: #B71C1C;
     /* Red Text */
     text-align: center;
@@ -559,23 +817,28 @@ footer {
     font-size: 1rem;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    border-top: 1px solid rgba(183, 28, 28, 0.2);
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    /* Match Header Border style */
     /* Hidden by default, toggled by JS */
 }
 
 /* Floating Action Button */
 .fab-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 40px;
+    /* Moved up 10px */
     right: 10px;
-    width: 44px;
-    height: 44px;
+    width: 53px;
+    /* Increased by ~20% (44 * 1.2) */
+    height: 53px;
+    /* Increased by ~20% */
     border-radius: 50%;
     background: linear-gradient(135deg, #FFC107, #FF8F00);
     color: #B71C1C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    /* Increased font size slightly */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -596,7 +859,8 @@ footer {
 /* Expandable FAB Menu */
 .fab-menu {
     position: fixed;
-    bottom: 85px;
+    bottom: 105px;
+    /* Adjusted for larger FAB (40px bottom + 53px height + 12px gap) */
     right: 10px;
     display: flex;
     flex-direction: column;
@@ -615,14 +879,17 @@ footer {
 }
 
 .fab-sub-btn {
-    width: 44px;
-    height: 44px;
+    width: 53px;
+    /* Match main FAB */
+    height: 53px;
+    /* Match main FAB */
     border-radius: 50%;
     background: linear-gradient(135deg, #FFC107, #FF8F00);
     color: #B71C1C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 1rem;
+    font-size: 1.3rem;
+    /* Match main FAB font size */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -812,4 +1079,183 @@ footer {
 .title-container {
     padding: 0 40px;
     /* Make space for buttons on both sides */
+}
+
+/* Language Toggle Switch */
+.language-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 10px;
+}
+
+.lang-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(183, 28, 28, 0.2);
+    /* Light red default */
+    transition: .4s;
+    border-radius: 34px;
+    border: 1px solid rgba(183, 28, 28, 0.3);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.slider {
+    background-color: var(--primary-color);
+    /* Orange/Gold */
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* Language specific adjustments */
+body.english .chapter-description {
+    font-size: 1.05rem;
+    /* Slightly larger for English */
+    line-height: 1.6;
+}
+
+body.gujarati .chapter-description {
+    font-size: 1.0rem;
+    line-height: 1.5;
+}
+
+/* Reading Page Sticky Footer */
+.reading-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 143, 0, 0.95));
+    /* Yellow/Orange */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 15px 12px 15px;
+    /* Reduced padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 1002;
+    /* Above FAB */
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(183, 28, 28, 0.2);
+    color: #B71C1C;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.nav-btn:hover {
+    background: rgba(183, 28, 28, 0.1);
+    transform: scale(1.1);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.slider-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.reading-progress {
+    color: #5D4037;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.nav-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(183, 28, 28, 0.2);
+    border-radius: 3px;
+    outline: none;
+    transition: opacity .2s;
+}
+
+.nav-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #B71C1C;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
+}
+
+.nav-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #B71C1C;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
 }

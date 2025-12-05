@@ -6,6 +6,8 @@ let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 let sections = [];
 let currentSection = null;
 let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
+let currentSectionVachanamruts = [];
+let currentVachanamrutIndex = -1;
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -23,6 +25,11 @@ const backBtn = document.getElementById('back-btn');
 let bookmarkBtn = document.getElementById('bookmark-btn');
 const fabBtn = document.getElementById('fab-btn');
 const footer = document.getElementById('footer');
+const readingFooter = document.getElementById('reading-footer');
+const navPrevBtn = document.getElementById('nav-prev-btn');
+const navNextBtn = document.getElementById('nav-next-btn');
+const navSlider = document.getElementById('nav-slider');
+const readingProgress = document.getElementById('reading-progress');
 
 // ... (init function remains same)
 
@@ -155,6 +162,68 @@ function showVachanamrut(vachanamrut, pushState = true) {
     bookmarkBtn.addEventListener('click', () => {
         toggleBookmark(vachanamrut.id);
     });
+
+    // Update Navigation Footer
+    updateReadingFooter(safeId);
+}
+
+function updateReadingFooter(currentId) {
+    // If we have context (from section detail)
+    if (currentSectionVachanamruts.length > 0) {
+        currentVachanamrutIndex = currentSectionVachanamruts.findIndex(v => v.id === currentId);
+
+        // Use index + 1 for display and slider
+        const currentNum = currentVachanamrutIndex + 1;
+        const totalNum = currentSectionVachanamruts.length;
+
+        readingProgress.textContent = `${currentNum} / ${totalNum}`;
+        navSlider.max = totalNum;
+        navSlider.value = currentNum;
+
+        // Button states
+        navPrevBtn.disabled = currentVachanamrutIndex <= 0;
+        navNextBtn.disabled = currentVachanamrutIndex >= totalNum - 1;
+
+        readingFooter.style.display = 'flex';
+    } else {
+        // Fallback if accessed directly without section context, try to find section
+        const section = sections.find(s => s.vachanamruts.some(v => v.id === currentId));
+        if (section) {
+            currentSectionVachanamruts = section.vachanamruts;
+            updateReadingFooter(currentId); // Retry
+        } else {
+            readingFooter.style.display = 'none';
+        }
+    }
+}
+
+function setupReadingNavigation() {
+    navPrevBtn.addEventListener('click', () => {
+        if (currentVachanamrutIndex > 0) {
+            const prevVachanamrut = currentSectionVachanamruts[currentVachanamrutIndex - 1];
+            showVachanamrut(prevVachanamrut);
+        }
+    });
+
+    navNextBtn.addEventListener('click', () => {
+        if (currentVachanamrutIndex < currentSectionVachanamruts.length - 1) {
+            const nextVachanamrut = currentSectionVachanamruts[currentVachanamrutIndex + 1];
+            showVachanamrut(nextVachanamrut);
+        }
+    });
+
+    navSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        readingProgress.textContent = `${val} / ${currentSectionVachanamruts.length}`;
+    });
+
+    navSlider.addEventListener('change', (e) => {
+        const val = parseInt(e.target.value);
+        const targetIndex = val - 1;
+        if (targetIndex >= 0 && targetIndex < currentSectionVachanamruts.length) {
+            showVachanamrut(currentSectionVachanamruts[targetIndex]);
+        }
+    });
 }
 
 // Initialize app
@@ -176,6 +245,7 @@ async function init() {
     }
 
     console.log('Current Language set to:', currentLanguage);
+    document.body.className = currentLanguage; // Set body class
     try {
         // Load all data
         await Promise.all([
@@ -195,6 +265,9 @@ async function init() {
 
         // Setup Menu
         setupMenu();
+
+        // Setup Reading Nav
+        setupReadingNavigation();
 
         // Capture deep link ID
         const urlParams = new URLSearchParams(window.location.search);
@@ -340,57 +413,113 @@ function processSections() {
 function renderSections() {
     sectionsList.innerHTML = '';
 
-    sections.forEach(section => {
-        // Create wrapper
-        const wrapper = document.createElement('div');
-        wrapper.className = 'section-wrapper';
+    sections.forEach((section, index) => {
+        // Create Chapter Tile
+        const tile = document.createElement('div');
+        tile.className = 'chapter-tile';
+        tile.dataset.sectionIndex = index;
 
-        // Create Header Card
-        const card = document.createElement('div');
-        card.className = 'section-card';
-
-        // Use language-specific section name
+        // Get language-specific content
         const sectionName = currentLanguage === 'english' ? (section.nameEn || section.name) : section.name;
+        const description = currentLanguage === 'english' ? (section.descriptionEn || section.description || '') : (section.description || '');
 
-        card.innerHTML = `
-            <div class="section-header">
-                <h3 class="section-name">${sectionName}</h3>
-                <span class="section-count">(${section.count})</span>
+        // Count label based on language
+        const countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
+
+        tile.innerHTML = `
+            <span class="chapter-number">${index + 1}</span>
+            <div class="chapter-header">
+                <h3 class="chapter-name">${sectionName}</h3>
+                <span class="chapter-count">${countLabel}</span>
             </div>
-            <i class="fas fa-chevron-right section-icon"></i>
+            <p class="chapter-description">${description}</p>
         `;
 
-        // Create Dropdown Container
-        const dropdown = document.createElement('div');
-        dropdown.className = 'vachanamruts-dropdown';
-        dropdown.id = `dropdown-${section.name.replace(/\s+/g, '-')}`;
-
-        // Toggle Event
-        card.addEventListener('click', () => {
-            const isActive = card.classList.contains('active');
-
-            // Close all other sections (Accordion behavior)
-            document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.vachanamruts-dropdown').forEach(d => d.classList.remove('active'));
-
-            if (!isActive) {
-                card.classList.add('active');
-                dropdown.classList.add('active');
-
-                // Populate if empty
-                if (dropdown.children.length === 0) {
-                    renderVachanamruts(section, dropdown);
-                }
-            }
+        // Click handler to show section detail
+        tile.addEventListener('click', () => {
+            showSectionDetail(index);
         });
 
-        wrapper.appendChild(card);
-        wrapper.appendChild(dropdown);
-        sectionsList.appendChild(wrapper);
+        sectionsList.appendChild(tile);
     });
 }
 
-// Render Vachanamruts inside dropdown
+// Show section detail screen with vachanamrut list
+function showSectionDetail(sectionIndex) {
+    currentSection = sections[sectionIndex];
+
+    // Get section screen elements
+    const sectionDetailScreen = document.getElementById('section-detail-screen');
+    const sectionTitle = document.getElementById('section-title');
+    const sectionDescription = document.getElementById('section-description');
+    const sectionImage = document.getElementById('section-image');
+    const sectionImageContainer = document.getElementById('section-image-container');
+    const vachanamrutList = document.getElementById('vachanamrut-list');
+
+    // Use language-specific content
+    const name = currentLanguage === 'english' ? (currentSection.nameEn || currentSection.name) : currentSection.name;
+    const description = currentLanguage === 'english' ? (currentSection.descriptionEn || currentSection.description) : currentSection.description;
+
+    // Set header content
+    sectionTitle.textContent = name;
+    sectionDescription.textContent = description;
+
+    // Handle Image
+    if (currentSection.image) {
+        sectionImage.src = currentSection.image;
+        sectionImageContainer.style.display = 'block';
+    } else {
+        sectionImageContainer.style.display = 'none';
+    }
+
+    // Render vachanamrut tiles
+    renderSectionVachanamruts(currentSection, vachanamrutList);
+
+    // Store for navigation
+    currentSectionVachanamruts = currentSection.vachanamruts;
+
+    // Show section detail screen
+    showScreen('section-detail-screen');
+    backBtn.style.display = 'block';
+    bookmarkBtn.style.display = 'none';
+    fabBtn.style.display = 'none';
+}
+
+// Render vachanamrut tiles in section detail
+function renderSectionVachanamruts(section, container) {
+    container.innerHTML = '';
+
+    section.vachanamruts.forEach((vachanamrut, index) => {
+        const tile = document.createElement('div');
+        tile.className = 'vachanamrut-tile';
+        tile.dataset.id = vachanamrut.id;
+
+        // Clean title and number
+        const title = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+        const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+
+        // Check if bookmarked
+        const isBookmarked = bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === vachanamrut.id;
+        const bookmarkIcon = isBookmarked ? '<i class="fas fa-bookmark vachanamrut-tile-bookmark"></i>' : '';
+
+        tile.innerHTML = `
+            <span class="vachanamrut-tile-number">${index + 1}</span>
+            <div class="vachanamrut-tile-content">
+                <div class="vachanamrut-tile-name">${cleanNumber}</div>
+                <div class="vachanamrut-tile-title">${title}</div>
+            </div>
+            ${bookmarkIcon}
+        `;
+
+        tile.addEventListener('click', () => {
+            showVachanamrut(vachanamrut);
+        });
+
+        container.appendChild(tile);
+    });
+}
+
+// Render Vachanamruts inside dropdown (kept for backwards compatibility)
 function renderVachanamruts(section, container) {
     section.vachanamruts.forEach(vachanamrut => {
         const item = document.createElement('div');
@@ -476,43 +605,34 @@ function updateBookmarkButtonState(currentId) {
     }
 }
 
-// Scroll to bookmark
+// Scroll to bookmark - Updated for new tile-based UI
 function scrollToBookmark() {
     // Find section containing the bookmarked ID
-    const section = sections.find(s => s.vachanamruts.some(v => v.id === parseInt(bookmarkedVachanamrutId)));
+    const sectionIndex = sections.findIndex(s => s.vachanamruts.some(v => v.id === parseInt(bookmarkedVachanamrutId)));
 
-    if (section) {
-        // Find the dropdown and card for this section
-        const dropdown = document.getElementById(`dropdown-${section.name.replace(/\s+/g, '-')}`);
-        const card = dropdown.previousElementSibling; // The section card
+    if (sectionIndex !== -1) {
+        // Navigate to the section detail screen
+        showSectionDetail(sectionIndex);
 
-        if (card && dropdown) {
-            // Expand the section
-            card.classList.add('active');
-            dropdown.classList.add('active');
-
-            // Render items if not already rendered
-            if (dropdown.children.length === 0) {
-                renderVachanamruts(section, dropdown);
-            }
-
-            // Find the specific item and scroll to it
-            // Need a small timeout to allow rendering/expansion
-            setTimeout(() => {
-                const item = Array.from(dropdown.children).find(child =>
+        // Find the specific vachanamrut tile and scroll to it
+        // Need a small timeout to allow rendering
+        setTimeout(() => {
+            const vachanamrutList = document.getElementById('vachanamrut-list');
+            if (vachanamrutList) {
+                const tile = Array.from(vachanamrutList.children).find(child =>
                     parseInt(child.dataset.id) === parseInt(bookmarkedVachanamrutId)
                 );
 
-                if (item) {
-                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Optional: Add a highlight effect
-                    item.style.background = 'rgba(255, 215, 0, 0.3)';
+                if (tile) {
+                    tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Add a highlight effect
+                    tile.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.8)';
                     setTimeout(() => {
-                        item.style.background = '';
+                        tile.style.boxShadow = '';
                     }, 2000);
                 }
-            }, 300);
-        }
+            }
+        }, 300);
     }
 }
 
@@ -629,6 +749,9 @@ function showScreen(screenId, pushState = true) {
             const newUrl = window.location.pathname;
             window.history.pushState({}, '', newUrl);
         }
+    } else if (screenId === 'section-detail-screen') {
+        footer.style.display = 'block';
+        // backBtn and fabBtn are handled in showSectionDetail
     } else if (screenId === 'favourites-screen' || screenId === 'settings-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
@@ -638,26 +761,42 @@ function showScreen(screenId, pushState = true) {
         footer.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
     }
+
+    // Handle reading footer visibility
+    if (screenId === 'vachanamrut-detail-screen') {
+        // visibility set by updateReadingFooter
+    } else {
+        const rf = document.getElementById('reading-footer');
+        if (rf) rf.style.display = 'none';
+    }
 }
 
 // Setup navigation
 function setupNavigation() {
+    const sectionDetailScreen = document.getElementById('section-detail-screen');
+
     backBtn.addEventListener('click', () => {
         if (vachanamrutDetailScreen.classList.contains('active')) {
-            // Go back to home screen
-            showScreen('home-screen');
-
-            // Scroll to bookmark if exists
-            if (bookmarkedVachanamrutId) {
-                scrollToBookmark();
+            // From vachanamrut detail → go back to section detail (if we have a current section)
+            if (currentSection) {
+                // Find section index
+                const sectionIndex = sections.findIndex(s => s.name === currentSection.name);
+                if (sectionIndex !== -1) {
+                    showSectionDetail(sectionIndex);
+                } else {
+                    showScreen('home-screen');
+                }
+            } else {
+                showScreen('home-screen');
             }
+        } else if (sectionDetailScreen && sectionDetailScreen.classList.contains('active')) {
+            // From section detail → go back to home
+            showScreen('home-screen');
+            currentSection = null;
         } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active')) {
             showScreen('home-screen');
         }
     });
-
-    // Initially hide back button
-    backBtn.style.display = 'none';
 
     // Initially hide back button
     backBtn.style.display = 'none';
@@ -698,24 +837,28 @@ document.addEventListener('DOMContentLoaded', () => {
     displayAppVersion();
 
     // Set language selector value
-    const languageSelector = document.getElementById('language-selector');
-    if (languageSelector) {
-        languageSelector.value = currentLanguage;
+    const languageToggle = document.getElementById('language-toggle');
+    if (languageToggle) {
+        languageToggle.checked = (currentLanguage === 'english');
     }
 
     // Save Language Button Logic
-    const saveLanguageBtn = document.getElementById('save-language-btn');
-    if (saveLanguageBtn) {
-        saveLanguageBtn.addEventListener('click', () => {
-            const selectedLanguage = languageSelector.value;
+    // Language Toggle Logic
+    if (languageToggle) {
+        languageToggle.addEventListener('change', () => {
+            // If checked -> English, else -> Gujarati
+            const selectedLanguage = languageToggle.checked ? 'english' : 'gujarati';
 
             // Update language preference
             currentLanguage = selectedLanguage;
             localStorage.setItem('appLanguage', currentLanguage);
+            document.body.className = currentLanguage; // Set body class
 
             // Reload the page to apply changes
-            alert('Language updated. The page will reload.');
-            location.reload();
+            // Small delay to show animation
+            setTimeout(() => {
+                location.reload();
+            }, 300);
         });
     }
 });

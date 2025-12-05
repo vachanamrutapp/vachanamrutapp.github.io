@@ -2,6 +2,9 @@
     {
         "name": "ગઢડા પ્રથમ",
         "nameEn": "Gadhada I",
+        "image": "images/vachanamrut-locations/gadhada-1.jpg",
+        "description": "શ્રીજી મહારાજે આ વચનામૃતો ગઢડામાં દાદા ખાચરના દરબારમાં કહ્યાં હતાં. આ પ્રકરણમાં મુખ્યત્વે આત્મનિષ્ઠા, ભગવાનનો મહિમા, અને મનને સ્થિર કરવાના ઉપાયો વિશે માર્ગદર્શન છે.",
+        "descriptionEn": "Delivered by Shriji Maharaj at Dada Khachar's Darbar in Gadhada. This section focuses on self-realization (Atmanishtha), the glory of God, and methods to stabilize the mind.",
         "vachanamruts": [
             1,
             2,
@@ -86,6 +89,9 @@
     {
         "name": "સારંગપુર",
         "nameEn": "Sarangpur",
+        "image": "images/vachanamrut-locations/sarangpur.jpg",
+        "description": "સારંગપુરમાં જીવા ખાચરના દરબારમાં આ વચનામૃતો કહેવાયાં હતાં. તેમાં સંતનો મહિમા, અહંકારનો ત્યાગ અને વાસના ટાળવાના સચોટ ઉપાયો વર્ણવવામાં આવ્યા છે.",
+        "descriptionEn": "Spoken at Jiva Khachar's Darbar in Sarangpur. Key themes include the glory of the Sant, abandoning ego, and precise methods to eradicate worldly desires.",
         "vachanamruts": [
             79,
             80,
@@ -110,6 +116,9 @@
     {
         "name": "કારિયાણી",
         "nameEn": "Kariyani",
+        "image": "images/vachanamrut-locations/kariyani.jpg",
+        "description": "કારિયાણીમાં વસ્તા ખાચરના દરબારમાં મહારાજે આ ઉપદેશ આપ્યો હતો. અહીં ભગવાનના સાકાર સ્વરૂપમાં પ્રીતિ અને દેહ તથા આત્માના વિવેક પર ભાર મૂક્યો છે.",
+        "descriptionEn": "Delivered at Vasta Khachar's Darbar in Kariyani. The teachings emphasize affection for the manifest form of God and distinguishing the soul from the body.",
         "vachanamruts": [
             97,
             98,
@@ -128,6 +137,9 @@
     {
         "name": "લોયા",
         "nameEn": "Loya",
+        "image": "images/vachanamrut-locations/loya.jpg",
+        "description": "લોયામાં સુરા ખાચરના દરબારમાં (ઘણીવાર શાકોત્સવ પ્રસંગે) આ વચનામૃતો કહેવાયાં. તેમાં ઉપાસનાની દ્રઢતા અને ભગવાનના સ્વરૂપની સર્વોપરિતા સમજાવી છે.",
+        "descriptionEn": "Spoken at Sura Khachar's Darbar in Loya, often during the Shakotsav festival. Focuses on the firmness of Upasana (worship) and the supremacy of God's form.",
         "vachanamruts": [
             109,
             110,
@@ -152,6 +164,9 @@
     {
         "name": "પંચાળા",
         "nameEn": "Panchala",
+        "image": "images/vachanamrut-locations/panchala.jpg",
+        "description": "પંચાળામાં ઝીણાભાઈના દરબારમાં મહારાજે આ વચનામૃતો કહ્યાં. તેમાં અનન્ય ભક્તિ, નિષ્કામ ધર્મ અને પતિવ્રતાની ભક્તિના લક્ષણો મુખ્ય છે.",
+        "descriptionEn": "Delivered at Jhinabhai's Darbar in Panchala. Highlights include single-minded devotion, Nishkam Dharma (selfless duty), and the characteristics of a chaste devotee.",
         "vachanamruts": [
             127,
             128,
@@ -165,6 +180,9 @@
     {
         "name": "ગઢડા મધ્ય",
         "nameEn": "Gadhada II",
+        "image": "images/vachanamrut-locations/gadhada-2.jpg",
+        "description": "ગઢડાના મધ્ય પ્રકરણમાં ભક્તિની પ્રધાનતા છે. દાદા ખાચરના દરબારમાં ભગવાનના અવતારો, લીલાચરિત્રો અને સાચા ભક્તની રહેણીકરણીનું વર્ણન થયું છે.",
+        "descriptionEn": "The middle section at Gadhada emphasizes devotion (Bhakti). Delivered at Dada Khachar's Darbar, it describes God's incarnations, divine actions, and the lifestyle of a true devotee.",
         "vachanamruts": [
             134,
             135,
@@ -238,6 +256,9 @@
     {
         "name": "વરતાલ",
         "nameEn": "Vartal",
+        "image": "images/vachanamrut-locations/vadtal.jpg",
+        "description": "વરતાલમાં શ્રી લક્ષ્મીનારાયણ દેવના સાનિધ્યમાં આ વચનામૃતો કહેવાયાં. તેમાં એકાંતિક ધર્મના ચાર સ્તંભો - ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિની વિગતવાર ચર્ચા છે.",
+        "descriptionEn": "Spoken in the presence of Shri Lakshminarayan Dev in Vartal. Discussions revolve around the four pillars of Ekantik Dharma: Dharma, Jnana, Vairagya, and Bhakti.",
         "vachanamruts": [
             201,
             202,
@@ -264,6 +285,9 @@
     {
         "name": "અમદાવાદ",
         "nameEn": "Amdavad",
+        "image": "images/vachanamrut-locations/ahmedabad.jpg",
+        "description": "અમદાવાદમાં આપેલા આ ટૂંકા પણ સચોટ ઉપદેશોમાં મનને ભગવાનમાં અખંડ જોડી રાખવાની અને સંસારથી વિરક્ત રહેવાની રીત બતાવવામાં આવી છે.",
+        "descriptionEn": "These short but precise discourses delivered in Amdavad focus on keeping the mind constantly engaged in God and remaining detached from worldly life.",
         "vachanamruts": [
             221,
             222,
@@ -273,6 +297,9 @@
     {
         "name": "ગઢડા અંત્ય",
         "nameEn": "Gadhada III",
+        "image": "images/vachanamrut-locations/gadhada-3.jpg",
+        "description": "ગઢડાના અંત્ય પ્રકરણમાં સત્સંગનો સાર છે. દાદા ખાચરના દરબારમાં ભગવાન અને સંતનો યથાર્થ મહિમા અને મોક્ષના અત્યંત ગૂઢ સિદ્ધાંતો સમજાવ્યા છે.",
+        "descriptionEn": "The final section at Gadhada contains the essence of Satsang. Delivered at Dada Khachar's Darbar, it explains the true glory of God and the Saint, and subtle principles of liberation.",
         "vachanamruts": [
             224,
             225,

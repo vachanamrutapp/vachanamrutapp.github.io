@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.0.0';
+const CACHE_NAME = '1.0.1';
 
 // Generate list of vachanamrut data files
 const DATA_FILES = [];
@@ -11,6 +11,18 @@ for (let i = 1; i <= 262; i++) {
     DATA_FILES.push(`./assets/data/english/vachanamrut-${i}.json`);
 }
 
+const LOCATION_IMAGES = [
+    './images/vachanamrut-locations/gadhada-1.jpg',
+    './images/vachanamrut-locations/gadhada-2.jpg',
+    './images/vachanamrut-locations/gadhada-3.jpg',
+    './images/vachanamrut-locations/sarangpur.jpg',
+    './images/vachanamrut-locations/kariyani.jpg',
+    './images/vachanamrut-locations/loya.jpg',
+    './images/vachanamrut-locations/panchala.jpg',
+    './images/vachanamrut-locations/vadtal.jpg',
+    './images/vachanamrut-locations/ahmedabad.jpg'
+];
+
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -21,8 +33,12 @@ const ASSETS_TO_CACHE = [
     './assets/youtube_videos.json',
     './images/logo-vachanamrut.png',
     './images/swaminarayan-bg.jpg',
+    './images/swaminarayan-bg-gold.jpg',
     './images/192.png',
     './images/512.png',
+    './images/app-icon.png',
+    './images/SarthiAI.png',
+    ...LOCATION_IMAGES,
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap',
     ...DATA_FILES

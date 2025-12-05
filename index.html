@@ -25,7 +25,17 @@
     </header>
     <main id="main-content">
         <div id="home-screen" class="screen active">
-            <div id="sections-list"></div>
+            <div id="sections-list" class="chapter-grid"></div>
+        </div>
+        <div id="section-detail-screen" class="screen">
+            <div id="section-header" class="section-header-card glass-effect">
+                <h2 id="section-title">Section Name</h2>
+                <div id="section-image-container" class="section-image-container" style="display: none;">
+                    <img id="section-image" src="" alt="Section Image" class="section-image">
+                </div>
+                <p id="section-description">Section description goes here...</p>
+            </div>
+            <div id="vachanamrut-list" class="vachanamrut-grid"></div>
         </div>
         <div id="vachanamrut-detail-screen" class="screen">
             <div id="vachanamrut-card" class="glass-card">
@@ -35,6 +45,7 @@
                 <div id="vachanamrut-text"></div>
                 <div id="vachanamrut-footer-text"></div>
             </div>
+
         </div>
         <div id="favourites-screen" class="screen">
             <h2 class="screen-title">Favourites</h2>
@@ -45,12 +56,14 @@
             <h2 class="screen-title">Settings</h2>
             <div class="settings-card glass-card">
                 <h3>Language / ભાષા</h3>
-                <select id="language-selector" class="language-select">
-                    <option value="gujarati">ગુજરાતી (Gujarati)</option>
-                    <option value="english">English</option>
-                </select>
-                <button id="save-language-btn" class="primary-btn" style="margin-top: 15px; width: 100%;">Save
-                    Language</button>
+                <div class="language-switch-wrapper">
+                    <span class="lang-label" id="label-gujarati">ગુજરાતી</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="language-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="lang-label" id="label-english">English</span>
+                </div>
             </div>
 
             <div class="settings-card glass-card">
@@ -70,6 +83,16 @@
     <footer id="footer">
         <p>પૂર્ણ પુરુષોત્તમ ભગવાન શ્રી સ્વામિનારાયણની પરાવાણી</p>
     </footer>
+    <!-- Sticky Navigation Footer -->
+    <div id="reading-footer" class="reading-footer" style="display: none;">
+        <button id="nav-prev-btn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+        <div class="slider-wrapper">
+            <input type="range" id="nav-slider" min="1" max="1" value="1" class="nav-slider">
+            <span id="reading-progress" class="reading-progress">1 / 1</span>
+        </div>
+        <button id="nav-next-btn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
     <script src="js/app.js"></script>
     <script>
         // Register service worker
