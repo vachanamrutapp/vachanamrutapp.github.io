@@ -715,12 +715,21 @@ function setupMenu() {
     });
 
     // Reset App Button
-    document.getElementById('reset-app-btn').addEventListener('click', () => {
-        if (confirm('Are you sure you want to reset the app? This will delete all bookmarks and favourites.')) {
-            localStorage.clear();
-            location.reload();
-        }
-    });
+    const resetBtn = document.getElementById('reset-app-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Use setTimeout to ensure the UI is stable before showing the modal
+            setTimeout(() => {
+                if (confirm('Are you sure you want to reset the app? This will delete all bookmarks and favourites.')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            }, 50);
+        });
+    }
 }
 
 // Show screen

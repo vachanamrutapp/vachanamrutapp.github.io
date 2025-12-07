@@ -1059,6 +1059,59 @@ footer {
     box-shadow: 0 6px 20px rgba(183, 28, 28, 0.4);
 }
 
+/* Danger Zone Redesign */
+.settings-centered {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settings-header-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.settings-header-badge h3 {
+    margin: 0;
+    border: none;
+    padding: 0;
+    font-size: 1.4rem;
+}
+
+.danger-badge {
+    background: rgba(211, 47, 47, 0.1);
+    color: #D32F2F;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    border: 1px solid rgba(211, 47, 47, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.danger-btn-subtle {
+    background: transparent;
+    color: #C62828;
+    border: 1px solid rgba(198, 40, 40, 0.3);
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 15px;
+}
+
+.danger-btn-subtle:hover {
+    background: rgba(198, 40, 40, 0.05);
+    border-color: #C62828;
+}
+
 /* Heart Button */
 .heart-btn {
     position: absolute;
@@ -1169,14 +1222,19 @@ body.gujarati .chapter-description {
     position: fixed;
     bottom: 0;
     left: 0;
+    transform: none;
     width: 100%;
+    max-width: 100%;
     background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 143, 0, 0.95));
     /* Yellow/Orange */
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 15px 12px 15px;
-    /* Reduced padding */
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 25px 25px 0 0;
+    padding: 15px 30px 20px 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1218,7 +1276,7 @@ body.gujarati .chapter-description {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
 }
 
 .reading-progress {
