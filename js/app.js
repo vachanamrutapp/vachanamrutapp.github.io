@@ -8,6 +8,11 @@ let currentSection = null;
 let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
 let currentSectionVachanamruts = [];
 let currentVachanamrutIndex = -1;
+let videoEnabled = localStorage.getItem('videoEnabled') === 'true'; // Default false
+let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default true
+let audioPlayer = new Audio();
+let isPlaying = false;
+let currentAudioId = -1;
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -30,6 +35,16 @@ const navPrevBtn = document.getElementById('nav-prev-btn');
 const navNextBtn = document.getElementById('nav-next-btn');
 const navSlider = document.getElementById('nav-slider');
 const readingProgress = document.getElementById('reading-progress');
+const audioPlayerContainer = document.getElementById('audio-player-container');
+const audioFab = document.getElementById('audio-fab');
+const audioTimer = document.getElementById('audio-timer');
+const progressCircle = document.querySelector('.progress-ring__circle');
+const radius = progressCircle ? progressCircle.r.baseVal.value : 0;
+const circumference = radius * 2 * Math.PI;
+if (progressCircle) {
+    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+    progressCircle.style.strokeDashoffset = circumference;
+}
 
 // ... (init function remains same)
 
@@ -110,7 +125,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Video embed
     vachanamrutVideo.innerHTML = '';
-    if (vachanamrut.id) {
+    if (vachanamrut.id && videoEnabled) {
         const video = videoData.find(v => v.number === vachanamrut.id);
         if (video && video.videoId) {
             vachanamrutVideo.innerHTML = `
@@ -165,7 +180,82 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Update Navigation Footer
     updateReadingFooter(safeId);
+
+    // Setup Audio Player
+    setupAudioPlayer(safeId);
 }
+
+function setupAudioPlayer(vachanamrutId) {
+    if (!audioEnabled) {
+        audioPlayerContainer.style.display = 'none';
+        return;
+    }
+
+    // Reset if new vachanamrut
+    if (currentAudioId !== vachanamrutId) {
+        audioPlayer.pause();
+        audioPlayer.src = `./assets/data/audio/${vachanamrutId}.mp3`;
+        audioPlayer.load();
+        currentAudioId = vachanamrutId;
+        isPlaying = false;
+        updateAudioFABUI();
+        setProgress(0);
+        audioTimer.textContent = '0:00';
+    }
+
+    audioPlayerContainer.style.display = 'flex';
+}
+
+function toggleAudio() {
+    if (isPlaying) {
+        audioPlayer.pause();
+    } else {
+        audioPlayer.play().catch(error => {
+            console.error('Audio playback failed:', error);
+        });
+    }
+    isPlaying = !isPlaying;
+    updateAudioFABUI();
+}
+
+function updateAudioFABUI() {
+    const icon = audioFab.querySelector('i');
+    if (isPlaying) {
+        icon.className = 'fas fa-pause';
+    } else {
+        icon.className = 'fas fa-play';
+    }
+}
+
+function setProgress(percent) {
+    if (!progressCircle) return;
+    const offset = circumference - (percent / 100 * circumference);
+    progressCircle.style.strokeDashoffset = offset;
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+// Audio player event listeners
+audioPlayer.addEventListener('timeupdate', () => {
+    if (audioPlayer.duration) {
+        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        setProgress(percent);
+        audioTimer.textContent = formatTime(audioPlayer.currentTime);
+    }
+});
+
+audioPlayer.addEventListener('ended', () => {
+    isPlaying = false;
+    updateAudioFABUI();
+    setProgress(0);
+    audioTimer.textContent = '0:00';
+});
+
+audioFab.addEventListener('click', toggleAudio);
 
 function updateReadingFooter(currentId) {
     // If we have context (from section detail)
@@ -774,9 +864,16 @@ function showScreen(screenId, pushState = true) {
     // Handle reading footer visibility
     if (screenId === 'vachanamrut-detail-screen') {
         // visibility set by updateReadingFooter
+        if (audioEnabled) audioPlayerContainer.style.display = 'flex';
     } else {
         const rf = document.getElementById('reading-footer');
         if (rf) rf.style.display = 'none';
+        audioPlayerContainer.style.display = 'none';
+        
+        // Pause audio if leaving the screen
+        audioPlayer.pause();
+        isPlaying = false;
+        updateAudioFABUI();
     }
 }
 
@@ -851,7 +948,26 @@ document.addEventListener('DOMContentLoaded', () => {
         languageToggle.checked = (currentLanguage === 'english');
     }
 
-    // Save Language Button Logic
+    // Set media toggles
+    const videoToggle = document.getElementById('video-toggle');
+    const audioToggle = document.getElementById('audio-toggle');
+    
+    if (videoToggle) {
+        videoToggle.checked = videoEnabled;
+        videoToggle.addEventListener('change', () => {
+            videoEnabled = videoToggle.checked;
+            localStorage.setItem('videoEnabled', videoEnabled);
+        });
+    }
+    
+    if (audioToggle) {
+        audioToggle.checked = audioEnabled;
+        audioToggle.addEventListener('change', () => {
+            audioEnabled = audioToggle.checked;
+            localStorage.setItem('audioEnabled', audioEnabled);
+        });
+    }
+
     // Language Toggle Logic
     if (languageToggle) {
         languageToggle.addEventListener('change', () => {

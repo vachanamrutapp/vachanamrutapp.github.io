@@ -66,6 +66,24 @@
                 </div>
             </div>
 
+            <div class="settings-card glass-card">
+                <h3>Media Settings / મીડિયા સેટિંગ્સ</h3>
+                <div class="setting-item">
+                    <span>Audio / ઓડિયો</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="audio-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span>Video / વિડિયો</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="video-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
             <div class="settings-card glass-card settings-centered">
                 <div class="settings-header-badge">
                     <h3>Reset Settings</h3>
@@ -75,6 +93,16 @@
                 <button id="reset-app-btn" type="button" class="danger-btn-subtle">Reset App Data</button>
                 <p id="app-version" class="settings-version">Version: Loading...</p>
             </div>
+        </div>
+        <div id="audio-player-container" class="audio-player-container" style="display: none;">
+            <button id="audio-fab" class="audio-fab">
+                <svg class="progress-ring" width="56" height="56">
+                    <circle class="progress-ring__circle" stroke="white" stroke-width="4" fill="transparent" r="24"
+                        cx="28" cy="28" />
+                </svg>
+                <i class="fas fa-play"></i>
+            </button>
+            <div id="audio-timer" class="audio-timer">0:00</div>
         </div>
     </main>
     <div id="fab-menu" class="fab-menu">
