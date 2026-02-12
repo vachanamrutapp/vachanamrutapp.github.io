@@ -12,7 +12,10 @@ for (let i = 1; i <= 262; i++) {
 }
 
 // Generate list of audio files (1 to 262)
-const AUDIO_FILES = [];
+const AUDIO_FILES = [
+    './assets/data/audio/1 Partharo.mp3',
+    './assets/data/audio/264 Khagol Bhugol.mp3'
+];
 for (let i = 1; i <= 262; i++) {
     AUDIO_FILES.push(`./assets/data/audio/${i}.mp3`);
 }

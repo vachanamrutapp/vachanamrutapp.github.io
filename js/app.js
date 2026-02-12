@@ -10,8 +10,13 @@ let currentSectionVachanamruts = [];
 let currentVachanamrutIndex = -1;
 let videoEnabled = localStorage.getItem('videoEnabled') === 'true'; // Default false
 let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default true
+let homeAudioEnabled = localStorage.getItem('homeAudioEnabled') === 'true'; // Default false
 let audioPlayer = new Audio();
+let introPlayer = new Audio('./assets/data/audio/1 Partharo.mp3');
+let khagolPlayer = new Audio('./assets/data/audio/264 Khagol Bhugol.mp3');
 let isPlaying = false;
+let isIntroPlaying = false;
+let isKhagolPlaying = false;
 let currentAudioId = -1;
 
 // DOM elements
@@ -39,6 +44,19 @@ const audioPlayerContainer = document.getElementById('audio-player-container');
 const audioFab = document.getElementById('audio-fab');
 const audioTimer = document.getElementById('audio-timer');
 const progressCircle = document.querySelector('.progress-ring__circle');
+
+// Intro Player elements
+const introPlayBtn = document.getElementById('intro-tile-play-btn');
+const introSeekbar = document.getElementById('intro-seekbar');
+const introCurrentTimeDisplay = document.getElementById('intro-current-time');
+const introDurationDisplay = document.getElementById('intro-duration');
+
+// Khagol Player elements
+const khagolPlayBtn = document.getElementById('khagol-tile-play-btn');
+const khagolSeekbar = document.getElementById('khagol-seekbar');
+const khagolCurrentTimeDisplay = document.getElementById('khagol-current-time');
+const khagolDurationDisplay = document.getElementById('khagol-duration');
+
 const radius = progressCircle ? progressCircle.r.baseVal.value : 0;
 const circumference = radius * 2 * Math.PI;
 if (progressCircle) {
@@ -210,6 +228,17 @@ function toggleAudio() {
     if (isPlaying) {
         audioPlayer.pause();
     } else {
+        // Pause other players
+        if (isIntroPlaying) {
+            introPlayer.pause();
+            isIntroPlaying = false;
+            updateIntroUI();
+        }
+        if (isKhagolPlaying) {
+            khagolPlayer.pause();
+            isKhagolPlaying = false;
+            updateKhagolUI();
+        }
         audioPlayer.play().catch(error => {
             console.error('Audio playback failed:', error);
         });
@@ -256,6 +285,136 @@ audioPlayer.addEventListener('ended', () => {
 });
 
 audioFab.addEventListener('click', toggleAudio);
+
+// Intro Player logic
+if (introPlayBtn) {
+    introPlayBtn.addEventListener('click', toggleIntroAudio);
+}
+
+if (introSeekbar) {
+    introSeekbar.addEventListener('input', () => {
+        const time = (introSeekbar.value / 100) * introPlayer.duration;
+        introPlayer.currentTime = time;
+    });
+}
+
+// Khagol Player logic
+if (khagolPlayBtn) {
+    khagolPlayBtn.addEventListener('click', toggleKhagolAudio);
+}
+
+if (khagolSeekbar) {
+    khagolSeekbar.addEventListener('input', () => {
+        const time = (khagolSeekbar.value / 100) * khagolPlayer.duration;
+        khagolPlayer.currentTime = time;
+    });
+}
+
+function toggleIntroAudio() {
+    if (isIntroPlaying) {
+        introPlayer.pause();
+    } else {
+        // Pause other players
+        if (isPlaying) {
+            audioPlayer.pause();
+            isPlaying = false;
+            updateAudioFABUI();
+        }
+        if (isKhagolPlaying) {
+            khagolPlayer.pause();
+            isKhagolPlaying = false;
+            updateKhagolUI();
+        }
+        introPlayer.play().catch(error => {
+            console.error('Intro playback failed:', error);
+        });
+    }
+    isIntroPlaying = !isIntroPlaying;
+    updateIntroUI();
+}
+
+function toggleKhagolAudio() {
+    if (isKhagolPlaying) {
+        khagolPlayer.pause();
+    } else {
+        // Pause other players
+        if (isPlaying) {
+            audioPlayer.pause();
+            isPlaying = false;
+            updateAudioFABUI();
+        }
+        if (isIntroPlaying) {
+            introPlayer.pause();
+            isIntroPlaying = false;
+            updateIntroUI();
+        }
+        khagolPlayer.play().catch(error => {
+            console.error('Khagol playback failed:', error);
+        });
+    }
+    isKhagolPlaying = !isKhagolPlaying;
+    updateKhagolUI();
+}
+
+function updateIntroUI() {
+    const icon = introPlayBtn.querySelector('i');
+    if (isIntroPlaying) {
+        icon.className = 'fas fa-pause';
+    } else {
+        icon.className = 'fas fa-play';
+    }
+}
+
+function updateKhagolUI() {
+    const icon = khagolPlayBtn.querySelector('i');
+    if (isKhagolPlaying) {
+        icon.className = 'fas fa-pause';
+    } else {
+        icon.className = 'fas fa-play';
+    }
+}
+
+introPlayer.addEventListener('loadedmetadata', () => {
+    if (introDurationDisplay) {
+        introDurationDisplay.textContent = formatTime(introPlayer.duration);
+    }
+});
+
+introPlayer.addEventListener('timeupdate', () => {
+    if (introPlayer.duration) {
+        const percent = (introPlayer.currentTime / introPlayer.duration) * 100;
+        if (introSeekbar) introSeekbar.value = percent;
+        if (introCurrentTimeDisplay) introCurrentTimeDisplay.textContent = formatTime(introPlayer.currentTime);
+    }
+});
+
+introPlayer.addEventListener('ended', () => {
+    isIntroPlaying = false;
+    updateIntroUI();
+    if (introSeekbar) introSeekbar.value = 0;
+    if (introCurrentTimeDisplay) introCurrentTimeDisplay.textContent = '0:00';
+});
+
+khagolPlayer.addEventListener('loadedmetadata', () => {
+    if (khagolDurationDisplay) {
+        khagolDurationDisplay.textContent = formatTime(khagolPlayer.duration);
+    }
+});
+
+khagolPlayer.addEventListener('timeupdate', () => {
+    if (khagolPlayer.duration) {
+        const percent = (khagolPlayer.currentTime / khagolPlayer.duration) * 100;
+        if (khagolSeekbar) khagolSeekbar.value = percent;
+        if (khagolCurrentTimeDisplay) khagolCurrentTimeDisplay.textContent = formatTime(khagolPlayer.currentTime);
+    }
+});
+
+khagolPlayer.addEventListener('ended', () => {
+    isKhagolPlaying = false;
+    updateKhagolUI();
+    if (khagolSeekbar) khagolSeekbar.value = 0;
+    if (khagolCurrentTimeDisplay) khagolCurrentTimeDisplay.textContent = '0:00';
+});
 
 function updateReadingFooter(currentId) {
     // If we have context (from section detail)
@@ -874,6 +1033,30 @@ function showScreen(screenId, pushState = true) {
         audioPlayer.pause();
         isPlaying = false;
         updateAudioFABUI();
+
+        // If going back to home, intro card will show automatically
+        // but we might want to pause everything if going to favorites/settings
+        if (screenId !== 'home-screen') {
+            introPlayer.pause();
+            isIntroPlaying = false;
+            updateIntroUI();
+
+            khagolPlayer.pause();
+            isKhagolPlaying = false;
+            updateKhagolUI();
+        }
+    }
+}
+
+function updateHomeAudioVisibility() {
+    const introTile = document.getElementById('intro-audio-tile');
+    const khagolTile = document.getElementById('khagol-audio-tile');
+    
+    if (introTile) {
+        introTile.style.display = homeAudioEnabled ? 'flex' : 'none';
+    }
+    if (khagolTile) {
+        khagolTile.style.display = homeAudioEnabled ? 'flex' : 'none';
     }
 }
 
@@ -967,6 +1150,19 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('audioEnabled', audioEnabled);
         });
     }
+
+    const homeAudioToggle = document.getElementById('home-audio-toggle');
+    if (homeAudioToggle) {
+        homeAudioToggle.checked = homeAudioEnabled;
+        homeAudioToggle.addEventListener('change', () => {
+            homeAudioEnabled = homeAudioToggle.checked;
+            localStorage.setItem('homeAudioEnabled', homeAudioEnabled);
+            updateHomeAudioVisibility();
+        });
+    }
+
+    // Initial visibility update
+    updateHomeAudioVisibility();
 
     // Language Toggle Logic
     if (languageToggle) {
