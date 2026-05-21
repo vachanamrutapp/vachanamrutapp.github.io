@@ -73,50 +73,10 @@ header {
 }
 
 #navbar-logo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.text-logo {
-    font-family: 'Noto Sans Gujarati', sans-serif;
-    font-size: 2.3rem; /* Prominent and readable */
-    font-weight: 800; /* Extra bold to look like the logo */
-    color: transparent; /* Makes the main text block transparent */
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 48px;
-    line-height: 48px;
-    letter-spacing: 0.5px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
-    user-select: none;
-}
-
-/* Outer Metallic Gold outline */
-.text-logo::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
-    -webkit-text-stroke: 4.5px #D4AF37; /* Gold stroke */
-    text-stroke: 4.5px #D4AF37;
-    color: #D4AF37;
-}
-
-/* Inner Crimson/Red gradient with fine gold border */
-.text-logo::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2;
-    background: linear-gradient(to bottom, #D32F2F 0%, #B71C1C 45%, #7F0000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 0.4px rgba(255, 215, 0, 0.25);
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 #back-btn {
@@ -779,14 +739,8 @@ main {
         padding: calc(10px + env(safe-area-inset-top, 0px)) 15px 10px 15px;
     }
 
-    .text-logo {
-        font-size: 1.8rem;
-        height: 38px;
-        line-height: 38px;
-    }
-    .text-logo::before {
-        -webkit-text-stroke: 3.5px #D4AF37;
-        text-stroke: 3.5px #D4AF37;
+    #navbar-logo {
+        height: 50px;
     }
 
     main {
@@ -818,14 +772,8 @@ main {
 }
 
 @media (max-width: 480px) {
-    .text-logo {
-        font-size: 1.5rem;
-        height: 32px;
-        line-height: 32px;
-    }
-    .text-logo::before {
-        -webkit-text-stroke: 2.8px #D4AF37;
-        text-stroke: 2.8px #D4AF37;
+    #navbar-logo {
+        height: 40px;
     }
 
     main {
@@ -1520,10 +1468,6 @@ body.gujarati .chapter-description {
     animation: fab-pulse 2s infinite;
     background: linear-gradient(135deg, #E53935, #B71C1C); /* Crimson gradient when playing */
     border-color: rgba(255, 255, 255, 0.3);
-}
-
-.audio-player-container.state-fab.is-playing .audio-fab-view i {
-    color: #FFC107 !important; /* Make the music icon yellow when playing */
 }
 
 .audio-fab-view {
