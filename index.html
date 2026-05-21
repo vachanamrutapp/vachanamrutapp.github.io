@@ -144,23 +144,31 @@
                 <p id="app-version" class="settings-version">Version: Loading...</p>
             </div>
         </div>
-        <div id="audio-player-container" class="audio-player-bar" style="display: none;">
-            <div class="audio-scrubber-container">
-                <div id="audio-progress-fill" class="audio-progress-fill"></div>
-                <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0">
-            </div>
-            <div class="audio-bar-controls-row">
-                <div class="audio-bar-info">
-                    <span id="audio-bar-title" class="audio-title">વચનામૃત</span>
+        <div id="audio-player-container" class="audio-player-container state-fab" style="display: none;">
+            <!-- FAB View -->
+            <button id="audio-fab-view" class="audio-fab-view" title="Play Vachanamrut Audio">
+                <i class="fas fa-play"></i>
+            </button>
+            
+            <!-- Bar View -->
+            <div class="audio-bar-view">
+                <div class="audio-scrubber-container">
+                    <div id="audio-progress-fill" class="audio-progress-fill"></div>
+                    <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0">
                 </div>
-                <div class="audio-bar-controls">
-                    <button id="audio-btn-prev" class="audio-bar-btn" title="Skip Back 15s"><i class="fas fa-undo"></i></button>
-                    <button id="audio-btn-play" class="audio-bar-btn play-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
-                    <button id="audio-btn-next" class="audio-bar-btn" title="Skip Forward 15s"><i class="fas fa-redo"></i></button>
-                </div>
-                <div class="audio-bar-right">
-                    <span id="audio-timer" class="audio-timer">0:00 / 0:00</span>
-                    <button id="audio-btn-close" class="audio-bar-btn close-btn" title="Close Player"><i class="fas fa-times"></i></button>
+                <div class="audio-bar-controls-row">
+                    <div class="audio-bar-info">
+                        <span id="audio-bar-title" class="audio-title">વચનામૃત</span>
+                    </div>
+                    <div class="audio-bar-controls">
+                        <button id="audio-btn-prev" class="audio-bar-btn" title="Skip Back 15s"><i class="fas fa-undo"></i></button>
+                        <button id="audio-btn-play" class="audio-bar-btn play-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                        <button id="audio-btn-next" class="audio-bar-btn" title="Skip Forward 15s"><i class="fas fa-redo"></i></button>
+                    </div>
+                    <div class="audio-bar-right">
+                        <span id="audio-timer" class="audio-timer">0:00 / 0:00</span>
+                        <button id="audio-btn-close" class="audio-bar-btn close-btn" title="Minimize to FAB"><i class="fas fa-compress-alt"></i></button>
+                    </div>
                 </div>
             </div>
         </div>

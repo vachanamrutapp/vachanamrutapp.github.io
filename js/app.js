@@ -141,6 +141,7 @@ const navNextBtn = document.getElementById('nav-next-btn');
 const navSlider = document.getElementById('nav-slider');
 const readingProgress = document.getElementById('reading-progress');
 const audioPlayerContainer = document.getElementById('audio-player-container');
+const audioFabView = document.getElementById('audio-fab-view');
 const audioBarTitle = document.getElementById('audio-bar-title');
 const audioBtnPrev = document.getElementById('audio-btn-prev');
 const audioBtnPlay = document.getElementById('audio-btn-play');
@@ -327,6 +328,10 @@ function setupAudioPlayer(vachanamrut) {
         if (audioProgressBar) audioProgressBar.value = 0;
         if (audioProgressFill) audioProgressFill.style.width = '0%';
         audioTimer.textContent = '0:00 / 0:00';
+        
+        // Reset state to FAB on loading new vachanamrut
+        audioPlayerContainer.classList.remove('state-bar');
+        audioPlayerContainer.classList.add('state-fab');
     }
 
     audioPlayerContainer.style.display = 'flex';
@@ -356,12 +361,25 @@ function toggleAudio() {
 }
 
 function updateAudioBarUI() {
-    if (!audioBtnPlay) return;
-    const icon = audioBtnPlay.querySelector('i');
-    if (isPlaying) {
-        icon.className = 'fas fa-pause';
-    } else {
-        icon.className = 'fas fa-play';
+    if (audioBtnPlay) {
+        const icon = audioBtnPlay.querySelector('i');
+        if (icon) {
+            if (isPlaying) {
+                icon.className = 'fas fa-pause';
+            } else {
+                icon.className = 'fas fa-play';
+            }
+        }
+    }
+    if (audioFabView) {
+        const icon = audioFabView.querySelector('i');
+        if (icon) {
+            if (isPlaying) {
+                icon.className = 'fas fa-pause';
+            } else {
+                icon.className = 'fas fa-play';
+            }
+        }
     }
 }
 
@@ -440,13 +458,22 @@ if (audioBtnPrev) {
     });
 }
 
-// Close player button
+// Close player button (Minimize to FAB)
 if (audioBtnClose) {
     audioBtnClose.addEventListener('click', () => {
-        audioPlayer.pause();
-        isPlaying = false;
-        updateAudioBarUI();
-        audioPlayerContainer.style.display = 'none';
+        audioPlayerContainer.classList.remove('state-bar');
+        audioPlayerContainer.classList.add('state-fab');
+    });
+}
+
+// FAB View button click handlers
+if (audioFabView) {
+    audioFabView.addEventListener('click', () => {
+        audioPlayerContainer.classList.remove('state-fab');
+        audioPlayerContainer.classList.add('state-bar');
+        if (!isPlaying) {
+            toggleAudio();
+        }
     });
 }
 
@@ -1208,6 +1235,8 @@ function showScreen(screenId, pushState = true) {
         audioPlayer.pause();
         isPlaying = false;
         updateAudioBarUI();
+        audioPlayerContainer.classList.remove('state-bar');
+        audioPlayerContainer.classList.add('state-fab');
 
         // If going back to home, intro card will show automatically
         // but we might want to pause everything if going to favorites/settings

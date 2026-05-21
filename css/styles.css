@@ -1435,26 +1435,80 @@ body.gujarati .chapter-description {
     font-weight: 500;
 }
 
-/* Audio Player FAB */
-/* Floating Audio Player Bar */
-.audio-player-bar {
+/* Container for Audio Player (handles both FAB and Bar states) */
+.audio-player-container {
     position: fixed;
+    z-index: 10000;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* FAB State Styling */
+.audio-player-container.state-fab {
+    right: 16px;
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px)); /* Positioned above reading-footer */
+    width: 54px;
+    height: 54px;
+}
+
+.audio-fab-view {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FFC107, #FF8F00);
+    border: 1px solid rgba(183, 28, 28, 0.25);
+    color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 0; /* SQUARE - no rounded borders */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.audio-fab-view:hover {
+    background: linear-gradient(135deg, #FFD54F, #FFA000);
+}
+
+.audio-fab-view:active {
+    transform: scale(0.95);
+}
+
+/* Bar State Styling */
+.audio-player-container.state-bar {
     left: 16px;
     right: 16px;
-    bottom: calc(82px + env(safe-area-inset-bottom, 0px)); /* Float exactly above reading-footer */
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
     background: rgba(255, 238, 185, 0.95); /* Opaque warm golden glass */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(183, 28, 28, 0.25);
-    border-radius: 16px;
+    border-radius: 0; /* SQUARE - no rounded borders */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    z-index: 10000;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: all 0.3s ease;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+}
+
+/* Toggle visibility based on state */
+.audio-player-container.state-fab .audio-fab-view {
+    display: flex;
+}
+.audio-player-container.state-fab .audio-bar-view {
+    display: none;
+}
+
+.audio-player-container.state-bar .audio-fab-view {
+    display: none;
+}
+.audio-player-container.state-bar .audio-bar-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .audio-scrubber-container {
@@ -1489,13 +1543,13 @@ body.gujarati .chapter-description {
     background: transparent;
 }
 
-/* Scrubber thumb styling */
+/* Scrubber thumb styling (SQUARE - no rounded borders) */
 .audio-progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
-    border-radius: 50%;
+    border-radius: 0; /* SQUARE */
     background: #B71C1C;
     margin-top: -4px; /* Center thumb vertically */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -1516,7 +1570,7 @@ body.gujarati .chapter-description {
 .audio-progress-bar::-moz-range-thumb {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: 0; /* SQUARE */
     background: #B71C1C;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     border: 1px solid white;
@@ -1558,7 +1612,7 @@ body.gujarati .chapter-description {
     font-size: 1.15rem;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 0; /* SQUARE */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1581,6 +1635,7 @@ body.gujarati .chapter-description {
     width: 38px;
     height: 38px;
     box-shadow: 0 2px 8px rgba(183, 28, 28, 0.3);
+    border-radius: 0; /* SQUARE */
 }
 
 .audio-bar-btn.play-btn:hover {
@@ -1603,7 +1658,7 @@ body.gujarati .chapter-description {
 
 .audio-bar-btn.close-btn {
     color: rgba(93, 26, 26, 0.5);
-    font-size: 1rem;
+    font-size: 1.1rem;
     width: 28px;
     height: 28px;
 }
@@ -1622,7 +1677,6 @@ body.gujarati .chapter-description {
     width: 0%;
     background: #B71C1C;
     pointer-events: none;
-    border-radius: 0 3px 3px 0;
 }
 
 .nav-slider::-moz-range-thumb {
