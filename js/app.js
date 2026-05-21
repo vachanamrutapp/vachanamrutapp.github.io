@@ -18,9 +18,109 @@ let isPlaying = false;
 let isIntroPlaying = false;
 let isKhagolPlaying = false;
 let currentAudioId = -1;
+let appTheme = localStorage.getItem('appTheme') || 'default';
+let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
+
+// Toast Notification helper
+function showToast(message, iconClass = 'fas fa-info-circle') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    container.innerHTML = `<div class="toast-message"><i class="${iconClass}"></i><span>${message}</span></div>`;
+    container.classList.add('active');
+    
+    if (window.toastTimeout) {
+        clearTimeout(window.toastTimeout);
+    }
+    
+    window.toastTimeout = setTimeout(() => {
+        container.classList.remove('active');
+    }, 2500);
+}
+
+// Apply font size helper
+function applyFontSize() {
+    const textElement = document.getElementById('vachanamrut-text');
+    const displayElement = document.getElementById('font-size-display');
+    if (textElement) {
+        textElement.style.fontSize = `${1.38 * (appFontSizePercent / 100)}rem`;
+    }
+    if (displayElement) {
+        displayElement.textContent = `${appFontSizePercent}%`;
+    }
+}
+
+// Apply theme helper
+function applyTheme() {
+    const card = document.getElementById('vachanamrut-card');
+    if (!card) return;
+    
+    card.classList.remove('theme-default', 'theme-sepia', 'theme-dark');
+    card.classList.add(`theme-${appTheme}`);
+    
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.dataset.theme === appTheme) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Setup Reader font size and theme controls
+function setupReaderControls() {
+    const decBtn = document.getElementById('font-dec-btn');
+    const incBtn = document.getElementById('font-inc-btn');
+    
+    if (decBtn && incBtn) {
+        decBtn.addEventListener('click', () => {
+            if (appFontSizePercent > 80) {
+                appFontSizePercent -= 10;
+                localStorage.setItem('appFontSizePercent', appFontSizePercent);
+                applyFontSize();
+            }
+        });
+        incBtn.addEventListener('click', () => {
+            if (appFontSizePercent < 180) {
+                appFontSizePercent += 10;
+                localStorage.setItem('appFontSizePercent', appFontSizePercent);
+                applyFontSize();
+            }
+        });
+    }
+    
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            appTheme = e.target.dataset.theme;
+            localStorage.setItem('appTheme', appTheme);
+            applyTheme();
+        });
+    });
+}
+
+// Setup Scroll progress bar tracking
+function setupScrollProgress() {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+        mainContent.addEventListener('scroll', () => {
+            const activeScreen = document.querySelector('.screen.active');
+            if (activeScreen && activeScreen.id === 'vachanamrut-detail-screen') {
+                const scrollTop = mainContent.scrollTop;
+                const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                const progressBar = document.getElementById('scroll-progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = `${scrollPercent}%`;
+                }
+            }
+        });
+    }
+}
+
+
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
 const favouritesScreen = document.getElementById('favourites-screen');
 const settingsScreen = document.getElementById('settings-screen');
@@ -122,21 +222,18 @@ function showVachanamrut(vachanamrut, pushState = true) {
         if (navigator.share) {
             try {
                 await navigator.share(shareData);
+                showToast('Shared successfully!', 'fas fa-share-alt');
             } catch (error) {
                 // User cancelled or error
             }
         } else {
             // Fallback: Copy to clipboard
             try {
-                await navigator.clipboard.writeText(shareUrl); // Copy the generated shareUrl
-                // Show toast or feedback
-                const originalIcon = shareBtn.innerHTML;
-                shareBtn.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => {
-                    shareBtn.innerHTML = originalIcon;
-                }, 2000);
+                await navigator.clipboard.writeText(shareUrl);
+                showToast('Link copied to clipboard / લિંક કોપી કરી!', 'fas fa-check');
             } catch (err) {
                 console.error('Failed to copy:', err);
+                showToast('Failed to copy link', 'fas fa-exclamation-triangle');
             }
         }
     });
@@ -179,6 +276,8 @@ function showVachanamrut(vachanamrut, pushState = true) {
     }
 
     showScreen('vachanamrut-detail-screen');
+    applyFontSize();
+    applyTheme();
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'block';
     fabBtn.style.display = 'none'; // Hide FAB in detail view
@@ -810,10 +909,12 @@ function toggleBookmark(id) {
         // Remove bookmark
         bookmarkedVachanamrutId = null;
         localStorage.removeItem('bookmarkedVachanamrutId');
+        showToast('Bookmark removed / બુકમાર્ક હટાવ્યો', 'fas fa-bookmark');
     } else {
         // Set bookmark
         bookmarkedVachanamrutId = id;
         localStorage.setItem('bookmarkedVachanamrutId', id);
+        showToast('Bookmarked successfully / બુકમાર્ક સેવ કર્યો!', 'fas fa-bookmark');
     }
     updateBookmarkButtonState(id);
     renderSections(); // Re-render to update indicators
@@ -822,8 +923,10 @@ function toggleBookmark(id) {
 // Toggle Favourite
 function toggleFavourite(id) {
     const index = favourites.indexOf(id);
+    let isAdded = false;
     if (index === -1) {
         favourites.push(id);
+        isAdded = true;
     } else {
         favourites.splice(index, 1);
     }
@@ -835,13 +938,12 @@ function toggleFavourite(id) {
         const isFav = favourites.includes(id);
         btn.innerHTML = `<i class="${isFav ? 'fas' : 'far'} fa-heart"></i>`;
     }
-
-    // Refresh list if open
-    // Assuming menuScreen is defined elsewhere or will be defined.
-    // For now, commenting out to avoid error if not present.
-    // if (menuScreen.classList.contains('active')) {
-    //     renderFavourites();
-    // }
+    
+    if (isAdded) {
+        showToast('Added to Favourites / ફેવરિટમાં સેવ કર્યો!', 'fas fa-heart');
+    } else {
+        showToast('Removed from Favourites / ફેવરિટમાંથી હટાવ્યો', 'fas fa-heart');
+    }
 }
 
 // Update bookmark button icon
@@ -995,6 +1097,14 @@ function showScreen(screenId, pushState = true) {
     window.scrollTo(0, 0);
     document.getElementById('main-content').scrollTo(0, 0);
 
+    // Reset scroll progress bar
+    const progressBar = document.getElementById('scroll-progress-bar');
+    if (progressBar) {
+        progressBar.style.width = '0%';
+    }
+
+
+
     // Toggle footer and navbar buttons visibility
     if (screenId === 'home-screen') {
         footer.style.display = 'block';
@@ -1124,6 +1234,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFontAwesome();
     init();
     displayAppVersion();
+    setupReaderControls();
+    setupScrollProgress();
+
 
     // Set language selector value
     const languageToggle = document.getElementById('language-toggle');

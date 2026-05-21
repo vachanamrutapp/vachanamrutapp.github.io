@@ -60,7 +60,7 @@ header {
     /* Dark warm background for contrast */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    padding: 12px 20px;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -131,8 +131,8 @@ header {
 
 main {
     flex: 1;
-    padding: 90px 16px 80px 16px;
-    /* Added bottom padding for footer */
+    padding: calc(90px + env(safe-area-inset-top, 0px)) 16px calc(80px + env(safe-area-inset-bottom, 0px)) 16px;
+    /* Added bottom padding for footer and safe area */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 1200px;
@@ -742,7 +742,7 @@ main {
     }
 
     main {
-        padding: 80px 12px 80px 12px;
+        padding: calc(80px + env(safe-area-inset-top, 0px)) 12px calc(80px + env(safe-area-inset-bottom, 0px)) 12px;
     }
 
     #sections-list {
@@ -775,7 +775,7 @@ main {
     }
 
     main {
-        padding: 75px 10px 80px 10px;
+        padding: calc(75px + env(safe-area-inset-top, 0px)) 10px calc(80px + env(safe-area-inset-bottom, 0px)) 10px;
     }
 
     .section-card {
@@ -813,7 +813,7 @@ footer {
     color: #B71C1C;
     /* Red Text */
     text-align: center;
-    padding: 4px;
+    padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)) 4px;
     font-weight: 700;
     font-size: 1rem;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
@@ -826,8 +826,8 @@ footer {
 /* Floating Action Button */
 .fab-btn {
     position: fixed;
-    bottom: 40px;
-    /* Moved up 10px */
+    bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    /* Moved up 10px and respect safe area */
     right: 10px;
     width: 53px;
     /* Increased by ~20% (44 * 1.2) */
@@ -860,8 +860,8 @@ footer {
 /* Expandable FAB Menu */
 .fab-menu {
     position: fixed;
-    bottom: 105px;
-    /* Adjusted for larger FAB (40px bottom + 53px height + 12px gap) */
+    bottom: calc(105px + env(safe-area-inset-bottom, 0px));
+    /* Adjusted for larger FAB and respect safe area */
     right: 10px;
     display: flex;
     flex-direction: column;
@@ -1235,7 +1235,7 @@ body.gujarati .chapter-description {
     border-right: none;
     border-bottom: none;
     border-radius: 25px 25px 0 0;
-    padding: 15px 30px 20px 30px;
+    padding: 15px 30px calc(20px + env(safe-area-inset-bottom, 0px)) 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1506,4 +1506,202 @@ body.gujarati .chapter-description {
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border: 2px solid white;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1001;
+}
+.scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #B71C1C; /* Dark Red to pop out against the yellow header */
+    transition: width 0.1s ease;
+}
+
+
+/* Reader Toolbar (Font and Theme controls) */
+.reader-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(183, 28, 28, 0.1);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.font-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+.toolbar-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #B71C1C;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.toolbar-btn:hover {
+    background: rgba(183, 28, 28, 0.08);
+}
+.font-size-display {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #5D4037;
+    min-width: 45px;
+    text-align: center;
+}
+.theme-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+.theme-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.theme-btn.active {
+    border-color: #B71C1C;
+    transform: scale(1.1);
+}
+.theme-btn.theme-default {
+    background: #FFE696; /* Matches app main gold card background */
+}
+.theme-btn.theme-sepia {
+    background: #F4ECD8;
+}
+.theme-btn.theme-dark {
+    background: #2D1B0E;
+}
+
+/* Reading Theme overrides for card content */
+.glass-card.theme-sepia {
+    background: rgba(244, 236, 216, 0.95);
+    color: #4E3629;
+    border-color: rgba(139, 90, 43, 0.2);
+}
+.glass-card.theme-sepia #vachanamrut-text {
+    color: #2D1E16;
+}
+.glass-card.theme-sepia #vachanamrut-setting {
+    background: rgba(139, 90, 43, 0.06);
+    border-left-color: #8D6E63;
+    color: #5D4037;
+}
+
+.glass-card.theme-dark {
+    background: rgba(40, 26, 15, 0.95);
+    color: #F5EBE6;
+    border-color: rgba(255, 215, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.glass-card.theme-dark #vachanamrut-text {
+    color: #EFE6E1;
+}
+.glass-card.theme-dark #vachanamrut-card h3,
+.glass-card.theme-dark .v-number,
+.glass-card.theme-dark .icon-btn,
+.glass-card.theme-dark #vachanamrut-footer-text {
+    color: #FFB300 !important; /* Gold for dark background */
+}
+.glass-card.theme-dark #vachanamrut-setting {
+    background: rgba(255, 179, 0, 0.05);
+    border-left-color: #FFB300;
+    color: #D7CCC8;
+}
+.glass-card.theme-dark .reader-toolbar {
+    border-bottom-color: rgba(255, 215, 0, 0.15);
+}
+.glass-card.theme-dark .font-controls,
+.glass-card.theme-dark .theme-controls {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.1);
+}
+.glass-card.theme-dark .toolbar-btn {
+    color: #FFB300;
+}
+.glass-card.theme-dark .toolbar-btn:hover {
+    background: rgba(255, 179, 0, 0.1);
+}
+.glass-card.theme-dark .font-size-display {
+    color: #EFE6E1;
+}
+
+/* Toast Notification System */
+.toast-container {
+    position: fixed;
+    bottom: 90px; /* Positioned above footer/reading footer */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 2000;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.toast-container.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+.toast-message {
+    background: rgba(45, 27, 14, 0.95); /* Warm dark brown */
+    color: #FFF;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.toast-message i {
+    color: #FFC107; /* Gold icon */
+}
+
+/* Micro-animations and Transitions */
+.chapter-tile, .vachanamrut-tile, .fav-card {
+    transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.25s ease, background 0.25s ease;
+}
+
+.icon-btn i {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.icon-btn:active i {
+    transform: scale(1.3);
+}
+
+/* Screen Transitions */
+.screen {
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>વચનામૃત</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/styles.css">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#FFC107">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,9 @@
         <button id="back-btn"><i class="fas fa-arrow-left"></i></button>
         <img src="images/logo-vachanamrut.png" alt="Vachanamrut" id="navbar-logo">
         <button id="bookmark-btn"><i class="far fa-bookmark"></i></button>
+        <div id="scroll-progress-container" class="scroll-progress-container">
+            <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+        </div>
     </header>
     <main id="main-content">
         <div id="home-screen" class="screen active">
@@ -69,6 +72,18 @@
             <div id="vachanamrut-card" class="glass-card">
                 <h3 id="vachanamrut-title"></h3>
                 <div id="vachanamrut-video"></div>
+                <div class="reader-toolbar">
+                    <div class="font-controls">
+                        <button id="font-dec-btn" class="toolbar-btn" title="Decrease Font Size"><i class="fas fa-minus"></i> A</button>
+                        <span id="font-size-display" class="font-size-display">100%</span>
+                        <button id="font-inc-btn" class="toolbar-btn" title="Increase Font Size"><i class="fas fa-plus"></i> A</button>
+                    </div>
+                    <div class="theme-controls">
+                        <button class="theme-btn theme-default active" data-theme="default" title="Default Golden Theme"></button>
+                        <button class="theme-btn theme-sepia" data-theme="sepia" title="Sepia Theme"></button>
+                        <button class="theme-btn theme-dark" data-theme="dark" title="Dark Theme"></button>
+                    </div>
+                </div>
                 <div id="vachanamrut-setting"></div>
                 <div id="vachanamrut-text"></div>
                 <div id="vachanamrut-footer-text"></div>
@@ -157,6 +172,8 @@
         </div>
         <button id="nav-next-btn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
     </div>
+
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="js/app.js"></script>
     <script>
