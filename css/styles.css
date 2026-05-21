@@ -1510,6 +1510,7 @@ body.gujarati .chapter-description {
 }
 
 .audio-fab-progress-circle {
+    stroke: #FFC107; /* High contrast yellow/gold progress indicator circle */
     stroke-dasharray: 150.8;
     stroke-dashoffset: 150.8;
     transition: stroke-dashoffset 0.15s linear;
