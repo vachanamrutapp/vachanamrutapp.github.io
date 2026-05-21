@@ -141,9 +141,14 @@ const navNextBtn = document.getElementById('nav-next-btn');
 const navSlider = document.getElementById('nav-slider');
 const readingProgress = document.getElementById('reading-progress');
 const audioPlayerContainer = document.getElementById('audio-player-container');
-const audioFab = document.getElementById('audio-fab');
+const audioBarTitle = document.getElementById('audio-bar-title');
+const audioBtnPrev = document.getElementById('audio-btn-prev');
+const audioBtnPlay = document.getElementById('audio-btn-play');
+const audioBtnNext = document.getElementById('audio-btn-next');
+const audioBtnClose = document.getElementById('audio-btn-close');
+const audioProgressBar = document.getElementById('audio-progress-bar');
+const audioProgressFill = document.getElementById('audio-progress-fill');
 const audioTimer = document.getElementById('audio-timer');
-const progressCircle = document.querySelector('.progress-ring__circle');
 
 // Intro Player elements
 const introPlayBtn = document.getElementById('intro-tile-play-btn');
@@ -157,12 +162,7 @@ const khagolSeekbar = document.getElementById('khagol-seekbar');
 const khagolCurrentTimeDisplay = document.getElementById('khagol-current-time');
 const khagolDurationDisplay = document.getElementById('khagol-duration');
 
-const radius = progressCircle ? progressCircle.r.baseVal.value : 0;
-const circumference = radius * 2 * Math.PI;
-if (progressCircle) {
-    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-    progressCircle.style.strokeDashoffset = circumference;
-}
+let isDraggingScrubber = false;
 
 // ... (init function remains same)
 
@@ -299,13 +299,21 @@ function showVachanamrut(vachanamrut, pushState = true) {
     updateReadingFooter(safeId);
 
     // Setup Audio Player
-    setupAudioPlayer(safeId);
+    setupAudioPlayer(vachanamrut);
 }
 
-function setupAudioPlayer(vachanamrutId) {
+function setupAudioPlayer(vachanamrut) {
     if (!audioEnabled) {
         audioPlayerContainer.style.display = 'none';
         return;
+    }
+
+    const vachanamrutId = parseInt(vachanamrut.id);
+    const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+
+    // Set audio title
+    if (audioBarTitle) {
+        audioBarTitle.textContent = cleanNumber;
     }
 
     // Reset if new vachanamrut
@@ -315,9 +323,10 @@ function setupAudioPlayer(vachanamrutId) {
         audioPlayer.load();
         currentAudioId = vachanamrutId;
         isPlaying = false;
-        updateAudioFABUI();
-        setProgress(0);
-        audioTimer.textContent = '0:00';
+        updateAudioBarUI();
+        if (audioProgressBar) audioProgressBar.value = 0;
+        if (audioProgressFill) audioProgressFill.style.width = '0%';
+        audioTimer.textContent = '0:00 / 0:00';
     }
 
     audioPlayerContainer.style.display = 'flex';
@@ -343,11 +352,12 @@ function toggleAudio() {
         });
     }
     isPlaying = !isPlaying;
-    updateAudioFABUI();
+    updateAudioBarUI();
 }
 
-function updateAudioFABUI() {
-    const icon = audioFab.querySelector('i');
+function updateAudioBarUI() {
+    if (!audioBtnPlay) return;
+    const icon = audioBtnPlay.querySelector('i');
     if (isPlaying) {
         icon.className = 'fas fa-pause';
     } else {
@@ -355,35 +365,90 @@ function updateAudioFABUI() {
     }
 }
 
-function setProgress(percent) {
-    if (!progressCircle) return;
-    const offset = circumference - (percent / 100 * circumference);
-    progressCircle.style.strokeDashoffset = offset;
-}
-
 function formatTime(seconds) {
+    if (isNaN(seconds) || seconds === Infinity) return '0:00';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 // Audio player event listeners
+audioPlayer.addEventListener('loadedmetadata', () => {
+    audioTimer.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
+});
+
 audioPlayer.addEventListener('timeupdate', () => {
-    if (audioPlayer.duration) {
+    if (!isDraggingScrubber && audioPlayer.duration) {
         const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        setProgress(percent);
-        audioTimer.textContent = formatTime(audioPlayer.currentTime);
+        if (audioProgressBar) audioProgressBar.value = percent;
+        if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
+        audioTimer.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
     }
 });
 
 audioPlayer.addEventListener('ended', () => {
     isPlaying = false;
-    updateAudioFABUI();
-    setProgress(0);
-    audioTimer.textContent = '0:00';
+    updateAudioBarUI();
+    if (audioProgressBar) audioProgressBar.value = 0;
+    if (audioProgressFill) audioProgressFill.style.width = '0%';
+    if (audioPlayer.duration) {
+        audioTimer.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
+    } else {
+        audioTimer.textContent = '0:00 / 0:00';
+    }
 });
 
-audioFab.addEventListener('click', toggleAudio);
+// Setup scrubber events
+if (audioProgressBar) {
+    audioProgressBar.addEventListener('input', () => {
+        isDraggingScrubber = true;
+        const percent = audioProgressBar.value;
+        if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
+        if (audioPlayer.duration) {
+            const time = (percent / 100) * audioPlayer.duration;
+            audioTimer.textContent = `${formatTime(time)} / ${formatTime(audioPlayer.duration)}`;
+        }
+    });
+
+    audioProgressBar.addEventListener('change', () => {
+        if (audioPlayer.duration) {
+            const time = (audioProgressBar.value / 100) * audioPlayer.duration;
+            audioPlayer.currentTime = time;
+        }
+        isDraggingScrubber = false;
+    });
+}
+
+// Play/Pause button
+if (audioBtnPlay) {
+    audioBtnPlay.addEventListener('click', toggleAudio);
+}
+
+// Skip Forward 15s button
+if (audioBtnNext) {
+    audioBtnNext.addEventListener('click', () => {
+        if (audioPlayer.duration) {
+            audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 15);
+        }
+    });
+}
+
+// Skip Backward 15s button
+if (audioBtnPrev) {
+    audioBtnPrev.addEventListener('click', () => {
+        audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 15);
+    });
+}
+
+// Close player button
+if (audioBtnClose) {
+    audioBtnClose.addEventListener('click', () => {
+        audioPlayer.pause();
+        isPlaying = false;
+        updateAudioBarUI();
+        audioPlayerContainer.style.display = 'none';
+    });
+}
 
 // Intro Player logic
 if (introPlayBtn) {
@@ -417,7 +482,7 @@ function toggleIntroAudio() {
         if (isPlaying) {
             audioPlayer.pause();
             isPlaying = false;
-            updateAudioFABUI();
+            updateAudioBarUI();
         }
         if (isKhagolPlaying) {
             khagolPlayer.pause();
@@ -440,7 +505,7 @@ function toggleKhagolAudio() {
         if (isPlaying) {
             audioPlayer.pause();
             isPlaying = false;
-            updateAudioFABUI();
+            updateAudioBarUI();
         }
         if (isIntroPlaying) {
             introPlayer.pause();
@@ -1142,7 +1207,7 @@ function showScreen(screenId, pushState = true) {
         // Pause audio if leaving the screen
         audioPlayer.pause();
         isPlaying = false;
-        updateAudioFABUI();
+        updateAudioBarUI();
 
         // If going back to home, intro card will show automatically
         // but we might want to pause everything if going to favorites/settings
