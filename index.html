@@ -147,14 +147,19 @@
         <div id="audio-player-container" class="audio-player-container state-fab" style="display: none;">
             <!-- FAB View -->
             <button id="audio-fab-view" class="audio-fab-view" title="Play Vachanamrut Audio">
+                <svg class="audio-fab-progress" width="54" height="54">
+                    <circle class="audio-fab-progress-circle" stroke="#B71C1C" stroke-width="3" fill="transparent" r="24" cx="27" cy="27" />
+                </svg>
                 <i class="fas fa-play"></i>
             </button>
             
             <!-- Bar View -->
             <div class="audio-bar-view">
-                <div class="audio-scrubber-container">
-                    <div id="audio-progress-fill" class="audio-progress-fill"></div>
-                    <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0">
+                <div class="audio-scrubber-layout">
+                    <div class="audio-scrubber-container">
+                        <div id="audio-progress-fill" class="audio-progress-fill"></div>
+                        <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0">
+                    </div>
                 </div>
                 <div class="audio-bar-controls-row">
                     <div class="audio-bar-info">

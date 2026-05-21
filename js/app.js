@@ -329,6 +329,10 @@ function setupAudioPlayer(vachanamrut) {
         if (audioProgressFill) audioProgressFill.style.width = '0%';
         audioTimer.textContent = '0:00 / 0:00';
         
+        // Reset FAB progress circle
+        const progressCircle = document.querySelector('.audio-fab-progress-circle');
+        if (progressCircle) progressCircle.style.strokeDashoffset = '150.8';
+        
         // Reset state to FAB on loading new vachanamrut
         audioPlayerContainer.classList.remove('state-bar');
         audioPlayerContainer.classList.add('state-fab');
@@ -361,6 +365,14 @@ function toggleAudio() {
 }
 
 function updateAudioBarUI() {
+    if (audioPlayerContainer) {
+        if (isPlaying) {
+            audioPlayerContainer.classList.add('is-playing');
+        } else {
+            audioPlayerContainer.classList.remove('is-playing');
+        }
+    }
+
     if (audioBtnPlay) {
         const icon = audioBtnPlay.querySelector('i');
         if (icon) {
@@ -375,7 +387,7 @@ function updateAudioBarUI() {
         const icon = audioFabView.querySelector('i');
         if (icon) {
             if (isPlaying) {
-                icon.className = 'fas fa-pause';
+                icon.className = 'fas fa-music'; // MUSIC ICON WHEN PLAYING
             } else {
                 icon.className = 'fas fa-play';
             }
@@ -396,11 +408,23 @@ audioPlayer.addEventListener('loadedmetadata', () => {
 });
 
 audioPlayer.addEventListener('timeupdate', () => {
-    if (!isDraggingScrubber && audioPlayer.duration) {
-        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        if (audioProgressBar) audioProgressBar.value = percent;
-        if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
-        audioTimer.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+    if (audioPlayer.duration) {
+        // Update FAB progress ring
+        const progressCircle = document.querySelector('.audio-fab-progress-circle');
+        if (progressCircle) {
+            const percent = audioPlayer.currentTime / audioPlayer.duration;
+            const circumference = 150.8;
+            const offset = circumference - (percent * circumference);
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        // Update progress bar
+        if (!isDraggingScrubber) {
+            const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            if (audioProgressBar) audioProgressBar.value = percent;
+            if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
+            audioTimer.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+        }
     }
 });
 
@@ -409,6 +433,11 @@ audioPlayer.addEventListener('ended', () => {
     updateAudioBarUI();
     if (audioProgressBar) audioProgressBar.value = 0;
     if (audioProgressFill) audioProgressFill.style.width = '0%';
+    
+    // Reset FAB progress circle
+    const progressCircle = document.querySelector('.audio-fab-progress-circle');
+    if (progressCircle) progressCircle.style.strokeDashoffset = '150.8';
+
     if (audioPlayer.duration) {
         audioTimer.textContent = `0:00 / ${formatTime(audioPlayer.duration)}`;
     } else {
