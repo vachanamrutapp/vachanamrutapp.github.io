@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.1.7';
+const CACHE_NAME = '1.1.8';
 
 // Generate list of vachanamrut data files
 const DATA_FILES = [];

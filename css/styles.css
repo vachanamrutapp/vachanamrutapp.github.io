@@ -1565,11 +1565,22 @@ body.gujarati .chapter-description {
 
 .audio-scrubber-container {
     width: 100%;
-    height: 6px;
-    background: rgba(183, 28, 28, 0.1);
+    height: 24px; /* Increased height for touch hit target */
     position: relative;
     cursor: pointer;
     overflow: visible; /* Prevent scrubber thumb clipping! */
+}
+
+/* Background visual track background */
+.audio-scrubber-container::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px; /* Center 4px track: (24 - 4) / 2 = 10px */
+    height: 4px;
+    background: rgba(183, 28, 28, 0.15);
+    border-radius: 2px;
 }
 
 /* Custom styled input range for progress scrubbing */
@@ -1577,7 +1588,7 @@ body.gujarati .chapter-description {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Spans full 24px height */
     background: transparent;
     margin: 0;
     padding: 0;
@@ -1604,7 +1615,7 @@ body.gujarati .chapter-description {
     height: 14px;
     border-radius: 50%; /* ROUND THUMB */
     background: #B71C1C;
-    margin-top: -4px; /* Center thumb vertically */
+    margin-top: 5px; /* Center 14px thumb in 24px track: (24 - 14) / 2 = 5px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     border: 2px solid white;
     transition: transform 0.1s ease;
@@ -1724,12 +1735,13 @@ body.gujarati .chapter-description {
 /* Background visual indicator of audio progress inside container */
 .audio-progress-fill {
     position: absolute;
-    top: 0;
+    top: 10px; /* Center 4px fill inside 24px container */
     left: 0;
-    height: 100%;
+    height: 4px;
     width: 0%;
     background: #B71C1C;
     pointer-events: none;
+    border-radius: 2px;
 }
 
 .nav-slider::-moz-range-thumb {
