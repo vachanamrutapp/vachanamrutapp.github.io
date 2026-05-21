@@ -1766,61 +1766,61 @@ body.gujarati .chapter-description {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(183, 28, 28, 0.1);
-    padding-bottom: 12px;
-    margin-bottom: 18px;
-    gap: 15px;
+    padding-bottom: 8px; /* Slimmer padding */
+    margin-bottom: 14px; /* Slimmer margin */
+    gap: 12px;
     flex-wrap: wrap;
 }
 .font-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
-    padding: 4px 10px;
+    padding: 2px 8px; /* Slimmer padding */
     border: 1px solid rgba(255, 215, 0, 0.2);
 }
 .toolbar-btn {
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.85rem; /* Slimmer font */
     font-weight: 600;
     color: #B71C1C;
-    padding: 6px 12px;
-    border-radius: 12px;
+    padding: 4px 10px; /* Slimmer padding */
+    border-radius: 10px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 .toolbar-btn:hover {
     background: rgba(183, 28, 28, 0.08);
 }
 .font-size-display {
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* Slimmer font */
     font-weight: 700;
     color: #5D4037;
-    min-width: 45px;
+    min-width: 40px;
     text-align: center;
 }
 .theme-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
-    padding: 6px 10px;
+    padding: 4px 8px; /* Slimmer padding */
     border: 1px solid rgba(255, 215, 0, 0.2);
 }
 .theme-btn {
-    width: 24px;
-    height: 24px;
+    width: 20px; /* Slimmer theme selector */
+    height: 20px;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .theme-btn.active {
     border-color: #B71C1C;
@@ -1833,7 +1833,7 @@ body.gujarati .chapter-description {
     background: #F4ECD8;
 }
 .theme-btn.theme-dark {
-    background: #2D1B0E;
+    background: #1A1C1E; /* Non-brownish charcoal color */
 }
 
 /* Reading Theme overrides for card content */
@@ -1852,41 +1852,41 @@ body.gujarati .chapter-description {
 }
 
 .glass-card.theme-dark {
-    background: rgba(40, 26, 15, 0.95);
-    color: #F5EBE6;
-    border-color: rgba(255, 215, 0, 0.15);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    background: rgba(22, 24, 26, 0.98); /* Deep neutral charcoal, highly reader-friendly */
+    color: #E2E2E2; /* Soft off-white to reduce eye strain */
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 .glass-card.theme-dark #vachanamrut-text {
-    color: #EFE6E1;
+    color: #D2D2D2;
 }
 .glass-card.theme-dark #vachanamrut-card h3,
 .glass-card.theme-dark .v-number,
 .glass-card.theme-dark .icon-btn,
 .glass-card.theme-dark #vachanamrut-footer-text {
-    color: #FFB300 !important; /* Gold for dark background */
+    color: #FFC107 !important; /* Rich amber/gold accent for dark mode */
 }
 .glass-card.theme-dark #vachanamrut-setting {
-    background: rgba(255, 179, 0, 0.05);
-    border-left-color: #FFB300;
-    color: #D7CCC8;
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: #FFC107;
+    color: #B0BEC5;
 }
 .glass-card.theme-dark .reader-toolbar {
-    border-bottom-color: rgba(255, 215, 0, 0.15);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 .glass-card.theme-dark .font-controls,
 .glass-card.theme-dark .theme-controls {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 215, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 .glass-card.theme-dark .toolbar-btn {
-    color: #FFB300;
+    color: #FFC107;
 }
 .glass-card.theme-dark .toolbar-btn:hover {
-    background: rgba(255, 179, 0, 0.1);
+    background: rgba(255, 193, 7, 0.1);
 }
 .glass-card.theme-dark .font-size-display {
-    color: #EFE6E1;
+    color: #E2E2E2;
 }
 
 /* Toast Notification System */
