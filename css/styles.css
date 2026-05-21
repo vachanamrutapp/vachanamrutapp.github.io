@@ -1854,6 +1854,12 @@ body.gujarati .chapter-description {
     color: #4E3629;
     border-color: rgba(139, 90, 43, 0.2);
 }
+.glass-card.theme-sepia .v-number {
+    color: #8D6E63 !important; /* Muted brown for sepia number */
+}
+.glass-card.theme-sepia .v-title-text {
+    color: #4E3629 !important; /* Dark sepia for title text */
+}
 .glass-card.theme-sepia #vachanamrut-text {
     color: #2D1E16;
 }
@@ -1871,6 +1877,9 @@ body.gujarati .chapter-description {
 }
 .glass-card.theme-dark #vachanamrut-text {
     color: #D2D2D2;
+}
+.glass-card.theme-dark .v-title-text {
+    color: #E2E2E2 !important; /* Soft white title text in dark mode for readability */
 }
 .glass-card.theme-dark #vachanamrut-card h3,
 .glass-card.theme-dark .v-number,

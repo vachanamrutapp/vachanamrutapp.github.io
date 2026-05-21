@@ -447,7 +447,14 @@ audioPlayer.addEventListener('ended', () => {
 
 // Setup scrubber events
 if (audioProgressBar) {
-    audioProgressBar.addEventListener('input', () => {
+    let isMouseDown = false;
+
+    const startDrag = () => {
+        isDraggingScrubber = true;
+        isMouseDown = true;
+    };
+
+    const updateDrag = () => {
         isDraggingScrubber = true;
         const percent = audioProgressBar.value;
         if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
@@ -455,15 +462,51 @@ if (audioProgressBar) {
             const time = (percent / 100) * audioPlayer.duration;
             audioTimer.textContent = `${formatTime(time)} / ${formatTime(audioPlayer.duration)}`;
         }
-    });
+    };
 
-    audioProgressBar.addEventListener('change', () => {
-        if (audioPlayer.duration) {
-            const time = (audioProgressBar.value / 100) * audioPlayer.duration;
-            audioPlayer.currentTime = time;
+    const endDrag = () => {
+        if (isDraggingScrubber || isMouseDown) {
+            if (audioPlayer.duration) {
+                const time = (audioProgressBar.value / 100) * audioPlayer.duration;
+                audioPlayer.currentTime = time;
+            }
+            isMouseDown = false;
+            // Delay resetting drag flag slightly to prevent timeupdate race condition
+            setTimeout(() => {
+                isDraggingScrubber = false;
+            }, 100);
         }
-        isDraggingScrubber = false;
-    });
+    };
+
+    audioProgressBar.addEventListener('mousedown', startDrag);
+    audioProgressBar.addEventListener('touchstart', startDrag, { passive: true });
+    
+    audioProgressBar.addEventListener('input', updateDrag);
+    
+    audioProgressBar.addEventListener('change', endDrag);
+    audioProgressBar.addEventListener('mouseup', endDrag);
+    audioProgressBar.addEventListener('touchend', endDrag);
+    audioProgressBar.addEventListener('pointerup', endDrag);
+
+    // Backup container click listener for instant tap seeking
+    const audioScrubberContainer = document.querySelector('.audio-scrubber-container');
+    if (audioScrubberContainer) {
+        audioScrubberContainer.addEventListener('click', (e) => {
+            // Only trigger if clicking track and not currently dragging the thumb
+            if (!isDraggingScrubber && audioPlayer.duration) {
+                const rect = audioScrubberContainer.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const percent = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+                
+                audioProgressBar.value = percent;
+                if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
+                
+                const time = (percent / 100) * audioPlayer.duration;
+                audioPlayer.currentTime = time;
+                audioTimer.textContent = `${formatTime(time)} / ${formatTime(audioPlayer.duration)}`;
+            }
+        });
+    }
 }
 
 // Play/Pause button
