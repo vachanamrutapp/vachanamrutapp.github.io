@@ -21,7 +21,10 @@
     <header id="header">
         <button id="back-btn"><i class="fas fa-arrow-left"></i></button>
         <img src="images/logo-vachanamrut.png" alt="Vachanamrut" id="navbar-logo">
-        <button id="bookmark-btn"><i class="far fa-bookmark"></i></button>
+        <div id="header-lang-switch" class="header-lang-switch">
+            <button id="lang-btn-guj" class="lang-btn" data-lang="gujarati">ગુજ</button>
+            <button id="lang-btn-eng" class="lang-btn" data-lang="english">EN</button>
+        </div>
         <div id="scroll-progress-container" class="scroll-progress-container">
             <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
         </div>
@@ -56,6 +59,10 @@
                         <button class="theme-btn theme-sepia" data-theme="sepia" title="Sepia Theme"></button>
                         <button class="theme-btn theme-dark" data-theme="dark" title="Dark Theme"></button>
                     </div>
+                    <button id="bookmark-pill-btn" class="bookmark-pill" title="Bookmark Vachanamrut">
+                        <i class="far fa-bookmark"></i>
+                        <span id="bookmark-pill-text">Bookmark</span>
+                    </button>
                 </div>
                 <div id="vachanamrut-setting"></div>
                 <div id="vachanamrut-image-container" class="vachanamrut-image-container" style="display: none;">
@@ -74,17 +81,6 @@
         </div>
         <div id="settings-screen" class="screen">
             <h2 class="screen-title">Settings</h2>
-            <div class="settings-card glass-card">
-                <h3>Language / ભાષા</h3>
-                <div class="language-switch-wrapper">
-                    <span class="lang-label" id="label-gujarati">ગુજરાતી</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="language-toggle">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="lang-label" id="label-english">English</span>
-                </div>
-            </div>
 
             <div class="settings-card glass-card">
                 <h3>Media Settings / મીડિયા સેટિંગ્સ</h3>

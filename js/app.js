@@ -15,6 +15,7 @@ let isPlaying = false;
 let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
 let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
+let activeVachanamrutId = -1;
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -130,7 +131,7 @@ const vachanamrutVerses = document.getElementById('vachanamrut-verses');
 const vachanamrutText = document.getElementById('vachanamrut-text');
 const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text');
 const backBtn = document.getElementById('back-btn');
-let bookmarkBtn = document.getElementById('bookmark-btn');
+let bookmarkBtn = document.getElementById('bookmark-pill-btn');
 const fabBtn = document.getElementById('fab-btn');
 const footer = document.getElementById('footer');
 const readingFooter = document.getElementById('reading-footer');
@@ -159,6 +160,7 @@ let isDraggingScrubber = false;
 function showVachanamrut(vachanamrut, pushState = true) {
     // Ensure ID is a number
     const safeId = parseInt(vachanamrut.id);
+    activeVachanamrutId = safeId;
 
 
     // Update URL
@@ -258,8 +260,8 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Setup chapter-specific images for Partharo
     const partharoImages = {
-        10001: 'images/Partharo/swaminarayan-pragat.jpg',
-        10002: 'images/Partharo/swaminarayan-birth.png',
+        10001: 'images/Partharo/swaminarayan-birth.png',
+        10002: 'images/Partharo/swaminarayan-balleela.webp',
         10003: 'images/Partharo/swaminarayan-loj.jpg',
         10004: 'images/Partharo/swaminarayan-samadhi.jpg',
         10005: 'images/Partharo/swaminarayan-aarti.jpg'
@@ -851,28 +853,24 @@ async function loadChapterMappings() {
 }
 
 // Process sections from loaded data
-// Process sections from loaded data
 function processSections() {
-    // Map vachanamruts to sections based on the loaded mappings
     sections.forEach(section => {
-        // The section.vachanamruts currently holds IDs from the JSON
-        // We need to check if it's an array of numbers (IDs) or already objects (if re-run)
+        // On first call, vachanamruts are numeric IDs from JSON — save them permanently
         if (Array.isArray(section.vachanamruts) && section.vachanamruts.length > 0 && typeof section.vachanamruts[0] === 'number') {
-            const ids = section.vachanamruts;
+            section._originalIds = section.vachanamruts.slice(); // Store a copy
+        }
 
-            // Map IDs to actual Vachanamrut objects
-            const vachanamrutObjects = ids.map(id => vachanamrutData.find(v => v.id === id)).filter(v => v !== undefined);
-
-            // Update the section with objects and count
+        // Always re-map from stored IDs if available (handles language switch)
+        if (section._originalIds && section._originalIds.length > 0) {
+            const vachanamrutObjects = section._originalIds
+                .map(id => vachanamrutData.find(v => v.id === id))
+                .filter(v => v !== undefined);
             section.vachanamruts = vachanamrutObjects;
             section.count = vachanamrutObjects.length;
-        } else if (Array.isArray(section.vachanamruts) && section.vachanamruts.length === 0) {
-            // Empty section or already processed but empty
+        } else if (!section.vachanamruts || section.vachanamruts.length === 0) {
             section.count = 0;
         }
     });
-
-
 }
 
 // Render sections (landing page)
@@ -1081,11 +1079,29 @@ function toggleFavourite(id) {
 
 // Update bookmark button icon
 function updateBookmarkButtonState(currentId) {
-    const btn = document.getElementById('bookmark-btn');
-    if (bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === currentId) {
-        btn.innerHTML = '<i class="fas fa-bookmark"></i>'; // Solid icon
+    const btn = document.getElementById('bookmark-pill-btn');
+    if (!btn) return;
+    const textSpan = document.getElementById('bookmark-pill-text');
+    const icon = btn.querySelector('i');
+    
+    const isBookmarked = bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === currentId;
+    
+    if (isBookmarked) {
+        btn.classList.add('active');
+        if (icon) {
+            icon.className = 'fas fa-bookmark'; // Solid icon
+        }
+        if (textSpan) {
+            textSpan.textContent = currentLanguage === 'english' ? 'Bookmarked' : 'બુકમાર્ક કરેલ';
+        }
     } else {
-        btn.innerHTML = '<i class="far fa-bookmark"></i>'; // Regular icon
+        btn.classList.remove('active');
+        if (icon) {
+            icon.className = 'far fa-bookmark'; // Regular icon
+        }
+        if (textSpan) {
+            textSpan.textContent = currentLanguage === 'english' ? 'Bookmark' : 'બુકમાર્ક';
+        }
     }
 }
 
@@ -1245,6 +1261,9 @@ function showScreen(screenId, pushState = true) {
         bookmarkBtn.style.display = 'none';
         fabBtn.style.display = 'flex';
 
+        // Re-render home screen sections to ensure correct language translation
+        renderSections();
+
         // Clear URL query param if going home
         if (pushState) {
             const newUrl = window.location.pathname;
@@ -1364,10 +1383,100 @@ document.addEventListener('DOMContentLoaded', () => {
     setupScrollProgress();
 
 
-    // Set language selector value
-    const languageToggle = document.getElementById('language-toggle');
-    if (languageToggle) {
-        languageToggle.checked = (currentLanguage === 'english');
+    // Set active header language buttons
+    const langBtnGuj = document.getElementById('lang-btn-guj');
+    const langBtnEng = document.getElementById('lang-btn-eng');
+    
+    if (langBtnGuj && langBtnEng) {
+        if (currentLanguage === 'english') {
+            langBtnEng.classList.add('active');
+            langBtnGuj.classList.remove('active');
+        } else {
+            langBtnGuj.classList.add('active');
+            langBtnEng.classList.remove('active');
+        }
+
+        const switchLanguage = async (selectedLanguage) => {
+            if (currentLanguage === selectedLanguage) return;
+            
+            // Show premium loading overlay
+            showLoadingOverlay();
+            
+            currentLanguage = selectedLanguage;
+            localStorage.setItem('appLanguage', currentLanguage);
+            document.body.className = currentLanguage;
+
+            // Highlight the active button
+            if (currentLanguage === 'english') {
+                langBtnEng.classList.add('active');
+                langBtnGuj.classList.remove('active');
+            } else {
+                langBtnGuj.classList.add('active');
+                langBtnEng.classList.remove('active');
+            }
+
+            try {
+                // Reload all data for the new language
+                // CRITICAL: Must reload chapter-mappings.json to reset numeric IDs
+                // because processSections() only maps IDs when they are numbers.
+                // After the first call, they become objects and get skipped on re-run.
+                await Promise.all([
+                    loadVachanamrutData(),
+                    loadChapterMappings()
+                ]);
+                processSections();
+
+                // Dynamically re-render the active screen
+                const activeScreen = document.querySelector('.screen.active');
+                const activeScreenId = activeScreen ? activeScreen.id : 'home-screen';
+
+                if (activeScreenId === 'home-screen') {
+                    renderSections();
+                } else if (activeScreenId === 'section-detail-screen') {
+                    if (currentSection) {
+                        const sectionIndex = sections.findIndex(s => s.name === currentSection.name || s.nameEn === currentSection.nameEn);
+                        if (sectionIndex !== -1) {
+                            showSectionDetail(sectionIndex);
+                        } else {
+                            showScreen('home-screen');
+                        }
+                    } else {
+                        showScreen('home-screen');
+                    }
+                                } else if (activeScreenId === 'vachanamrut-detail-screen') {
+                    if (activeVachanamrutId !== -1) {
+                        const newVachanamrut = vachanamrutData.find(v => v.id === activeVachanamrutId);
+                        if (newVachanamrut) {
+                            // Sync currentSection & currentSectionVachanamruts with new language data
+                            if (currentSection) {
+                                const newSec = sections.find(s => s.name === currentSection.name || s.nameEn === currentSection.nameEn);
+                                if (newSec) {
+                                    currentSection = newSec;
+                                    currentSectionVachanamruts = newSec.vachanamruts;
+                                }
+                            }
+                            showVachanamrut(newVachanamrut, false); // false to not push browser history state
+                        } else {
+                            showScreen('home-screen');
+                        }
+                    } else {
+                        showScreen('home-screen');
+                    }
+                } else if (activeScreenId === 'favourites-screen') {
+                    renderFavourites();
+                }
+            } catch (error) {
+                console.error('Dynamic language switch error:', error);
+            } finally {
+                // Smooth fade out
+                setTimeout(() => {
+                    hideLoadingOverlay();
+                }, 300);
+            }
+        };
+
+        langBtnGuj.addEventListener('click', () => switchLanguage('gujarati'));
+        langBtnEng.addEventListener('click', () => switchLanguage('english'));
     }
 
     // Set media toggles
@@ -1392,22 +1501,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Language Toggle Logic
-    if (languageToggle) {
-        languageToggle.addEventListener('change', () => {
-            // If checked -> English, else -> Gujarati
-            const selectedLanguage = languageToggle.checked ? 'english' : 'gujarati';
 
-            // Update language preference
-            currentLanguage = selectedLanguage;
-            localStorage.setItem('appLanguage', currentLanguage);
-            document.body.className = currentLanguage; // Set body class
-
-            // Reload the page to apply changes
-            // Small delay to show animation
-            setTimeout(() => {
-                location.reload();
-            }, 300);
-        });
-    }
 });
+
+// App Loading Overlay functions
+function showLoadingOverlay() {
+    let overlay = document.getElementById('app-loading-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'app-loading-overlay';
+        overlay.innerHTML = `
+            <div class="loading-spinner-container">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Loading / લોડ થઈ રહ્યું છે...</div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    }
+    overlay.classList.add('active');
+}
+
+function hideLoadingOverlay() {
+    const overlay = document.getElementById('app-loading-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}

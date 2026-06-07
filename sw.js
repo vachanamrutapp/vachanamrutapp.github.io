@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.2.7';
+const CACHE_NAME = '1.3.6';
 
 // Generate list of vachanamrut data files
 const DATA_FILES = [
@@ -40,6 +40,8 @@ const LOCATION_IMAGES = [
 const PARTHARO_IMAGES = [
     './images/Partharo/swaminarayan-pragat.jpg',
     './images/Partharo/swaminarayan-birth.png',
+    './images/Partharo/swaminarayan-balleela.webp',
+    './images/Partharo/swaminarayan-vanvicharan.webp',
     './images/Partharo/swaminarayan-loj.jpg',
     './images/Partharo/swaminarayan-samadhi.jpg',
     './images/Partharo/swaminarayan-aarti.jpg',
