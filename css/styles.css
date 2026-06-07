@@ -68,8 +68,6 @@ header {
     z-index: 10000; /* Increased to ensure it is always on top of scrolling screens */
     border-bottom: 1px solid rgba(255, 215, 0, 0.3);
     /* Gold border */
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0); /* Forces hardware-accelerated layer in Safari to resolve stacking bugs */
 }
 
 #navbar-logo {
