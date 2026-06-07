@@ -10,13 +10,8 @@ let currentSectionVachanamruts = [];
 let currentVachanamrutIndex = -1;
 let videoEnabled = localStorage.getItem('videoEnabled') === 'true'; // Default false
 let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default true
-let homeAudioEnabled = localStorage.getItem('homeAudioEnabled') === 'true'; // Default false
 let audioPlayer = new Audio();
-let introPlayer = new Audio('./assets/data/audio/1 Partharo.mp3');
-let khagolPlayer = new Audio('./assets/data/audio/264 Khagol Bhugol.mp3');
 let isPlaying = false;
-let isIntroPlaying = false;
-let isKhagolPlaying = false;
 let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
 let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
@@ -129,6 +124,9 @@ const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
 const vachanamrutVideo = document.getElementById('vachanamrut-video');
 const vachanamrutSetting = document.getElementById('vachanamrut-setting');
+const vachanamrutImageContainer = document.getElementById('vachanamrut-image-container');
+const vachanamrutImage = document.getElementById('vachanamrut-image');
+const vachanamrutVerses = document.getElementById('vachanamrut-verses');
 const vachanamrutText = document.getElementById('vachanamrut-text');
 const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text');
 const backBtn = document.getElementById('back-btn');
@@ -151,17 +149,7 @@ const audioProgressBar = document.getElementById('audio-progress-bar');
 const audioProgressFill = document.getElementById('audio-progress-fill');
 const audioTimer = document.getElementById('audio-timer');
 
-// Intro Player elements
-const introPlayBtn = document.getElementById('intro-tile-play-btn');
-const introSeekbar = document.getElementById('intro-seekbar');
-const introCurrentTimeDisplay = document.getElementById('intro-current-time');
-const introDurationDisplay = document.getElementById('intro-duration');
 
-// Khagol Player elements
-const khagolPlayBtn = document.getElementById('khagol-tile-play-btn');
-const khagolSeekbar = document.getElementById('khagol-seekbar');
-const khagolCurrentTimeDisplay = document.getElementById('khagol-current-time');
-const khagolDurationDisplay = document.getElementById('khagol-duration');
 
 let isDraggingScrubber = false;
 
@@ -260,7 +248,40 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Clean and format setting
     const setting = vachanamrut.setting ? vachanamrut.setting.replace(/\n/g, ' ').trim() : '';
-    vachanamrutSetting.textContent = setting;
+    if (setting) {
+        vachanamrutSetting.textContent = setting;
+        vachanamrutSetting.style.display = 'block';
+    } else {
+        vachanamrutSetting.textContent = '';
+        vachanamrutSetting.style.display = 'none';
+    }
+
+    // Setup chapter-specific images for Partharo
+    const partharoImages = {
+        10001: 'images/Partharo/swaminarayan-pragat.jpg',
+        10002: 'images/Partharo/swaminarayan-birth.png',
+        10003: 'images/Partharo/swaminarayan-loj.jpg',
+        10004: 'images/Partharo/swaminarayan-samadhi.jpg',
+        10005: 'images/Partharo/swaminarayan-aarti.jpg'
+    };
+
+    if (partharoImages[safeId]) {
+        vachanamrutImage.src = partharoImages[safeId];
+        vachanamrutImage.alt = cleanTitle;
+        vachanamrutImageContainer.style.display = 'block';
+    } else {
+        vachanamrutImage.src = '';
+        vachanamrutImageContainer.style.display = 'none';
+    }
+
+    // Render Sanskrit verses if present
+    if (vachanamrut.verses && vachanamrut.verses.trim()) {
+        vachanamrutVerses.innerHTML = `<div class="sanskrit-verses-content">${vachanamrut.verses.replace(/\n/g, '<br>')}</div>`;
+        vachanamrutVerses.style.display = 'block';
+    } else {
+        vachanamrutVerses.innerHTML = '';
+        vachanamrutVerses.style.display = 'none';
+    }
 
     // Clean and format text
     const text = vachanamrut.text ? vachanamrut.text.replace(/\n/g, '\n\n').trim() : '';
@@ -269,11 +290,26 @@ function showVachanamrut(vachanamrut, pushState = true) {
     ).join('');
 
     // Set footer text
-    const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
-    if (currentLanguage === 'english') {
-        vachanamrutFooterText.textContent = `Vachanamrut ${cleanVachanamrutName}`;
+    if (safeId >= 10001 && safeId <= 10005) {
+        const partharoNum = safeId - 10000;
+        if (currentLanguage === 'english') {
+            vachanamrutFooterText.textContent = `Partharo ${partharoNum}`;
+        } else {
+            vachanamrutFooterText.textContent = `॥ ઇતિ પરથારો ${partharoNum} ॥`;
+        }
+    } else if (safeId === 10006) {
+        if (currentLanguage === 'english') {
+            vachanamrutFooterText.textContent = `Khagol Bhugol`;
+        } else {
+            vachanamrutFooterText.textContent = `॥ ઇતિ ખગોળ ભૂગોળ ॥`;
+        }
     } else {
-        vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+        const cleanVachanamrutName = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+        if (currentLanguage === 'english') {
+            vachanamrutFooterText.textContent = `Vachanamrut ${cleanVachanamrutName}`;
+        } else {
+            vachanamrutFooterText.textContent = `॥ ઇતિ વચનામૃતમ્ ${cleanVachanamrutName} ॥`;
+        }
     }
 
     showScreen('vachanamrut-detail-screen');
@@ -310,7 +346,21 @@ function setupAudioPlayer(vachanamrut) {
     }
 
     const vachanamrutId = parseInt(vachanamrut.id);
-    const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+    
+    // No audio button/player inside individual Partharo chapters
+    if (vachanamrutId >= 10001 && vachanamrutId <= 10005) {
+        audioPlayer.pause();
+        isPlaying = false;
+        updateAudioBarUI();
+        audioPlayerContainer.style.display = 'none';
+        return;
+    }
+
+    let cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+
+    if (currentLanguage === 'english' && vachanamrutId >= 10001 && vachanamrutId <= 10005) {
+        cleanNumber = `Partharo ${vachanamrutId - 10000}`;
+    }
 
     // Set audio title
     if (audioBarTitle) {
@@ -320,7 +370,13 @@ function setupAudioPlayer(vachanamrut) {
     // Reset if new vachanamrut
     if (currentAudioId !== vachanamrutId) {
         audioPlayer.pause();
-        audioPlayer.src = `./assets/data/audio/${vachanamrutId}.mp3`;
+        if (vachanamrutId === 10000) {
+            audioPlayer.src = `./assets/data/audio/1 Partharo.mp3`;
+        } else if (vachanamrutId === 10006) {
+            audioPlayer.src = `./assets/data/audio/264 Khagol Bhugol.mp3`;
+        } else {
+            audioPlayer.src = `./assets/data/audio/${vachanamrutId}.mp3`;
+        }
         audioPlayer.load();
         currentAudioId = vachanamrutId;
         isPlaying = false;
@@ -345,17 +401,6 @@ function toggleAudio() {
     if (isPlaying) {
         audioPlayer.pause();
     } else {
-        // Pause other players
-        if (isIntroPlaying) {
-            introPlayer.pause();
-            isIntroPlaying = false;
-            updateIntroUI();
-        }
-        if (isKhagolPlaying) {
-            khagolPlayer.pause();
-            isKhagolPlaying = false;
-            updateKhagolUI();
-        }
         audioPlayer.play().catch(error => {
             console.error('Audio playback failed:', error);
         });
@@ -534,135 +579,7 @@ if (audioFabView) {
     });
 }
 
-// Intro Player logic
-if (introPlayBtn) {
-    introPlayBtn.addEventListener('click', toggleIntroAudio);
-}
 
-if (introSeekbar) {
-    introSeekbar.addEventListener('input', () => {
-        const time = (introSeekbar.value / 100) * introPlayer.duration;
-        introPlayer.currentTime = time;
-    });
-}
-
-// Khagol Player logic
-if (khagolPlayBtn) {
-    khagolPlayBtn.addEventListener('click', toggleKhagolAudio);
-}
-
-if (khagolSeekbar) {
-    khagolSeekbar.addEventListener('input', () => {
-        const time = (khagolSeekbar.value / 100) * khagolPlayer.duration;
-        khagolPlayer.currentTime = time;
-    });
-}
-
-function toggleIntroAudio() {
-    if (isIntroPlaying) {
-        introPlayer.pause();
-    } else {
-        // Pause other players
-        if (isPlaying) {
-            audioPlayer.pause();
-            isPlaying = false;
-            updateAudioBarUI();
-        }
-        if (isKhagolPlaying) {
-            khagolPlayer.pause();
-            isKhagolPlaying = false;
-            updateKhagolUI();
-        }
-        introPlayer.play().catch(error => {
-            console.error('Intro playback failed:', error);
-        });
-    }
-    isIntroPlaying = !isIntroPlaying;
-    updateIntroUI();
-}
-
-function toggleKhagolAudio() {
-    if (isKhagolPlaying) {
-        khagolPlayer.pause();
-    } else {
-        // Pause other players
-        if (isPlaying) {
-            audioPlayer.pause();
-            isPlaying = false;
-            updateAudioBarUI();
-        }
-        if (isIntroPlaying) {
-            introPlayer.pause();
-            isIntroPlaying = false;
-            updateIntroUI();
-        }
-        khagolPlayer.play().catch(error => {
-            console.error('Khagol playback failed:', error);
-        });
-    }
-    isKhagolPlaying = !isKhagolPlaying;
-    updateKhagolUI();
-}
-
-function updateIntroUI() {
-    const icon = introPlayBtn.querySelector('i');
-    if (isIntroPlaying) {
-        icon.className = 'fas fa-pause';
-    } else {
-        icon.className = 'fas fa-play';
-    }
-}
-
-function updateKhagolUI() {
-    const icon = khagolPlayBtn.querySelector('i');
-    if (isKhagolPlaying) {
-        icon.className = 'fas fa-pause';
-    } else {
-        icon.className = 'fas fa-play';
-    }
-}
-
-introPlayer.addEventListener('loadedmetadata', () => {
-    if (introDurationDisplay) {
-        introDurationDisplay.textContent = formatTime(introPlayer.duration);
-    }
-});
-
-introPlayer.addEventListener('timeupdate', () => {
-    if (introPlayer.duration) {
-        const percent = (introPlayer.currentTime / introPlayer.duration) * 100;
-        if (introSeekbar) introSeekbar.value = percent;
-        if (introCurrentTimeDisplay) introCurrentTimeDisplay.textContent = formatTime(introPlayer.currentTime);
-    }
-});
-
-introPlayer.addEventListener('ended', () => {
-    isIntroPlaying = false;
-    updateIntroUI();
-    if (introSeekbar) introSeekbar.value = 0;
-    if (introCurrentTimeDisplay) introCurrentTimeDisplay.textContent = '0:00';
-});
-
-khagolPlayer.addEventListener('loadedmetadata', () => {
-    if (khagolDurationDisplay) {
-        khagolDurationDisplay.textContent = formatTime(khagolPlayer.duration);
-    }
-});
-
-khagolPlayer.addEventListener('timeupdate', () => {
-    if (khagolPlayer.duration) {
-        const percent = (khagolPlayer.currentTime / khagolPlayer.duration) * 100;
-        if (khagolSeekbar) khagolSeekbar.value = percent;
-        if (khagolCurrentTimeDisplay) khagolCurrentTimeDisplay.textContent = formatTime(khagolPlayer.currentTime);
-    }
-});
-
-khagolPlayer.addEventListener('ended', () => {
-    isKhagolPlaying = false;
-    updateKhagolUI();
-    if (khagolSeekbar) khagolSeekbar.value = 0;
-    if (khagolCurrentTimeDisplay) khagolCurrentTimeDisplay.textContent = '0:00';
-});
 
 function updateReadingFooter(currentId) {
     // If we have context (from section detail)
@@ -851,8 +768,60 @@ async function loadVachanamrutData() {
         );
     }
 
+    // Load Partharo data
+    const partharoPromise = fetch(`./assets/data/${currentLanguage}/partharo.json`)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return null;
+        })
+        .then(data => {
+            if (data && data.partharos) {
+                return data.partharos.map(p => {
+                    // Map to 10001 - 10005 range
+                    p.id = 10000 + parseInt(p.id);
+                    return p;
+                });
+            }
+            return [];
+        })
+        .catch(() => []);
+
+    // Load Khagol Bhugol data
+    const khagolPromise = fetch(`./assets/data/${currentLanguage}/khagol.json`)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return null;
+        })
+        .then(data => {
+            if (data && data.chapters) {
+                return data.chapters.map(c => {
+                    // Map to 10006
+                    c.id = 10005 + parseInt(c.id);
+                    return c;
+                });
+            }
+            return [];
+        })
+        .catch(() => []);
+
+    promises.push(partharoPromise);
+    promises.push(khagolPromise);
+
     const results = await Promise.all(promises);
+    
+    // Separate the partharo and khagol lists from the standard vachanamrut list
+    // The last elements of results will be the khagol and partharo arrays
+    const khagol = results.pop() || [];
+    const partharos = results.pop() || [];
     vachanamrutData = results.filter(data => data !== null);
+    
+    // Add partharo and khagol items to vachanamrutData
+    vachanamrutData.push(...partharos);
+    vachanamrutData.push(...khagol);
 }
 
 // Load video data
@@ -921,7 +890,12 @@ function renderSections() {
         const description = currentLanguage === 'english' ? (section.descriptionEn || section.description || '') : (section.description || '');
 
         // Count label based on language
-        const countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
+        let countLabel;
+        if (section.nameEn === 'Partharo' || section.name === 'પરથારો') {
+            countLabel = currentLanguage === 'english' ? `${section.count} Parthara` : `${section.count} પરથારા`;
+        } else {
+            countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
+        }
 
         tile.innerHTML = `
             <span class="chapter-number">${index + 1}</span>
@@ -974,6 +948,16 @@ function showSectionDetail(sectionIndex) {
 
     // Store for navigation
     currentSectionVachanamruts = currentSection.vachanamruts;
+
+    // Setup section audio player if it is Partharo (Floating Audio Button)
+    if (currentSection.nameEn === 'Partharo' || currentSection.name === 'પરથારો') {
+        const dummyPartharo = {
+            id: 10000,
+            vachanamrut: currentLanguage === 'english' ? 'Partharo' : 'પરથારો',
+            title: currentLanguage === 'english' ? 'Partharo Preface' : 'વચનામૃત પ્રસ્તાવના'
+        };
+        setupAudioPlayer(dummyPartharo);
+    }
 
     // Show section detail screen
     showScreen('section-detail-screen');
@@ -1279,13 +1263,26 @@ function showScreen(screenId, pushState = true) {
         // Buttons are handled in showVachanamrut for detail screen
     }
 
-    // Handle reading footer visibility
+    // Handle reading footer visibility (only visible on reading detail screen)
+    const rf = document.getElementById('reading-footer');
     if (screenId === 'vachanamrut-detail-screen') {
-        // visibility set by updateReadingFooter
-        if (audioEnabled) audioPlayerContainer.style.display = 'flex';
+        // visibility of rf is set by updateReadingFooter
     } else {
-        const rf = document.getElementById('reading-footer');
         if (rf) rf.style.display = 'none';
+    }
+
+    // Handle audio player visibility
+    const isPartharoSectionScreen = screenId === 'section-detail-screen' && currentSection && (currentSection.nameEn === 'Partharo' || currentSection.name === 'પરથારો');
+    if (screenId === 'vachanamrut-detail-screen' || isPartharoSectionScreen) {
+        if (audioEnabled && currentAudioId !== -1) {
+            audioPlayerContainer.style.display = 'flex';
+            if (isPartharoSectionScreen) {
+                audioPlayerContainer.classList.add('no-footer');
+            } else {
+                audioPlayerContainer.classList.remove('no-footer');
+            }
+        }
+    } else {
         audioPlayerContainer.style.display = 'none';
         
         // Pause audio if leaving the screen
@@ -1294,32 +1291,10 @@ function showScreen(screenId, pushState = true) {
         updateAudioBarUI();
         audioPlayerContainer.classList.remove('state-bar');
         audioPlayerContainer.classList.add('state-fab');
-
-        // If going back to home, intro card will show automatically
-        // but we might want to pause everything if going to favorites/settings
-        if (screenId !== 'home-screen') {
-            introPlayer.pause();
-            isIntroPlaying = false;
-            updateIntroUI();
-
-            khagolPlayer.pause();
-            isKhagolPlaying = false;
-            updateKhagolUI();
-        }
     }
 }
 
-function updateHomeAudioVisibility() {
-    const introTile = document.getElementById('intro-audio-tile');
-    const khagolTile = document.getElementById('khagol-audio-tile');
-    
-    if (introTile) {
-        introTile.style.display = homeAudioEnabled ? 'flex' : 'none';
-    }
-    if (khagolTile) {
-        khagolTile.style.display = homeAudioEnabled ? 'flex' : 'none';
-    }
-}
+
 
 // Setup navigation
 function setupNavigation() {
@@ -1415,18 +1390,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const homeAudioToggle = document.getElementById('home-audio-toggle');
-    if (homeAudioToggle) {
-        homeAudioToggle.checked = homeAudioEnabled;
-        homeAudioToggle.addEventListener('change', () => {
-            homeAudioEnabled = homeAudioToggle.checked;
-            localStorage.setItem('homeAudioEnabled', homeAudioEnabled);
-            updateHomeAudioVisibility();
-        });
-    }
 
-    // Initial visibility update
-    updateHomeAudioVisibility();
 
     // Language Toggle Logic
     if (languageToggle) {

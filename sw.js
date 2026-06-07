@@ -1,7 +1,12 @@
-const CACHE_NAME = '1.2.1';
+const CACHE_NAME = '1.2.7';
 
 // Generate list of vachanamrut data files
-const DATA_FILES = [];
+const DATA_FILES = [
+    './assets/data/gujarati/partharo.json',
+    './assets/data/english/partharo.json',
+    './assets/data/gujarati/khagol.json',
+    './assets/data/english/khagol.json'
+];
 // Gujarati files (1 to 262)
 for (let i = 1; i <= 262; i++) {
     DATA_FILES.push(`./assets/data/gujarati/vachanamrut-${i}.json`);
@@ -32,6 +37,15 @@ const LOCATION_IMAGES = [
     './images/vachanamrut-locations/ahmedabad.jpg'
 ];
 
+const PARTHARO_IMAGES = [
+    './images/Partharo/swaminarayan-pragat.jpg',
+    './images/Partharo/swaminarayan-birth.png',
+    './images/Partharo/swaminarayan-loj.jpg',
+    './images/Partharo/swaminarayan-samadhi.jpg',
+    './images/Partharo/swaminarayan-aarti.jpg',
+    './images/Partharo/khagolbhugol.avif'
+];
+
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -48,6 +62,7 @@ const ASSETS_TO_CACHE = [
     './images/app-icon.png',
     './images/SarthiAI.png',
     ...LOCATION_IMAGES,
+    ...PARTHARO_IMAGES,
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap',
     ...DATA_FILES,

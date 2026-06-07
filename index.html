@@ -28,35 +28,7 @@
     </header>
     <main id="main-content">
         <div id="home-screen" class="screen active">
-            <div id="intro-audio-tile" class="intro-audio-tile glass-card">
-                <button id="intro-tile-play-btn" class="intro-tile-play-badge">
-                    <i class="fas fa-play"></i>
-                </button>
-                <div class="intro-tile-content">
-                    <div class="intro-tile-header">
-                        <span class="intro-tile-title">વચનામૃત પ્રસ્તાવના</span>
-                        <div class="intro-tile-timer">
-                            <span id="intro-current-time">0:00</span> / <span id="intro-duration">0:00</span>
-                        </div>
-                    </div>
-                    <input type="range" id="intro-seekbar" class="intro-seekbar" value="0" min="0" step="1">
-                </div>
-            </div>
             <div id="sections-list" class="chapter-grid"></div>
-            <div id="khagol-audio-tile" class="intro-audio-tile khagol-audio-tile glass-card">
-                <button id="khagol-tile-play-btn" class="intro-tile-play-badge">
-                    <i class="fas fa-play"></i>
-                </button>
-                <div class="intro-tile-content">
-                    <div class="intro-tile-header">
-                        <span class="intro-tile-title">ખગોળ ભૂગોળ</span>
-                        <div class="intro-tile-timer">
-                            <span id="khagol-current-time">0:00</span> / <span id="khagol-duration">0:00</span>
-                        </div>
-                    </div>
-                    <input type="range" id="khagol-seekbar" class="intro-seekbar" value="0" min="0" step="1">
-                </div>
-            </div>
         </div>
         <div id="section-detail-screen" class="screen">
             <div id="section-header" class="section-header-card glass-effect">
@@ -65,6 +37,7 @@
                     <img id="section-image" src="" alt="Section Image" class="section-image">
                 </div>
                 <p id="section-description">Section description goes here...</p>
+
             </div>
             <div id="vachanamrut-list" class="vachanamrut-grid"></div>
         </div>
@@ -85,6 +58,10 @@
                     </div>
                 </div>
                 <div id="vachanamrut-setting"></div>
+                <div id="vachanamrut-image-container" class="vachanamrut-image-container" style="display: none;">
+                    <img id="vachanamrut-image" src="" alt="Vachanamrut Image" class="vachanamrut-image">
+                </div>
+                <div id="vachanamrut-verses" class="sanskrit-verses-container" style="display: none;"></div>
                 <div id="vachanamrut-text"></div>
                 <div id="vachanamrut-footer-text"></div>
             </div>
@@ -125,13 +102,7 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div class="setting-item">
-                    <span>Intro Audio Tiles / ઓડિયો ટાઇલ્સ</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="home-audio-toggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
+
             </div>
 
             <div class="settings-card glass-card settings-centered">

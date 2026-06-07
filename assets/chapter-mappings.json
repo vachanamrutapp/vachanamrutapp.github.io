@@ -1,5 +1,19 @@
 [
     {
+        "name": "પરથારો",
+        "nameEn": "Partharo",
+        "image": "images/Partharo/swaminarayan-pragat.jpg",
+        "description": "વચનામૃતના આરંભે શ્રીહરિના પ્રાગટ્ય, બાળલીલા, ઐશ્વર્ય, મૂર્તિનાં ચિહ્ન અને સ્વાભાવિક ચેષ્ટાનું વર્ણન કરતો પાંચ ભાગનો પરથારો.",
+        "descriptionEn": "Description of Shri Hari's manifestation, childhood sports, divine powers, symbols on His form, and natural behaviors, serving as a preface in 5 parts.",
+        "vachanamruts": [
+            10001,
+            10002,
+            10003,
+            10004,
+            10005
+        ]
+    },
+    {
         "name": "ગઢડા પ્રથમ",
         "nameEn": "Gadhada I",
         "image": "images/vachanamrut-locations/gadhada-1.jpg",
@@ -340,6 +354,16 @@
             260,
             261,
             262
+        ]
+    },
+    {
+        "name": "ખગોળ ભૂગોળ",
+        "nameEn": "Khagol Bhugol",
+        "image": "images/Partharo/khagolbhugol.avif",
+        "description": "ભગવાન શ્રી સ્વામિનારાયણે ગઢડામાં લખાવેલો ખગોળ અને ભૂગોળ સંબંધી અદ્ભુત પત્ર, જેમાં ભરતખંડમાં મનુષ્ય જન્મની દુર્લભતા અને મોક્ષનું રહસ્ય સમજાવ્યું છે.",
+        "descriptionEn": "A unique discourse dictated by Bhagwan Swaminarayan concerning geography, astronomy, the structure of the universe, and the rarity of human birth for attaining liberation.",
+        "vachanamruts": [
+            10006
         ]
     }
 ]

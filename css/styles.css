@@ -697,6 +697,49 @@ main {
     font-style: italic;
 }
 
+.vachanamrut-image-container {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(230, 81, 0, 0.15);
+    border: 1px solid rgba(230, 81, 0, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.vachanamrut-image {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.vachanamrut-image:hover {
+    transform: scale(1.02);
+}
+
+.sanskrit-verses-container {
+    background: rgba(230, 81, 0, 0.03);
+    border: 1.5px dashed rgba(230, 81, 0, 0.3);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: inset 0 0 10px rgba(230, 81, 0, 0.02);
+}
+
+.sanskrit-verses-content {
+    font-size: 1.15rem;
+    line-height: 2.0;
+    color: #4E342E;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-weight: 500;
+    font-style: italic;
+    white-space: pre-line;
+}
+
 #vachanamrut-text {
     font-size: 1.38rem;
     line-height: 1.9;
@@ -769,6 +812,15 @@ main {
         font-size: 1.3rem;
         line-height: 1.8;
     }
+
+    .sanskrit-verses-container {
+        padding: 15px;
+    }
+
+    .sanskrit-verses-content {
+        font-size: 1.02rem;
+        line-height: 1.8;
+    }
 }
 
 @media (max-width: 480px) {
@@ -801,6 +853,16 @@ main {
     #vachanamrut-text {
         font-size: 1.25rem;
         line-height: 1.75;
+    }
+
+    .sanskrit-verses-container {
+        padding: 12px;
+        margin: 12px 0;
+    }
+
+    .sanskrit-verses-content {
+        font-size: 0.88rem;
+        line-height: 1.6;
     }
 }
 
@@ -1315,107 +1377,7 @@ body.gujarati .chapter-description {
     border: 2px solid white;
 }
 
-/* Introduction Audio Tile */
-/* Introduction Audio Tile */
-.intro-audio-tile {
-    margin-bottom: 12px;
-    padding: 8px 16px;
-    /* Further reduced padding */
-    background: linear-gradient(135deg, rgba(255, 230, 150, 0.4), rgba(255, 215, 0, 0.1));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    /* Reduced gap */
-    border: 1px solid rgba(255, 215, 0, 0.4);
-    box-shadow: 0 4px 15px rgba(139, 90, 43, 0.1);
-}
 
-.intro-tile-play-badge {
-    background: linear-gradient(135deg, #FFB300, #FF8F00);
-    color: #5D4037;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.intro-tile-play-badge:active {
-    transform: scale(0.9);
-}
-
-.intro-tile-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.intro-tile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.intro-tile-title {
-    color: #B71C1C;
-    font-weight: 700;
-    font-size: 1rem;
-    /* Slightly smaller */
-    font-family: 'Noto Sans Gujarati', sans-serif;
-}
-
-.intro-tile-timer {
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #5D4037;
-    font-weight: 600;
-}
-
-/* Custom Seekbar (Range Slider) */
-.intro-seekbar {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 3px;
-    /* Even slimmer */
-    background: rgba(183, 28, 28, 0.1);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-}
-
-.intro-seekbar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #FFB300;
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid white;
-}
-
-.intro-seekbar::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #FFB300;
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid white;
-}
 
 /* Media Settings */
 .setting-item {
@@ -1536,6 +1498,11 @@ body.gujarati .chapter-description {
     display: flex;
     flex-direction: column;
     overflow: visible; /* Prevent scrubber thumb clipping! */
+}
+
+.audio-player-container.state-fab.no-footer,
+.audio-player-container.state-bar.no-footer {
+    bottom: calc(40px + env(safe-area-inset-bottom, 0px));
 }
 
 /* Toggle visibility based on state */
@@ -1909,6 +1876,23 @@ body.gujarati .chapter-description {
 }
 .glass-card.theme-dark .font-size-display {
     color: #E2E2E2;
+}
+
+/* Theme overrides for Sanskrit verses container */
+.glass-card.theme-sepia .sanskrit-verses-container {
+    background: rgba(139, 90, 43, 0.03);
+    border-color: rgba(139, 90, 43, 0.25);
+}
+.glass-card.theme-sepia .sanskrit-verses-content {
+    color: #4E3629;
+}
+
+.glass-card.theme-dark .sanskrit-verses-container {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+.glass-card.theme-dark .sanskrit-verses-content {
+    color: #B0BEC5;
 }
 
 /* Toast Notification System */
