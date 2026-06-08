@@ -55,8 +55,8 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
-    /* Gradient: Yellow to Red-Orange Hue */
+    background: #FFC107;
+    /* Plain Yellow Color */
     /* Dark warm background for contrast */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -883,8 +883,8 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
-    /* Match Header Gradient */
+    background: #FFC107;
+    /* Match Header Color */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     color: #B71C1C;
@@ -913,7 +913,7 @@ footer {
     height: 53px;
     /* Increased by ~20% */
     border-radius: 50%;
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
+    background: #FFC107;
     color: #B71C1C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -964,7 +964,7 @@ footer {
     height: 53px;
     /* Match main FAB */
     border-radius: 50%;
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
+    background: #FFC107;
     color: #B71C1C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -1448,7 +1448,7 @@ body.gujarati .chapter-description {
 .audio-fab-view {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
+    background: #FFC107;
     border: 1px solid rgba(183, 28, 28, 0.25);
     color: white;
     font-size: 1.3rem;
