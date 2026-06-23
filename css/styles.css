@@ -24,7 +24,7 @@
 
 body {
     font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
-    background: url('../images/swaminarayan-bg.jpg') no-repeat center center fixed;
+    background: url('../images/swaminarayan-bg.webp') no-repeat center center fixed;
     background-size: cover;
     color: var(--text-color);
     display: flex;

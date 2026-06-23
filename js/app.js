@@ -260,11 +260,11 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Setup chapter-specific images for Partharo
     const partharoImages = {
-        10001: 'images/Partharo/swaminarayan-birth.png',
+        10001: 'images/Partharo/swaminarayan-birth.webp',
         10002: 'images/Partharo/swaminarayan-balleela.webp',
-        10003: 'images/Partharo/swaminarayan-loj.jpg',
+        10003: 'images/Partharo/swaminarayan-loj.webp',
         10004: 'images/Partharo/swaminarayan-samadhi.jpg',
-        10005: 'images/Partharo/swaminarayan-aarti.jpg'
+        10005: 'images/Partharo/swaminarayan-aarti.webp'
     };
 
     if (partharoImages[safeId]) {
