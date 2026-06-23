@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.4.0';
+const CACHE_NAME = '1.5.9';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -10,7 +10,7 @@ const APP_SHELL = [
     './assets/chapter-mappings.json',
     './assets/youtube_videos.json',
     './images/logo-vachanamrut.png',
-    './images/swaminarayan-bg.webp',
+    './images/yellow-bg.webp',
     './images/192.png',
     './images/app-icon.png',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',

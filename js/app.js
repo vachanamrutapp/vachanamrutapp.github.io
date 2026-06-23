@@ -1242,6 +1242,13 @@ function showScreen(screenId, pushState = true) {
     // Show requested screen
     document.getElementById(screenId).classList.add('active');
 
+    // Toggle reading theme class on body
+    if (screenId === 'vachanamrut-detail-screen') {
+        document.body.classList.add('reading-screen');
+    } else {
+        document.body.classList.remove('reading-screen');
+    }
+
     // Reset scroll position
     window.scrollTo(0, 0);
     document.getElementById('main-content').scrollTo(0, 0);
