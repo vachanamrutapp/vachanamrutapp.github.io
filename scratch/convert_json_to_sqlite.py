@@ -2,7 +2,6 @@
 import sqlite3
 import json
 import os
-import glob
 
 def main():
     db_path = 'assets/data/vachanamrut.db'
@@ -18,7 +17,7 @@ def main():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # Create scriptures table
+    # 1. Create scriptures table
     cursor.execute('''
         CREATE TABLE scriptures (
             id INTEGER,
@@ -35,6 +34,31 @@ def main():
     ''')
     print("Created table 'scriptures'")
 
+    # 2. Create sections table
+    cursor.execute('''
+        CREATE TABLE sections (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            nameEn TEXT,
+            image TEXT,
+            description TEXT,
+            descriptionEn TEXT,
+            vachanamruts TEXT
+        )
+    ''')
+    print("Created table 'sections'")
+
+    # 3. Create videos table
+    cursor.execute('''
+        CREATE TABLE videos (
+            number INTEGER PRIMARY KEY,
+            title TEXT,
+            url TEXT,
+            videoId TEXT
+        )
+    ''')
+    print("Created table 'videos'")
+
     languages = ['gujarati', 'english']
     
     for lang in languages:
@@ -43,7 +67,7 @@ def main():
             print(f"Warning: Directory {lang_dir} does not exist. Skipping.")
             continue
             
-        print(f"Processing data for language: {lang}")
+        print(f"Processing scripture data for language: {lang}")
         
         # 1. Load Vachanamrut files (1 to 262)
         vach_count = 0
@@ -71,7 +95,6 @@ def main():
                     except Exception as e:
                         print(f"Error parsing {file_path}: {e}")
             else:
-                # Some English files might be missing or not scraped, print warning but don't fail
                 if lang == 'gujarati':
                     print(f"Warning: File {file_path} not found.")
         print(f"  Loaded {vach_count} vachanamruts.")
@@ -138,15 +161,71 @@ def main():
             print(f"Warning: {khagol_path} not found.")
         print(f"  Loaded {khagol_count} khagol chapters.")
 
+    # 4. Load chapter mappings (sections)
+    mappings_path = 'assets/chapter-mappings.json'
+    if os.path.exists(mappings_path):
+        print(f"\nProcessing chapter mappings from: {mappings_path}")
+        with open(mappings_path, 'r', encoding='utf-8') as f:
+            try:
+                sections_data = json.load(f)
+                for index, item in enumerate(sections_data):
+                    sec_id = index + 1
+                    cursor.execute('''
+                        INSERT INTO sections (id, name, nameEn, image, description, descriptionEn, vachanamruts)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        sec_id,
+                        item.get('name', ''),
+                        item.get('nameEn', ''),
+                        item.get('image', ''),
+                        item.get('description', ''),
+                        item.get('descriptionEn', ''),
+                        json.dumps(item.get('vachanamruts', []))
+                    ))
+                print(f"  Loaded {len(sections_data)} sections.")
+            except Exception as e:
+                print(f"Error parsing {mappings_path}: {e}")
+    else:
+        print(f"Error: {mappings_path} not found.")
+
+    # 5. Load YouTube video mappings
+    videos_path = 'assets/youtube_videos.json'
+    if os.path.exists(videos_path):
+        print(f"\nProcessing video data from: {videos_path}")
+        with open(videos_path, 'r', encoding='utf-8') as f:
+            try:
+                videos_data = json.load(f)
+                for item in videos_data:
+                    cursor.execute('''
+                        INSERT OR REPLACE INTO videos (number, title, url, videoId)
+                        VALUES (?, ?, ?, ?)
+                    ''', (
+                        item.get('number'),
+                        item.get('title', ''),
+                        item.get('url', ''),
+                        item.get('videoId', '')
+                    ))
+                print(f"  Loaded {len(videos_data)} video entries.")
+            except Exception as e:
+                print(f"Error parsing {videos_path}: {e}")
+    else:
+        print(f"Error: {videos_path} not found.")
+
     conn.commit()
     
     # Query count to verify
     cursor.execute("SELECT language, type, COUNT(*) FROM scriptures GROUP BY language, type")
     rows = cursor.fetchall()
-    print("\nDatabase compilation summary:")
+    print("\nDatabase compilation summary (Scriptures):")
     for row in rows:
         print(f"  Language: {row[0]}, Type: {row[1]}, Count: {row[2]}")
         
+    cursor.execute("SELECT COUNT(*) FROM sections")
+    print(f"Total sections loaded: {cursor.fetchone()[0]}")
+
+    cursor.execute("SELECT COUNT(*) FROM videos")
+    print(f"Total videos loaded: {cursor.fetchone()[0]}")
+
     conn.close()
     print(f"\nSuccessfully compiled all data into {db_path}!")
 

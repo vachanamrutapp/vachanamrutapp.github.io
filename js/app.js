@@ -1,6 +1,7 @@
 // Global variables
 let SQL = null;
 let db = null;
+let initSqlPromise = null;
 let vachanamrutData = [];
 let videoData = [];
 let currentLanguage = 'gujarati'; // Default language
@@ -742,16 +743,22 @@ async function init() {
 }
 
 async function initSql() {
-    if (!SQL) {
-        SQL = await initSqlJs({
-            locateFile: file => `js/${file}`
-        });
-    }
-    if (!db) {
-        const response = await fetch('./assets/data/vachanamrut.db');
-        const arrayBuffer = await response.arrayBuffer();
-        db = new SQL.Database(new Uint8Array(arrayBuffer));
-    }
+    if (initSqlPromise) return initSqlPromise;
+
+    initSqlPromise = (async () => {
+        if (!SQL) {
+            SQL = await initSqlJs({
+                locateFile: file => `js/${file}`
+            });
+        }
+        if (!db) {
+            const response = await fetch('./assets/data/vachanamrut.db');
+            const arrayBuffer = await response.arrayBuffer();
+            db = new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+    })();
+
+    return initSqlPromise;
 }
 
 async function loadVachanamrutData() {
@@ -784,11 +791,14 @@ async function loadVachanamrutData() {
 // Load video data
 async function loadVideoData() {
     try {
-        const response = await fetch('./assets/youtube_videos.json');
-        if (response.ok) {
-            videoData = await response.json();
-
+        await initSql();
+        const stmt = db.prepare("SELECT number, title, url, videoId FROM videos");
+        videoData = [];
+        while (stmt.step()) {
+            videoData.push(stmt.getAsObject());
         }
+        stmt.free();
+        console.log(`Loaded ${videoData.length} video entries from SQLite.`);
     } catch (error) {
         console.error('Error loading video data:', error);
     }
@@ -797,11 +807,16 @@ async function loadVideoData() {
 // Load chapter mappings
 async function loadChapterMappings() {
     try {
-        const response = await fetch('./assets/chapter-mappings.json');
-        if (response.ok) {
-            sections = await response.json();
-
+        await initSql();
+        const stmt = db.prepare("SELECT id, name, nameEn, image, description, descriptionEn, vachanamruts FROM sections ORDER BY id ASC");
+        sections = [];
+        while (stmt.step()) {
+            const row = stmt.getAsObject();
+            row.vachanamruts = JSON.parse(row.vachanamruts);
+            sections.push(row);
         }
+        stmt.free();
+        console.log(`Loaded ${sections.length} sections from SQLite.`);
     } catch (error) {
         console.error('Error loading chapter mappings:', error);
     }

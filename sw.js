@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.7.0';
+const CACHE_NAME = '1.8.2';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -9,8 +9,6 @@ const APP_SHELL = [
     './js/sql-wasm.wasm',
     './js/app.js',
     './manifest.json',
-    './assets/chapter-mappings.json',
-    './assets/youtube_videos.json',
     './assets/data/vachanamrut.db',
     './images/logo-vachanamrut.png',
     './images/yellow-bg.webp',
