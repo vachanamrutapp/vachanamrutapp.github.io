@@ -84,6 +84,86 @@
             </div>
 
         </div>
+        <div id="timeline-screen" class="screen">
+            <h2 class="screen-title">
+                <span class="lang-guj">સમયરેખા અને તથ્યો</span>
+                <span class="lang-eng">Timeline & Facts</span>
+            </h2>
+            
+            <!-- Stats overview grid -->
+            <div class="timeline-stats-grid">
+                <div class="stat-card glass-card" id="stat-total-disc">
+                    <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value">262</span>
+                        <span class="stat-label">
+                            <span class="lang-guj">કુલ વચનામૃત</span>
+                            <span class="lang-eng">Total Vachanamruts</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card glass-card" id="stat-locations">
+                    <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-loc-count">9</span>
+                        <span class="stat-label">
+                            <span class="lang-guj">મુખ્ય સ્થળો</span>
+                            <span class="lang-eng">Locations</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card glass-card" id="stat-span">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value">~7 Yrs</span>
+                        <span class="stat-label">
+                            <span class="lang-guj">સમયગાળો</span>
+                            <span class="lang-eng">Time Span</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-card glass-card" id="stat-questions">
+                    <div class="stat-icon"><i class="fas fa-comments"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-q-count">192</span>
+                        <span class="stat-label">
+                            <span class="lang-guj">ચર્ચા પ્રશ્નો</span>
+                            <span class="lang-eng">Questions Asked</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive filters card -->
+            <div class="timeline-filter-card glass-card">
+                <div class="filter-row">
+                    <div class="filter-group search-group">
+                        <i class="fas fa-search filter-search-icon"></i>
+                        <input type="text" id="timeline-search" placeholder="Search events, clothing, questioners...">
+                    </div>
+                </div>
+                <div class="filter-row dropdowns-row">
+                    <div class="filter-group select-group">
+                        <select id="timeline-filter-location">
+                            <!-- Populated in JS -->
+                        </select>
+                        <i class="fas fa-chevron-down select-chevron"></i>
+                    </div>
+                    <div class="filter-group select-group">
+                        <select id="timeline-filter-year">
+                            <!-- Populated in JS -->
+                        </select>
+                        <i class="fas fa-chevron-down select-chevron"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline flow container -->
+            <div id="timeline-flow" class="timeline-flow">
+                <!-- Loaded dynamically in JS -->
+            </div>
+        </div>
+
         <div id="favourites-screen" class="screen">
             <h2 class="screen-title">Favourites</h2>
             <div id="favourites-list"></div>
@@ -156,8 +236,8 @@
         </div>
     </main>
     <div id="fab-menu" class="fab-menu">
-        <button id="fab-favourites" class="fab-sub-btn"><i class="fas fa-heart"></i></button>
-        <button id="fab-settings" class="fab-sub-btn"><i class="fas fa-cog"></i></button>
+        <button id="fab-favourites" class="fab-sub-btn" title="Favourites"><i class="fas fa-heart"></i></button>
+        <button id="fab-settings" class="fab-sub-btn" title="Settings"><i class="fas fa-cog"></i></button>
     </div>
     <button id="fab-btn" class="fab-btn"><i class="fas fa-cog"></i></button>
     <footer id="footer">

@@ -19,6 +19,8 @@ let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
 let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
 let activeVachanamrutId = -1;
+let timelineEvents = [];
+let timelineFilter = { location: 'all', year: 'all', query: '' };
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -123,6 +125,7 @@ function setupScrollProgress() {
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
 const favouritesScreen = document.getElementById('favourites-screen');
 const settingsScreen = document.getElementById('settings-screen');
+const timelineScreen = document.getElementById('timeline-screen');
 const sectionsList = document.getElementById('sections-list');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
 const vachanamrutTitle = document.getElementById('vachanamrut-title');
@@ -670,8 +673,12 @@ async function init() {
         await Promise.all([
             loadVachanamrutData(),
             loadVideoData(),
-            loadChapterMappings()
+            loadChapterMappings(),
+            loadTimelineData()
         ]);
+
+        // Setup Timeline filters and listeners
+        setupTimelineFilters();
 
         // Process sections from data
         processSections();
@@ -822,6 +829,56 @@ async function loadChapterMappings() {
     }
 }
 
+// Load timeline and facts data from SQLite
+async function loadTimelineData() {
+    try {
+        console.log(`Loading SQLite timeline data for language: ${currentLanguage}`);
+        await initSql();
+        const stmt = db.prepare(`
+            SELECT 
+                s.id, s.vachanamrut, s.title, 
+                t.gregorian_date, t.gregorian_date_raw, t.hindu_date, t.time_of_day, t.location, t.town, t.clothing
+            FROM timeline_events t
+            JOIN scriptures s ON t.vachanamrut_id = s.id
+            WHERE s.language = :lang AND s.type = 'vachanamrut'
+            ORDER BY t.gregorian_date ASC
+        `);
+        stmt.bind({ ":lang": currentLanguage });
+        
+        timelineEvents = [];
+        while (stmt.step()) {
+            const row = stmt.getAsObject();
+            
+            // Query questions
+            const qStmt = db.prepare("SELECT questioner_name, question_text FROM vachanamrut_questions WHERE vachanamrut_id = :id");
+            qStmt.bind({ ":id": row.id });
+            const questions = [];
+            while (qStmt.step()) {
+                questions.push(qStmt.getAsObject());
+            }
+            qStmt.free();
+            
+            timelineEvents.push({
+                id: row.id,
+                vachanamrut: row.vachanamrut,
+                title: row.title,
+                gregorianDate: row.gregorian_date,
+                gregorianDateRaw: row.gregorian_date_raw,
+                hinduDate: row.hindu_date,
+                timeOfDay: row.time_of_day,
+                location: row.location,
+                town: row.town,
+                clothing: row.clothing,
+                questions: questions
+            });
+        }
+        stmt.free();
+        console.log(`Loaded ${timelineEvents.length} timeline events from SQLite.`);
+    } catch (error) {
+        console.error('Error loading timeline data:', error);
+    }
+}
+
 // Process sections from loaded data
 function processSections() {
     sections.forEach(section => {
@@ -881,6 +938,291 @@ function renderSections() {
 
         sectionsList.appendChild(tile);
     });
+}
+
+// Render timeline flow list and populate filter stats
+function renderTimeline() {
+    const timelineFlow = document.getElementById('timeline-flow');
+    if (!timelineFlow) return;
+    
+    timelineFlow.innerHTML = '';
+    
+    // Populate dropdowns if they are empty
+    populateTimelineFilters();
+    
+    // Calculate stats
+    const totalCount = timelineEvents.length;
+    const locationsCount = new Set(timelineEvents.map(e => e.town).filter(Boolean)).size;
+    const questionsCount = timelineEvents.reduce((sum, e) => sum + e.questions.length, 0);
+    
+    // Update stats counters in UI
+    const totalVal = document.querySelector('#stat-total-disc .stat-value');
+    const locVal = document.getElementById('stat-loc-count');
+    const qVal = document.getElementById('stat-q-count');
+    
+    if (totalVal) totalVal.textContent = totalCount;
+    if (locVal) locVal.textContent = locationsCount;
+    if (qVal) qVal.textContent = questionsCount;
+    
+    // Filter events
+    const query = timelineFilter.query.toLowerCase().trim();
+    const filtered = timelineEvents.filter(e => {
+        const matchLoc = timelineFilter.location === 'all' || e.town === timelineFilter.location;
+        const matchYear = timelineFilter.year === 'all' || (e.gregorianDate && e.gregorianDate.startsWith(timelineFilter.year));
+        
+        let matchQuery = true;
+        if (query) {
+            const matchTitle = e.title.toLowerCase().includes(query);
+            const matchNumber = e.vachanamrut.toLowerCase().includes(query);
+            const matchLocStr = e.location.toLowerCase().includes(query);
+            const matchClothing = e.clothing.toLowerCase().includes(query);
+            const matchQuestioners = e.questions.some(q => q.questioner_name.toLowerCase().includes(query) || q.question_text.toLowerCase().includes(query));
+            matchQuery = matchTitle || matchNumber || matchLocStr || matchClothing || matchQuestioners;
+        }
+        
+        return matchLoc && matchYear && matchQuery;
+    });
+    
+    // Render events
+    if (filtered.length === 0) {
+        const noResultsText = currentLanguage === 'english' ? 'No matching events found.' : 'કોઈ મેળ ખાતા પ્રસંગો મળ્યા નથી.';
+        const searchAnotherText = currentLanguage === 'english' ? 'Try adjusting your filters or search keywords.' : 'તમારા ફિલ્ટર્સ અથવા શોધ શબ્દો બદલવાનો પ્રયત્ન કરો.';
+        timelineFlow.innerHTML = `
+            <div class="timeline-empty-state">
+                <i class="fas fa-search-minus"></i>
+                <h4>${noResultsText}</h4>
+                <p>${searchAnotherText}</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Map of towns for translation
+    const townTranslations = {
+        'Gadhada': 'ગઢડા',
+        'Vartal': 'વરતાલ',
+        'Sarangpur': 'સારંગપુર',
+        'Loya': 'લોયા',
+        'Kariyani': 'કારિયાણી',
+        'Panchala': 'પંચાળા',
+        'Ahmedabad': 'અમદાવાદ',
+        'Ashlali': 'આશ્લાલી',
+        'Jetalpur': 'જેતલપુર'
+    };
+    
+    filtered.forEach(e => {
+        const cardContainer = document.createElement('div');
+        cardContainer.className = 'timeline-card-container';
+        cardContainer.dataset.id = e.id;
+        
+        // Build questions list markup
+        let questionsHtml = '';
+        if (e.questions.length > 0) {
+            questionsHtml = `
+                <div class="timeline-detail-item">
+                    <strong>${currentLanguage === 'english' ? 'Questions Asked:' : 'પૂછાયેલા પ્રશ્નો:'}</strong>
+                    <ul class="timeline-questions-list">
+                        ${e.questions.map(q => `
+                            <li>
+                                <span class="timeline-questioner-name">${q.questioner_name}</span>: 
+                                "${q.question_text}"
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        } else {
+            questionsHtml = `
+                <div class="timeline-detail-item">
+                    <strong>${currentLanguage === 'english' ? 'Questions Asked:' : 'પૂછાયેલા પ્રશ્નો:'}</strong>
+                    <p style="font-size: 0.75rem; color: #5d4e75; font-style: italic; margin-left: 4px;">
+                        ${currentLanguage === 'english' ? 'No direct questions recorded.' : 'કોઈ સીધા પ્રશ્નો નોંધાયા નથી.'}
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Translate time of day
+        let timeLabel = e.timeOfDay;
+        if (currentLanguage !== 'english') {
+            const timeTranslations = {
+                'night': 'રાત્રિ',
+                'evening': 'સાંજ',
+                'afternoon': 'બપોર',
+                'morning': 'સવાર',
+                'noon': 'મધ્યાહ્ન',
+                'three hours before sunrise': 'પ્રભાત (સૂર્યોદય પૂર્વે)',
+                'sunrise': 'સૂર્યોદય'
+            };
+            timeLabel = timeTranslations[e.timeOfDay.toLowerCase()] || e.timeOfDay;
+        }
+        
+        const readText = currentLanguage === 'english' ? 'Read' : 'વાંચો';
+        const detailsText = currentLanguage === 'english' ? 'Details' : 'વિગતો';
+        
+        cardContainer.innerHTML = `
+            <div class="timeline-card">
+                <div class="timeline-card-header">
+                    <div class="timeline-date-time">
+                        <span class="timeline-gregorian">${e.gregorianDateRaw}</span>
+                        <span class="timeline-hindu">${e.hinduDate}</span>
+                    </div>
+                    <span class="timeline-tod-badge ${e.timeOfDay.toLowerCase().replace(/\s+/g, '-')}">${timeLabel}</span>
+                </div>
+                <div class="timeline-card-title">
+                    <span class="timeline-card-title-prefix">${e.vachanamrut}</span>
+                    ${e.title}
+                </div>
+                <div class="timeline-location-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span class="timeline-town-badge">${currentLanguage === 'english' ? e.town : (townTranslations[e.town] || e.town)}</span>
+                        ${e.location}
+                    </div>
+                </div>
+                
+                <!-- Expandable details -->
+                <div class="timeline-card-details">
+                    <div class="timeline-detail-item">
+                        <strong>${currentLanguage === 'english' ? "Shriji Maharaj's Appearance / Clothing:" : 'શ્રીજીમહારાજના વસ્ત્રો / શણગાર:'}</strong>
+                        <p>${e.clothing}</p>
+                    </div>
+                    ${questionsHtml}
+                </div>
+                
+                <div class="timeline-card-actions">
+                    <button class="timeline-expand-btn">
+                        <i class="fas fa-chevron-down"></i> ${detailsText}
+                    </button>
+                    <button class="timeline-read-btn">
+                        <i class="fas fa-book-open"></i> ${readText}
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // Expand/Collapse click handler
+        const expandBtn = cardContainer.querySelector('.timeline-expand-btn');
+        expandBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            cardContainer.classList.toggle('expanded');
+        });
+        
+        // Read click handler
+        const readBtn = cardContainer.querySelector('.timeline-read-btn');
+        readBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const vach = vachanamrutData.find(v => v.id === e.id);
+            if (vach) {
+                showVachanamrut(vach);
+            }
+        });
+        
+        timelineFlow.appendChild(cardContainer);
+    });
+}
+
+// Populate filters in the UI
+function populateTimelineFilters() {
+    const locationSelect = document.getElementById('timeline-filter-location');
+    const yearSelect = document.getElementById('timeline-filter-year');
+    if (!locationSelect || !yearSelect) return;
+    
+    // Only build options once or when language changes
+    const builtFlag = locationSelect.dataset.builtForLang;
+    if (builtFlag === currentLanguage && locationSelect.options.length > 1) return;
+    
+    // Clear existing options
+    locationSelect.innerHTML = '';
+    yearSelect.innerHTML = '';
+    
+    // Labels
+    const locAllText = currentLanguage === 'english' ? 'All Locations' : 'બધા સ્થળો';
+    const yearAllText = currentLanguage === 'english' ? 'All Years' : 'બધા વર્ષો';
+    
+    // Add "All" default
+    locationSelect.innerHTML = `<option value="all">${locAllText}</option>`;
+    yearSelect.innerHTML = `<option value="all">${yearAllText}</option>`;
+    
+    // Extract unique locations/towns and years
+    const towns = Array.from(new Set(timelineEvents.map(e => e.town))).filter(Boolean).sort();
+    const townTranslations = {
+        'Gadhada': 'ગઢડા',
+        'Vartal': 'વરતાલ',
+        'Sarangpur': 'સારંગપુર',
+        'Loya': 'લોયા',
+        'Kariyani': 'કારિયાણી',
+        'Panchala': 'પંચાળા',
+        'Ahmedabad': 'અમદાવાદ',
+        'Ashlali': 'આશ્લાલી',
+        'Jetalpur': 'જેતલપુર'
+    };
+    
+    towns.forEach(town => {
+        const display = currentLanguage === 'english' ? town : (townTranslations[town] || town);
+        locationSelect.innerHTML += `<option value="${town}">${display}</option>`;
+    });
+    
+    const years = Array.from(new Set(timelineEvents.map(e => {
+        return e.gregorianDate ? e.gregorianDate.substring(0, 4) : '';
+    }))).filter(Boolean).sort();
+    
+    years.forEach(year => {
+        yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
+    });
+    
+    // Mark as built
+    locationSelect.dataset.builtForLang = currentLanguage;
+    
+    // Reset values
+    locationSelect.value = timelineFilter.location;
+    yearSelect.value = timelineFilter.year;
+}
+
+// Set up event listeners for filters
+function setupTimelineFilters() {
+    const searchInput = document.getElementById('timeline-search');
+    const locationSelect = document.getElementById('timeline-filter-location');
+    const yearSelect = document.getElementById('timeline-filter-year');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            timelineFilter.query = e.target.value;
+            renderTimeline();
+        });
+    }
+    
+    if (locationSelect) {
+        locationSelect.addEventListener('change', (e) => {
+            timelineFilter.location = e.target.value;
+            renderTimeline();
+        });
+    }
+    
+    if (yearSelect) {
+        yearSelect.addEventListener('change', (e) => {
+            timelineFilter.year = e.target.value;
+            renderTimeline();
+        });
+    }
+    
+    // Clicking locations count card directs focus to Location dropdown
+    const locStatCard = document.getElementById('stat-locations');
+    if (locStatCard && locationSelect) {
+        locStatCard.addEventListener('click', () => {
+            locationSelect.focus();
+            showToast(currentLanguage === 'english' ? 'Select a location to filter' : 'ફિલ્ટર કરવા માટે સ્થળ પસંદ કરો');
+        });
+    }
+    
+    // Clicking span card directs focus to Year dropdown
+    const spanStatCard = document.getElementById('stat-span');
+    if (spanStatCard && yearSelect) {
+        spanStatCard.addEventListener('click', () => {
+            yearSelect.focus();
+            showToast(currentLanguage === 'english' ? 'Select a year to filter' : 'ફિલ્ટર કરવા માટે વર્ષ પસંદ કરો');
+        });
+    }
 }
 
 // Show section detail screen with vachanamrut list
@@ -1147,6 +1489,7 @@ function renderFavourites() {
 function setupMenu() {
     const fabMenu = document.getElementById('fab-menu');
     const fabFavourites = document.getElementById('fab-favourites');
+    const fabTimeline = document.getElementById('fab-timeline');
     const fabSettings = document.getElementById('fab-settings');
     let isMenuOpen = false;
 
@@ -1174,6 +1517,17 @@ function setupMenu() {
         fabMenu.classList.remove('active');
         fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
     });
+
+    // Timeline button click
+    if (fabTimeline) {
+        fabTimeline.addEventListener('click', () => {
+            showScreen('timeline-screen');
+            // Close menu
+            isMenuOpen = false;
+            fabMenu.classList.remove('active');
+            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+        });
+    }
 
     // Settings button click
     fabSettings.addEventListener('click', () => {
@@ -1249,11 +1603,15 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'block';
         // backBtn and fabBtn are handled in showSectionDetail
-    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen') {
+    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'timeline-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
         fabBtn.style.display = 'none';
+        
+        if (screenId === 'timeline-screen') {
+            renderTimeline();
+        }
     } else {
         footer.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
@@ -1314,10 +1672,18 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active')) {
+        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || timelineScreen.classList.contains('active')) {
             showScreen('home-screen');
         }
     });
+
+    // View Timeline Button click on home screen
+    const viewTimelineBtn = document.getElementById('view-timeline-btn');
+    if (viewTimelineBtn) {
+        viewTimelineBtn.addEventListener('click', () => {
+            showScreen('timeline-screen');
+        });
+    }
 
     // Initially hide back button
     backBtn.style.display = 'none';
@@ -1399,7 +1765,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // After the first call, they become objects and get skipped on re-run.
                 await Promise.all([
                     loadVachanamrutData(),
-                    loadChapterMappings()
+                    loadChapterMappings(),
+                    loadTimelineData()
                 ]);
                 processSections();
 
@@ -1441,6 +1808,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else if (activeScreenId === 'favourites-screen') {
                     renderFavourites();
+                } else if (activeScreenId === 'timeline-screen') {
+                    renderTimeline();
                 }
             } catch (error) {
                 console.error('Dynamic language switch error:', error);
