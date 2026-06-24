@@ -1,14 +1,17 @@
-const CACHE_NAME = '1.6.0';
+const CACHE_NAME = '1.7.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
     './',
     './index.html',
     './css/styles.css',
+    './js/sql-wasm.js',
+    './js/sql-wasm.wasm',
     './js/app.js',
     './manifest.json',
     './assets/chapter-mappings.json',
     './assets/youtube_videos.json',
+    './assets/data/vachanamrut.db',
     './images/logo-vachanamrut.png',
     './images/yellow-bg.webp',
     './images/192.png',
@@ -18,17 +21,6 @@ const APP_SHELL = [
 ];
 
 // ---- Full offline payload (cached in background after activation) ----------
-const DATA_FILES = [
-    './assets/data/gujarati/partharo.json',
-    './assets/data/english/partharo.json',
-    './assets/data/gujarati/khagol.json',
-    './assets/data/english/khagol.json'
-];
-for (let i = 1; i <= 262; i++) {
-    DATA_FILES.push(`./assets/data/gujarati/vachanamrut-${i}.json`);
-    DATA_FILES.push(`./assets/data/english/vachanamrut-${i}.json`);
-}
-
 const AUDIO_FILES = [
     './assets/data/audio/1 Partharo.mp3',
     './assets/data/audio/264 Khagol Bhugol.mp3'
@@ -59,7 +51,7 @@ const EXTRA_IMAGES = [
     './images/SarthiAI.png'
 ];
 
-const FULL_PAYLOAD = [...DATA_FILES, ...AUDIO_FILES, ...EXTRA_IMAGES];
+const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES];
 
 // Install — cache only the shell so the SW activates quickly.
 self.addEventListener('install', event => {

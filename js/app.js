@@ -1,4 +1,6 @@
 // Global variables
+let SQL = null;
+let db = null;
 let vachanamrutData = [];
 let videoData = [];
 let currentLanguage = 'gujarati'; // Default language
@@ -739,91 +741,44 @@ async function init() {
     }
 }
 
-async function loadVachanamrutData() {
-    const promises = [];
-
-    // Determine file count based on language
-    // Both languages now limited to 262 based on chapter-mappings.json
-    const fileCount = 262;
-
-    // Load files using current language
-    console.log(`Loading data for language: ${currentLanguage}`);
-    for (let i = 1; i <= fileCount; i++) {
-        const url = `./assets/data/${currentLanguage}/vachanamrut-${i}.json`;
-        // console.log(`Fetching: ${url}`); // Commented out to avoid spam
-        promises.push(
-            fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    return null;
-                })
-                .then(data => {
-                    if (data) {
-                        data.id = i; // Assign ID based on file number
-                        return data;
-                    }
-                    return null;
-                })
-                .catch(() => null)
-        );
+async function initSql() {
+    if (!SQL) {
+        SQL = await initSqlJs({
+            locateFile: file => `js/${file}`
+        });
     }
+    if (!db) {
+        const response = await fetch('./assets/data/vachanamrut.db');
+        const arrayBuffer = await response.arrayBuffer();
+        db = new SQL.Database(new Uint8Array(arrayBuffer));
+    }
+}
 
-    // Load Partharo data
-    const partharoPromise = fetch(`./assets/data/${currentLanguage}/partharo.json`)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            return null;
-        })
-        .then(data => {
-            if (data && data.partharos) {
-                return data.partharos.map(p => {
-                    // Map to 10001 - 10005 range
-                    p.id = 10000 + parseInt(p.id);
-                    return p;
-                });
-            }
-            return [];
-        })
-        .catch(() => []);
+async function loadVachanamrutData() {
+    console.log(`Loading SQLite data for language: ${currentLanguage}`);
+    await initSql();
 
-    // Load Khagol Bhugol data
-    const khagolPromise = fetch(`./assets/data/${currentLanguage}/khagol.json`)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            return null;
-        })
-        .then(data => {
-            if (data && data.chapters) {
-                return data.chapters.map(c => {
-                    // Map to 10006
-                    c.id = 10005 + parseInt(c.id);
-                    return c;
-                });
-            }
-            return [];
-        })
-        .catch(() => []);
+    const stmt = db.prepare("SELECT id, type, number, vachanamrut, title, setting, text, verses FROM scriptures WHERE language = :lang");
+    stmt.bind({ ":lang": currentLanguage });
 
-    promises.push(partharoPromise);
-    promises.push(khagolPromise);
-
-    const results = await Promise.all(promises);
-    
-    // Separate the partharo and khagol lists from the standard vachanamrut list
-    // The last elements of results will be the khagol and partharo arrays
-    const khagol = results.pop() || [];
-    const partharos = results.pop() || [];
-    vachanamrutData = results.filter(data => data !== null);
-    
-    // Add partharo and khagol items to vachanamrutData
-    vachanamrutData.push(...partharos);
-    vachanamrutData.push(...khagol);
+    vachanamrutData = [];
+    while (stmt.step()) {
+        const row = stmt.getAsObject();
+        const item = {
+            id: row.id,
+            number: row.number,
+            vachanamrut: row.vachanamrut,
+            title: row.title,
+            setting: row.setting,
+            text: row.text
+        };
+        if (row.type === 'partharo' && row.verses) {
+            item.verses = row.verses;
+        }
+        vachanamrutData.push(item);
+    }
+    stmt.free();
+    console.log(`Loaded ${vachanamrutData.length} records from SQLite.`);
 }
 
 // Load video data
