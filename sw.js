@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.8.2';
+const CACHE_NAME = '1.10.3';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -46,7 +46,19 @@ const EXTRA_IMAGES = [
     './images/Partharo/swaminarayan-aarti.webp',
     './images/Partharo/khagolbhugol.webp',
     './images/512.png',
-    './images/SarthiAI.png'
+    './images/facts/sun.png',
+    './images/facts/moon.png',
+    './images/facts/day.png',
+    './images/facts/spring-season.png',
+    './images/facts/rainy-season.png',
+    './images/facts/fall-season.png',
+    './images/facts/winter-calendar.png',
+    './images/facts/summer-calendar.png',
+    './images/facts/authors/SwaminarayanBhagwaan.webp',
+    './images/facts/authors/muktanandSwami.webp',
+    './images/facts/authors/gopalanandSwami.webp',
+    './images/facts/authors/nityanandSwami.webp',
+    './images/facts/authors/shukanandSwami.webp'
 ];
 
 const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES];

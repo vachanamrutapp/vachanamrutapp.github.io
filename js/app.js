@@ -206,6 +206,13 @@ function showVachanamrut(vachanamrut, pushState = true) {
         toggleFavourite(safeId);
     });
 
+    // Facts pill only applies to the 262 main Vachanamruts — Partharos and
+    // Khagol-Bhugol have no `timeline_events` row.
+    const factsPillBtn = document.getElementById('facts-pill-btn');
+    if (factsPillBtn) {
+        factsPillBtn.style.display = (safeId >= 1 && safeId <= 262) ? '' : 'none';
+    }
+
     // Setup share button
     const shareBtn = document.getElementById('share-btn');
     // Share functionality
@@ -692,6 +699,9 @@ async function init() {
         // Setup Menu
         setupMenu();
 
+        // Setup Vachanamrut Facts Modal
+        setupFactsModal();
+
         // Setup Reading Nav
         setupReadingNavigation();
 
@@ -815,7 +825,7 @@ async function loadVideoData() {
 async function loadChapterMappings() {
     try {
         await initSql();
-        const stmt = db.prepare("SELECT id, name, nameEn, image, description, descriptionEn, vachanamruts FROM sections ORDER BY id ASC");
+        const stmt = db.prepare("SELECT id, name_gu, name_en, image, description_gu, description_en, vachanamruts FROM sections ORDER BY id ASC");
         sections = [];
         while (stmt.step()) {
             const row = stmt.getAsObject();
@@ -834,30 +844,44 @@ async function loadTimelineData() {
     try {
         console.log(`Loading SQLite timeline data for language: ${currentLanguage}`);
         await initSql();
+        const isGuj = currentLanguage === 'gujarati';
         const stmt = db.prepare(`
-            SELECT 
-                s.id, s.vachanamrut, s.title, 
-                t.gregorian_date, t.gregorian_date_raw, t.hindu_date, t.time_of_day, t.location, t.town, t.clothing
+            SELECT
+                s.id, s.vachanamrut, s.title,
+                t.gregorian_date, t.gregorian_date_raw,
+                ${isGuj ? 't.hindu_date_gu'      : 't.hindu_date_en'}      AS hindu_date,
+                ${isGuj ? 't.time_of_day_gu'    : 't.time_of_day_en'}     AS time_of_day,
+                t.location_en                                              AS location,
+                ${isGuj ? 't.town_gu'           : 't.town_en'}            AS town,
+                ${isGuj ? 't.season_gu'         : 't.season_en'}          AS season,
+                ${isGuj ? 't.season_months_gu'  : 't.season_months_en'}   AS season_months,
+                t.maharaj_age_years, t.maharaj_age_days,
+                t.clothing_en                                              AS clothing
             FROM timeline_events t
             JOIN scriptures s ON t.vachanamrut_id = s.id
             WHERE s.language = :lang AND s.type = 'vachanamrut'
             ORDER BY t.gregorian_date ASC
         `);
         stmt.bind({ ":lang": currentLanguage });
-        
+
         timelineEvents = [];
         while (stmt.step()) {
             const row = stmt.getAsObject();
-            
-            // Query questions
-            const qStmt = db.prepare("SELECT questioner_name, question_text FROM vachanamrut_questions WHERE vachanamrut_id = :id");
+
+            // Query questions in current language
+            const qStmt = db.prepare(`
+                SELECT
+                    ${isGuj ? 'questioner_name_gu' : 'questioner_name_en'} AS questioner_name,
+                    ${isGuj ? 'question_text_gu'   : 'question_text_en'}   AS question_text
+                FROM vachanamrut_questions WHERE vachanamrut_id = :id
+            `);
             qStmt.bind({ ":id": row.id });
             const questions = [];
             while (qStmt.step()) {
                 questions.push(qStmt.getAsObject());
             }
             qStmt.free();
-            
+
             timelineEvents.push({
                 id: row.id,
                 vachanamrut: row.vachanamrut,
@@ -868,6 +892,10 @@ async function loadTimelineData() {
                 timeOfDay: row.time_of_day,
                 location: row.location,
                 town: row.town,
+                season: row.season,
+                seasonMonths: row.season_months,
+                maharajAgeYears: row.maharaj_age_years,
+                maharajAgeDays: row.maharaj_age_days,
                 clothing: row.clothing,
                 questions: questions
             });
@@ -911,12 +939,12 @@ function renderSections() {
         tile.dataset.sectionIndex = index;
 
         // Get language-specific content
-        const sectionName = currentLanguage === 'english' ? (section.nameEn || section.name) : section.name;
-        const description = currentLanguage === 'english' ? (section.descriptionEn || section.description || '') : (section.description || '');
+        const sectionName = currentLanguage === 'english' ? (section.name_en || section.name_gu) : section.name_gu;
+        const description = currentLanguage === 'english' ? (section.description_en || section.description_gu || '') : (section.description_gu || '');
 
         // Count label based on language
         let countLabel;
-        if (section.nameEn === 'Partharo' || section.name === 'પરથારો') {
+        if (section.name_en === 'Partharo' || section.name_gu === 'પરથારો') {
             countLabel = currentLanguage === 'english' ? `${section.count} Parthara` : `${section.count} પરથારા`;
         } else {
             countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
@@ -1238,8 +1266,8 @@ function showSectionDetail(sectionIndex) {
     const vachanamrutList = document.getElementById('vachanamrut-list');
 
     // Use language-specific content
-    const name = currentLanguage === 'english' ? (currentSection.nameEn || currentSection.name) : currentSection.name;
-    const description = currentLanguage === 'english' ? (currentSection.descriptionEn || currentSection.description) : currentSection.description;
+    const name = currentLanguage === 'english' ? (currentSection.name_en || currentSection.name_gu) : currentSection.name_gu;
+    const description = currentLanguage === 'english' ? (currentSection.description_en || currentSection.description_gu) : currentSection.description_gu;
 
     // Set header content
     sectionTitle.textContent = name;
@@ -1260,7 +1288,7 @@ function showSectionDetail(sectionIndex) {
     currentSectionVachanamruts = currentSection.vachanamruts;
 
     // Setup section audio player if it is Partharo (Floating Audio Button)
-    if (currentSection.nameEn === 'Partharo' || currentSection.name === 'પરથારો') {
+    if (currentSection.name_en === 'Partharo' || currentSection.name_gu === 'પરથારો') {
         const dummyPartharo = {
             id: 10000,
             vachanamrut: currentLanguage === 'english' ? 'Partharo' : 'પરથારો',
@@ -1417,6 +1445,291 @@ function updateBookmarkButtonState(currentId) {
     }
 }
 
+// ===========================================================
+// Vachanamrut Facts Modal
+// ===========================================================
+function setupFactsModal() {
+    const btn = document.getElementById('facts-pill-btn');
+    const overlay = document.getElementById('facts-modal-overlay');
+    const closeBtn = document.getElementById('facts-modal-close');
+    if (!btn || !overlay || !closeBtn) return;
+
+    btn.addEventListener('click', () => {
+        if (!activeVachanamrutId) return;
+        openFactsModal(activeVachanamrutId);
+    });
+    closeBtn.addEventListener('click', closeFactsModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeFactsModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.style.display === 'flex') closeFactsModal();
+    });
+}
+
+async function openFactsModal(vachanamrutId) {
+    const overlay = document.getElementById('facts-modal-overlay');
+    const body = document.getElementById('facts-modal-body');
+    const modal = document.getElementById('facts-modal');
+    if (!overlay || !body || !modal) return;
+
+    // Inherit current reading theme so colors stay consistent
+    modal.classList.remove('theme-sepia', 'theme-dark');
+    const card = document.getElementById('vachanamrut-card');
+    if (card) {
+        if (card.classList.contains('theme-sepia')) modal.classList.add('theme-sepia');
+        else if (card.classList.contains('theme-dark')) modal.classList.add('theme-dark');
+    }
+
+    body.innerHTML = '<div class="facts-empty">Loading…</div>';
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('facts-modal-open');
+
+    try {
+        const facts = await loadVachanamrutFacts(vachanamrutId);
+        body.innerHTML = renderFactsModalBody(facts);
+    } catch (err) {
+        console.error('Facts modal error:', err);
+        body.innerHTML = '<div class="facts-empty">Could not load facts.</div>';
+    }
+}
+
+function closeFactsModal() {
+    const overlay = document.getElementById('facts-modal-overlay');
+    if (!overlay) return;
+    overlay.classList.add('closing');
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.classList.remove('closing');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('facts-modal-open');
+    }, 180);
+}
+
+// Pull all the data the modal needs in one place.
+async function loadVachanamrutFacts(vachanamrutId) {
+    await initSql();
+    const id = parseInt(vachanamrutId);
+
+    const eventStmt = db.prepare(`
+        SELECT vachanamrut_id, gregorian_date, gregorian_date_raw,
+               hindu_date_en, hindu_date_gu,
+               time_of_day_en, time_of_day_gu,
+               location_en, location_gu, town_en, town_gu,
+               season_en, season_gu, season_months_en, season_months_gu,
+               maharaj_age_years, maharaj_age_days,
+               clothing_en, clothing_gu
+        FROM timeline_events WHERE vachanamrut_id = :id
+    `);
+    eventStmt.bind({ ':id': id });
+    const event = eventStmt.step() ? eventStmt.getAsObject() : null;
+    eventStmt.free();
+
+    if (!event) return { event: null };
+
+    const qStmt = db.prepare(`
+        SELECT questioner_name_en, questioner_name_gu, question_text_en, question_text_gu
+        FROM vachanamrut_questions WHERE vachanamrut_id = :id ORDER BY id ASC
+    `);
+    qStmt.bind({ ':id': id });
+    const questions = [];
+    while (qStmt.step()) questions.push(qStmt.getAsObject());
+    qStmt.free();
+
+    // Cross-references — life events and mandirs around this date
+    const refsStmt = db.prepare(`
+        SELECT 'life' AS source, event_date AS date, name_en, name_gu, event_type AS subtype
+        FROM life_events
+        UNION ALL
+        SELECT 'mandir', consecration_date, name_en, name_gu, 'mandir'
+        FROM mandirs
+    `);
+    const allRefs = [];
+    while (refsStmt.step()) allRefs.push(refsStmt.getAsObject());
+    refsStmt.free();
+
+    const eventJd = isoToJd(event.gregorian_date);
+    const xrefs = allRefs
+        .map(r => ({ ...r, deltaDays: isoToJd(r.date) - eventJd }))
+        .sort((a, b) => Math.abs(a.deltaDays) - Math.abs(b.deltaDays))
+        .slice(0, 3);
+
+    return { event, questions, xrefs };
+}
+
+// Format days-from-event as a human phrase.
+function formatXrefDelta(deltaDays) {
+    const abs = Math.abs(deltaDays);
+    const isEnglish = currentLanguage === 'english';
+    const beforeAfter = deltaDays > 0
+        ? (isEnglish ? 'after' : 'પછી')
+        : (isEnglish ? 'before' : 'પહેલાં');
+    if (abs === 0) return isEnglish ? 'same day' : 'એ જ દિવસે';
+    if (abs < 60) return isEnglish ? `${abs} days ${beforeAfter}` : `${abs} દિવસ ${beforeAfter}`;
+    const months = Math.round(abs / 30);
+    if (months < 18) return isEnglish ? `${months} months ${beforeAfter}` : `${months} મહિના ${beforeAfter}`;
+    const years = (abs / 365.25).toFixed(1);
+    return isEnglish ? `${years} years ${beforeAfter}` : `${years} વર્ષ ${beforeAfter}`;
+}
+
+function isoToJd(iso) {
+    if (!iso) return 0;
+    return Math.floor(new Date(iso + 'T00:00:00Z').getTime() / 86400000);
+}
+
+function renderFactsModalBody(facts) {
+    if (!facts.event) {
+        return `
+            <div class="facts-empty">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <span class="lang-eng">No timeline data available for this entry.</span>
+                    <span class="lang-guj">આ વચનામૃત માટે કોઈ સમયરેખા માહિતી ઉપલબ્ધ નથી.</span>
+                </div>
+            </div>`;
+    }
+    const e = facts.event;
+
+    const ageRow = factRow(
+        { en: "Mahārāj's Age", gu: 'મહારાજની ઉંમર' },
+        {
+            en: `${e.maharaj_age_years} years, ${e.maharaj_age_days} days`,
+            gu: `${e.maharaj_age_years} વર્ષ, ${e.maharaj_age_days} દિવસ`,
+        },
+        { img: 'images/facts/authors/SwaminarayanBhagwaan.webp' }
+    );
+
+    const seasonRow = factRow(
+        { en: 'Season', gu: 'ઋતુ' },
+        {
+            en: `${e.season_en || '—'} <span class="fact-secondary">${e.season_months_en || ''}</span>`,
+            gu: `${e.season_gu || '—'} <span class="fact-secondary">${e.season_months_gu || ''}</span>`,
+        },
+        { img: seasonIconFor(e.season_en) }
+    );
+
+    // Combined Date + Time tile. Time is shown as a subtitle under the date.
+    // Icon prefers the time-of-day PNG (sun/moon/day) when known, else FA calendar.
+    const dateStr = e.gregorian_date_raw || e.gregorian_date || '—';
+    const todEnLower = (e.time_of_day_en || '').toLowerCase();
+    const isUnspecified = !e.time_of_day_en || todEnLower === 'unspecified';
+    const todEnDisplay = isUnspecified ? '' : `<span class="fact-secondary">${e.time_of_day_en}</span>`;
+    const todGuDisplay = isUnspecified ? '' : `<span class="fact-secondary">${e.time_of_day_gu || e.time_of_day_en}</span>`;
+    const dateTimeRow = factRow(
+        { en: 'Date & Time', gu: 'તારીખ અને સમય' },
+        { en: `${dateStr}${todEnDisplay}`, gu: `${dateStr}${todGuDisplay}` },
+        { img: timeOfDayIconFor(e.time_of_day_en), fa: 'fa-calendar-day' }
+    );
+
+    const xrefsHtml = (facts.xrefs && facts.xrefs.length)
+        ? `<div class="facts-section"><h4 class="facts-section-title"><i class="fas fa-link"></i><span class="lang-eng">Around This Time</span><span class="lang-guj">આ સમય આસપાસ</span></h4><div class="facts-xref-list">${facts.xrefs.map(x => renderXref(x)).join('')}</div></div>`
+        : '';
+
+    // Dedupe questioners — Mahārāj often asks several questions in one Vachanamrut.
+    const uniqueQuestioners = [];
+    const seen = new Set();
+    (facts.questions || []).forEach(q => {
+        const key = q.questioner_name_en || q.questioner_name_gu || '';
+        if (!seen.has(key)) { seen.add(key); uniqueQuestioners.push(q); }
+    });
+    const questionsHtml = uniqueQuestioners.length
+        ? `<div class="facts-section"><h4 class="facts-section-title"><i class="fas fa-comments"></i><span class="lang-eng">Questioners</span><span class="lang-guj">પ્રશ્નકર્તા</span></h4><div class="facts-questioners">${uniqueQuestioners.map(renderQuestioner).join('')}</div></div>`
+        : '';
+
+    return `
+        <div class="facts-section">
+            <div class="facts-grid">
+                ${ageRow}${seasonRow}${dateTimeRow}
+            </div>
+        </div>
+        ${xrefsHtml}
+        ${questionsHtml}
+    `;
+}
+
+function factRow(label, value, icon) {
+    const iconHtml = renderFactIcon(icon);
+    return `
+        <div class="fact-row${iconHtml ? ' fact-row-with-icon' : ''}">
+            ${iconHtml}
+            <div class="fact-row-body">
+                <div class="fact-label"><span class="lang-eng">${label.en}</span><span class="lang-guj">${label.gu}</span></div>
+                <div class="fact-value lang-eng">${value.en}</div>
+                <div class="fact-value lang-guj">${value.gu}</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderFactIcon(icon) {
+    if (!icon) return '';
+    if (icon.img) return `<img class="fact-icon-img" src="${icon.img}" alt="" aria-hidden="true">`;
+    if (icon.fa)  return `<span class="fact-icon-fa"><i class="fas ${icon.fa}"></i></span>`;
+    return '';
+}
+
+// Map season → decorative season image (or winter calendar for Hemant/Shishir).
+function seasonIconFor(season_en) {
+    const map = {
+        'Vasant':  'images/facts/spring-season.png',
+        'Grishma': 'images/facts/summer-calendar.png',
+        'Varsha':  'images/facts/rainy-season.png',
+        'Sharad':  'images/facts/fall-season.png',
+        'Hemant':  'images/facts/winter-calendar.png',
+        'Shishir': 'images/facts/winter-calendar.png',
+    };
+    return map[season_en] || null;
+}
+
+// Map time of day → sun/moon/day. Returns null for unspecified so the FA fallback kicks in.
+function timeOfDayIconFor(tod_en) {
+    if (!tod_en) return null;
+    const t = tod_en.toLowerCase();
+    if (t.includes('night')) return 'images/facts/moon.png';
+    if (t.includes('morning') || t.includes('sunrise')) return 'images/facts/day.png';
+    if (t.includes('afternoon') || t.includes('evening') || t.includes('noon')) return 'images/facts/sun.png';
+    return null;
+}
+
+const XREF_EMOJI = {
+    mandir:    '🛕',
+    scripture: '📖',
+    gadi:      '🪑',
+    diksha:    '🕉️',
+    birth:     '🌟',
+    departure: '🕊️',
+    milestone: '📍',
+};
+
+function renderXref(x) {
+    let name = currentLanguage === 'english' ? x.name_en : x.name_gu;
+    if (x.source === 'mandir') {
+        name = currentLanguage === 'english' ? `${name} Mandir` : `${name} મંદિર`;
+    }
+    const key = x.source === 'mandir' ? 'mandir' : (x.subtype || 'milestone');
+    const emoji = XREF_EMOJI[key] || '📍';
+    return `
+        <div class="facts-xref">
+            <span class="facts-xref-emoji" aria-hidden="true">${emoji}</span>
+            <div class="facts-xref-text">
+                <strong>${name}</strong>
+                <span class="facts-xref-delta">${formatXrefDelta(x.deltaDays)}</span>
+            </div>
+        </div>
+    `;
+}
+
+function renderQuestioner(q) {
+    return `
+        <div class="facts-questioner-chip">
+            <i class="fas fa-user"></i>
+            <span class="lang-eng">${q.questioner_name_en || '—'}</span>
+            <span class="lang-guj">${q.questioner_name_gu || q.questioner_name_en || '—'}</span>
+        </div>
+    `;
+}
+
 // Scroll to bookmark - Updated for new tile-based UI
 function scrollToBookmark() {
     // Find section containing the bookmarked ID
@@ -1538,6 +1851,17 @@ function setupMenu() {
         fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
     });
 
+    // Authors / Compilers button click
+    const fabAuthors = document.getElementById('fab-authors');
+    if (fabAuthors) {
+        fabAuthors.addEventListener('click', () => {
+            showScreen('authors-screen');
+            isMenuOpen = false;
+            fabMenu.classList.remove('active');
+            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+        });
+    }
+
     // Reset App Button
     const resetBtn = document.getElementById('reset-app-btn');
     if (resetBtn) {
@@ -1603,7 +1927,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'block';
         // backBtn and fabBtn are handled in showSectionDetail
-    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'timeline-screen') {
+    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'timeline-screen' || screenId === 'authors-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -1626,7 +1950,7 @@ function showScreen(screenId, pushState = true) {
     }
 
     // Handle audio player visibility
-    const isPartharoSectionScreen = screenId === 'section-detail-screen' && currentSection && (currentSection.nameEn === 'Partharo' || currentSection.name === 'પરથારો');
+    const isPartharoSectionScreen = screenId === 'section-detail-screen' && currentSection && (currentSection.name_en === 'Partharo' || currentSection.name_gu === 'પરથારો');
     if (screenId === 'vachanamrut-detail-screen' || isPartharoSectionScreen) {
         if (audioEnabled && currentAudioId !== -1) {
             audioPlayerContainer.style.display = 'flex';
@@ -1659,7 +1983,7 @@ function setupNavigation() {
             // From vachanamrut detail → go back to section detail (if we have a current section)
             if (currentSection) {
                 // Find section index
-                const sectionIndex = sections.findIndex(s => s.name === currentSection.name);
+                const sectionIndex = sections.findIndex(s => s.name_gu === currentSection.name_gu);
                 if (sectionIndex !== -1) {
                     showSectionDetail(sectionIndex);
                 } else {
@@ -1778,7 +2102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderSections();
                 } else if (activeScreenId === 'section-detail-screen') {
                     if (currentSection) {
-                        const sectionIndex = sections.findIndex(s => s.name === currentSection.name || s.nameEn === currentSection.nameEn);
+                        const sectionIndex = sections.findIndex(s => s.name_gu === currentSection.name_gu || s.name_en === currentSection.name_en);
                         if (sectionIndex !== -1) {
                             showSectionDetail(sectionIndex);
                         } else {
@@ -1793,7 +2117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (newVachanamrut) {
                             // Sync currentSection & currentSectionVachanamruts with new language data
                             if (currentSection) {
-                                const newSec = sections.find(s => s.name === currentSection.name || s.nameEn === currentSection.nameEn);
+                                const newSec = sections.find(s => s.name_gu === currentSection.name_gu || s.name_en === currentSection.name_en);
                                 if (newSec) {
                                     currentSection = newSec;
                                     currentSectionVachanamruts = newSec.vachanamruts;

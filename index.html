@@ -73,6 +73,9 @@
                         <i class="far fa-bookmark"></i>
                         <span id="bookmark-pill-text">Bookmark</span>
                     </button>
+                    <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
                 </div>
                 <div id="vachanamrut-setting"></div>
                 <div id="vachanamrut-image-container" class="vachanamrut-image-container" style="display: none;">
@@ -169,6 +172,71 @@
             <div id="favourites-list"></div>
             <div id="no-favourites-msg" style="display: none;">No favourites yet.</div>
         </div>
+        <div id="authors-screen" class="screen">
+            <h2 class="screen-title">
+                <span class="lang-guj">સંપાદકો</span>
+                <span class="lang-eng">Compilers</span>
+            </h2>
+
+            <div class="authors-grid">
+                <div class="author-card glass-card">
+                    <img src="images/facts/authors/muktanandSwami.webp" alt="Muktanand Swami" class="author-photo">
+                    <div class="author-name">
+                        <span class="lang-guj">મુક્તાનંદ સ્વામી</span>
+                        <span class="lang-eng">Muktānand Swāmi</span>
+                    </div>
+                    <div class="author-dates">1758 – 1830</div>
+                </div>
+                <div class="author-card glass-card">
+                    <img src="images/facts/authors/gopalanandSwami.webp" alt="Gopalanand Swami" class="author-photo">
+                    <div class="author-name">
+                        <span class="lang-guj">ગોપાળાનંદ સ્વામી</span>
+                        <span class="lang-eng">Gopālānand Swāmi</span>
+                    </div>
+                    <div class="author-dates">1781 – 1852</div>
+                </div>
+                <div class="author-card glass-card">
+                    <img src="images/facts/authors/nityanandSwami.webp" alt="Nityanand Swami" class="author-photo">
+                    <div class="author-name">
+                        <span class="lang-guj">નિત્યાનંદ સ્વામી</span>
+                        <span class="lang-eng">Nityānand Swāmi</span>
+                    </div>
+                    <div class="author-dates">1756 – 1852</div>
+                </div>
+                <div class="author-card glass-card">
+                    <img src="images/facts/authors/shukanandSwami.webp" alt="Shukanand Swami" class="author-photo">
+                    <div class="author-name">
+                        <span class="lang-guj">શુકાનંદ સ્વામી</span>
+                        <span class="lang-eng">Shukānand Swāmi</span>
+                    </div>
+                    <div class="author-dates">1799 – 1872</div>
+                </div>
+            </div>
+
+            <div class="about-vachanamrut-card glass-card">
+                <h3 class="about-vachanamrut-title">
+                    <span class="lang-guj">વચનામૃત વિશે</span>
+                    <span class="lang-eng">About the Vachanāmrut</span>
+                </h3>
+                <p class="about-vachanamrut-text lang-eng">
+                    The Vachanāmrut is a compilation of 273 spiritual discourses delivered by Bhagwān Swāminārāyan between 21 November 1819 and 25 July 1829. Over this decade, his senior paramhansas recorded nearly 2,000 sermons, ultimately selecting 262 discourses as canonical (with 11 additional discourses accepted by the Ahmedabad diocese).
+                </p>
+                <p class="about-vachanamrut-text lang-eng">
+                    Swāminārāyan himself reviewed and approved the final compilation. He specifically instructed Muktānand Swāmi to record the precise date of each discourse and the name of every questioner — a level of historical detail that makes the Vachanāmrut singularly well-documented among Hindu scriptures.
+                </p>
+                <p class="about-vachanamrut-text lang-guj">
+                    વચનામૃત એટલે ભગવાન શ્રીસ્વામિનારાયણે તા. ૨૧ નવેમ્બર ૧૮૧૯ થી ૨૫ જુલાઈ ૧૮૨૯ દરમિયાન આપેલા ૨૭૩ આધ્યાત્મિક પ્રવચનોનો સંગ્રહ છે. આ દાયકા દરમિયાન વરિષ્ઠ પરમહંસોએ આશરે ૨,૦૦૦ પ્રવચનો નોંધ્યાં, જેમાંથી ૨૬૨ વચનામૃત માન્ય ગણાય છે (અમદાવાદ ગાદી અનુસાર બીજાં ૧૧ પણ સ્વીકૃત છે).
+                </p>
+                <p class="about-vachanamrut-text lang-guj">
+                    શ્રીજીમહારાજે પોતે અંતિમ સંગ્રહનું પુનરાવલોકન કરી મંજૂરી આપી. તેમણે મુક્તાનંદ સ્વામીને દરેક પ્રવચનની ચોક્કસ તારીખ અને દરેક પ્રશ્નકર્તાનું નામ નોંધવાની વિશેષ સૂચના આપી — આ વિગતવાર ઐતિહાસિક નોંધણી હિંદુ શાસ્ત્રોમાં અપ્રતિમ છે.
+                </p>
+                <p class="about-vachanamrut-source">
+                    <span class="lang-guj">સ્રોત:</span>
+                    <span class="lang-eng">Source:</span>
+                    <a href="https://en.wikipedia.org/wiki/Vachanamrut" target="_blank" rel="noopener noreferrer">Wikipedia — Vachanamrut</a>
+                </p>
+            </div>
+        </div>
         <div id="settings-screen" class="screen">
             <h2 class="screen-title">Settings</h2>
 
@@ -237,6 +305,7 @@
     </main>
     <div id="fab-menu" class="fab-menu">
         <button id="fab-favourites" class="fab-sub-btn" title="Favourites"><i class="fas fa-heart"></i></button>
+        <button id="fab-authors" class="fab-sub-btn" title="Compilers of Vachanamrut"><i class="fas fa-users"></i></button>
         <button id="fab-settings" class="fab-sub-btn" title="Settings"><i class="fas fa-cog"></i></button>
     </div>
     <button id="fab-btn" class="fab-btn"><i class="fas fa-cog"></i></button>
@@ -254,6 +323,23 @@
     </div>
 
     <div id="toast-container" class="toast-container"></div>
+
+    <!-- Vachanamrut Facts Modal -->
+    <div id="facts-modal-overlay" class="facts-modal-overlay" style="display: none;" aria-hidden="true">
+        <div id="facts-modal" class="facts-modal glass-card" role="dialog" aria-modal="true" aria-labelledby="facts-modal-title">
+            <header class="facts-modal-header">
+                <h3 id="facts-modal-title" class="facts-modal-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="lang-guj">તથ્યો</span>
+                    <span class="lang-eng">Facts</span>
+                </h3>
+                <button id="facts-modal-close" class="facts-modal-close" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </header>
+            <div id="facts-modal-body" class="facts-modal-body"></div>
+        </div>
+    </div>
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/app.js"></script>

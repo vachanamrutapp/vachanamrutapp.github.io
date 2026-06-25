@@ -91,6 +91,109 @@ def compute_season_and_age(greg_date):
 
 
 # The six mandirs Bhagwan Swaminarayan personally consecrated.
+VACHANAMRUT_WINDOW_START = '1819-11-21'
+VACHANAMRUT_WINDOW_END = '1829-07-25'
+
+LIFE_EVENTS = [
+    {
+        'event_date': '1781-04-03',
+        'event_type': 'birth',
+        'name_en': 'Birth (Pragatya)',
+        'name_gu': 'પ્રાગટ્ય',
+        'description_en': 'Manifestation as Ghanshyām Mahārāj at Chhapaiyā to Dharmadev and Bhaktimātā.',
+        'description_gu': 'છપૈયામાં ધર્મદેવ અને ભક્તિમાતાને ત્યાં ઘનશ્યામ મહારાજ તરીકે પ્રાગટ્ય.',
+        'location_en': 'Chhapaiyā, Uttar Pradesh',
+        'location_gu': 'છપૈયા, ઉત્તર પ્રદેશ',
+        'hindu_date_en': 'Chaitra sud 9, Samvat 1837 (Rām Navami)',
+        'hindu_date_gu': 'સંવત ૧૮૩૭ ના ચૈત્ર સુદ ૯ (રામનવમી)',
+    },
+    {
+        'event_date': '1792-06-29',
+        'event_type': 'milestone',
+        'name_en': 'Van Vicharan Begins',
+        'name_gu': 'વનવિચરણનો આરંભ',
+        'description_en': 'Leaves home as Nīlkanth Varni at age 11, beginning a seven-year solitary journey across India.',
+        'description_gu': 'અગિયાર વર્ષની ઉંમરે નીલકંઠ વર્ણી તરીકે ઘર છોડી ભારતભરમાં સાત વર્ષનું એકાકી વનવિચરણ.',
+        'location_en': 'Ayodhyā, Uttar Pradesh',
+        'location_gu': 'અયોધ્યા, ઉત્તર પ્રદેશ',
+        'hindu_date_en': 'Āshādh sud 10, Samvat 1849',
+        'hindu_date_gu': 'સંવત ૧૮૪૯ ના અષાઢ સુદ ૧૦',
+    },
+    {
+        'event_date': '1799-08-21',
+        'event_type': 'milestone',
+        'name_en': 'Arrival at Loj',
+        'name_gu': 'લોજ આગમન',
+        'description_en': 'Concludes seven-year vana vicharan and meets Muktānand Swāmi at Loj in Saurashtra.',
+        'description_gu': 'સાત વર્ષનું વનવિચરણ સમાપ્ત કરી લોજ (સૌરાષ્ટ્ર)માં મુક્તાનંદ સ્વામીને મળ્યા.',
+        'location_en': 'Loj, Saurashtra, Gujarat',
+        'location_gu': 'લોજ, સૌરાષ્ટ્ર, ગુજરાત',
+        'hindu_date_en': 'Shrāvan vad 6, Samvat 1856',
+        'hindu_date_gu': 'સંવત ૧૮૫૬ ના શ્રાવણ વદ ૬',
+    },
+    {
+        'event_date': '1800-10-28',
+        'event_type': 'diksha',
+        'name_en': 'Bhāgwati Diksha',
+        'name_gu': 'ભાગવતી દીક્ષા',
+        'description_en': 'Initiated as Sahajānand Swāmi (and Nārāyan Muni) by Rāmānand Swāmi at Piplāna on Prabodhini Ekādashi.',
+        'description_gu': 'પ્રબોધિની એકાદશીના દિવસે પિપલાણામાં રામાનંદ સ્વામી દ્વારા સહજાનંદ સ્વામી (અને નારાયણ મુનિ) તરીકે દીક્ષા.',
+        'location_en': 'Piplāna, Gujarat',
+        'location_gu': 'પિપલાણા, ગુજરાત',
+        'hindu_date_en': 'Kārtik sud 11, Samvat 1857 (Prabodhini Ekādashi)',
+        'hindu_date_gu': 'સંવત ૧૮૫૭ ના કારતક સુદ ૧૧ (પ્રબોધિની એકાદશી)',
+    },
+    {
+        'event_date': '1801-12-17',
+        'event_type': 'milestone',
+        'name_en': 'Becomes Head of Sampraday',
+        'name_gu': 'સંપ્રદાયના આચાર્યપદે',
+        'description_en': "Assumes leadership of the Uddhav Sampraday after Rāmānand Swāmi's departure; Swāminārāyan mahā-mantra given to the assembly at Faneni.",
+        'description_gu': 'રામાનંદ સ્વામીના અક્ષરધામગમન બાદ ઉદ્ધવ સંપ્રદાયનું આચાર્યપદ સંભાળ્યું; ફણેણીમાં સ્વામિનારાયણ મહામંત્રનું પ્રદાન.',
+        'location_en': 'Faneni, Gujarat',
+        'location_gu': 'ફણેણી, ગુજરાત',
+        'hindu_date_en': 'Mārgshar sud 11, Samvat 1858 (Mokshadā Ekādashi)',
+        'hindu_date_gu': 'સંવત ૧૮૫૮ ના માગશર સુદ ૧૧ (મોક્ષદા એકાદશી)',
+    },
+    {
+        'event_date': '1825-11-21',
+        'event_type': 'gadi',
+        'name_en': 'Two Āchārya Gādis Established',
+        'name_gu': 'બે આચાર્ય ગાદીની સ્થાપના',
+        'description_en': 'Nar-Nārāyan Dev Gādi (Ahmedabad) and Lakshmi-Nārāyan Dev Gādi (Vadtāl) formally established; Ayodhyāprasād and Raghuvīr appointed as āchāryas.',
+        'description_gu': 'નર-નારાયણ દેવ ગાદી (અમદાવાદ) અને લક્ષ્મી-નારાયણ દેવ ગાદી (વડતાલ)ની ઔપચારિક સ્થાપના; અયોધ્યાપ્રસાદ અને રઘુવીરની આચાર્ય તરીકે નિયુક્તિ.',
+        'location_en': 'Vadtāl, Kheda, Gujarat',
+        'location_gu': 'વડતાલ, ખેડા, ગુજરાત',
+        'hindu_date_en': 'Kārtik sud 11, Samvat 1882 (Prabodhini Ekādashi)',
+        'hindu_date_gu': 'સંવત ૧૮૮૨ ના કારતક સુદ ૧૧ (પ્રબોધિની એકાદશી)',
+    },
+    {
+        'event_date': '1826-02-11',
+        'event_type': 'scripture',
+        'name_en': 'Shikshāpatri Written',
+        'name_gu': 'શિક્ષાપત્રીની રચના',
+        'description_en': '212-verse Sanskrit code of conduct composed in His own hand at Vadtāl on Vasant Panchami.',
+        'description_gu': 'વસંત પંચમીના દિવસે વડતાલમાં સ્વહસ્તે રચેલ ૨૧૨ શ્લોકનો સંસ્કૃત આચાર-સંહિતા ગ્રંથ.',
+        'location_en': 'Vadtāl, Kheda, Gujarat',
+        'location_gu': 'વડતાલ, ખેડા, ગુજરાત',
+        'hindu_date_en': 'Mahā sud 5, Samvat 1882 (Vasant Panchami)',
+        'hindu_date_gu': 'સંવત ૧૮૮૨ ના મહા સુદ ૫ (વસંત પંચમી)',
+    },
+    {
+        'event_date': '1830-06-01',
+        'event_type': 'departure',
+        'name_en': 'Akshardhām Gaman',
+        'name_gu': 'અક્ષરધામગમન',
+        'description_en': 'Physical departure to Akshardhām at Gadhadā — ten months after the last recorded Vachanāmrut.',
+        'description_gu': 'ગઢડામાં અક્ષરધામગમન — અંતિમ વચનામૃત પછી દસ મહિને.',
+        'location_en': "Dādā Khāchar's darbār, Gadhadā, Gujarat",
+        'location_gu': 'દાદાખાચરનો દરબાર, ગઢડા, ગુજરાત',
+        'hindu_date_en': 'Jyeshtha sud 10, Samvat 1886',
+        'hindu_date_gu': 'સંવત ૧૮૮૬ ના જ્યેષ્ઠ સુદ ૧૦',
+    },
+]
+
+
 MANDIRS = [
     {
         'id': 1, 'name': 'Ahmedabad', 'name_gu': 'અમદાવાદ',
@@ -194,6 +297,50 @@ TIME_OF_DAY_GU = {
     'three hours before sunrise': 'સૂર્યોદય પહેલાં ત્રણ કલાક',
     'Unspecified': 'અનિર્દિષ્ટ',
 }
+
+GU_LOCATION_VERBS = [
+    'પધાર્યા હતા', 'વિરાજમાન હતા', 'બેઠા હતા', 'બિરાજતા હતા',
+    'આવ્યા હતા', 'ઊભા હતા', 'સૂતા હતા', 'બેઠાં હતાં',
+    'આવી હતી', 'આવ્યો હતો', 'બેસતા હતા', 'સવાર થયા હતા',
+]
+# Mahārāj-name regex used for the timeline-setting parser (distinct from
+# GU_SPEAKER_RE defined later for Q&A speaker pairing).
+GU_MAHARAJ_NAME_RE = re.compile(
+    r'(?:સ્વામી\s+)?(?:શ્રી\s*સહજાનંદજી\s*મહારાજ|શ્રીજી\s*મહારાજ|શ્રીસહજાનંદજી\s*મહારાજ|શ્રીજીમહારાજ)'
+)
+GU_ASSEMBLY_RE = re.compile(
+    r'(?:અને\s+)?(?:પોતાના\s+મુખારવિંદની|તે\s+સમે\s+પોતાના|તે\s+સમયમાં|તે\s+સમે\s+)'
+)
+# Trailing/leading noise to strip
+GU_TRIM_RE = re.compile(r'^[\s,.\-—:૦૧૨૩૪૫૬૭૮૯]+|[\s,.\-—:૦૧૨૩૪૫૬૭૮૯]+$')
+
+
+def parse_gu_location_and_clothing(gu_setting):
+    """Extract (location_gu, clothing_gu) from a Gujarati setting paragraph."""
+    if not gu_setting:
+        return None, None
+    sm = GU_MAHARAJ_NAME_RE.search(gu_setting)
+    if not sm:
+        return None, None
+    rest = gu_setting[sm.end():].strip()
+    loc, verb_end = None, -1
+    for verb in GU_LOCATION_VERBS:
+        i = rest.find(verb)
+        if i != -1:
+            loc = rest[:i].strip()
+            verb_end = i + len(verb)
+            break
+    if not loc:
+        return None, None
+    loc = GU_TRIM_RE.sub('', loc)
+    # Clothing: text between the verb and the assembly description.
+    after = rest[verb_end:].strip()
+    am = GU_ASSEMBLY_RE.search(after)
+    clothing = after[:am.start()].strip() if am else after.strip()
+    clothing = GU_TRIM_RE.sub('', clothing).lstrip('અને').strip()
+    clothing = GU_TRIM_RE.sub('', clothing) if clothing else clothing
+    return loc or None, clothing or None
+
 
 def parse_hindu_date_gu(gu_setting):
     """Extract the Gujarati Hindu date phrase from the start of a setting.
@@ -465,11 +612,11 @@ def main():
     cursor.execute('''
         CREATE TABLE sections (
             id INTEGER PRIMARY KEY,
-            name TEXT,
-            nameEn TEXT,
+            name_gu TEXT,
+            name_en TEXT,
             image TEXT,
-            description TEXT,
-            descriptionEn TEXT,
+            description_gu TEXT,
+            description_en TEXT,
             vachanamruts TEXT
         )
     ''')
@@ -492,20 +639,22 @@ def main():
             vachanamrut_id INTEGER PRIMARY KEY,
             gregorian_date TEXT,
             gregorian_date_raw TEXT,
-            hindu_date TEXT,
+            hindu_date_en TEXT,
             hindu_date_gu TEXT,
-            time_of_day TEXT,
+            time_of_day_en TEXT,
             time_of_day_gu TEXT,
-            location TEXT,
-            town TEXT,
+            location_en TEXT,
+            location_gu TEXT,
+            town_en TEXT,
             town_gu TEXT,
-            season TEXT,
+            season_en TEXT,
             season_gu TEXT,
-            season_months TEXT,
+            season_months_en TEXT,
             season_months_gu TEXT,
             maharaj_age_years INTEGER,
             maharaj_age_days INTEGER,
-            clothing TEXT
+            clothing_en TEXT,
+            clothing_gu TEXT
         )
     ''')
     print("Created table 'timeline_events'")
@@ -515,9 +664,9 @@ def main():
         CREATE TABLE vachanamrut_questions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             vachanamrut_id INTEGER,
-            questioner_name TEXT,
+            questioner_name_en TEXT,
             questioner_name_gu TEXT,
-            question_text TEXT,
+            question_text_en TEXT,
             question_text_gu TEXT
         )
     ''')
@@ -527,18 +676,18 @@ def main():
     cursor.execute('''
         CREATE TABLE mandirs (
             id INTEGER PRIMARY KEY,
-            name TEXT,
+            name_en TEXT,
             name_gu TEXT,
-            location TEXT,
+            location_en TEXT,
             location_gu TEXT,
-            deity TEXT,
+            deity_en TEXT,
             deity_gu TEXT,
             consecration_date TEXT,
-            hindu_date TEXT,
+            hindu_date_en TEXT,
             hindu_date_gu TEXT,
-            season TEXT,
+            season_en TEXT,
             season_gu TEXT,
-            season_months TEXT,
+            season_months_en TEXT,
             season_months_gu TEXT,
             maharaj_age_years INTEGER,
             maharaj_age_days INTEGER
@@ -547,10 +696,42 @@ def main():
     for m in MANDIRS:
         season, season_months, age_y, age_d = compute_season_and_age(m['consecration_date'])
         cursor.execute('''
-            INSERT INTO mandirs (id, name, name_gu, location, location_gu, deity, deity_gu, consecration_date, hindu_date, hindu_date_gu, season, season_gu, season_months, season_months_gu, maharaj_age_years, maharaj_age_days)
+            INSERT INTO mandirs (id, name_en, name_gu, location_en, location_gu, deity_en, deity_gu, consecration_date, hindu_date_en, hindu_date_gu, season_en, season_gu, season_months_en, season_months_gu, maharaj_age_years, maharaj_age_days)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (m['id'], m['name'], m['name_gu'], m['location'], m['location_gu'], m['deity'], m['deity_gu'], m['consecration_date'], m['hindu_date'], m['hindu_date_gu'], season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d))
     print(f"Created table 'mandirs' with {len(MANDIRS)} rows")
+
+    # 7. Create and populate life_events table
+    cursor.execute('''
+        CREATE TABLE life_events (
+            id INTEGER PRIMARY KEY,
+            event_date TEXT,
+            event_type TEXT,
+            name_en TEXT,
+            name_gu TEXT,
+            description_en TEXT,
+            description_gu TEXT,
+            location_en TEXT,
+            location_gu TEXT,
+            hindu_date_en TEXT,
+            hindu_date_gu TEXT,
+            season_en TEXT,
+            season_gu TEXT,
+            season_months_en TEXT,
+            season_months_gu TEXT,
+            maharaj_age_years INTEGER,
+            maharaj_age_days INTEGER,
+            in_vachanamrut_window INTEGER
+        )
+    ''')
+    for idx, e in enumerate(LIFE_EVENTS, start=1):
+        season, season_months, age_y, age_d = compute_season_and_age(e['event_date'])
+        in_window = 1 if VACHANAMRUT_WINDOW_START <= e['event_date'] <= VACHANAMRUT_WINDOW_END else 0
+        cursor.execute('''
+            INSERT INTO life_events (id, event_date, event_type, name_en, name_gu, description_en, description_gu, location_en, location_gu, hindu_date_en, hindu_date_gu, season_en, season_gu, season_months_en, season_months_gu, maharaj_age_years, maharaj_age_days, in_vachanamrut_window)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (idx, e['event_date'], e['event_type'], e['name_en'], e['name_gu'], e['description_en'], e['description_gu'], e['location_en'], e['location_gu'], e['hindu_date_en'], e['hindu_date_gu'], season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d, in_window))
+    print(f"Created table 'life_events' with {len(LIFE_EVENTS)} rows")
 
     vach_to_town = build_vach_to_town_map('assets/chapter-mappings.json')
 
@@ -593,10 +774,11 @@ def main():
                                 except Exception:
                                     pass
                             hindu_gu = HINDU_DATE_GU_OVERRIDES.get(i) or parse_hindu_date_gu(gu_setting)
+                            loc_gu, cloth_gu = parse_gu_location_and_clothing(gu_setting)
                             cursor.execute('''
-                                INSERT INTO timeline_events (vachanamrut_id, gregorian_date, gregorian_date_raw, hindu_date, hindu_date_gu, time_of_day, time_of_day_gu, location, town, town_gu, season, season_gu, season_months, season_months_gu, maharaj_age_years, maharaj_age_days, clothing)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                            ''', (i, greg_date, greg_raw, hindu, hindu_gu, tod, TIME_OF_DAY_GU.get(tod), loc, town, TOWN_GU.get(town), season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d, clothes))
+                                INSERT INTO timeline_events (vachanamrut_id, gregorian_date, gregorian_date_raw, hindu_date_en, hindu_date_gu, time_of_day_en, time_of_day_gu, location_en, location_gu, town_en, town_gu, season_en, season_gu, season_months_en, season_months_gu, maharaj_age_years, maharaj_age_days, clothing_en, clothing_gu)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', (i, greg_date, greg_raw, hindu, hindu_gu, tod, TIME_OF_DAY_GU.get(tod), loc, loc_gu, town, TOWN_GU.get(town), season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d, clothes, cloth_gu))
                             
                             # Parse and insert questions (with Gujarati pairing)
                             questions = extract_questions_and_questioners(clean_text)
@@ -620,7 +802,7 @@ def main():
                                 ):
                                     gu_questioner = SPEAKER_NAME_GU[q_name]
                                 cursor.execute('''
-                                    INSERT INTO vachanamrut_questions (vachanamrut_id, questioner_name, questioner_name_gu, question_text, question_text_gu)
+                                    INSERT INTO vachanamrut_questions (vachanamrut_id, questioner_name_en, questioner_name_gu, question_text_en, question_text_gu)
                                     VALUES (?, ?, ?, ?, ?)
                                 ''', (i, q_name, gu_questioner, q_text, gu_qtext))
                             
@@ -721,7 +903,7 @@ def main():
                 for index, item in enumerate(sections_data):
                     sec_id = index + 1
                     cursor.execute('''
-                        INSERT INTO sections (id, name, nameEn, image, description, descriptionEn, vachanamruts)
+                        INSERT INTO sections (id, name_gu, name_en, image, description_gu, description_en, vachanamruts)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                     ''', (
                         sec_id,

@@ -1763,11 +1763,17 @@ body.gujarati .chapter-description {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;        /* keep facts pill on the same row */
     border-bottom: 1px solid rgba(165, 37, 44, 0.1);
     padding-bottom: 8px;
     margin-bottom: 14px;
-    gap: 6px;
+    gap: 4px;
 }
+/* Tighten internal gaps on the smaller groups so everything stays roomy.
+   (Icon-only bookmark override lives further down, after the original
+   .bookmark-pill rule, so it wins on cascade order.) */
+.font-controls { gap: 6px; padding: 0 6px; }
+.theme-controls { gap: 4px; padding: 0 6px; }
 .font-controls {
     display: inline-flex;
     align-items: center;
@@ -1866,6 +1872,16 @@ body.gujarati .chapter-description {
     background: #A5252C;
     border-color: #A5252C;
     color: #FFFFFF;
+}
+
+/* Always icon-only bookmark pill — keeps the toolbar on a single row.
+   Placed AFTER the original .bookmark-pill rule so cascade order wins. */
+#bookmark-pill-text { display: none; }
+.bookmark-pill {
+    width: 28px;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
 }
 
 /* Reading Theme overrides for card content */
@@ -2601,4 +2617,441 @@ body.english .lang-guj {
 
 .timeline-empty-state p {
     font-size: 0.8rem;
+}
+
+/* ===========================================================
+   Facts Pill Button (sits beside bookmark in reader toolbar)
+   =========================================================== */
+.facts-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(165, 37, 44, 0.2);
+    color: #A5252C;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+.facts-pill:hover {
+    background: rgba(165, 37, 44, 0.08);
+    transform: scale(1.05);
+}
+.facts-pill:active {
+    transform: scale(0.95);
+}
+.glass-card.theme-sepia .facts-pill {
+    background: rgba(165, 37, 44, 0.06);
+    color: #6E3F1B;
+    border-color: rgba(110, 63, 27, 0.25);
+}
+.glass-card.theme-sepia .facts-pill:hover {
+    background: rgba(110, 63, 27, 0.12);
+}
+.glass-card.theme-dark .facts-pill {
+    background: rgba(255, 255, 255, 0.08);
+    color: #F7C844;
+    border-color: rgba(247, 200, 68, 0.3);
+}
+.glass-card.theme-dark .facts-pill:hover {
+    background: rgba(247, 200, 68, 0.15);
+}
+
+/* ===========================================================
+   Facts Modal
+   =========================================================== */
+.facts-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 29, 24, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 11000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: facts-fade-in 0.2s ease-out;
+}
+.facts-modal-overlay.closing {
+    animation: facts-fade-out 0.18s ease-in forwards;
+}
+@keyframes facts-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes facts-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+.facts-modal {
+    width: 100%;
+    max-width: 520px;
+    height: 85vh;          /* fixed height — content scrolls inside */
+    max-height: 720px;     /* cap on large desktops so it doesn't get silly tall */
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    animation: facts-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes facts-slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+.facts-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(165, 37, 44, 0.2);
+    /* Solid (not gradient) so body content can't bleed through the title */
+    background: #F7C844;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+.glass-card.theme-sepia .facts-modal-header {
+    background: #E8D7B0;
+    border-bottom-color: rgba(110, 63, 27, 0.25);
+}
+.glass-card.theme-dark .facts-modal-header {
+    background: #2A2424;
+    border-bottom-color: rgba(247, 200, 68, 0.2);
+}
+.glass-card.theme-dark .facts-modal-title {
+    color: #F7C844;
+}
+.glass-card.theme-dark .facts-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    color: #F7C844;
+    border-color: rgba(247, 200, 68, 0.3);
+}
+.facts-modal-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.facts-modal-title i {
+    font-size: 1rem;
+}
+.facts-modal-close {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(165, 37, 44, 0.2);
+    color: #A5252C;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+.facts-modal-close:hover {
+    background: rgba(165, 37, 44, 0.1);
+}
+.facts-modal-body {
+    flex: 1 1 auto;
+    min-height: 0; /* required so the flex child can shrink and scroll */
+    padding: 16px 20px 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Facts content blocks */
+.facts-section {
+    margin-bottom: 18px;
+}
+.facts-section:last-child {
+    margin-bottom: 4px;
+}
+.facts-section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #A5252C;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.facts-section-title i {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+.facts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+.fact-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(165, 37, 44, 0.1);
+    border-radius: 12px;
+}
+/* Row variant with a leading 44px decorative icon */
+.fact-row-with-icon {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px 10px 10px;
+}
+.fact-row-with-icon .fact-row-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+.fact-icon-img {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08));
+}
+.fact-icon-fa {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(247, 200, 68, 0.4);
+    border: 1px solid rgba(165, 37, 44, 0.15);
+    border-radius: 12px;
+    color: #A5252C;
+    font-size: 1.1rem;
+}
+.fact-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #5d4e75;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.fact-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2c2c2c;
+    line-height: 1.4;
+}
+.fact-value .fact-secondary {
+    display: block;
+    font-size: 0.8rem;
+    color: #5d4e75;
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* Cross-reference chips (Shikshapatri / Mandirs / nearby events) */
+.facts-xref-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.facts-xref {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(247, 200, 68, 0.18);
+    border: 1px solid rgba(230, 81, 0, 0.2);
+    border-radius: 10px;
+    font-size: 0.85rem;
+}
+/* ===========================================================
+   Authors / Compilers screen
+   =========================================================== */
+.authors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+}
+/* Override .glass-card defaults (which use 30px padding + 30px bottom margin) */
+.author-card.glass-card {
+    padding: 10px 6px 8px;
+    margin-bottom: 0;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    min-width: 0;
+}
+.author-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 72px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid rgba(165, 37, 44, 0.25);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+}
+.author-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #A5252C;
+    line-height: 1.2;
+    /* allow long Gujarati names to wrap cleanly inside the narrow cell */
+    word-break: break-word;
+}
+.author-dates {
+    font-size: 0.65rem;
+    color: #5d4e75;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+.about-vachanamrut-card.glass-card {
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    border-radius: 16px;
+}
+.about-vachanamrut-title {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    border-bottom: 1px solid rgba(165, 37, 44, 0.15);
+    padding-bottom: 8px;
+}
+.about-vachanamrut-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #2c2c2c;
+    margin: 0 0 10px;
+}
+.about-vachanamrut-text:last-of-type {
+    margin-bottom: 14px;
+}
+.about-vachanamrut-source {
+    font-size: 0.78rem;
+    color: #5d4e75;
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(165, 37, 44, 0.1);
+}
+.about-vachanamrut-source a {
+    color: #A5252C;
+    text-decoration: none;
+    font-weight: 600;
+}
+.about-vachanamrut-source a:hover { text-decoration: underline; }
+
+@media (max-width: 380px) {
+    .authors-grid { gap: 6px; }
+    .author-photo { max-width: 60px; }
+    .author-name { font-size: 0.68rem; }
+    .author-dates { font-size: 0.6rem; }
+    .author-card.glass-card { padding: 8px 4px 6px; }
+}
+
+.facts-xref-emoji {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    /* Apple/Segoe/Noto color emoji */
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+.facts-xref-text {
+    color: #2c2c2c;
+    line-height: 1.35;
+}
+.facts-xref-text strong {
+    color: #A5252C;
+    font-weight: 700;
+}
+.facts-xref-delta {
+    color: #5d4e75;
+    font-size: 0.78rem;
+}
+
+/* Questioner chips — compact names only */
+.facts-questioners {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.facts-questioner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(165, 37, 44, 0.18);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #A5252C;
+}
+.facts-questioner-chip i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.facts-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 32px 16px;
+    font-size: 0.9rem;
+    color: #5d4e75;
+    text-align: center;
+    line-height: 1.5;
+}
+.facts-empty i {
+    font-size: 1.6rem;
+    color: rgba(165, 37, 44, 0.5);
+}
+
+/* Lock background scroll while the facts modal is open */
+body.facts-modal-open {
+    overflow: hidden;
+    /* keep layout width stable when the scrollbar disappears */
+    padding-right: var(--scrollbar-w, 0);
+}
+
+/* Mobile tightening */
+@media (max-width: 600px) {
+    .facts-modal {
+        max-height: 92vh;
+        border-radius: 16px;
+    }
+    .facts-modal-body {
+        padding: 14px 16px 18px;
+    }
+    .fact-value {
+        font-size: 0.9rem;
+    }
 }
