@@ -7,3 +7,5 @@ raw-vachanamrut-1.json
 venv/
 main.zip
 
+.env
+scratch/__pycache__/convert_json_to_sqlite.cpython-314.pyc

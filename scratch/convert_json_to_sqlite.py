@@ -180,6 +180,18 @@ LIFE_EVENTS = [
         'hindu_date_gu': 'સંવત ૧૮૮૨ ના મહા સુદ ૫ (વસંત પંચમી)',
     },
     {
+        'event_date': '1822-02-04',
+        'event_type': 'festival',
+        'name_en': 'Shakotsav (Saak Utsav)',
+        'name_gu': 'શાકોત્સવ',
+        'description_en': 'Shri Hari personally cooked a feast of vegetables for the paramhansas and devotees at Surā Khāchar\'s darbār in Loyā, instituting the Saak Utsav tradition.',
+        'description_gu': 'સુરા ખાચરના દરબારમાં શ્રીહરિએ સ્વહસ્તે પરમહંસો અને હરિભક્તો માટે શાકનું ભોજન રાંધી શાકોત્સવની પરંપરા સ્થાપી.',
+        'location_en': 'Surā Khāchar\'s darbār, Loyā, Gujarat',
+        'location_gu': 'સુરા ખાચરનો દરબાર, લોયા, ગુજરાત',
+        'hindu_date_en': 'Mahā sud 7, Samvat 1878',
+        'hindu_date_gu': 'સંવત ૧૮૭૮ ના મહા સુદ ૭',
+    },
+    {
         'event_date': '1830-06-01',
         'event_type': 'departure',
         'name_en': 'Akshardhām Gaman',
@@ -577,6 +589,75 @@ def extract_questions_and_questioners(text):
 
     return cleaned_pairs
 
+
+UTSAV_EN = {
+    'વસંત પંચમી': 'Vasant Panchami',
+    'પુષ્પદોલોત્સવ': 'Pushpadolotsav',
+    'રામનવમી / શ્રીહરિ જયંતિ': 'Ram Navami / Hari Jayanti',
+    'હનુમાન જયંતિ': 'Hanuman Jayanti',
+    'જનમાષ્ટમી': 'Janmashtami',
+    'ગણેશ ચતુર્થી': 'Ganesh Chaturthi',
+    'વામન જયંતિ': 'Vaman Jayanti',
+    'કાળીચૌદશ': 'Kali Chaudash',
+    'દિવાળી': 'Diwali',
+    'બેસતુ વર્ષ (અન્ન્કુટ ઉત્સવ)': 'New Year (Annakut Utsav)',
+    'પ્રબોધિની એકાદશી': 'Prabodhini Ekadashi',
+    'દેવ દિવાળી': 'Dev Diwali',
+    'હોળી': 'Holi',
+    'જલજીલણી એકાદશી': 'Jal Jhilani Ekadashi',
+    'વાઘબારશ': 'Vagh Barash',
+    'શરદ પુનમ (ગુણાતીતાનંદ સ્વામી જયંતિ)': 'Sharad Poonam',
+    'ન્રુસિંહ જયંતિ': 'Nrusinh Jayanti'
+}
+
+
+def compile_stemming_rules():
+    stemming_map = {}
+    paths = [
+        'scratch/Vachnamrut-Visulization/Resource Files/stemming.txt',
+        'scratch/Vachnamrut-Visulization/Resource Files/stemming_varnan.txt'
+    ]
+    for path in paths:
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    parts = [p.strip() for p in line.split(',')]
+                    if len(parts) >= 2:
+                        root = parts[0]
+                        for variant in parts[1:]:
+                            if variant:
+                                stemming_map[variant] = root
+    
+    output_path = 'assets/gujarati_stemming.json'
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(stemming_map, f, ensure_ascii=False, indent=2)
+    print(f"Generated {output_path} with {len(stemming_map)} stemming rules.")
+
+
+def compile_stopwords():
+    stopwords_set = set()
+    paths = [
+        'scratch/Vachnamrut-Visulization/Resource Files/stopwords.txt',
+        'scratch/Vachnamrut-Visulization/Resource Files/stopwords_varnan.txt'
+    ]
+    for path in paths:
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    for word in line.strip().split():
+                        word = word.strip()
+                        if word:
+                            stopwords_set.add(word)
+                            
+    output_path = 'assets/gujarati_stopwords.json'
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(sorted(list(stopwords_set)), f, ensure_ascii=False, indent=2)
+    print(f"Generated {output_path} with {len(stopwords_set)} stopwords.")
+
+
 def main():
     db_path = 'assets/data/vachanamrut.db'
     
@@ -590,6 +671,16 @@ def main():
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
+
+    cloned_db_path = 'scratch/Vachnamrut-Visulization/Granth DB/granth.db'
+    cloned_conn = None
+    cloned_cursor = None
+    if os.path.exists(cloned_db_path):
+        cloned_conn = sqlite3.connect(cloned_db_path)
+        cloned_cursor = cloned_conn.cursor()
+        print("Connected to cloned database at", cloned_db_path)
+    else:
+        print("Warning: Cloned database not found at", cloned_db_path)
 
     # 1. Create scriptures table
     cursor.execute('''
@@ -654,12 +745,13 @@ def main():
             maharaj_age_years INTEGER,
             maharaj_age_days INTEGER,
             clothing_en TEXT,
-            clothing_gu TEXT
+            clothing_gu TEXT,
+            utsav_gu TEXT,
+            utsav_en TEXT
         )
     ''')
     print("Created table 'timeline_events'")
 
-    # 5. Create vachanamrut_questions table
     cursor.execute('''
         CREATE TABLE vachanamrut_questions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -671,6 +763,19 @@ def main():
         )
     ''')
     print("Created table 'vachanamrut_questions'")
+
+    # 5.1. Create vachanamrut_glossary table
+    cursor.execute('''
+        CREATE TABLE vachanamrut_glossary (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            vachanamrut_id INTEGER,
+            word_en TEXT,
+            word_gu TEXT,
+            meaning_en TEXT,
+            meaning_gu TEXT
+        )
+    ''')
+    print("Created table 'vachanamrut_glossary'")
 
     # 6. Create and populate mandirs table
     cursor.execute('''
@@ -764,21 +869,41 @@ def main():
                             town_for_vach = vach_to_town.get(i, 'Unknown')
                             greg_date, greg_raw, hindu, tod, loc, town, clothes = extract_timeline_details(setting, town_for_vach)
                             season, season_months, age_y, age_d = compute_season_and_age(greg_date)
-                            # Pull Gujarati setting to derive hindu_date_gu
+                            # Pull Gujarati setting and vachanamrut name
                             gu_setting = ''
+                            gu_vach_name = ''
                             gu_path = os.path.join('assets', 'data', 'gujarati', f'vachanamrut-{i}.json')
                             if os.path.exists(gu_path):
                                 try:
                                     with open(gu_path, 'r', encoding='utf-8') as gf:
-                                        gu_setting = json.load(gf).get('setting', '') or ''
+                                        gu_data = json.load(gf)
+                                        gu_setting = gu_data.get('setting', '') or ''
+                                        gu_vach_name = gu_data.get('vachanamrut', '') or ''
                                 except Exception:
                                     pass
                             hindu_gu = HINDU_DATE_GU_OVERRIDES.get(i) or parse_hindu_date_gu(gu_setting)
                             loc_gu, cloth_gu = parse_gu_location_and_clothing(gu_setting)
+
+                            # Fetch Utsav details from cloned database
+                            utsav_gu = None
+                            utsav_en = None
+                            if cloned_cursor and gu_vach_name:
+                                vach_name_clean = gu_vach_name.strip()
+                                cloned_cursor.execute("SELECT Utsav FROM VachanamrutGranth WHERE TRIM(AmrutNo) = ?", (vach_name_clean,))
+                                row = cloned_cursor.fetchone()
+                                if row and row[0] and row[0] != 'None' and row[0].strip() != '':
+                                    val_gu = row[0].strip()
+                                    val_en = UTSAV_EN.get(val_gu)
+                                    if val_en:
+                                        utsav_gu = val_gu
+                                        utsav_en = val_en
+                                        if 'શરદ પુનમ' in utsav_gu:
+                                            utsav_gu = 'શરદ પુનમ'
+
                             cursor.execute('''
-                                INSERT INTO timeline_events (vachanamrut_id, gregorian_date, gregorian_date_raw, hindu_date_en, hindu_date_gu, time_of_day_en, time_of_day_gu, location_en, location_gu, town_en, town_gu, season_en, season_gu, season_months_en, season_months_gu, maharaj_age_years, maharaj_age_days, clothing_en, clothing_gu)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                            ''', (i, greg_date, greg_raw, hindu, hindu_gu, tod, TIME_OF_DAY_GU.get(tod), loc, loc_gu, town, TOWN_GU.get(town), season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d, clothes, cloth_gu))
+                                INSERT INTO timeline_events (vachanamrut_id, gregorian_date, gregorian_date_raw, hindu_date_en, hindu_date_gu, time_of_day_en, time_of_day_gu, location_en, location_gu, town_en, town_gu, season_en, season_gu, season_months_en, season_months_gu, maharaj_age_years, maharaj_age_days, clothing_en, clothing_gu, utsav_gu, utsav_en)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            ''', (i, greg_date, greg_raw, hindu, hindu_gu, tod, TIME_OF_DAY_GU.get(tod), loc, loc_gu, town, TOWN_GU.get(town), season, SEASON_GU.get(season), season_months, SEASON_MONTHS_GU.get(season_months), age_y, age_d, clothes, cloth_gu, utsav_gu, utsav_en))
                             
                             # Parse and insert questions (with Gujarati pairing)
                             questions = extract_questions_and_questioners(clean_text)
@@ -943,6 +1068,31 @@ def main():
     else:
         print(f"Error: {videos_path} not found.")
 
+    # 5.2. Load glossary entries
+    glossary_path = 'assets/glossary.json'
+    glossary_entries = []
+    if os.path.exists(glossary_path):
+        print(f"\nProcessing glossary data from: {glossary_path}")
+        with open(glossary_path, 'r', encoding='utf-8') as f:
+            try:
+                glossary_entries = json.load(f)
+                for entry in glossary_entries:
+                    cursor.execute('''
+                        INSERT INTO vachanamrut_glossary (vachanamrut_id, word_en, word_gu, meaning_en, meaning_gu)
+                        VALUES (?, ?, ?, ?, ?)
+                    ''', (
+                        entry.get('vachanamrut_id'),
+                        entry.get('word_en'),
+                        entry.get('word_gu'),
+                        entry.get('meaning_en'),
+                        entry.get('meaning_gu')
+                    ))
+                print(f"  Loaded {len(glossary_entries)} glossary entries.")
+            except Exception as e:
+                print(f"Error parsing {glossary_path}: {e}")
+    else:
+        print(f"Warning: {glossary_path} not found.")
+
     conn.commit()
     
     # Verification queries
@@ -963,6 +1113,9 @@ def main():
     cursor.execute("SELECT COUNT(*) FROM vachanamrut_questions")
     print(f"Questions -> Count: {cursor.fetchone()[0]}")
 
+    cursor.execute("SELECT COUNT(*) FROM vachanamrut_glossary")
+    print(f"Glossary -> Count: {cursor.fetchone()[0]}")
+
     # Check for text duplicates in scriptures table
     cursor.execute("SELECT text FROM scriptures WHERE language='english' AND type='vachanamrut' AND id=1")
     v1_text = cursor.fetchone()[0]
@@ -973,11 +1126,16 @@ def main():
     v1_text_clean = " ".join(v1_text.split())
     if stripped_setting_clean[:40] in v1_text_clean:
         print("\n[WARNING] Text duplication STILL present in scriptures table for English!")
-    else:
-        print("\n[SUCCESS] Text duplication successfully cleaned from English scriptures table!")
+    if cloned_conn:
+        cloned_conn.close()
 
     conn.close()
     print(f"\nSuccessfully compiled and normalized all data into {db_path}!")
+
+    # Compile stemming and stopwords assets
+    print("\nCompiling Gujarati NLP assets...")
+    compile_stemming_rules()
+    compile_stopwords()
 
 if __name__ == '__main__':
     main()

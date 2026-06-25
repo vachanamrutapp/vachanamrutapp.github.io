@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.10.9';
+const CACHE_NAME = '1.10.17';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -52,8 +52,14 @@ const EXTRA_IMAGES = [
     './images/facts/spring-season.png',
     './images/facts/rainy-season.png',
     './images/facts/fall-season.png',
-    './images/facts/winter-calendar.png',
-    './images/facts/summer-calendar.png',
+    './images/facts/winter-season.png',
+    './images/facts/summer-season.png',
+    './images/facts/calendar.png',
+    './images/facts/festival.png',
+    './images/facts/shikshapatri.png',
+    './images/facts/acharya-gadi.png',
+    './images/facts/star-bye.png',
+    './images/facts/shakotsav.png',
     './images/facts/authors/SwaminarayanBhagwaan.webp',
     './images/facts/authors/muktanandSwami.webp',
     './images/facts/authors/gopalanandSwami.webp',
