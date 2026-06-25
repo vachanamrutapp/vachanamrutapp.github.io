@@ -282,6 +282,22 @@
             });
         }
     </script>
+
+    <script>
+      (function () {
+        var url = "https://simkeyurapp.web.app/collect";
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            siteId: "vachanamrut-app",
+            path: location.pathname,
+            referrer: document.referrer,
+          }),
+          keepalive: true,
+        }).catch(function () {});
+      })();
+    </script>
 </body>
 
 </html>
