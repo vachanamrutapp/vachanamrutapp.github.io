@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.10.3';
+const CACHE_NAME = '1.10.9';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [

@@ -1996,7 +1996,7 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || timelineScreen.classList.contains('active')) {
+        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || timelineScreen.classList.contains('active') || document.getElementById('authors-screen').classList.contains('active')) {
             showScreen('home-screen');
         }
     });
