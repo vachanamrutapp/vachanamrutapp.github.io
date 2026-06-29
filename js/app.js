@@ -1910,20 +1910,20 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
         const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
         if (isGuj) {
             titleString = `${cleanNumber}: ${cleanTitle} | વચનામૃત ઓનલાઇન`;
-            descString = `શ્રી સ્વામિનારાયણ ભગવાન દ્વારા પ્રબોધિત વચનામૃત: ${cleanNumber} - ${cleanTitle}. Gadhada, Sarangpur, Loya, Panchala, Ahmedabad, Kariyani Vachanamrut.`;
+            descString = `શ્રી સ્વામિનારાયણ ભગવાન દ્વારા પ્રબોધિત વચનામૃત: ${cleanNumber} - ${cleanTitle}. BAPS, Vadtal, Gadhada, Sarangpur, Loya, Panchala, Ahmedabad, Kariyani Vachanamrut.`;
         } else {
             titleString = `${cleanNumber}: ${cleanTitle} | Vachanamrut Online`;
-            descString = `Read Bhagwan Swaminarayan's discourse: ${cleanNumber} - ${cleanTitle}. Explore Swaminarayan Vachanamrut scripture in English and Gujarati.`;
+            descString = `Read Bhagwan Swaminarayan's discourse: ${cleanNumber} - ${cleanTitle}. Explore BAPS and Vadtal Vachanamrut scripture in English and Gujarati.`;
         }
     } else if (screenId === 'section-detail-screen' && currentSection) {
         const name = isGuj ? currentSection.name_gu : (currentSection.name_en || currentSection.name_gu);
         const description = isGuj ? currentSection.description_gu : (currentSection.description_en || currentSection.description_gu || '');
         if (isGuj) {
             titleString = `${name} પ્રકરણ | વચનામૃત`;
-            descString = `${name} વિભાગના તમામ વચનામૃતો ઓનલાઇન વાંચો. ${description}. Vachanamrut, Bhagwan Swaminarayan.`;
+            descString = `${name} વિભાગના તમામ વચનામૃતો ઓનલાઇન વાંચો. ${description}. BAPS Vachanamrut, Vadtal Vachanamrut, Bhagwan Swaminarayan.`;
         } else {
             titleString = `${name} Section | Vachanamrut`;
-            descString = `Read all Vachanamruts from the ${name} section online. ${description}. Vachanamrut, Bhagwan Swaminarayan.`;
+            descString = `Read all Vachanamruts from the ${name} section online. ${description}. BAPS Vachanamrut, Vadtal Vachanamrut, Bhagwan Swaminarayan.`;
         }
     } else if (screenId === 'favourites-screen') {
         if (isGuj) {
@@ -1953,10 +1953,10 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
         // Home Screen or fallback
         if (isGuj) {
             titleString = `વચનામૃત | શ્રી સ્વામિનારાયણ વચનામૃત ઓનલાઇન | vachanamrut.in`;
-            descString = `ભગવાન સ્વામિનારાયણ દ્વારા પ્રબોધિત વચનામૃત શાસ્ત્ર. ગઢડા, સારંગપુર, લોયા, પંચાળા, કારિયાણી, અમદાવાદ વચનામૃત.`;
+            descString = `ભગવાન સ્વામિનારાયણ દ્વારા પ્રબોધિત વચનામૃત શાસ્ત્ર. BAPS વચનામૃત, વડતાલ વચનામૃત, ગઢડા, સારંગપુર, લોયા, પંચાળા, કારિયાણી, અમદાવાદ વચનામૃત.`;
         } else {
             titleString = `Vachanamrut | Swaminarayan Vachanamrut Online | vachanamrut.in`;
-            descString = `Explore the sacred Vachanamrut scripture of Bhagwan Swaminarayan. Read Swaminarayan Vachanamrut with English translations, audio, and videos.`;
+            descString = `Explore the sacred Vachanamrut scripture of Bhagwan Swaminarayan. Read BAPS and Vadtal Vachanamrut with English translations, audio, and videos.`;
         }
     }
 
