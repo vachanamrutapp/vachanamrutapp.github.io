@@ -349,6 +349,9 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Setup Audio Player
     setupAudioPlayer(vachanamrut);
+
+    // Update SEO title and description dynamically
+    updateSEOMetadata('vachanamrut-detail-screen', vachanamrut);
 }
 
 function setupAudioPlayer(vachanamrut) {
@@ -1674,6 +1677,11 @@ function showScreen(screenId, pushState = true) {
         audioPlayerContainer.classList.remove('state-bar');
         audioPlayerContainer.classList.add('state-fab');
     }
+
+    // Update SEO title and description dynamically
+    if (screenId !== 'vachanamrut-detail-screen') {
+        updateSEOMetadata(screenId);
+    }
 }
 
 
@@ -1889,4 +1897,77 @@ function hideLoadingOverlay() {
     if (overlay) {
         overlay.classList.remove('active');
     }
+}
+
+// Update Document Title and Meta Description for SEO
+function updateSEOMetadata(screenId, vachanamrut = null) {
+    let titleString = '';
+    let descString = '';
+    const isGuj = currentLanguage === 'gujarati';
+
+    if (screenId === 'vachanamrut-detail-screen' && vachanamrut) {
+        const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+        const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
+        if (isGuj) {
+            titleString = `${cleanNumber}: ${cleanTitle} | BAPS અને વડતાલ વચનામૃત ઓનલાઇન`;
+            descString = `શ્રી સ્વામિનારાયણ ભગવાન દ્વારા પ્રબોધિત વચનામૃત: ${cleanNumber} - ${cleanTitle}. BAPS, Vadtal, Gadhada, Sarangpur, Loya, Panchala, Ahmedabad, Kariyani Vachanamrut.`;
+        } else {
+            titleString = `${cleanNumber}: ${cleanTitle} | BAPS & Vadtal Vachanamrut Online`;
+            descString = `Read Bhagwan Swaminarayan's discourse: ${cleanNumber} - ${cleanTitle}. Explore BAPS and Vadtal Vachanamrut scripture in English and Gujarati.`;
+        }
+    } else if (screenId === 'section-detail-screen' && currentSection) {
+        const name = isGuj ? currentSection.name_gu : (currentSection.name_en || currentSection.name_gu);
+        const description = isGuj ? currentSection.description_gu : (currentSection.description_en || currentSection.description_gu || '');
+        if (isGuj) {
+            titleString = `${name} પ્રકરણ | વચનામૃત | BAPS અને વડતાલ વચનામૃત`;
+            descString = `${name} વિભાગના તમામ વચનામૃતો ઓનલાઇન વાંચો. ${description}. BAPS Vachanamrut, Vadtal Vachanamrut, Bhagwan Swaminarayan.`;
+        } else {
+            titleString = `${name} Section | Vachanamrut | BAPS & Vadtal Vachanamrut`;
+            descString = `Read all Vachanamruts from the ${name} section online. ${description}. BAPS Vachanamrut, Vadtal Vachanamrut, Bhagwan Swaminarayan.`;
+        }
+    } else if (screenId === 'favourites-screen') {
+        if (isGuj) {
+            titleString = `મારા મનપસંદ વચનામૃતો | વચનામૃત`;
+            descString = `તમારા મનપસંદ સાચવેલા વચનામૃતોની સૂચિ. vachanamrut.in પર સેવ કરેલા વચનામૃત.`;
+        } else {
+            titleString = `My Favourite Vachanamruts | Vachanamrut`;
+            descString = `List of your saved favorite Vachanamruts. Access bookmarked Swaminarayan Vachanamruts anytime on vachanamrut.in.`;
+        }
+    } else if (screenId === 'authors-screen') {
+        if (isGuj) {
+            titleString = `સંપાદકો: મુક્તાનંદ, ગોપાળાનંદ, નિત્યાનંદ, શુકાનંદ સ્વામી | વચનામૃત`;
+            descString = `ભગવાન સ્વામિનારાયણના પરમહંસો - સદ્ગુરુ મુક્તાનંદ સ્વામી, ગોપાળાનંદ સ્વામી, નિત્યાનંદ સ્વામી, શુકાનંદ સ્વામી વિશે માહિતી.`;
+        } else {
+            titleString = `Compilers: Muktanand, Gopalanand, Nityanand, Shukanand Swami | Vachanamrut`;
+            descString = `Learn about the compilers of the Swaminarayan Vachanamrut: Sadguru Muktanand Swami, Gopalanand Swami, Nityanand Swami, and Shukanand Swami.`;
+        }
+    } else if (screenId === 'settings-screen') {
+        if (isGuj) {
+            titleString = `સેટિંગ્સ | વચનામૃત`;
+            descString = `વચનામૃત વાંચવા માટે અક્ષરોના કદ (Font Size), થીમ (Theme), અને ભાષા (Language) ના સેટિંગ્સ.`;
+        } else {
+            titleString = `Settings | Vachanamrut`;
+            descString = `Customize your reading experience on vachanamrut.in. Change font size, theme (Sepia, Dark, Default), and language.`;
+        }
+    } else {
+        // Home Screen or fallback
+        if (isGuj) {
+            titleString = `વચનામૃત | BAPS અને વડતાલ વચનામૃત ઓનલાઇન | vachanamrut.in`;
+            descString = `ભગવાન સ્વામિનારાયણ દ્વારા પ્રબોધિત વચનામૃત શાસ્ત્ર. BAPS વચનામૃત, વડતાલ વચનામૃત, ગઢડા, સારંગપુર, લોયા, પંચાળા, કારિયાણી, અમદાવાદ વચનામૃત.`;
+        } else {
+            titleString = `Vachanamrut | BAPS & Vadtal Vachanamrut Online | vachanamrut.in`;
+            descString = `Explore the sacred Vachanamrut scripture of Bhagwan Swaminarayan. Read BAPS and Vadtal Vachanamrut with English translations, audio, and videos.`;
+        }
+    }
+
+    document.title = titleString;
+
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.setAttribute('name', 'description');
+        document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', descString);
 }
