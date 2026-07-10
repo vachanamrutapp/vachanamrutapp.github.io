@@ -1415,6 +1415,56 @@ body.gujarati .chapter-description {
     font-weight: 500;
 }
 
+.settings-link-row {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.settings-link-row:hover {
+    opacity: 0.75;
+}
+
+.settings-link-row span i {
+    color: var(--secondary-color);
+    margin-right: 6px;
+}
+
+.settings-row-chevron {
+    color: var(--secondary-color);
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+/* Home screen section progress bar */
+.chapter-progress-container-small {
+    margin-top: 12px;
+    margin-left: 44px;
+}
+
+.chapter-progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7a1500;
+    margin-bottom: 4px;
+}
+
+.chapter-progress-bar-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(165, 37, 44, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chapter-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #E6A623, #A5252C);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
 /* Container for Audio Player (handles both FAB and Bar states) */
 .audio-player-container {
     position: fixed;
@@ -2597,4 +2647,393 @@ body.facts-modal-open {
     font-size: 0.76rem;
     color: #5d4e75;
     line-height: 1.45;
+}
+
+/* ===========================================================
+   Journey / Reading Progress Screen
+   =========================================================== */
+.journey-page-card {
+    max-width: 560px;
+    margin: 20px auto;
+    padding: 20px 20px 28px;
+}
+
+.journey-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.journey-ring-wrap {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    flex-shrink: 0;
+}
+
+.journey-ring-svg {
+    transform: rotate(-90deg);
+}
+
+.journey-ring-track {
+    fill: none;
+    stroke: rgba(165, 37, 44, 0.12);
+    stroke-width: 11;
+}
+
+.journey-ring-fill {
+    fill: none;
+    stroke: #A5252C;
+    stroke-width: 11;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.journey-ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.journey-ring-pct {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #A5252C;
+    line-height: 1.1;
+}
+
+.journey-ring-sub {
+    font-size: 0.75rem;
+    color: #5d4e75;
+    font-weight: 600;
+}
+
+.journey-continue-btn {
+    flex: 1;
+    min-width: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #E6A623;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    font-family: inherit;
+    text-align: left;
+    transition: transform 0.15s ease;
+}
+
+.journey-continue-btn:active {
+    transform: scale(0.98);
+}
+
+.journey-continue-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.journey-continue-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #7a1500;
+}
+
+.journey-continue-target {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #5a1000;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.journey-continue-btn > i {
+    color: #7a1500;
+    flex-shrink: 0;
+}
+
+.journey-section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #A5252C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 22px 0 10px;
+}
+
+.journey-section-map {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+}
+
+@media (min-width: 420px) {
+    .journey-section-map {
+        grid-template-columns: repeat(11, 1fr);
+    }
+}
+
+.journey-map-cell {
+    position: relative;
+    aspect-ratio: 1;
+    border: 1px solid rgba(165, 37, 44, 0.18);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    transition: transform 0.15s ease;
+}
+
+.journey-map-cell:active {
+    transform: scale(0.94);
+}
+
+.journey-map-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(230, 166, 35, 0.55);
+    transition: height 0.4s ease;
+}
+
+.journey-map-num {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #5a1000;
+}
+
+.journey-map-cell.complete {
+    background: #A5252C;
+    border-color: #A5252C;
+}
+
+.journey-map-cell.complete .journey-map-num {
+    color: #fff;
+    font-size: 0.65rem;
+}
+
+.journey-map-cell.complete .journey-map-fill {
+    display: none;
+}
+
+.journey-streak-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    padding: 12px 16px;
+}
+
+.journey-week-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.journey-week-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.journey-week-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+}
+
+.journey-week-day.active .journey-week-dot {
+    background: #A5252C;
+}
+
+.journey-week-letter {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #7a6a5a;
+}
+
+.journey-streak-count {
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.journey-streak-count span:first-child {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #A5252C;
+    line-height: 1.1;
+}
+
+.journey-streak-unit {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #7a6a5a;
+}
+
+.journey-chips {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.journey-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2C1D18;
+    font-family: inherit;
+}
+
+.journey-chip i {
+    color: #A5252C;
+    font-size: 0.8rem;
+}
+
+.journey-chip b {
+    font-weight: 800;
+}
+
+.journey-chip-link {
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.journey-chip-link:active {
+    transform: scale(0.97);
+}
+
+.journey-milestones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.journey-milestone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 14px;
+    padding: 10px 12px;
+    opacity: 0.55;
+}
+
+.journey-milestone.done {
+    opacity: 1;
+    border-color: rgba(165, 37, 44, 0.25);
+    box-shadow: 0 3px 10px rgba(165, 37, 44, 0.08);
+}
+
+.journey-milestone-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.journey-milestone-icon i {
+    color: #7a6a5a;
+    font-size: 14px;
+}
+
+.journey-milestone.done .journey-milestone-icon {
+    background: rgba(165, 37, 44, 0.12);
+}
+
+.journey-milestone.done .journey-milestone-icon i {
+    color: #A5252C;
+}
+
+.journey-milestone-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #2C1D18;
+    line-height: 1.25;
+}
+
+.journey-milestone-desc {
+    font-size: 0.68rem;
+    color: #7a6a5a;
+    line-height: 1.2;
+}
+
+.journey-milestone-check {
+    color: #A5252C;
+    font-size: 1rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.journey-reset-row {
+    text-align: center;
+    margin-top: 22px;
+}
+
+.journey-reset-link {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 6px 10px;
+}
+
+.journey-reset-link:hover {
+    color: #C62828;
+}
+
+@media (max-width: 480px) {
+    .journey-milestones {
+        grid-template-columns: 1fr;
+    }
 }

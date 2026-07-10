@@ -324,6 +324,21 @@
 
             </div>
 
+            <div class="settings-card glass-card">
+                <h3>Reading Progress / વાંચન પ્રગતિ</h3>
+                <div class="setting-item">
+                    <span>Track Progress / પ્રગતિ ટ્રૅક કરો</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="progress-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item settings-link-row" id="settings-journey-row">
+                    <span><i class="fas fa-route"></i> Your Journey / તમારી યાત્રા</span>
+                    <i class="fas fa-chevron-right settings-row-chevron"></i>
+                </div>
+            </div>
+
             <div class="settings-card glass-card settings-centered">
                 <div class="settings-header-badge">
                     <h3>Reset Settings</h3>
@@ -334,6 +349,72 @@
                 <p id="app-version" class="settings-version">Version: Loading...</p>
             </div>
         </div>
+
+        <!-- Journey Screen -->
+        <div id="journey-screen" class="screen">
+            <div class="glass-card journey-page-card">
+                <h2 class="screen-title">
+                    <span class="lang-guj">તમારી યાત્રા</span>
+                    <span class="lang-eng">Your Journey</span>
+                </h2>
+
+                <!-- Hero: progress ring + continue reading -->
+                <div class="journey-hero">
+                    <div class="journey-ring-wrap">
+                        <svg class="journey-ring-svg" width="132" height="132" viewBox="0 0 132 132">
+                            <circle class="journey-ring-track" cx="66" cy="66" r="56"></circle>
+                            <circle id="journey-ring-fill" class="journey-ring-fill" cx="66" cy="66" r="56"></circle>
+                        </svg>
+                        <div class="journey-ring-center">
+                            <div id="journey-page-pct" class="journey-ring-pct">0%</div>
+                            <div class="journey-ring-sub"><span id="journey-page-read">0</span> / <span id="journey-page-total">268</span></div>
+                        </div>
+                    </div>
+                    <button id="journey-continue-btn" class="journey-continue-btn">
+                        <span class="journey-continue-text">
+                            <span id="journey-continue-label" class="journey-continue-label">Start your journey</span>
+                            <span id="journey-continue-target" class="journey-continue-target">Vachanamrut 1</span>
+                        </span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Section map -->
+                <div class="journey-section-title"><i class="fas fa-map"></i>
+                    <span class="lang-guj">વિભાગ નકશો</span>
+                    <span class="lang-eng">Section Map</span>
+                </div>
+                <div id="journey-section-map" class="journey-section-map"></div>
+
+                <!-- Streak -->
+                <div class="journey-section-title"><i class="fas fa-fire"></i>
+                    <span class="lang-guj">દૈનિક સ્ટ્રીક</span>
+                    <span class="lang-eng">Daily Streak</span>
+                </div>
+                <div class="journey-streak-card">
+                    <div id="journey-week-dots" class="journey-week-dots"></div>
+                    <div class="journey-streak-count"><span id="journey-page-streak">0</span><span class="journey-streak-unit">day streak</span></div>
+                </div>
+
+                <!-- Stats chips -->
+                <div class="journey-chips">
+                    <div class="journey-chip"><i class="fas fa-book-open"></i><span id="journey-page-sections"><b>0</b> sections completed</span></div>
+                    <button id="journey-favourites-chip" class="journey-chip journey-chip-link"><i class="fas fa-heart"></i><span id="journey-page-favs"><b>0</b> favourites</span><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <!-- Milestones -->
+                <div class="journey-section-title"><i class="fas fa-award"></i>
+                    <span class="lang-guj">સિદ્ધિઓ</span>
+                    <span class="lang-eng">Milestones</span>
+                </div>
+                <div id="journey-milestones" class="journey-milestones"></div>
+
+                <div class="journey-reset-row">
+                    <button id="journey-reset-btn" class="journey-reset-link"><i class="fas fa-undo"></i> Reset progress</button>
+                </div>
+            </div>
+        </div>
+
         <div id="audio-player-container" class="audio-player-container state-fab" style="display: none;">
             <!-- FAB View -->
             <button id="audio-fab-view" class="audio-fab-view" title="Play Vachanamrut Audio">
@@ -369,6 +450,7 @@
         </div>
     </main>
     <div id="fab-menu" class="fab-menu">
+        <button id="fab-journey" class="fab-sub-btn" title="Your Journey"><i class="fas fa-route"></i></button>
         <button id="fab-favourites" class="fab-sub-btn" title="Favourites"><i class="fas fa-heart"></i></button>
         <button id="fab-authors" class="fab-sub-btn" title="Compilers of Vachanamrut"><i class="fas fa-users"></i></button>
         <button id="fab-settings" class="fab-sub-btn" title="Settings"><i class="fas fa-cog"></i></button>

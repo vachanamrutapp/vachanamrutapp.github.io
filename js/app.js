@@ -324,6 +324,8 @@ function showVachanamrut(vachanamrut, pushState = true) {
         }
     }
 
+    markVachanamrutAsRead(safeId);
+
     showScreen('vachanamrut-detail-screen');
     applyFontSize();
     applyTheme();
@@ -860,6 +862,9 @@ function processSections() {
 function renderSections() {
     sectionsList.innerHTML = '';
 
+    const showProgress = isProgressTrackingEnabled();
+    const readIds = showProgress ? getReadIds() : [];
+
     sections.forEach((section, index) => {
         // Create Chapter Tile
         const tile = document.createElement('div');
@@ -878,6 +883,28 @@ function renderSections() {
             countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
         }
 
+        // Reading progress bar
+        let progressHtml = '';
+        if (showProgress) {
+            const sectionIds = section.vachanamruts.map(v => v.id);
+            const readCount = readIds.filter(id => sectionIds.includes(id)).length;
+            if (readCount > 0) {
+                const pct = section.count > 0 ? Math.min(100, Math.round((readCount / section.count) * 100)) : 0;
+                const readLabel = currentLanguage === 'english' ? `${pct}% Read` : `${pct}% વંચાયું`;
+                progressHtml = `
+                    <div class="chapter-progress-container-small">
+                        <div class="chapter-progress-header">
+                            <span>${readLabel}</span>
+                            <span>${readCount} / ${section.count}</span>
+                        </div>
+                        <div class="chapter-progress-bar-track">
+                            <div class="chapter-progress-bar-fill" style="width: ${pct}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         tile.innerHTML = `
             <span class="chapter-number">${index + 1}</span>
             <div class="chapter-header">
@@ -885,6 +912,7 @@ function renderSections() {
                 <span class="chapter-count">${countLabel}</span>
             </div>
             <p class="chapter-description">${description}</p>
+            ${progressHtml}
         `;
 
         // Click handler to show section detail
@@ -1086,6 +1114,269 @@ function updateBookmarkButtonState(currentId) {
         if (textSpan) {
             textSpan.textContent = currentLanguage === 'english' ? 'Bookmark' : 'બુકમાર્ક';
         }
+    }
+}
+
+// ===========================================================
+// Reading Journey / Progress Tracking
+// ===========================================================
+const TOTAL_VACHANAMRUTS = 268;
+
+function isProgressTrackingEnabled() {
+    return localStorage.getItem('showProgressTracking') !== 'false';
+}
+
+function getReadIds() {
+    try {
+        const raw = localStorage.getItem('vach_read_ids');
+        const ids = raw ? JSON.parse(raw) : [];
+        return Array.isArray(ids) ? ids : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function getActivityDates() {
+    try {
+        const raw = localStorage.getItem('vach_activity_dates');
+        const dates = raw ? JSON.parse(raw) : [];
+        return Array.isArray(dates) ? dates : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function getLastRead() {
+    try {
+        const raw = localStorage.getItem('vach_last_read');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function markVachanamrutAsRead(id) {
+    if (!isProgressTrackingEnabled()) return;
+
+    let readIds = getReadIds();
+    if (!readIds.includes(id)) {
+        readIds.push(id);
+        localStorage.setItem('vach_read_ids', JSON.stringify(readIds));
+    }
+
+    localStorage.setItem('vach_last_read', JSON.stringify({ id }));
+
+    // Save today's activity date (local time)
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    const localToday = new Date(today.getTime() - (offset * 60 * 1000));
+    const todayStr = localToday.toISOString().split('T')[0];
+
+    let activityDates = getActivityDates();
+    if (!activityDates.includes(todayStr)) {
+        activityDates.push(todayStr);
+        localStorage.setItem('vach_activity_dates', JSON.stringify(activityDates));
+    }
+}
+
+function computeStreak(dates) {
+    if (!dates || dates.length === 0) return 0;
+    const unique = [...new Set(dates)].sort().reverse();
+    let streak = 0;
+
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    const localToday = new Date(today.getTime() - (offset * 60 * 1000));
+    let cursor = new Date(localToday.toISOString().split('T')[0] + 'T00:00:00');
+
+    for (let i = 0; i < unique.length; i++) {
+        const cursorStr = cursor.toISOString().split('T')[0];
+        if (unique[i] === cursorStr) {
+            streak++;
+            cursor.setDate(cursor.getDate() - 1);
+        } else if (i === 0 && unique[i] !== cursorStr) {
+            // Allow streak to still count if last activity was yesterday (today not yet read)
+            const yesterday = new Date(cursor);
+            yesterday.setDate(yesterday.getDate() - 1);
+            if (unique[i] === yesterday.toISOString().split('T')[0]) {
+                streak++;
+                cursor = yesterday;
+                cursor.setDate(cursor.getDate() - 1);
+            } else {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    return streak;
+}
+
+function computeLongestStreak(dates) {
+    if (!dates || dates.length === 0) return 0;
+    const unique = [...new Set(dates)].sort();
+    let longest = 1, run = 1;
+    for (let i = 1; i < unique.length; i++) {
+        const prev = new Date(unique[i - 1] + 'T00:00:00');
+        const cur = new Date(unique[i] + 'T00:00:00');
+        if (cur - prev === 24 * 60 * 60 * 1000) {
+            run++;
+            longest = Math.max(longest, run);
+        } else {
+            run = 1;
+        }
+    }
+    return longest;
+}
+
+function renderJourneyPage() {
+    const readIds = getReadIds();
+    const activityDates = getActivityDates();
+    const lastRead = getLastRead();
+
+    const readCount = Math.min(readIds.length, TOTAL_VACHANAMRUTS);
+    const readPct = Math.min(100, Math.round((readCount / TOTAL_VACHANAMRUTS) * 100));
+
+    // Progress ring
+    const ring = document.getElementById('journey-ring-fill');
+    if (ring) {
+        const radius = ring.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        ring.style.strokeDasharray = `${circumference}`;
+        ring.style.strokeDashoffset = `${circumference * (1 - readPct / 100)}`;
+    }
+    const pctEl = document.getElementById('journey-page-pct');
+    if (pctEl) pctEl.textContent = `${readPct}%`;
+    const readEl = document.getElementById('journey-page-read');
+    if (readEl) readEl.textContent = readCount;
+    const totalEl = document.getElementById('journey-page-total');
+    if (totalEl) totalEl.textContent = TOTAL_VACHANAMRUTS;
+
+    // Continue reading button
+    const continueLabel = document.getElementById('journey-continue-label');
+    const continueTarget = document.getElementById('journey-continue-target');
+    if (continueLabel && continueTarget) {
+        if (lastRead) {
+            const targetVachanamrut = vachanamrutData.find(v => v.id === lastRead.id);
+            const num = targetVachanamrut ? targetVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : lastRead.id;
+            continueLabel.textContent = currentLanguage === 'english' ? 'Continue reading' : 'વાંચન ચાલુ રાખો';
+            continueTarget.textContent = num;
+        } else {
+            const firstVachanamrut = sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null;
+            const num = firstVachanamrut ? firstVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : '';
+            continueLabel.textContent = currentLanguage === 'english' ? 'Start your journey' : 'તમારી યાત્રા શરૂ કરો';
+            continueTarget.textContent = num;
+        }
+    }
+
+    const continueBtn = document.getElementById('journey-continue-btn');
+    if (continueBtn) {
+        continueBtn.onclick = () => {
+            let targetId = 1;
+            if (lastRead && vachanamrutData.find(v => v.id === lastRead.id)) {
+                targetId = lastRead.id;
+            } else if (sections.length && sections[0].vachanamruts.length) {
+                targetId = sections[0].vachanamruts[0].id;
+            }
+            const targetVachanamrut = vachanamrutData.find(v => v.id === targetId);
+            if (targetVachanamrut) {
+                const section = sections.find(s => s.vachanamruts.some(v => v.id === targetId));
+                if (section) {
+                    currentSection = section;
+                    currentSectionVachanamruts = section.vachanamruts;
+                }
+                showVachanamrut(targetVachanamrut);
+            }
+        };
+    }
+
+    // Section map
+    const map = document.getElementById('journey-section-map');
+    let sectionsCompleted = 0;
+    if (map && sections && sections.length) {
+        map.innerHTML = '';
+        sections.forEach((section, index) => {
+            const sectionIds = section.vachanamruts.map(v => v.id);
+            const cnt = readIds.filter(id => sectionIds.includes(id)).length;
+            const pct = section.count > 0 ? Math.min(100, Math.round((cnt / section.count) * 100)) : 0;
+            if (pct >= 100 && section.count > 0) sectionsCompleted++;
+            const cell = document.createElement('button');
+            cell.className = 'journey-map-cell' + (pct >= 100 ? ' complete' : (cnt > 0 ? ' started' : ''));
+            const label = currentLanguage === 'english' ? (section.name_en || section.name_gu) : section.name_gu;
+            cell.title = label;
+            cell.innerHTML = `
+                <span class="journey-map-fill" style="height: ${pct}%;"></span>
+                <span class="journey-map-num">${pct >= 100 ? '<i class="fas fa-check"></i>' : (index + 1)}</span>
+            `;
+            cell.addEventListener('click', () => showSectionDetail(index));
+            map.appendChild(cell);
+        });
+    }
+
+    // Streak: current week starting from Monday
+    const weekDots = document.getElementById('journey-week-dots');
+    if (weekDots) {
+        weekDots.innerHTML = '';
+        const dateSet = new Set(activityDates);
+
+        const today = new Date();
+        const currentDay = today.getDay();
+        const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+
+        const monday = new Date();
+        monday.setDate(today.getDate() + mondayOffset);
+
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            const offset = d.getTimezoneOffset();
+            const local = new Date(d.getTime() - (offset * 60 * 1000));
+            const dayStr = local.toISOString().split('T')[0];
+            const dot = document.createElement('div');
+            dot.className = 'journey-week-day' + (dateSet.has(dayStr) ? ' active' : '');
+            dot.innerHTML = `
+                <span class="journey-week-dot">${dateSet.has(dayStr) ? '<i class="fas fa-check"></i>' : ''}</span>
+                <span class="journey-week-letter">${d.toLocaleDateString('en-US', { weekday: 'narrow' })}</span>
+            `;
+            weekDots.appendChild(dot);
+        }
+    }
+    const streak = computeStreak(activityDates);
+    const streakEl = document.getElementById('journey-page-streak');
+    if (streakEl) streakEl.textContent = streak;
+
+    // Stats chips
+    const sectionsEl = document.getElementById('journey-page-sections');
+    if (sectionsEl) {
+        sectionsEl.innerHTML = `<b>${sectionsCompleted}</b> ${currentLanguage === 'english' ? (sectionsCompleted === 1 ? 'section' : 'sections') + ' completed' : 'વિભાગ પૂર્ણ'}`;
+    }
+    const favsEl = document.getElementById('journey-page-favs');
+    const favCount = favourites.length;
+    if (favsEl) favsEl.innerHTML = `<b>${favCount}</b> ${currentLanguage === 'english' ? (favCount === 1 ? 'favourite' : 'favourites') : 'ફેવરિટ'}`;
+
+    // Milestones
+    const milestonesEl = document.getElementById('journey-milestones');
+    if (milestonesEl) {
+        const longestStreak = computeLongestStreak(activityDates);
+        const isEn = currentLanguage === 'english';
+        const milestones = [
+            { icon: 'fa-seedling', name: isEn ? 'First Vachanamrut' : 'પ્રથમ વચનામૃત', desc: isEn ? 'Read your first discourse' : 'પ્રથમ પ્રવચન વાંચ્યું', done: readCount >= 1 },
+            { icon: 'fa-om', name: isEn ? 'Parayan Begins' : 'પારાયણનો પ્રારંભ', desc: isEn ? 'Read 27 vachanamruts' : '૨૭ વચનામૃત વાંચ્યાં', done: readCount >= 27 },
+            { icon: 'fa-book-open', name: isEn ? 'Section Complete' : 'વિભાગ પૂર્ણ', desc: isEn ? 'Finish a full section' : 'એક વિભાગ પૂર્ણ કર્યો', done: sectionsCompleted >= 1 },
+            { icon: 'fa-mountain', name: isEn ? 'Halfway There' : 'અડધે રસ્તે', desc: isEn ? 'Read 134 vachanamruts' : '૧૩૪ વચનામૃત વાંચ્યાં', done: readCount >= 134 },
+            { icon: 'fa-fire', name: isEn ? 'Steady Sadhana' : 'સ્થિર સાધના', desc: isEn ? '7-day reading streak' : '૭ દિવસની સ્ટ્રીક', done: longestStreak >= 7 },
+            { icon: 'fa-crown', name: isEn ? 'Vachanamrut Complete' : 'વચનામૃત સંપૂર્ણ', desc: isEn ? `Read all ${TOTAL_VACHANAMRUTS} vachanamruts` : 'સંપૂર્ણ વચનામૃત વાંચ્યાં', done: readCount >= TOTAL_VACHANAMRUTS },
+        ];
+        milestonesEl.innerHTML = milestones.map(m => `
+            <div class="journey-milestone${m.done ? ' done' : ''}">
+                <div class="journey-milestone-icon"><i class="fas ${m.icon}"></i></div>
+                <div class="journey-milestone-text">
+                    <div class="journey-milestone-name">${m.name}</div>
+                    <div class="journey-milestone-desc">${m.desc}</div>
+                </div>
+                ${m.done ? '<i class="fas fa-check-circle journey-milestone-check"></i>' : ''}
+            </div>
+        `).join('');
     }
 }
 
@@ -1573,6 +1864,48 @@ function setupMenu() {
         });
     }
 
+    // Journey button click
+    const fabJourney = document.getElementById('fab-journey');
+    if (fabJourney) {
+        fabJourney.addEventListener('click', () => {
+            showScreen('journey-screen');
+            isMenuOpen = false;
+            fabMenu.classList.remove('active');
+            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+        });
+    }
+
+    // Journey row inside Settings
+    const settingsJourneyRow = document.getElementById('settings-journey-row');
+    if (settingsJourneyRow) {
+        settingsJourneyRow.addEventListener('click', () => {
+            showScreen('journey-screen');
+        });
+    }
+
+    // Favourites chip inside Journey page
+    const journeyFavouritesChip = document.getElementById('journey-favourites-chip');
+    if (journeyFavouritesChip) {
+        journeyFavouritesChip.addEventListener('click', () => {
+            showScreen('favourites-screen');
+            renderFavourites();
+        });
+    }
+
+    // Journey reset button
+    const journeyResetBtn = document.getElementById('journey-reset-btn');
+    if (journeyResetBtn) {
+        journeyResetBtn.addEventListener('click', () => {
+            if (confirm('Reset your reading progress? This will not affect favourites or bookmarks.')) {
+                localStorage.removeItem('vach_read_ids');
+                localStorage.removeItem('vach_last_read');
+                localStorage.removeItem('vach_activity_dates');
+                renderJourneyPage();
+                renderSections(); // Refresh home screen progress bars too
+            }
+        });
+    }
+
     // Reset App Button
     const resetBtn = document.getElementById('reset-app-btn');
     if (resetBtn) {
@@ -1638,11 +1971,14 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'block';
         // backBtn and fabBtn are handled in showSectionDetail
-    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'authors-screen') {
+    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'authors-screen' || screenId === 'journey-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
         fabBtn.style.display = 'none';
+        if (screenId === 'journey-screen') {
+            renderJourneyPage();
+        }
     } else {
         footer.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
@@ -1708,7 +2044,7 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || document.getElementById('authors-screen').classList.contains('active')) {
+        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || document.getElementById('authors-screen').classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
             showScreen('home-screen');
         }
     });
@@ -1835,6 +2171,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else if (activeScreenId === 'favourites-screen') {
                     renderFavourites();
+                } else if (activeScreenId === 'journey-screen') {
+                    renderJourneyPage();
                 }
             } catch (error) {
                 console.error('Dynamic language switch error:', error);
@@ -1867,6 +2205,15 @@ document.addEventListener('DOMContentLoaded', () => {
         audioToggle.addEventListener('change', () => {
             audioEnabled = audioToggle.checked;
             localStorage.setItem('audioEnabled', audioEnabled);
+        });
+    }
+
+    const progressToggle = document.getElementById('progress-toggle');
+    if (progressToggle) {
+        progressToggle.checked = isProgressTrackingEnabled();
+        progressToggle.addEventListener('change', () => {
+            localStorage.setItem('showProgressTracking', progressToggle.checked);
+            renderSections(); // Show/hide progress bars on home screen immediately
         });
     }
 
