@@ -13,6 +13,8 @@ let currentSectionVachanamruts = [];
 let currentVachanamrutIndex = -1;
 let videoEnabled = localStorage.getItem('videoEnabled') === 'true'; // Default false
 let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default true
+let currentReadingVachanamrutId = null;
+let hasIncrementedInSession = false;
 let audioPlayer = new Audio();
 let isPlaying = false;
 let currentAudioId = -1;
@@ -100,28 +102,42 @@ function setupReaderControls() {
     });
 }
 
+function checkScrollCompletion() {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+        const activeScreen = document.querySelector('.screen.active');
+        if (activeScreen && activeScreen.id === 'vachanamrut-detail-screen') {
+            const scrollTop = mainContent.scrollTop;
+            const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+            // If scrollHeight is <= 0, it means it's fully visible immediately
+            const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 100;
+            const progressBar = document.getElementById('scroll-progress-bar');
+            if (progressBar) {
+                progressBar.style.width = `${scrollPercent}%`;
+                if (scrollPercent >= 99) {
+                    progressBar.classList.add('completed');
+                    if (currentReadingVachanamrutId && !hasIncrementedInSession) {
+                        hasIncrementedInSession = true;
+                        markVachanamrutAsRead(currentReadingVachanamrutId);
+                    }
+                } else {
+                    progressBar.classList.remove('completed');
+                }
+            }
+        }
+    }
+}
+
 // Setup Scroll progress bar tracking
 function setupScrollProgress() {
     const mainContent = document.getElementById('main-content');
     if (mainContent) {
-        mainContent.addEventListener('scroll', () => {
-            const activeScreen = document.querySelector('.screen.active');
-            if (activeScreen && activeScreen.id === 'vachanamrut-detail-screen') {
-                const scrollTop = mainContent.scrollTop;
-                const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
-                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-                const progressBar = document.getElementById('scroll-progress-bar');
-                if (progressBar) {
-                    progressBar.style.width = `${scrollPercent}%`;
-                }
-            }
-        });
+        mainContent.addEventListener('scroll', checkScrollCompletion);
     }
 }
 
 
 const vachanamrutDetailScreen = document.getElementById('vachanamrut-detail-screen');
-const favouritesScreen = document.getElementById('favourites-screen');
 const settingsScreen = document.getElementById('settings-screen');
 const sectionsList = document.getElementById('sections-list');
 const vachanamrutCard = document.getElementById('vachanamrut-card');
@@ -324,9 +340,17 @@ function showVachanamrut(vachanamrut, pushState = true) {
         }
     }
 
-    markVachanamrutAsRead(safeId);
+    // Reset scroll progress
+    const progressBar = document.getElementById('scroll-progress-bar');
+    if (progressBar) {
+        progressBar.style.width = '0%';
+        progressBar.classList.remove('completed');
+    }
+    currentReadingVachanamrutId = safeId;
+    hasIncrementedInSession = false;
 
     showScreen('vachanamrut-detail-screen');
+    setTimeout(checkScrollCompletion, 150);
     applyFontSize();
     applyTheme();
     backBtn.style.display = 'block';
@@ -980,6 +1004,9 @@ function showSectionDetail(sectionIndex) {
 function renderSectionVachanamruts(section, container) {
     container.innerHTML = '';
 
+    const showProgress = isProgressTrackingEnabled();
+    const readIds = showProgress ? getReadIds() : [];
+
     section.vachanamruts.forEach((vachanamrut, index) => {
         const tile = document.createElement('div');
         tile.className = 'vachanamrut-tile';
@@ -993,13 +1020,30 @@ function renderSectionVachanamruts(section, container) {
         const isBookmarked = bookmarkedVachanamrutId && parseInt(bookmarkedVachanamrutId) === vachanamrut.id;
         const bookmarkIcon = isBookmarked ? '<i class="fas fa-bookmark vachanamrut-tile-bookmark"></i>' : '';
 
+        // Check if read
+        const isRead = readIds.includes(vachanamrut.id);
+        let readIcon = '';
+        if (isRead) {
+            const count = getVachReadCount(vachanamrut.id);
+            let countStr = '';
+            if (currentLanguage === 'english') {
+                countStr = count === 1 ? '1 time' : `${count} times`;
+            } else {
+                countStr = `${toGujaratiDigits(count)} વાર`;
+            }
+            readIcon = `<span class="vachanamrut-tile-read" title="${currentLanguage === 'english' ? 'Read frequency' : 'વાંચન આવૃત્તિ'}"><i class="fas fa-check-circle"></i> ${countStr}</span>`;
+        }
+
         tile.innerHTML = `
             <span class="vachanamrut-tile-number">${index + 1}</span>
             <div class="vachanamrut-tile-content">
                 <div class="vachanamrut-tile-name">${cleanNumber}</div>
                 <div class="vachanamrut-tile-title">${title}</div>
             </div>
-            ${bookmarkIcon}
+            <div class="vachanamrut-tile-indicators">
+                ${readIcon}
+                ${bookmarkIcon}
+            </div>
         `;
 
         tile.addEventListener('click', () => {
@@ -1120,7 +1164,7 @@ function updateBookmarkButtonState(currentId) {
 // ===========================================================
 // Reading Journey / Progress Tracking
 // ===========================================================
-const TOTAL_VACHANAMRUTS = 268;
+const TOTAL_VACHANAMRUTS = 262;
 
 function isProgressTrackingEnabled() {
     return localStorage.getItem('showProgressTracking') !== 'false';
@@ -1155,6 +1199,38 @@ function getLastRead() {
     }
 }
 
+function toGujaratiDigits(num) {
+    const guDigits = ['૦', '૧', '૨', '૩', '૪', '૫', '૬', '૭', '૮', '૯'];
+    return num.toString().split('').map(digit => {
+        const d = parseInt(digit);
+        return isNaN(d) ? digit : guDigits[d];
+    }).join('');
+}
+
+function getReadCounts() {
+    try {
+        const raw = localStorage.getItem('vach_read_counts');
+        if (raw) {
+            return JSON.parse(raw);
+        }
+        // Fallback / initialization from vach_read_ids
+        const readIds = getReadIds();
+        const counts = {};
+        readIds.forEach(id => {
+            counts[id] = 1;
+        });
+        localStorage.setItem('vach_read_counts', JSON.stringify(counts));
+        return counts;
+    } catch (e) {
+        return {};
+    }
+}
+
+function getVachReadCount(id) {
+    const counts = getReadCounts();
+    return counts[id] || 0;
+}
+
 function markVachanamrutAsRead(id) {
     if (!isProgressTrackingEnabled()) return;
 
@@ -1164,13 +1240,18 @@ function markVachanamrutAsRead(id) {
         localStorage.setItem('vach_read_ids', JSON.stringify(readIds));
     }
 
-    localStorage.setItem('vach_last_read', JSON.stringify({ id }));
+    // Update read count map
+    let readCounts = getReadCounts();
+    readCounts[id] = (readCounts[id] || 0) + 1;
+    localStorage.setItem('vach_read_counts', JSON.stringify(readCounts));
 
     // Save today's activity date (local time)
     const today = new Date();
     const offset = today.getTimezoneOffset();
     const localToday = new Date(today.getTime() - (offset * 60 * 1000));
     const todayStr = localToday.toISOString().split('T')[0];
+
+    localStorage.setItem('vach_last_read', JSON.stringify({ id, date: todayStr }));
 
     let activityDates = getActivityDates();
     if (!activityDates.includes(todayStr)) {
@@ -1229,21 +1310,52 @@ function computeLongestStreak(dates) {
     return longest;
 }
 
+// Format date string to display format (e.g. 12 Jul / ૧૨ જુલાઈ)
+function formatReadDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return '';
+        const year = parts[0];
+        const monthIndex = parseInt(parts[1]) - 1;
+        const day = parseInt(parts[2]);
+        
+        if (currentLanguage === 'english') {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${day} ${months[monthIndex]}`;
+        } else {
+            const monthsGu = ['જાન્યુ', 'ફેબ્રુ', 'માર્ચ', 'એપ્રિલ', 'મે', 'જૂન', 'જુલાઈ', 'ઓગસ્ટ', 'સપ્ટે', 'ઓક્ટો', 'નવે', 'ડિસે'];
+            return `${day} ${monthsGu[monthIndex]}`;
+        }
+    } catch (e) {
+        return '';
+    }
+}
+
 function renderJourneyPage() {
     const readIds = getReadIds();
     const activityDates = getActivityDates();
     const lastRead = getLastRead();
 
-    const readCount = Math.min(readIds.length, TOTAL_VACHANAMRUTS);
+    // Only count vachanamruts from sections 2 to 10
+    const journeyVachIds = [];
+    sections.forEach(s => {
+        if (s.id >= 2 && s.id <= 10) {
+            s.vachanamruts.forEach(v => {
+                journeyVachIds.push(v.id);
+            });
+        }
+    });
+
+    const readCount = readIds.filter(id => journeyVachIds.includes(id)).length;
     const readPct = Math.min(100, Math.round((readCount / TOTAL_VACHANAMRUTS) * 100));
 
     // Progress ring
     const ring = document.getElementById('journey-ring-fill');
     if (ring) {
-        const radius = ring.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        ring.style.strokeDasharray = `${circumference}`;
-        ring.style.strokeDashoffset = `${circumference * (1 - readPct / 100)}`;
+        const pathLength = ring.getTotalLength ? ring.getTotalLength() : (Math.PI * 85);
+        ring.style.strokeDasharray = `${pathLength}`;
+        ring.style.strokeDashoffset = `${pathLength * (1 - readPct / 100)}`;
     }
     const pctEl = document.getElementById('journey-page-pct');
     if (pctEl) pctEl.textContent = `${readPct}%`;
@@ -1251,6 +1363,21 @@ function renderJourneyPage() {
     if (readEl) readEl.textContent = readCount;
     const totalEl = document.getElementById('journey-page-total');
     if (totalEl) totalEl.textContent = TOTAL_VACHANAMRUTS;
+
+    // Display last read date
+    const dateEl = document.getElementById('journey-page-last-read-date');
+    if (dateEl) {
+        let dateStr = lastRead && lastRead.date ? lastRead.date : null;
+        if (!dateStr && activityDates.length > 0) {
+            dateStr = activityDates[activityDates.length - 1]; // Use last active date as fallback
+        }
+        if (dateStr) {
+            const formatted = formatReadDate(dateStr);
+            dateEl.innerHTML = currentLanguage === 'english' ? `Last read: <b>${formatted}</b>` : `છેલ્લે વાંચેલ: <b>${formatted}</b>`;
+        } else {
+            dateEl.innerHTML = currentLanguage === 'english' ? 'Start reading' : 'વાંચવાનું શરૂ કરો';
+        }
+    }
 
     // Continue reading button
     const continueLabel = document.getElementById('journey-continue-label');
@@ -1262,7 +1389,8 @@ function renderJourneyPage() {
             continueLabel.textContent = currentLanguage === 'english' ? 'Continue reading' : 'વાંચન ચાલુ રાખો';
             continueTarget.textContent = num;
         } else {
-            const firstVachanamrut = sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null;
+            const section2 = sections.find(s => s.id === 2);
+            const firstVachanamrut = section2 && section2.vachanamruts.length ? section2.vachanamruts[0] : (sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null);
             const num = firstVachanamrut ? firstVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : '';
             continueLabel.textContent = currentLanguage === 'english' ? 'Start your journey' : 'તમારી યાત્રા શરૂ કરો';
             continueTarget.textContent = num;
@@ -1275,8 +1403,12 @@ function renderJourneyPage() {
             let targetId = 1;
             if (lastRead && vachanamrutData.find(v => v.id === lastRead.id)) {
                 targetId = lastRead.id;
-            } else if (sections.length && sections[0].vachanamruts.length) {
-                targetId = sections[0].vachanamruts[0].id;
+            } else {
+                const section2 = sections.find(s => s.id === 2);
+                const firstVachanamrut = section2 && section2.vachanamruts.length ? section2.vachanamruts[0] : (sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null);
+                if (firstVachanamrut) {
+                    targetId = firstVachanamrut.id;
+                }
             }
             const targetVachanamrut = vachanamrutData.find(v => v.id === targetId);
             if (targetVachanamrut) {
@@ -1296,6 +1428,9 @@ function renderJourneyPage() {
     if (map && sections && sections.length) {
         map.innerHTML = '';
         sections.forEach((section, index) => {
+            if (section.id < 2 || section.id > 10) {
+                return; // Exclude Partharo and Khagol Bhugol from Journey section tracking
+            }
             const sectionIds = section.vachanamruts.map(v => v.id);
             const cnt = readIds.filter(id => sectionIds.includes(id)).length;
             const pct = section.count > 0 ? Math.min(100, Math.round((cnt / section.count) * 100)) : 0;
@@ -1304,9 +1439,11 @@ function renderJourneyPage() {
             cell.className = 'journey-map-cell' + (pct >= 100 ? ' complete' : (cnt > 0 ? ' started' : ''));
             const label = currentLanguage === 'english' ? (section.name_en || section.name_gu) : section.name_gu;
             cell.title = label;
+            
+            const displayNum = section.id - 1; // 1 to 9
             cell.innerHTML = `
                 <span class="journey-map-fill" style="height: ${pct}%;"></span>
-                <span class="journey-map-num">${pct >= 100 ? '<i class="fas fa-check"></i>' : (index + 1)}</span>
+                <span class="journey-map-num">${pct >= 100 ? '<i class="fas fa-check"></i>' : displayNum}</span>
             `;
             cell.addEventListener('click', () => showSectionDetail(index));
             map.appendChild(cell);
@@ -1363,7 +1500,7 @@ function renderJourneyPage() {
             { icon: 'fa-seedling', name: isEn ? 'First Vachanamrut' : 'પ્રથમ વચનામૃત', desc: isEn ? 'Read your first discourse' : 'પ્રથમ પ્રવચન વાંચ્યું', done: readCount >= 1 },
             { icon: 'fa-om', name: isEn ? 'Parayan Begins' : 'પારાયણનો પ્રારંભ', desc: isEn ? 'Read 27 vachanamruts' : '૨૭ વચનામૃત વાંચ્યાં', done: readCount >= 27 },
             { icon: 'fa-book-open', name: isEn ? 'Section Complete' : 'વિભાગ પૂર્ણ', desc: isEn ? 'Finish a full section' : 'એક વિભાગ પૂર્ણ કર્યો', done: sectionsCompleted >= 1 },
-            { icon: 'fa-mountain', name: isEn ? 'Halfway There' : 'અડધે રસ્તે', desc: isEn ? 'Read 134 vachanamruts' : '૧૩૪ વચનામૃત વાંચ્યાં', done: readCount >= 134 },
+            { icon: 'fa-mountain', name: isEn ? 'Halfway There' : 'અડધે રસ્તે', desc: isEn ? 'Read 131 vachanamruts' : '૧૩૧ વચનામૃત વાંચ્યાં', done: readCount >= 131 },
             { icon: 'fa-fire', name: isEn ? 'Steady Sadhana' : 'સ્થિર સાધના', desc: isEn ? '7-day reading streak' : '૭ દિવસની સ્ટ્રીક', done: longestStreak >= 7 },
             { icon: 'fa-crown', name: isEn ? 'Vachanamrut Complete' : 'વચનામૃત સંપૂર્ણ', desc: isEn ? `Read all ${TOTAL_VACHANAMRUTS} vachanamruts` : 'સંપૂર્ણ વચનામૃત વાંચ્યાં', done: readCount >= TOTAL_VACHANAMRUTS },
         ];
@@ -1378,6 +1515,9 @@ function renderJourneyPage() {
             </div>
         `).join('');
     }
+
+    // Render favourites inline
+    renderFavourites();
 }
 
 // ===========================================================
@@ -1780,14 +1920,16 @@ function renderFavourites() {
     const list = document.getElementById('favourites-list');
     const msg = document.getElementById('no-favourites-msg');
 
+    if (!list) return;
+
     list.innerHTML = '';
 
     if (favourites.length === 0) {
-        msg.style.display = 'block';
+        if (msg) msg.style.display = 'block';
         return;
     }
 
-    msg.style.display = 'none';
+    if (msg) msg.style.display = 'none';
 
     favourites.forEach(id => {
         const vachanamrut = vachanamrutData.find(v => v.id === id);
@@ -1815,8 +1957,8 @@ function renderFavourites() {
 // Setup Menu Logic
 function setupMenu() {
     const fabMenu = document.getElementById('fab-menu');
-    const fabFavourites = document.getElementById('fab-favourites');
     const fabSettings = document.getElementById('fab-settings');
+    const fabJourney = document.getElementById('fab-journey');
     let isMenuOpen = false;
 
     // FAB Click - Toggle menu
@@ -1834,30 +1976,11 @@ function setupMenu() {
         }
     });
 
-    // Favourites button click
-    fabFavourites.addEventListener('click', () => {
-        showScreen('favourites-screen');
-        renderFavourites();
-        // Close menu
-        isMenuOpen = false;
-        fabMenu.classList.remove('active');
-        fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
-    });
-
     // Settings button click
-    fabSettings.addEventListener('click', () => {
-        showScreen('settings-screen');
-        // Close menu
-        isMenuOpen = false;
-        fabMenu.classList.remove('active');
-        fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
-    });
-
-    // Authors / Compilers button click
-    const fabAuthors = document.getElementById('fab-authors');
-    if (fabAuthors) {
-        fabAuthors.addEventListener('click', () => {
-            showScreen('authors-screen');
+    if (fabSettings) {
+        fabSettings.addEventListener('click', () => {
+            showScreen('settings-screen');
+            // Close menu
             isMenuOpen = false;
             fabMenu.classList.remove('active');
             fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
@@ -1865,7 +1988,6 @@ function setupMenu() {
     }
 
     // Journey button click
-    const fabJourney = document.getElementById('fab-journey');
     if (fabJourney) {
         fabJourney.addEventListener('click', () => {
             showScreen('journey-screen');
@@ -1887,8 +2009,24 @@ function setupMenu() {
     const journeyFavouritesChip = document.getElementById('journey-favourites-chip');
     if (journeyFavouritesChip) {
         journeyFavouritesChip.addEventListener('click', () => {
-            showScreen('favourites-screen');
-            renderFavourites();
+            const favTitle = document.getElementById('journey-favourites-title');
+            if (favTitle) {
+                favTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+    // Toggle Collapsible Compilers Card in Settings
+    const compilersHeader = document.getElementById('settings-compilers-header');
+    const compilersContent = document.getElementById('settings-compilers-content');
+    if (compilersHeader && compilersContent) {
+        compilersHeader.addEventListener('click', () => {
+            const isCollapsed = compilersContent.style.display === 'none';
+            compilersContent.style.display = isCollapsed ? 'block' : 'none';
+            const icon = compilersHeader.querySelector('.toggle-icon');
+            if (icon) {
+                icon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
         });
     }
 
@@ -1971,7 +2109,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'block';
         // backBtn and fabBtn are handled in showSectionDetail
-    } else if (screenId === 'favourites-screen' || screenId === 'settings-screen' || screenId === 'authors-screen' || screenId === 'journey-screen') {
+    } else if (screenId === 'settings-screen' || screenId === 'journey-screen') {
         footer.style.display = 'none';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -2044,7 +2182,7 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (favouritesScreen.classList.contains('active') || settingsScreen.classList.contains('active') || document.getElementById('authors-screen').classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
+        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
             showScreen('home-screen');
         }
     });
@@ -2169,8 +2307,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         showScreen('home-screen');
                     }
-                } else if (activeScreenId === 'favourites-screen') {
-                    renderFavourites();
                 } else if (activeScreenId === 'journey-screen') {
                     renderJourneyPage();
                 }
@@ -2272,21 +2408,13 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
             titleString = `${name} Section | Vachanamrut`;
             descString = `Read all Vachanamruts from the ${name} section online. ${description}. BAPS Vachanamrut, Vadtal Vachanamrut, Bhagwan Swaminarayan.`;
         }
-    } else if (screenId === 'favourites-screen') {
+    } else if (screenId === 'journey-screen') {
         if (isGuj) {
-            titleString = `મારા મનપસંદ વચનામૃતો | વચનામૃત`;
-            descString = `તમારા મનપસંદ સાચવેલા વચનામૃતોની સૂચિ. vachanamrut.in પર સેવ કરેલા વચનામૃત.`;
+            titleString = `તમારી વાંચન યાત્રા | વચનામૃત`;
+            descString = `તમારી વચનામૃત વાંચનની પ્રગતિ, દૈનિક સ્ટ્રીક્સ, સીમાચિહ્નો (Milestones) અને મનપસંદ વચનામૃતોની સૂચિ ટ્રૅક કરો.`;
         } else {
-            titleString = `My Favourite Vachanamruts | Vachanamrut`;
-            descString = `List of your saved favorite Vachanamruts. Access bookmarked Swaminarayan Vachanamruts anytime on vachanamrut.in.`;
-        }
-    } else if (screenId === 'authors-screen') {
-        if (isGuj) {
-            titleString = `સંપાદકો: મુક્તાનંદ, ગોપાળાનંદ, નિત્યાનંદ, શુકાનંદ સ્વામી | વચનામૃત`;
-            descString = `ભગવાન સ્વામિનારાયણના પરમહંસો - સદ્ગુરુ મુક્તાનંદ સ્વામી, ગોપાળાનંદ સ્વામી, નિત્યાનંદ સ્વામી, શુકાનંદ સ્વામી વિશે માહિતી.`;
-        } else {
-            titleString = `Compilers: Muktanand, Gopalanand, Nityanand, Shukanand Swami | Vachanamrut`;
-            descString = `Learn about the compilers of the Swaminarayan Vachanamrut: Sadguru Muktanand Swami, Gopalanand Swami, Nityanand Swami, and Shukanand Swami.`;
+            titleString = `Your Reading Journey | Vachanamrut`;
+            descString = `Track your Vachanamrut reading progress, daily streaks, milestones, and saved favorite Vachanamruts.`;
         }
     } else if (screenId === 'settings-screen') {
         if (isGuj) {
