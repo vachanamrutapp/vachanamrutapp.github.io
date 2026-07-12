@@ -180,7 +180,7 @@ LIFE_EVENTS = [
         'hindu_date_gu': 'સંવત ૧૮૮૨ ના મહા સુદ ૫ (વસંત પંચમી)',
     },
     {
-        'event_date': '1822-02-04',
+        'event_date': '1821-02-09',
         'event_type': 'festival',
         'name_en': 'Shakotsav (Saak Utsav)',
         'name_gu': 'શાકોત્સવ',
@@ -188,8 +188,8 @@ LIFE_EVENTS = [
         'description_gu': 'સુરા ખાચરના દરબારમાં શ્રીહરિએ સ્વહસ્તે પરમહંસો અને હરિભક્તો માટે શાકનું ભોજન રાંધી શાકોત્સવની પરંપરા સ્થાપી.',
         'location_en': 'Surā Khāchar\'s darbār, Loyā, Gujarat',
         'location_gu': 'સુરા ખાચરનો દરબાર, લોયા, ગુજરાત',
-        'hindu_date_en': 'Mahā sud 7, Samvat 1878',
-        'hindu_date_gu': 'સંવત ૧૮૭૮ ના મહા સુદ ૭',
+        'hindu_date_en': 'Mahā sud 7, Samvat 1877',
+        'hindu_date_gu': 'સંવત ૧૮૭૭ ના મહા સુદ ૭',
     },
     {
         'event_date': '1830-06-01',
