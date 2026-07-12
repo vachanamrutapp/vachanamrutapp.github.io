@@ -1675,7 +1675,10 @@ function getChapterLabel(vachanamrutId) {
 }
 
 // Format days-from-event as a human phrase.
-function formatXrefDelta(deltaDays) {
+function formatXrefDelta(deltaDays, isShakotsavLoya = false) {
+    if (isShakotsavLoya) {
+        return currentLanguage === 'english' ? 'During this stay in Loya' : 'આ જ લોયા રોકાણ દરમિયાન';
+    }
     const abs = Math.abs(deltaDays);
     const isEnglish = currentLanguage === 'english';
     const beforeAfter = deltaDays > 0
@@ -1748,7 +1751,7 @@ function renderFactsModalBody(facts) {
     }
 
     const xrefsHtml = (facts.xrefs && facts.xrefs.length)
-        ? `<div class="facts-section"><h4 class="facts-section-title"><i class="fas fa-link"></i><span class="lang-eng">Around This Time</span><span class="lang-guj">આ સમય આસપાસ</span></h4><div class="facts-xref-list">${facts.xrefs.map(x => renderXref(x)).join('')}</div></div>`
+        ? `<div class="facts-section"><h4 class="facts-section-title"><i class="fas fa-link"></i><span class="lang-eng">Around This Time</span><span class="lang-guj">આ સમય આસપાસ</span></h4><div class="facts-xref-list">${facts.xrefs.map(x => renderXref(x, e)).join('')}</div></div>`
         : '';
 
     const glossaryHtml = (facts.glossary && facts.glossary.length > 0)
@@ -1861,9 +1864,9 @@ const XREF_IMAGES = {
     festival:  'images/facts/shakotsav.png',
 };
 
-function renderXref(x) {
+function renderXref(x, activeEvent = null) {
     let name = currentLanguage === 'english' ? x.name_en : x.name_gu;
-    if (x.source === 'mandir') {
+    if (x.source === 'shadow' || x.source === 'mandir') {
         name = currentLanguage === 'english' ? `${name} Mandir` : `${name} મંદિર`;
     }
     const key = x.source === 'mandir' ? 'mandir' : (x.subtype || 'milestone');
@@ -1871,12 +1874,17 @@ function renderXref(x) {
     const iconHtml = xrefImg
         ? `<img class="facts-xref-img" src="${xrefImg}" alt="${name}">`
         : `<span class="facts-xref-emoji" aria-hidden="true">${XREF_EMOJI[key] || '📍'}</span>`;
+        
+    const isShakotsavLoya = activeEvent && 
+                            (activeEvent.town_en === 'Loya' || activeEvent.town_gu === 'લોયા') && 
+                            (x.name_en === 'Shakotsav (Saak Utsav)' || x.name_gu === 'શાકોત્સવ');
+
     return `
         <div class="facts-xref">
             ${iconHtml}
             <div class="facts-xref-text">
                 <strong>${name}</strong>
-                <span class="facts-xref-delta">${formatXrefDelta(x.deltaDays)}</span>
+                <span class="facts-xref-delta">${formatXrefDelta(x.deltaDays, isShakotsavLoya)}</span>
             </div>
         </div>
     `;
