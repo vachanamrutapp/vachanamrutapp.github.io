@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Vachanamrut</string>
+    <string name="title_activity_main">Vachanamrut</string>
+    <string name="package_name">com.vachanamrut.app</string>
+    <string name="custom_url_scheme">com.vachanamrut.app</string>
+</resources>

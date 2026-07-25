@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+npm-debug.log*
+.firebase/
+
+# Dev tooling — not part of the runtime app
+.venv/
+venv/
+scratch/__pycache__/
+*.pyc
+.env

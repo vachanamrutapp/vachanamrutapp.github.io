@@ -1,0 +1,17 @@
+{
+  "appId": "com.vachanamrut.app",
+  "appName": "Vachanamrut",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": true,
+      "backgroundColor": "#E6A623",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "splashFullScreen": true,
+      "splashImmersive": true,
+      "showSpinner": false
+    }
+  }
+}
