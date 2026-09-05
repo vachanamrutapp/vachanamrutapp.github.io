@@ -3,6 +3,8 @@ node_modules/
 *.log
 npm-debug.log*
 .firebase/
+.cache/
+
 
 # Dev tooling — not part of the runtime app
 .venv/

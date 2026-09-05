@@ -5,17 +5,19 @@ A [Capacitor](https://capacitorjs.com/) app with three deployment targets sharin
 - **App name:** Vachanamrut
 - **Bundle/Application ID:** `com.vachanamrut.app`
 - **Web assets (canonical source):** [`www/`](www) (plain HTML/CSS/JS — no frontend framework/bundler) — edit here directly, this is not a copy of anything
-- **Web/PWA deploy:** Firebase Hosting, auto-deployed by [`.github/workflows/firebase-hosting-deploy.yml`](.github/workflows/firebase-hosting-deploy.yml) whenever `www/**` changes on `main`. Project `vachanamrut-fe20c`, site `vachanamrutam` → https://vachanamrutam.web.app
+- **Web/PWA deploy:**
+  - **GitHub Pages:** Auto-deployed directly from `www/` by [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) on push to `main` → https://vachanamrut.in.
+  - **Firebase Hosting (mirror):** Auto-deployed by [`.github/workflows/firebase-hosting-deploy.yml`](.github/workflows/firebase-hosting-deploy.yml) on push to `main` → https://vachanamrutam.web.app.
 - **Native projects:** [`ios/App`](ios/App) (Xcode, Swift Package Manager) and [`android`](android) (Gradle) — both built from the same `www/` via `npx cap sync`
 - **iOS CI:** [`codemagic.yaml`](codemagic.yaml) builds and publishes to TestFlight on push to `main`, skipped automatically for commits that only touch `www/` (see [pre-publish checklist](#pre-publish-checklist))
 
-## Architecture: one `www/`, three targets
+## Architecture: one `www/`, all targets
 
-`www/` is the single source for all three targets:
+`www/` is the single source for all deployment targets:
 
-1. **Web/PWA** — deployed straight from `www/` to Firebase Hosting by
-   [`.github/workflows/firebase-hosting-deploy.yml`](.github/workflows/firebase-hosting-deploy.yml)
-   on every push to `main` that touches `www/**`. Config: [`firebase.json`](firebase.json), [`.firebaserc`](.firebaserc).
+1. **Web/PWA** — deployed straight from `www/`:
+   - To GitHub Pages via [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
+   - To Firebase Hosting via [`.github/workflows/firebase-hosting-deploy.yml`](.github/workflows/firebase-hosting-deploy.yml).
 2. **iOS** — `npx cap sync` copies `www/` into `ios/App/App/public`; [`codemagic.yaml`](codemagic.yaml) builds and ships to TestFlight.
 3. **Android** — `npx cap sync` copies `www/` into `android/app/src/main/assets/public`; build locally (see below) or wire up Codemagic/other CI the same way as iOS if needed.
 
