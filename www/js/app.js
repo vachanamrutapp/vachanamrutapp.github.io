@@ -21,6 +21,8 @@ let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
 let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
 let activeVachanamrutId = -1;
+let glossaryHighlightEnabled = localStorage.getItem('glossaryHighlightEnabled') !== 'false'; // Default true
+const vachanamrutGlossaryCache = new Map();
 
 // DOM elements
 const sectionsScreen = document.getElementById('home-screen');
@@ -274,10 +276,13 @@ function showVachanamrut(vachanamrut, pushState = true) {
         }
     }
 
+    // Fetch glossary entries for dynamic highlighting
+    const glossaryList = (safeId >= 1 && safeId <= 262) ? getGlossaryForVachanamrut(safeId) : [];
+
     // Clean and format setting
     const setting = vachanamrut.setting ? vachanamrut.setting.replace(/\n/g, ' ').trim() : '';
     if (setting) {
-        vachanamrutSetting.textContent = setting;
+        vachanamrutSetting.innerHTML = highlightGlossaryWords(setting, glossaryList, safeId, currentLanguage);
         vachanamrutSetting.style.display = 'block';
     } else {
         vachanamrutSetting.textContent = '';
@@ -313,9 +318,11 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Clean and format text
     const text = vachanamrut.text ? vachanamrut.text.replace(/\n/g, '\n\n').trim() : '';
-    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph =>
-        paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
-    ).join('');
+    vachanamrutText.innerHTML = text.split('\n\n').map(paragraph => {
+        const trimmed = paragraph.trim();
+        if (!trimmed) return '';
+        return `<p>${highlightGlossaryWords(trimmed, glossaryList, safeId, currentLanguage)}</p>`;
+    }).join('');
 
     // Set footer text
     if (safeId >= 10001 && safeId <= 10005) {
@@ -1521,8 +1528,143 @@ function renderJourneyPage() {
 }
 
 // ===========================================================
-// Vachanamrut Facts Modal
+// Vachanamrut Facts Modal & Glossary Word Highlighting
 // ===========================================================
+
+// Query glossary data for a Vachanamrut from SQLite wasm with caching
+function getGlossaryForVachanamrut(vachanamrutId) {
+    if (!db) return [];
+    const id = parseInt(vachanamrutId);
+    if (!id || id < 1 || id > 262) return [];
+    if (vachanamrutGlossaryCache.has(id)) {
+        return vachanamrutGlossaryCache.get(id);
+    }
+    try {
+        const stmt = db.prepare(`
+            SELECT id, word_en, word_gu, meaning_en, meaning_gu
+            FROM vachanamrut_glossary
+            WHERE vachanamrut_id = :id
+            ORDER BY id ASC
+        `);
+        stmt.bind({ ':id': id });
+        const list = [];
+        while (stmt.step()) {
+            list.push(stmt.getAsObject());
+        }
+        stmt.free();
+        vachanamrutGlossaryCache.set(id, list);
+        return list;
+    } catch (err) {
+        console.error('Error querying glossary for Vachanamrut:', err);
+        return [];
+    }
+}
+
+// Build regex pattern matching Indic diacritics and plain ASCII equivalents
+function makeDiacriticRegexPattern(term) {
+    let p = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    p = p.replace(/[aā]/gi, '[aā]');
+    p = p.replace(/[iī]/gi, '[iī]');
+    p = p.replace(/[uū]/gi, '[uū]');
+    p = p.replace(/[eē]/gi, '[eē]');
+    p = p.replace(/[oō]/gi, '[oō]');
+    p = p.replace(/[nṇ]/gi, '[nṇ]');
+    p = p.replace(/[tṭ]/gi, '[tṭ]');
+    p = p.replace(/[dḍ]/gi, '[dḍ]');
+    p = p.replace(/[rṛ]/gi, '(?:ru|r|ṛ)');
+    p = p.replace(/[śṣ]/gi, '(?:sh|[śṣs])');
+    return p;
+}
+
+// Dynamically highlight glossary words in Vachanamrut text and setting
+function highlightGlossaryWords(text, glossaryList, vachanamrutId, language) {
+    if (!text || !glossaryList || !glossaryList.length || !glossaryHighlightEnabled) {
+        return text;
+    }
+
+    if (language === 'english') {
+        const formsMap = new Map();
+        for (const t of glossaryList) {
+            if (!t.word_en) continue;
+            const raw = t.word_en.trim();
+            const parts = raw.split(/[\/,]/).map(p => p.trim()).filter(Boolean);
+            for (const p of parts) {
+                formsMap.set(p.toLowerCase(), { id: t.id, term: p });
+                if (p.toLowerCase().endsWith(' body')) {
+                    const noBody = p.slice(0, -5).trim();
+                    formsMap.set(noBody.toLowerCase(), { id: t.id, term: noBody });
+                }
+                if (p.toLowerCase().endsWith('s') && p.length > 3) {
+                    const singular = p.slice(0, -1);
+                    formsMap.set(singular.toLowerCase(), { id: t.id, term: singular });
+                }
+            }
+        }
+        const sortedKeys = Array.from(formsMap.keys()).sort((a, b) => b.length - a.length);
+        if (!sortedKeys.length) return text;
+
+        const patternStr = "(?<![a-zA-Z0-9])(" + sortedKeys.map(k => {
+            const obj = formsMap.get(k);
+            return makeDiacriticRegexPattern(obj.term) + "(?:s|es|'s)?";
+        }).join('|') + ")(?![a-zA-Z0-9])";
+
+        try {
+            const regex = new RegExp(patternStr, 'giu');
+            return text.replace(regex, (match) => {
+                const mNorm = match.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                for (const key of sortedKeys) {
+                    const kNorm = key.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    if (mNorm.startsWith(kNorm) || mNorm === kNorm) {
+                        const id = formsMap.get(key).id;
+                        return `<span class="glossary-word-link" role="button" tabindex="0" data-glossary-id="${id}" data-vachanamrut-id="${vachanamrutId}">${match}</span>`;
+                    }
+                }
+                return match;
+            });
+        } catch (err) {
+            console.error('English regex highlight error:', err);
+            return text;
+        }
+    } else {
+        // Gujarati
+        const formsMap = new Map();
+        for (const t of glossaryList) {
+            if (!t.word_gu) continue;
+            const raw = t.word_gu.trim();
+            const parts = raw.split(/[\/,]/).map(p => p.trim()).filter(Boolean);
+            for (const p of parts) {
+                formsMap.set(p, t.id);
+                if (p.includes(' ')) {
+                    formsMap.set(p.replace(/\s+/g, ''), t.id);
+                    const first = p.split(/\s+/)[0];
+                    if (first.length >= 4) formsMap.set(first, t.id);
+                }
+            }
+        }
+        const sortedKeys = Array.from(formsMap.keys()).sort((a, b) => b.length - a.length);
+        if (!sortedKeys.length) return text;
+
+        const vibhakti = "(?:નો|ની|નું|ના|ને|માં|થી|એ|ઓ|રૂપ|રૂપી|વાળા|વાળી|વાળો|વાળું)?";
+        const patternStr = "(?<![\\p{L}\\p{M}])(" + sortedKeys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + vibhakti).join('|') + ")(?![\\p{L}\\p{M}])";
+
+        try {
+            const regex = new RegExp(patternStr, 'gu');
+            return text.replace(regex, (match) => {
+                for (const key of sortedKeys) {
+                    if (match.startsWith(key)) {
+                        const id = formsMap.get(key);
+                        return `<span class="glossary-word-link" role="button" tabindex="0" data-glossary-id="${id}" data-vachanamrut-id="${vachanamrutId}">${match}</span>`;
+                    }
+                }
+                return match;
+            });
+        } catch (err) {
+            console.error('Gujarati regex highlight error:', err);
+            return text;
+        }
+    }
+}
+
 function setupFactsModal() {
     const btn = document.getElementById('facts-pill-btn');
     const overlay = document.getElementById('facts-modal-overlay');
@@ -1540,6 +1682,37 @@ function setupFactsModal() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.style.display === 'flex') closeFactsModal();
     });
+
+    // Delegate clicks and keydowns on highlighted words in reading view
+    const vCard = document.getElementById('vachanamrut-card');
+    if (vCard) {
+        vCard.addEventListener('click', (e) => {
+            const link = e.target.closest('.glossary-word-link');
+            if (link) {
+                e.preventDefault();
+                e.stopPropagation();
+                const gId = parseInt(link.dataset.glossaryId);
+                const vId = parseInt(link.dataset.vachanamrutId) || activeVachanamrutId;
+                if (gId && vId) {
+                    openWordMeaningModal(vId, gId);
+                }
+            }
+        });
+        vCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const link = e.target.closest('.glossary-word-link');
+                if (link) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const gId = parseInt(link.dataset.glossaryId);
+                    const vId = parseInt(link.dataset.vachanamrutId) || activeVachanamrutId;
+                    if (gId && vId) {
+                        openWordMeaningModal(vId, gId);
+                    }
+                }
+            }
+        });
+    }
 }
 
 async function openFactsModal(vachanamrutId) {
@@ -1547,6 +1720,17 @@ async function openFactsModal(vachanamrutId) {
     const body = document.getElementById('facts-modal-body');
     const modal = document.getElementById('facts-modal');
     if (!overlay || !body || !modal) return;
+
+    // Reset word-mode and restore facts title
+    modal.classList.remove('word-mode');
+    const titleEl = document.getElementById('facts-modal-title');
+    if (titleEl) {
+        titleEl.innerHTML = `
+            <i class="fas fa-info-circle"></i>
+            <span class="lang-guj">તથ્યો</span>
+            <span class="lang-eng">Facts</span>
+        `;
+    }
 
     // Inherit current reading theme so colors stay consistent
     modal.classList.remove('theme-sepia', 'theme-dark');
@@ -1582,8 +1766,114 @@ async function openFactsModal(vachanamrutId) {
     }
 }
 
+function renderSingleWordMeaningBody(entry, vachanamrutId) {
+    const isEn = currentLanguage === 'english';
+    const primaryWord = isEn ? (entry.word_en || entry.word_gu) : (entry.word_gu || entry.word_en);
+    const secondaryWord = isEn ? entry.word_gu : entry.word_en;
+    const primaryMeaning = isEn ? (entry.meaning_en || entry.meaning_gu) : (entry.meaning_gu || entry.meaning_en);
+    const secondaryMeaning = isEn ? entry.meaning_gu : entry.meaning_en;
+    const secondaryLangLabel = isEn ? 'Gujarati / ગુજરાતી' : 'English / અંગ્રેજી';
+
+    return `
+        <div class="word-meaning-card-single">
+            <div class="word-meaning-hero">
+                <div class="word-meaning-terms">
+                    <div class="word-meaning-primary-term">${primaryWord}</div>
+                    ${(secondaryWord && secondaryWord !== primaryWord) ? `<div class="word-meaning-secondary-term">${secondaryWord}</div>` : ''}
+                </div>
+                <span class="word-meaning-pill">
+                    <i class="fas fa-book"></i>
+                    <span class="lang-eng">Glossary</span>
+                    <span class="lang-guj">શબ્દાર્થ</span>
+                </span>
+            </div>
+            <div class="word-meaning-box">
+                <div class="word-meaning-content">${primaryMeaning}</div>
+                ${(secondaryMeaning && secondaryMeaning !== primaryMeaning) ? `
+                    <div class="word-meaning-alt-box">
+                        <div class="word-meaning-alt-label">${secondaryLangLabel}</div>
+                        <div class="word-meaning-alt-content">${secondaryMeaning}</div>
+                    </div>
+                ` : ''}
+            </div>
+            <button type="button" class="word-meaning-view-all-btn" id="word-meaning-view-all-facts-btn" data-vachanamrut-id="${vachanamrutId}">
+                <i class="fas fa-info-circle"></i>
+                <span class="lang-eng">View All Facts &amp; Glossary</span>
+                <span class="lang-guj">બધા તથ્યો અને શબ્દાર્થ જુઓ</span>
+            </button>
+        </div>
+    `;
+}
+
+async function openWordMeaningModal(vachanamrutId, glossaryId) {
+    const overlay = document.getElementById('facts-modal-overlay');
+    const body = document.getElementById('facts-modal-body');
+    const modal = document.getElementById('facts-modal');
+    const titleEl = document.getElementById('facts-modal-title');
+    const subtitle = document.getElementById('facts-modal-subtitle');
+    if (!overlay || !body || !modal) return;
+
+    await initSql();
+
+    modal.classList.add('word-mode');
+
+    // Inherit current reading theme so colors stay consistent
+    modal.classList.remove('theme-sepia', 'theme-dark');
+    const card = document.getElementById('vachanamrut-card');
+    if (card) {
+        if (card.classList.contains('theme-sepia')) modal.classList.add('theme-sepia');
+        else if (card.classList.contains('theme-dark')) modal.classList.add('theme-dark');
+    }
+
+    if (titleEl) {
+        titleEl.innerHTML = `
+            <i class="fas fa-book-open"></i>
+            <span class="lang-guj">શબ્દાર્થ</span>
+            <span class="lang-eng">Word Meaning</span>
+        `;
+    }
+
+    const id = parseInt(vachanamrutId);
+    const cl = getChapterLabel(id);
+    if (subtitle) {
+        subtitle.innerHTML = cl
+            ? `
+                <span class="lang-eng">(${cl.name_en} ${cl.position})</span>
+                <span class="lang-guj">(${cl.name_gu} ${toGujaratiNumeral(cl.position)})</span>
+            `
+            : '';
+    }
+
+    const glossaryList = getGlossaryForVachanamrut(id);
+    const entry = glossaryList.find(g => g.id === parseInt(glossaryId));
+
+    if (!entry) {
+        body.innerHTML = `
+            <div class="facts-empty">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <span class="lang-eng">Word meaning not found.</span>
+                    <span class="lang-guj">શબ્દાર્થ મળ્યો નથી.</span>
+                </div>
+            </div>`;
+    } else {
+        body.innerHTML = renderSingleWordMeaningBody(entry, id);
+        const viewAllBtn = document.getElementById('word-meaning-view-all-facts-btn');
+        if (viewAllBtn) {
+            viewAllBtn.addEventListener('click', () => {
+                openFactsModal(id);
+            });
+        }
+    }
+
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('facts-modal-open');
+}
+
 function closeFactsModal() {
     const overlay = document.getElementById('facts-modal-overlay');
+    const modal = document.getElementById('facts-modal');
     if (!overlay) return;
     overlay.classList.add('closing');
     setTimeout(() => {
@@ -1591,6 +1881,7 @@ function closeFactsModal() {
         overlay.classList.remove('closing');
         overlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('facts-modal-open');
+        if (modal) modal.classList.remove('word-mode');
     }, 180);
 }
 
@@ -1620,15 +1911,8 @@ async function loadVachanamrutFacts(vachanamrutId) {
     // shown in the modal header so the user knows what they're looking at.
     const chapterLabel = getChapterLabel(id);
 
-    // Query glossary data for this Vachanamrut
-    const gStmt = db.prepare(`
-        SELECT word_en, word_gu, meaning_en, meaning_gu
-        FROM vachanamrut_glossary WHERE vachanamrut_id = :id ORDER BY id ASC
-    `);
-    gStmt.bind({ ':id': id });
-    const glossary = [];
-    while (gStmt.step()) glossary.push(gStmt.getAsObject());
-    gStmt.free();
+    // Query glossary data for this Vachanamrut (cached)
+    const glossary = getGlossaryForVachanamrut(id);
 
     // Cross-references — life events and mandirs around this date
     const refsStmt = db.prepare(`
@@ -2358,6 +2642,19 @@ document.addEventListener('DOMContentLoaded', () => {
         progressToggle.addEventListener('change', () => {
             localStorage.setItem('showProgressTracking', progressToggle.checked);
             renderSections(); // Show/hide progress bars on home screen immediately
+        });
+    }
+
+    const glossaryToggle = document.getElementById('glossary-highlight-toggle');
+    if (glossaryToggle) {
+        glossaryToggle.checked = glossaryHighlightEnabled;
+        glossaryToggle.addEventListener('change', () => {
+            glossaryHighlightEnabled = glossaryToggle.checked;
+            localStorage.setItem('glossaryHighlightEnabled', glossaryHighlightEnabled);
+            if (activeVachanamrutId && currentReadingVachanamrutId) {
+                const currentV = vachanamrutData.find(v => v.id === activeVachanamrutId);
+                if (currentV) showVachanamrut(currentV, false);
+            }
         });
     }
 
