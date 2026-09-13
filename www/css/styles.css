@@ -938,7 +938,7 @@ footer {
 /* Floating Action Button - Settings / Menu */
 .fab-btn {
     position: fixed;
-    bottom: calc(112px + var(--safe-bottom, 0px));
+    bottom: calc(102px + var(--safe-bottom, 0px));
     right: 14px;
     width: 52px;
     height: 52px;
@@ -968,7 +968,7 @@ footer {
 /* Standalone Floating Action Button - Shikshapatri (under Settings) */
 .fab-shikshapatri-btn {
     position: fixed;
-    bottom: calc(50px + var(--safe-bottom, 0px));
+    bottom: calc(40px + var(--safe-bottom, 0px));
     right: 14px;
     width: 52px;
     height: 52px;
@@ -998,7 +998,7 @@ footer {
 /* Expandable FAB Menu */
 .fab-menu {
     position: fixed;
-    bottom: calc(174px + var(--safe-bottom, 0px));
+    bottom: calc(164px + var(--safe-bottom, 0px));
     right: 14px;
     display: flex;
     flex-direction: column;
