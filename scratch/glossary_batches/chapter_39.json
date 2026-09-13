@@ -1,0 +1,79 @@
+[
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Vedānti / વેદાંતી",
+    "word_gu": "વેદાંતી",
+    "meaning_en": "A follower or scholar of the Vedanta philosophy who argues that only Brahma exists and everything else is illusory.",
+    "meaning_gu": "વેદાંત દર્શનને માનનાર અથવા તેનો અભ્યાસી, જે એકલા બ્રહ્મને જ સત્ય અને બાકીના જગતને મિથ્યા માને છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Brahma / બ્રહ્મ",
+    "word_gu": "બ્રહ્મ",
+    "meaning_en": "The ultimate reality or divine abode which supports jivas, ishwars, and maya.",
+    "meaning_gu": "જીવ, ઈશ્વર અને માયાના આધારરૂપ પરમતત્વ અથવા અક્ષરબ્રહ્મ."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Jivas / જીવ",
+    "word_gu": "જીવ",
+    "meaning_en": "The individual soul bound by maya, distinct entities that are perceived differently depending on the state of the mukta.",
+    "meaning_gu": "માયાથી બંધાયેલો આત્મા, જેને મુક્ત પુરુષો પોતપોતાની સ્થિતિ અનુસાર જુએ છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Ishwars / ઈશ્વર",
+    "word_gu": "ઈશ્વર",
+    "meaning_en": "Cosmic deities or higher conscious entities superior to jivas, yet distinct from or unified with Brahma based on the observer's state of realization.",
+    "meaning_gu": "જીવોથી ઉત્તમ એવા દેવતાઓ કે નિયંતા સત્તાઓ, જે સ્થિતિભેદથી અલગ કે અભેદરૂપે દેખાય છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Māyā / માયા",
+    "word_gu": "માયા",
+    "meaning_en": "The illusory power of God, composed of the three gunas, which is perceived as distinct in the savikalp state and unified with Brahma in the nirvikalp state.",
+    "meaning_gu": "ત્રિગુણાત્મક શક્તિ, જેને સવિકલ્પ સ્થિતિમાં જુદી અને નિર્વિકલ્પ સ્થિતિમાં બ્રહ્મરૂપ જોવામાં આવે છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Muktas / મુક્ત",
+    "word_gu": "મુક્ત",
+    "meaning_en": "Enlightened souls who have attained God through worship, possessing distinct states of spiritual realization.",
+    "meaning_gu": "ભગવાનની ભક્તિ કરીને મુક્ત બનેલા જ્ઞાની પુરુષો, જેમની સ્થિતિના બે ભેદ છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Savikalp samādhi / સવિકલ્પ સમાધિ",
+    "word_gu": "સવિકલ્પ સમાધિ",
+    "meaning_en": "A spiritual state in which enlightened muktas perceive jivas, ishwars, maya, and their supporter Brahma as distinct entities from one another.",
+    "meaning_gu": "તે આધ્યાત્મિક સ્થિતિ જેમાં જ્ઞાની મુક્ત જીવ, ઈશ્વર, માયા અને બ્રહ્મ સર્વેને પૃથક્-પૃથક્ રૂપે જુએ છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Nirvikalp samādhi / નિર્વિકલ્પ સમાધિ",
+    "word_gu": "નિર્વિકલ્પ સમાધિ",
+    "meaning_en": "A supreme spiritual state in which great muktas see jivas, ishwars, and maya as being completely one with Brahma, without seeing them as separate.",
+    "meaning_gu": "તે સર્વોચ્ચ આધ્યાત્મિક સ્થિતિ જેમાં મહામુક્ત જીવ, ઈશ્વર અને માયાને એક બ્રહ્મરૂપે જ જુએ છે, પૃથક્ રૂપે નહીં."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Satya / સત્ય",
+    "word_gu": "સત્ય",
+    "meaning_en": "Real or existent; entities described as real according to the perspective of those in the savikalp state.",
+    "meaning_gu": "સાચું કે અસ્તિત્વવાળું; સવિકલ્પ સ્થિતિવાળાના મતે જે સર્વે પદાર્થો સત્ય પ્રતિપાદિત થાય છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Asatya / અસત્ય",
+    "word_gu": "અસત્ય",
+    "meaning_en": "Unreal or nonexistent; entities described as non-existent due to being unperceived under the profound influence of the nirvikalp state.",
+    "meaning_gu": "અસાચું અથવા ન હોય તેવું; નિર્વિકલ્પ સ્થિતિના બળે કરીને જે પદાર્થો દેખાતા નથી તેને અસત્ય કહેવાય છે."
+  },
+  {
+    "vachanamrut_id": 39,
+    "word_en": "Narak / નરક",
+    "word_gu": "નારકી",
+    "meaning_en": "Hell; the ultimate destination of foolish persons who arrogantly propagate false philosophical extremes without understanding scriptural contexts or attaining true spiritual states.",
+    "meaning_gu": "શાસ્ત્રના મર્મ અને આધ્યાત્મિક સ્થિતિને સમજ્યા વિના કેવળ અહંકારથી મિથ્યા પ્રતિપાદન કરનાર મૂર્ખ જીવ જે જગ્યાને પામે છે."
+  }
+]

@@ -11,13 +11,13 @@ import json
 import os
 import sys
 
-DB_PATH = "assets/data/vachanamrut.db"
-GLOSSARY_PATH = "assets/glossary.json"
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "www", "assets", "data", "vachanamrut.db")
+GLOSSARY_PATH = os.path.join(BASE_DIR, "www", "assets", "glossary.json")
 
 def main():
     if not os.path.exists(DB_PATH):
-        print(f"Error: {DB_PATH} not found. Run convert_json_to_sqlite.py first.")
+        print(f"Error: {DB_PATH} not found.")
         sys.exit(1)
     if not os.path.exists(GLOSSARY_PATH):
         print(f"Error: {GLOSSARY_PATH} not found.")
