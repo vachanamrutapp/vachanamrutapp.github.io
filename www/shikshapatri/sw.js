@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shikshapatri-pwa-v12';
+const CACHE_NAME = 'shikshapatri-pwa-v15';
 
 // Core shell cached synchronously on install — blocks SW activation but is fast & 100% reliable
 const CORE_SHELL = [

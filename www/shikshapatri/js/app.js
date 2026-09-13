@@ -118,13 +118,6 @@ async function init() {
         // Render slokas list
         renderSlokas();
 
-        // Auto-scroll to bookmarked sloka after rendering
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                scrollToBookmarkedSloka();
-            });
-        });
-
         // Setup navigation
         setupNavigation();
 
@@ -143,6 +136,10 @@ async function init() {
             if (slokaNum >= 1 && slokaNum <= slokas.length) {
                 showSloka(slokaNum, false);
             }
+        } else {
+            // Auto-scroll to bookmarked sloka on home screen if one exists
+            setTimeout(() => scrollToBookmarkedSloka(false), 200);
+            setTimeout(() => scrollToBookmarkedSloka(true), 500);
         }
 
         // Browser back/forward navigation
@@ -164,6 +161,20 @@ async function init() {
 function cleanSanskritVerse(text) {
     if (!text) return '';
     return text.replace(/(\s*(?:।।|॥|\|\||।|\|)\s*[०-९0-9]+\s*(?:।।|॥|\|\||।|\|)?\s*)$/, ' ।।').trim();
+}
+
+// Format bhashya Sanskrit verse with newline after first line
+function formatBhashyaShlok(text) {
+    if (!text) return '';
+    text = text.trim();
+    if (text.includes('\n')) {
+        return text.replace(/\n\n+/g, '<br><br>').replace(/\n/g, '<br>');
+    }
+    // 1. Break after double danda with verse number when followed by another verse (e.g. ।।७७।। साष्टाङ्ग...)
+    text = text.replace(/((?:॥|[।|]{2})\s*[\u0966-\u096F\u0AE6-\u0AEF0-9\s\-–—]*(?:॥|[।|]{2}))\s+(?=[\u0900-\u097F])/g, '$1<br><br>');
+    // 2. Break after first line of sloka (single danda with space before or after, followed by next line)
+    text = text.replace(/(?<![।|॥])(?:\s+[।|]\s*|\s*[।|]\s+)(?=[\u0900-\u097F])(?![।|॥])/g, ' ।<br>');
+    return text;
 }
 
 // Convert numbers to Devanagari numerals
@@ -321,6 +332,7 @@ function showSloka(id, pushState = true) {
     updateHeaderBookmarkBtn();
 
     // Reset scroll position when entering detail view
+    window.scrollTo(0, 0);
     document.getElementById('main-content').scrollTop = 0;
 
     // Render Shatanand Muni Bhashya (only when in Gujarati)
@@ -334,10 +346,26 @@ function showSloka(id, pushState = true) {
         if (bhashya && bhashya.content && bhashya.content.length > 0) {
             let html = '';
             bhashya.content.forEach(item => {
+                const text = (item.text || '').trim();
                 if (item.type === 'shlok') {
-                    html += `<div class="bhashya-shlok">${item.text.replace(/\n/g, '<br>')}</div>`;
+                    html += `<div class="bhashya-shlok">${formatBhashyaShlok(text)}</div>`;
                 } else {
-                    html += `<p class="bhashya-paragraph">${item.text}</p>`;
+                    // Detect if text is a Sanskrit sloka mistakenly marked as paragraph
+                    const devChars = (text.match(/[\u0900-\u097F]/g) || []).length;
+                    const gujChars = (text.match(/[\u0A80-\u0AFF]/g) || []).length;
+
+                    if (devChars > 15 && gujChars === 0) {
+                        html += `<div class="bhashya-shlok">${formatBhashyaShlok(text)}</div>`;
+                    } else {
+                        // Check if paragraph starts with a Sanskrit verse followed by Gujarati
+                        const match = text.match(/^([\u0900-\u097F\s\u0964\u0965।,।\.\-\'\"]{15,}[॥।|]{1,2}\s*[\u0966-\u096F\u0AE6-\u0AEF0-9\s\-–—]+[॥।|]{1,2})\s*(.*)$/s);
+                        if (match && match[1] && match[2] && (match[2].match(/[\u0A80-\u0AFF]/g) || []).length > 0) {
+                            html += `<div class="bhashya-shlok">${formatBhashyaShlok(match[1].trim())}</div>`;
+                            html += `<p class="bhashya-paragraph">${match[2].trim()}</p>`;
+                        } else {
+                            html += `<p class="bhashya-paragraph">${text}</p>`;
+                        }
+                    }
                 }
             });
             bhashyaBody.innerHTML = html;
@@ -596,24 +624,36 @@ function updateBookmarkBubble() {
     }
 }
 
-function scrollToBookmarkedSloka() {
+function scrollToBookmarkedSloka(smooth = true) {
     const bookmarkedSloka = localStorage.getItem('shikshapatri-bookmark');
-    if (bookmarkedSloka) {
-        const slokaElement = document.querySelector(`[data-sloka-id="${bookmarkedSloka}"]`);
-        if (slokaElement) {
-            // Get the main content element and scroll it
-            const mainContent = document.getElementById('main-content');
-            const elementRect = slokaElement.getBoundingClientRect();
-            const mainRect = mainContent.getBoundingClientRect();
+    if (!bookmarkedSloka) return;
 
-            // Calculate the scroll position relative to the main content
-            const scrollTop = mainContent.scrollTop + elementRect.top - mainRect.top - 80; // 80px offset
+    // Only scroll if on the list screen
+    if (!listScreen || !listScreen.classList.contains('active')) return;
 
-            mainContent.scrollTo({
-                top: scrollTop,
-                behavior: 'smooth'
-            });
-        }
+    const slokaElement = document.querySelector(`[data-sloka-id="${bookmarkedSloka}"]`);
+    if (slokaElement) {
+        slokaElement.scrollIntoView({
+            behavior: smooth ? 'smooth' : 'auto',
+            block: 'center'
+        });
+
+        slokaElement.classList.add('bookmark-highlight');
+        setTimeout(() => {
+            slokaElement.classList.remove('bookmark-highlight');
+        }, 1600);
+    } else {
+        setTimeout(() => {
+            const el = document.querySelector(`[data-sloka-id="${bookmarkedSloka}"]`);
+            if (el && listScreen && listScreen.classList.contains('active')) {
+                el.scrollIntoView({
+                    behavior: smooth ? 'smooth' : 'auto',
+                    block: 'center'
+                });
+                el.classList.add('bookmark-highlight');
+                setTimeout(() => el.classList.remove('bookmark-highlight'), 1600);
+            }
+        }, 120);
     }
 }
 
