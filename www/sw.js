@@ -128,6 +128,16 @@ self.addEventListener('message', event => {
 self.addEventListener('fetch', event => {
     if (event.request.method !== 'GET') return;
 
+    // Allow Shikshapatri subfolder to handle its own navigation and caching
+    try {
+        const url = new URL(event.request.url);
+        if (url.pathname.includes('/shikshapatri')) {
+            return;
+        }
+    } catch (e) {
+        // Fallback if URL parsing fails
+    }
+
     if (event.request.mode === 'navigate') {
         event.respondWith(
             caches.match('./index.html').then(r => r || fetch(event.request))

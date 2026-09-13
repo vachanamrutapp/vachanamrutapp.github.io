@@ -1,0 +1,612 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Color scheme variables (Matching Vachanamrut Theme) */
+:root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --bg-primary: #E6A623;          /* Golden Yellow */
+    --bg-secondary: #F7C844;        /* Medium Yellow */
+    --color-royal-blue: #A5252C;    /* Deep Red */
+    --color-electric-blue: #E65100; /* Burnt Orange */
+    --color-gold: #A5252C;
+    --color-light-gold: #A5252C;
+    --color-amber: #E65100;
+    --color-saffron-light: #E65100;
+    --color-text-main: #2c2c2c;
+    --color-text-muted: #5d4e75;
+
+    /* Legacy aliases */
+    --primary-color: #E65100;
+    --secondary-color: #A5252C;
+    --text-color: #2c2c2c;
+    --text-light: #5d4e75;
+
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(165, 37, 44, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+    --glass-blur: blur(16px);
+    --gold-border-glow: rgba(165, 37, 44, 0.15);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar matching Vachanamrut */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(165, 37, 44, 0.45);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(165, 37, 44, 0.7);
+}
+
+/* Body with Harikrishna Maharaj background identical to Vachanamrut */
+body {
+    font-family: 'Noto Sans Gujarati', 'Roboto', -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
+    background-color: #E6A623;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('../assets/images/harikrishna-maharaj-bg.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--color-text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 20px;
+    background: #A5252C;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    z-index: 20000;
+    text-decoration: none;
+    font-weight: 600;
+    transition: top 0.2s ease;
+}
+.skip-link:focus {
+    top: 10px;
+}
+
+/* Header — full-bleed PWA navbar matching Vachanamrut */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(58px + var(--safe-top));
+    background: #E6A623;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: var(--safe-top) 20px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 10000;
+    border-bottom: 1px solid rgba(165, 37, 44, 0.2);
+}
+
+#navbar-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: var(--transition-smooth);
+}
+
+@media (max-width: 768px) {
+    #navbar-logo {
+        height: 48px;
+    }
+}
+@media (max-width: 480px) {
+    #navbar-logo {
+        height: 46px;
+    }
+}
+
+/* Back button matching Vachanamrut header style */
+#back-btn {
+    position: absolute;
+    left: 16px;
+    top: calc(var(--safe-top) + 9px);
+    background: transparent;
+    color: #A5252C;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#back-btn:hover {
+    background: rgba(165, 37, 44, 0.12);
+    transform: scale(1.08);
+}
+
+#back-btn:active {
+    transform: scale(0.95);
+}
+
+/* Bookmark button in header */
+#bookmark-btn {
+    position: absolute;
+    right: 16px;
+    top: calc(var(--safe-top) + 9px);
+    background: transparent;
+    color: #A5252C;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10001;
+}
+
+#bookmark-btn:hover {
+    background: rgba(165, 37, 44, 0.12);
+    transform: scale(1.08);
+}
+
+#bookmark-btn.active i {
+    color: #A5252C;
+}
+
+.bookmark-bubble {
+    display: none;
+}
+
+/* Main Container */
+#main-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: calc(72px + var(--safe-top)) 16px calc(65px + var(--safe-bottom, 0px)) 16px;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.screen {
+    display: none;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slokas List (Home Screen) — Matching Chapter Grid */
+#slokas-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    padding: 8px 0 24px 0;
+}
+
+@media (max-width: 768px) {
+    #slokas-list {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+/* Sloka Card — Liquid Gold Glass Style matching Vachanamrut Chapter Tiles */
+.sloka-card {
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.45), rgba(165, 37, 44, 0.09));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.12);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sloka-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top right, rgba(255, 180, 80, 0.3), transparent 70%);
+    pointer-events: none;
+}
+
+.sloka-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(139, 90, 43, 0.22);
+    border-color: rgba(165, 37, 44, 0.5);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.55), rgba(165, 37, 44, 0.16));
+}
+
+.sloka-card:active {
+    transform: translateY(-1px);
+}
+
+.sloka-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+}
+
+.sloka-number-bubble {
+    background: linear-gradient(135deg, #FFB300, #FF8F00);
+    color: #2C1D18;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+}
+
+.sloka-content-preview {
+    flex: 1;
+    min-width: 0;
+}
+
+.sloka-sanskrit-preview {
+    color: #A5252C;
+    font-weight: 600;
+    font-size: 0.92rem;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.sloka-translation-preview {
+    color: #333333;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.9;
+}
+
+.sloka-card.bookmarked {
+    border-color: rgba(165, 37, 44, 0.7);
+    box-shadow: 0 0 0 2px rgba(165, 37, 44, 0.25), 0 8px 25px rgba(139, 90, 43, 0.18);
+}
+
+/* Skeleton Loading */
+.sloka-card.skeleton {
+    min-height: 86px;
+    background: linear-gradient(90deg, rgba(255, 230, 150, 0.3) 25%, rgba(255, 230, 150, 0.5) 50%, rgba(255, 230, 150, 0.3) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Reading Pane (Detail Screen) — Matching Vachanamrut Glass Card */
+#sloka-content {
+    background: rgba(255, 230, 150, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(165, 37, 44, 0.3);
+    border-radius: 24px;
+    padding: 30px;
+    margin: 10px auto calc(90px + var(--safe-bottom, 0px)) auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    max-width: 860px;
+}
+
+@media (max-width: 768px) {
+    #sloka-content {
+        padding: 20px 16px;
+        border-radius: 18px;
+        margin-bottom: calc(95px + var(--safe-bottom, 0px));
+    }
+}
+
+#sloka-image {
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 14px;
+    margin: 0 0 22px 0;
+    box-shadow: 0 6px 24px rgba(230, 81, 0, 0.15);
+    border: 1px solid rgba(230, 81, 0, 0.2);
+    background: rgba(255, 255, 255, 0.7);
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+#sloka-image:hover {
+    transform: scale(1.01);
+}
+
+/* Sanskrit Verse Box — Red verse text matching user preference */
+#sloka-sanskrit {
+    background: rgba(230, 81, 0, 0.04);
+    border: 1.5px dashed rgba(165, 37, 44, 0.4);
+    padding: 20px 16px;
+    margin: 18px 0;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 2.1;
+    color: #A5252C; /* Red Sanskrit Sloka */
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-weight: 700;
+    box-shadow: inset 0 0 12px rgba(230, 81, 0, 0.02);
+}
+
+@media (max-width: 768px) {
+    #sloka-sanskrit {
+        font-size: 1.08rem;
+        line-height: 1.8;
+        padding: 14px 10px;
+    }
+}
+
+/* Translation Card & Header */
+#translation-card {
+    margin-top: 18px;
+}
+
+.translation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
+}
+
+.translation-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.language-select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(165, 37, 44, 0.35);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #A5252C;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.language-select:hover, .language-select:focus {
+    border-color: #A5252C;
+    box-shadow: 0 2px 8px rgba(165, 37, 44, 0.2);
+}
+
+/* Translation Text — Small font size */
+#sloka-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #111111;
+    text-align: justify;
+    font-weight: 400;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    padding: 2px 0;
+}
+
+#sloka-text.gujarati {
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    #sloka-text {
+        font-size: 0.98rem;
+        line-height: 1.65;
+    }
+    #sloka-text.gujarati {
+        font-size: 0.98rem;
+        line-height: 1.65;
+    }
+}
+
+/* Additional translation box (if used) */
+#sloka-translation {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #333;
+    margin-top: 15px;
+}
+
+/* Error message */
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255, 230, 150, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(165, 37, 44, 0.3);
+    margin: 20px 0;
+}
+
+.error-message p {
+    color: #A5252C;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.error-message button {
+    background: #A5252C;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.error-message button:hover {
+    background: #8A1F25;
+    transform: scale(1.05);
+}
+
+/* Bottom Bar Container */
+#bottom-bar-container {
+    position: relative;
+    z-index: 10000;
+}
+
+/* Sticky Navigation Footer — Matching Vachanamrut's #reading-footer */
+#sloka-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #E6A623;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(165, 37, 44, 0.3);
+    padding: 8px 18px calc(8px + var(--safe-bottom, 0px)) 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    z-index: 10002;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+#prev-sloka-btn, #next-sloka-btn {
+    background: rgba(165, 37, 44, 0.12);
+    border: 1px solid rgba(165, 37, 44, 0.3);
+    color: #A5252C;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.15rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+#prev-sloka-btn:hover:not(:disabled), #next-sloka-btn:hover:not(:disabled) {
+    background: #A5252C;
+    color: #FFB300;
+    transform: scale(1.08);
+}
+
+#prev-sloka-btn:disabled, #next-sloka-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+#sloka-slider-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#sloka-slider {
+    flex: 1;
+    accent-color: #A5252C;
+    height: 6px;
+    cursor: pointer;
+}
+
+#sloka-counter {
+    color: #A5252C;
+    font-weight: 700;
+    font-size: 0.95rem;
+    min-width: 65px;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* App Footer — Matching Vachanamrut's #footer */
+#app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #E6A623;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: #A5252C;
+    text-align: center;
+    padding: 6px 12px calc(6px + var(--safe-bottom, 0px)) 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    border-top: 1px solid rgba(165, 37, 44, 0.3);
+}

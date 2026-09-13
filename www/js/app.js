@@ -154,6 +154,7 @@ const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text')
 const backBtn = document.getElementById('back-btn');
 let bookmarkBtn = document.getElementById('bookmark-pill-btn');
 const fabBtn = document.getElementById('fab-btn');
+const fabShikshapatriBtn = document.getElementById('fab-shikshapatri-btn');
 const footer = document.getElementById('footer');
 const readingFooter = document.getElementById('reading-footer');
 const navPrevBtn = document.getElementById('nav-prev-btn');
@@ -363,6 +364,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'block';
     fabBtn.style.display = 'none'; // Hide FAB in detail view
+    if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 
     // Update bookmark button state
     updateBookmarkButtonState(vachanamrut.id);
@@ -1005,6 +1007,7 @@ function showSectionDetail(sectionIndex) {
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'none';
     fabBtn.style.display = 'none';
+    if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 }
 
 // Render vachanamrut tiles in section detail
@@ -2268,6 +2271,13 @@ function setupMenu() {
         }
     });
 
+    // Standalone Shikshapatri FAB click
+    if (fabShikshapatriBtn) {
+        fabShikshapatriBtn.addEventListener('click', () => {
+            window.location.href = './shikshapatri/';
+        });
+    }
+
     // Settings button click
     if (fabSettings) {
         fabSettings.addEventListener('click', () => {
@@ -2294,6 +2304,14 @@ function setupMenu() {
     if (settingsJourneyRow) {
         settingsJourneyRow.addEventListener('click', () => {
             showScreen('journey-screen');
+        });
+    }
+
+    // Shikshapatri row inside Settings
+    const settingsShikshapatriRow = document.getElementById('settings-shikshapatri-row');
+    if (settingsShikshapatriRow) {
+        settingsShikshapatriRow.addEventListener('click', () => {
+            window.location.href = './shikshapatri/';
         });
     }
 
@@ -2389,6 +2407,7 @@ function showScreen(screenId, pushState = true) {
         backBtn.style.display = 'none';
         bookmarkBtn.style.display = 'none';
         fabBtn.style.display = 'flex';
+        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'flex';
 
         // Re-render home screen sections to ensure correct language translation
         renderSections();
@@ -2406,11 +2425,13 @@ function showScreen(screenId, pushState = true) {
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
         fabBtn.style.display = 'none';
+        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
     } else {
         footer.style.display = 'none';
+        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
     }
 
