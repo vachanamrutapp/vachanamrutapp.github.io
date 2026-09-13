@@ -160,6 +160,18 @@ async function init() {
     }
 }
 
+// Clean trailing sloka numbers from Sanskrit verse (e.g. '।।१૬૧।।' -> '।।')
+function cleanSanskritVerse(text) {
+    if (!text) return '';
+    return text.replace(/(\s*(?:।।|॥|\|\||।|\|)\s*[०-९0-9]+\s*(?:।।|॥|\|\||।|\|)?\s*)$/, ' ।।').trim();
+}
+
+// Convert numbers to Devanagari numerals
+function toDevanagari(num) {
+    const devanagariDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+    return String(num).replace(/[0-9]/g, d => devanagariDigits[parseInt(d, 10)]);
+}
+
 // Show loading state
 function showLoadingState() {
     isLoading = true;
@@ -229,8 +241,9 @@ function renderSlokas() {
             }
         };
 
-        // Format full 2-line Sanskrit verse
-        const sanskritVerses = (sloka.sanskrit || '').trim().replace(/\n/g, '<br>');
+        // Format full 2-line Sanskrit verse without trailing verse number
+        const cleanedSanskrit = cleanSanskritVerse(sloka.sanskrit);
+        const sanskritVerses = cleanedSanskrit.replace(/\n/g, '<br>');
         const bookmarkBadge = isBookmarked
             ? `<div class="sloka-card-bookmark" title="Bookmarked Sloka"><i class="fas fa-bookmark" aria-hidden="true"></i></div>`
             : '';
@@ -259,12 +272,20 @@ function showSloka(id, pushState = true) {
         window.history.pushState({ slokaId: id }, '', `${cleanPath}?id=${id}`);
     }
 
+    // Set sloka title badge above image
+    const slokaTitleBadge = document.getElementById('sloka-title-badge');
+    if (slokaTitleBadge) {
+        slokaTitleBadge.textContent = `श्लोक ${toDevanagari(id)}`;
+    }
+
     // Set image with lazy loading
     slokaImage.src = `assets/pictorial/${id}.png`;
     slokaImage.alt = `Pictorial illustration for Sloka ${id}`;
     slokaImage.loading = 'lazy';
 
-    slokaSanskrit.innerHTML = currentSloka.sanskrit.replace(/\n/g, '<br>');
+    // Format Sanskrit verse without trailing verse number (preventing orphan line wrapping)
+    const cleanedSanskrit = cleanSanskritVerse(currentSloka.sanskrit);
+    slokaSanskrit.innerHTML = cleanedSanskrit.replace(/\n/g, '<br>');
 
     if (currentLang === 'gujarati') {
         slokaText.textContent = currentSloka.gujarati;

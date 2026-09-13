@@ -244,6 +244,12 @@ header {
         grid-template-columns: 1fr;
         gap: 14px;
     }
+    .sloka-number-bubble {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+        font-size: 0.88rem;
+    }
 }
 
 /* Sloka Card — Liquid Gold Glass Style matching Vachanamrut Chapter Tiles */
@@ -296,18 +302,28 @@ header {
 
 .sloka-number-bubble {
     background: linear-gradient(135deg, #FFB300, #FF8F00);
-    color: #2C1D18;
-    width: 36px;
-    height: 36px;
+    color: #7A181E;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 1.05rem;
-    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    font-size: 0.96rem;
+    line-height: 1;
+    letter-spacing: -0.2px;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    box-shadow: 0 3px 10px rgba(255, 179, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.75);
     flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.sloka-card:hover .sloka-number-bubble {
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(255, 179, 0, 0.55);
 }
 
 .sloka-content-preview {
@@ -347,9 +363,10 @@ header {
 }
 
 .sloka-card.bookmarked .sloka-number-bubble {
-    background: linear-gradient(135deg, #A5252C, #7A1A20) !important;
+    background: linear-gradient(135deg, #A5252C, #6A1016) !important;
     color: #FFD54F !important;
-    box-shadow: 0 3px 10px rgba(165, 37, 44, 0.4) !important;
+    border-color: rgba(255, 213, 79, 0.8) !important;
+    box-shadow: 0 3px 12px rgba(165, 37, 44, 0.45) !important;
 }
 
 .sloka-card-bookmark {
@@ -405,22 +422,89 @@ header {
     }
 }
 
+/* Sloka Image Card — Unified Media Card with Header */
+.sloka-image-card {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(165, 37, 44, 0.22);
+    border-radius: 18px;
+    margin: 0 0 22px 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(139, 90, 43, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sloka-image-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(165, 37, 44, 0.05);
+    border-bottom: 1px solid rgba(165, 37, 44, 0.12);
+}
+
+.sloka-image-title,
+.sloka-title-badge {
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #8C252A;
+    letter-spacing: 0.8px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    text-align: center;
+    display: block;
+}
+
+.sloka-image-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
 #sloka-image {
     width: 100%;
     height: auto;
     max-height: 380px;
     object-fit: contain;
-    border-radius: 14px;
-    margin: 0 0 22px 0;
-    box-shadow: 0 6px 24px rgba(230, 81, 0, 0.15);
-    border: 1px solid rgba(230, 81, 0, 0.2);
-    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
     display: block;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
 
 #sloka-image:hover {
     transform: scale(1.01);
+}
+
+@media (max-width: 768px) {
+    .sloka-image-card {
+        border-radius: 14px;
+        margin-bottom: 16px;
+    }
+    .sloka-image-header {
+        padding: 8px 12px;
+    }
+    .sloka-image-title,
+    .sloka-title-badge {
+        font-size: 1.05rem;
+        letter-spacing: 0.5px;
+        padding: 0;
+    }
+    .sloka-image-wrap {
+        padding: 8px;
+    }
+    #sloka-image {
+        border-radius: 8px;
+        max-height: 300px;
+    }
 }
 
 /* Sanskrit Verse Box — Red verse text matching user preference */
@@ -490,10 +574,10 @@ header {
     box-shadow: 0 2px 8px rgba(165, 37, 44, 0.2);
 }
 
-/* Translation Text — Small font size */
+/* Translation Text */
 #sloka-text {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.18rem;
+    line-height: 1.85;
     color: #111111;
     text-align: justify;
     font-weight: 400;
@@ -503,25 +587,25 @@ header {
 
 #sloka-text.gujarati {
     font-family: 'Noto Sans Gujarati', sans-serif;
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.18rem;
+    line-height: 1.85;
 }
 
 @media (max-width: 768px) {
     #sloka-text {
-        font-size: 0.98rem;
-        line-height: 1.65;
+        font-size: 1.12rem;
+        line-height: 1.8;
     }
     #sloka-text.gujarati {
-        font-size: 0.98rem;
-        line-height: 1.65;
+        font-size: 1.12rem;
+        line-height: 1.8;
     }
 }
 
 /* Additional translation box (if used) */
 #sloka-translation {
-    font-size: 1.1rem;
-    line-height: 1.7;
+    font-size: 1.18rem;
+    line-height: 1.85;
     color: #333;
     margin-top: 15px;
 }
@@ -531,7 +615,7 @@ header {
     background: rgba(255, 230, 150, 0.7);
     border: 1px solid rgba(165, 37, 44, 0.3);
     border-radius: 16px;
-    margin: 22px 0 10px 0;
+    margin: 20px 0 10px 0;
     overflow: hidden;
     box-shadow: 0 4px 18px rgba(139, 90, 43, 0.08);
     transition: var(--transition-smooth);
@@ -541,7 +625,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 18px;
+    padding: 12px 14px;
     cursor: pointer;
     background: rgba(165, 37, 44, 0.06);
     user-select: none;
@@ -555,34 +639,34 @@ header {
 .bhashya-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.05rem;
+    gap: 8px;
+    font-size: 1.12rem;
     font-weight: 700;
     color: #A5252C;
     font-family: 'Noto Sans Gujarati', sans-serif;
 }
 
 .bhashya-title i {
-    font-size: 1.15rem;
+    font-size: 1.18rem;
 }
 
 .toggle-icon {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: #A5252C;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bhashya-body {
-    padding: 18px 20px 22px 20px;
+    padding: 14px 12px 18px 12px;
     border-top: 1px solid rgba(165, 37, 44, 0.15);
     background: rgba(255, 255, 255, 0.35);
 }
 
 .bhashya-paragraph {
-    font-size: 1.05rem;
-    line-height: 1.85;
+    font-size: 1.18rem;
+    line-height: 1.9;
     color: #1a1a1a;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     text-align: justify;
     font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
 }
@@ -593,31 +677,41 @@ header {
 
 .bhashya-shlok {
     background: rgba(165, 37, 44, 0.06);
-    border-left: 3px solid #A5252C;
-    padding: 10px 14px;
+    border-left: 3.5px solid #A5252C;
+    padding: 10px 12px;
     margin: 12px 0;
     border-radius: 0 10px 10px 0;
     font-family: 'Noto Serif', 'Georgia', serif;
     font-weight: 600;
-    font-size: 1.02rem;
+    font-size: 1.14rem;
     color: #A5252C;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 @media (max-width: 768px) {
+    .bhashya-card {
+        margin: 16px -6px 10px -6px;
+        border-radius: 14px;
+    }
+    .bhashya-header {
+        padding: 10px 10px;
+    }
     .bhashya-title {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
     }
     .bhashya-body {
-        padding: 14px 14px 18px 14px;
+        padding: 12px 8px 16px 8px;
     }
     .bhashya-paragraph {
-        font-size: 0.96rem;
-        line-height: 1.75;
+        font-size: 1.12rem;
+        line-height: 1.85;
+        margin-bottom: 14px;
     }
     .bhashya-shlok {
-        font-size: 0.94rem;
-        padding: 8px 12px;
+        font-size: 1.08rem;
+        line-height: 1.75;
+        padding: 8px 8px;
+        margin: 10px 0;
     }
 }
 
