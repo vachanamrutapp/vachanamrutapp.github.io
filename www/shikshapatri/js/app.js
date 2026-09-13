@@ -22,17 +22,76 @@ const bookmarkBtn = document.getElementById('bookmark-btn');
 const bookmarkBubble = document.getElementById('bookmark-bubble');
 
 
+// SQLite Database support
+let SQL = null;
+let db = null;
+let initSqlPromise = null;
+
+async function initSql() {
+    if (initSqlPromise) return initSqlPromise;
+
+    initSqlPromise = (async () => {
+        if (!SQL) {
+            SQL = await initSqlJs({
+                locateFile: file => `../js/${file}`
+            });
+        }
+        if (!db) {
+            const response = await fetch('./assets/data/shikshapatri.db');
+            if (!response.ok) {
+                throw new Error(`Failed to load SQLite db: ${response.statusText}`);
+            }
+            const arrayBuffer = await response.arrayBuffer();
+            db = new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+    })();
+
+    return initSqlPromise;
+}
+
+function getBhashyaForSloka(bhashyaId) {
+    if (!db || !bhashyaId) return null;
+    try {
+        const stmt = db.prepare("SELECT * FROM bhashya WHERE id = :id");
+        stmt.bind({ ":id": bhashyaId });
+        let result = null;
+        if (stmt.step()) {
+            result = stmt.getAsObject();
+            if (result.content && typeof result.content === 'string') {
+                result.content = JSON.parse(result.content);
+            }
+            if (result.verses && typeof result.verses === 'string') {
+                result.verses = JSON.parse(result.verses);
+            }
+        }
+        stmt.free();
+        return result;
+    } catch (err) {
+        console.error('Error querying bhashya:', err);
+        return null;
+    }
+}
+
 // Initialize app
 async function init() {
     showLoadingState();
 
     try {
-        // Load data
-        const response = await fetch('assets/data.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        // Load data from SQLite database (with fallback to data.json)
+        try {
+            await initSql();
+            const stmt = db.prepare("SELECT id, sanskrit, gujarati, english, hindi, bhashya_id FROM slokas ORDER BY id ASC");
+            slokas = [];
+            while (stmt.step()) {
+                slokas.push(stmt.getAsObject());
+            }
+            stmt.free();
+            console.log(`Loaded ${slokas.length} slokas from SQLite (shikshapatri.db)`);
+        } catch (dbErr) {
+            console.warn('SQLite load failed, falling back to data.json:', dbErr);
+            const response = await fetch('assets/data.json');
+            slokas = await response.json();
         }
-        slokas = await response.json();
 
         // Set slider max
         slokaSlider.max = slokas.length;
@@ -223,7 +282,7 @@ function showSloka(id, pushState = true) {
     slokaSlider.value = id;
     slokaSlider.setAttribute('aria-valuenow', id);
     slokaSlider.setAttribute('aria-valuetext', `Sloka ${id} of ${slokas.length}`);
-    slokaCounter.textContent = `${id}/${slokas.length}`;
+    slokaCounter.textContent = `${id} / ${slokas.length}`;
 
     listScreen.classList.remove('active');
     detailScreen.classList.add('active');
@@ -239,6 +298,47 @@ function showSloka(id, pushState = true) {
 
     // Reset scroll position when entering detail view
     document.getElementById('main-content').scrollTop = 0;
+
+    // Render Shatanand Muni Bhashya (only when in Gujarati)
+    const bhashyaCard = document.getElementById('bhashya-card');
+    const bhashyaBody = document.getElementById('bhashya-body');
+    const bhashyaHeader = document.getElementById('bhashya-header');
+    const bhashyaToggleIcon = document.getElementById('bhashya-toggle-icon');
+
+    if (bhashyaCard && bhashyaBody && currentSloka.bhashya_id && currentLang === 'gujarati') {
+        const bhashya = getBhashyaForSloka(currentSloka.bhashya_id);
+        if (bhashya && bhashya.content && bhashya.content.length > 0) {
+            let html = '';
+            bhashya.content.forEach(item => {
+                if (item.type === 'shlok') {
+                    html += `<div class="bhashya-shlok">${item.text.replace(/\n/g, '<br>')}</div>`;
+                } else {
+                    html += `<p class="bhashya-paragraph">${item.text}</p>`;
+                }
+            });
+            bhashyaBody.innerHTML = html;
+            bhashyaCard.style.display = 'block';
+
+            // Collapse by default
+            bhashyaBody.style.display = 'none';
+            if (bhashyaToggleIcon) bhashyaToggleIcon.style.transform = 'rotate(0deg)';
+            if (bhashyaHeader) {
+                bhashyaHeader.setAttribute('aria-expanded', 'false');
+                bhashyaHeader.onclick = () => {
+                    const isCollapsed = bhashyaBody.style.display === 'none';
+                    bhashyaBody.style.display = isCollapsed ? 'block' : 'none';
+                    bhashyaHeader.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+                    if (bhashyaToggleIcon) {
+                        bhashyaToggleIcon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                };
+            }
+        } else {
+            bhashyaCard.style.display = 'none';
+        }
+    } else if (bhashyaCard) {
+        bhashyaCard.style.display = 'none';
+    }
 
     updateNavButtons();
 
@@ -319,7 +419,11 @@ function setupNavigation() {
         // Save as a Shikshapatri local override without altering Vachanamrut system language
         localStorage.setItem('shikshapatri-lang-override', currentLang);
         updateLanguagePills();
-        if (currentSloka) showSloka(currentSloka.id);
+        if (currentSloka) {
+            showSloka(currentSloka.id, false);
+        } else {
+            renderSlokas();
+        }
     };
 }
 

@@ -482,6 +482,101 @@ header {
     margin-top: 15px;
 }
 
+/* Shatanand Muni Arthadeepika Bhashya Card */
+.bhashya-card {
+    background: rgba(255, 230, 150, 0.7);
+    border: 1px solid rgba(165, 37, 44, 0.3);
+    border-radius: 16px;
+    margin: 22px 0 10px 0;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(139, 90, 43, 0.08);
+    transition: var(--transition-smooth);
+}
+
+.bhashya-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    cursor: pointer;
+    background: rgba(165, 37, 44, 0.06);
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.bhashya-header:hover {
+    background: rgba(165, 37, 44, 0.12);
+}
+
+.bhashya-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.bhashya-title i {
+    font-size: 1.15rem;
+}
+
+.toggle-icon {
+    font-size: 1rem;
+    color: #A5252C;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bhashya-body {
+    padding: 18px 20px 22px 20px;
+    border-top: 1px solid rgba(165, 37, 44, 0.15);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.bhashya-paragraph {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+    text-align: justify;
+    font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
+}
+
+.bhashya-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.bhashya-shlok {
+    background: rgba(165, 37, 44, 0.06);
+    border-left: 3px solid #A5252C;
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 0 10px 10px 0;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: #A5252C;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .bhashya-title {
+        font-size: 0.95rem;
+    }
+    .bhashya-body {
+        padding: 14px 14px 18px 14px;
+    }
+    .bhashya-paragraph {
+        font-size: 0.96rem;
+        line-height: 1.75;
+    }
+    .bhashya-shlok {
+        font-size: 0.94rem;
+        padding: 8px 12px;
+    }
+}
+
 /* Error message */
 .error-message {
     text-align: center;
@@ -521,75 +616,120 @@ header {
     z-index: 10000;
 }
 
-/* Sticky Navigation Footer — Matching Vachanamrut's #reading-footer */
-#sloka-navigation {
+/* Sticky Navigation Footer — Identical to Vachanamrut's .reading-footer */
+#sloka-navigation,
+.reading-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #E6A623;
+    max-width: 100%;
+    background: linear-gradient(135deg, rgba(230, 166, 35, 0.95), rgba(255, 143, 0, 0.95));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(165, 37, 44, 0.3);
-    padding: 8px 18px calc(8px + var(--safe-bottom, 0px)) 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 25px 25px 0 0;
+    padding: 15px 30px calc(15px + var(--safe-bottom, 0px)) 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    z-index: 10002;
+    gap: 12px;
+    z-index: 10005;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-#prev-sloka-btn, #next-sloka-btn {
-    background: rgba(165, 37, 44, 0.12);
-    border: 1px solid rgba(165, 37, 44, 0.3);
+#prev-sloka-btn,
+#next-sloka-btn,
+.nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(165, 37, 44, 0.2);
     color: #A5252C;
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.9rem;
     cursor: pointer;
-    font-size: 1.15rem;
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
 
-#prev-sloka-btn:hover:not(:disabled), #next-sloka-btn:hover:not(:disabled) {
-    background: #A5252C;
-    color: #FFB300;
-    transform: scale(1.08);
+#prev-sloka-btn:hover:not(:disabled),
+#next-sloka-btn:hover:not(:disabled),
+.nav-btn:hover:not(:disabled) {
+    background: rgba(165, 37, 44, 0.1);
+    transform: scale(1.1);
 }
 
-#prev-sloka-btn:disabled, #next-sloka-btn:disabled {
-    opacity: 0.35;
+#prev-sloka-btn:disabled,
+#next-sloka-btn:disabled,
+.nav-btn:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
 }
 
-#sloka-slider-container {
+#sloka-slider-container,
+.slider-wrapper {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
     max-width: 600px;
     margin: 0 auto;
 }
 
-#sloka-slider {
-    flex: 1;
-    accent-color: #A5252C;
-    height: 6px;
-    cursor: pointer;
+#sloka-counter,
+.reading-progress {
+    color: #2C1D18;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: monospace;
+    text-align: center;
 }
 
-#sloka-counter {
-    color: #A5252C;
-    font-weight: 700;
-    font-size: 0.95rem;
-    min-width: 65px;
-    text-align: right;
-    font-family: 'Roboto', sans-serif;
+#sloka-slider,
+.nav-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(165, 37, 44, 0.2);
+    border-radius: 3px;
+    outline: none;
+    transition: opacity .2s;
+}
+
+#sloka-slider::-webkit-slider-thumb,
+.nav-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #A5252C;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
+}
+
+#sloka-slider::-moz-range-thumb,
+.nav-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #A5252C;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
 }
 
 /* App Footer — Matching Vachanamrut's #footer */

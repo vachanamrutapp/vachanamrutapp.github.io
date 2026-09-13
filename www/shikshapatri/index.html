@@ -8,7 +8,7 @@
     <meta name="description"
         content="Read Shikshapatri slokas with Sanskrit, Gujarati and English translations. A sacred text by Lord Swaminarayan.">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/styles.css?v=5">
+    <link rel="stylesheet" href="css/styles.css?v=7">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -55,35 +55,46 @@
                     <div id="sloka-text" aria-label="Translation"></div>
                 </div>
                 <div id="sloka-translation" aria-label="Additional translation"></div>
+
+                <!-- Shatanand Muni Arthadeepika Bhashya -->
+                <div id="bhashya-card" class="bhashya-card" style="display: none;">
+                    <div id="bhashya-header" class="bhashya-header" role="button" tabindex="0" aria-expanded="false" aria-controls="bhashya-body">
+                        <div class="bhashya-title">
+                            <i class="fas fa-book-open"></i>
+                            <span>શ્રી શતાનંદ મુનિ કૃત અર્થદીપિકા ભાષ્ય</span>
+                        </div>
+                        <i id="bhashya-toggle-icon" class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div id="bhashya-body" class="bhashya-body" style="display: none;"></div>
+                </div>
             </article>
         </div>
     </main>
 
     <div id="bottom-bar-container">
-        <nav id="sloka-navigation" aria-label="Sloka navigation" style="display: none;">
-            <button id="prev-sloka-btn" aria-label="Previous sloka">
+        <nav id="sloka-navigation" class="reading-footer" aria-label="Sloka navigation" style="display: none;">
+            <button id="prev-sloka-btn" class="nav-btn" aria-label="Previous sloka">
                 <i class="fas fa-chevron-left" aria-hidden="true"></i>
             </button>
-            <div id="sloka-slider-container">
-                <input type="range" id="sloka-slider" min="1" max="212" value="1" aria-label="Sloka number"
+            <div id="sloka-slider-container" class="slider-wrapper">
+                <input type="range" id="sloka-slider" min="1" max="212" value="1" class="nav-slider" aria-label="Sloka number"
                     aria-valuemin="1" aria-valuemax="212" aria-valuenow="1" aria-valuetext="Sloka 1 of 212">
-                <div id="sloka-counter" aria-live="polite">1/212</div>
+                <div id="sloka-counter" class="reading-progress" aria-live="polite">1 / 212</div>
             </div>
-            <button id="next-sloka-btn" aria-label="Next sloka">
+            <button id="next-sloka-btn" class="nav-btn" aria-label="Next sloka">
                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
             </button>
         </nav>
         <footer id="app-footer" role="contentinfo">
-            <p><strong>✍️ by</strong> Lord Swaminarayan
-                <strong>on</strong> February 11, 1826 🙏
-            </p>
+            <p><strong>✍️ by</strong> Lord Swaminarayan 🙏</p>
         </footer>
     </div>
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/js/all.min.js" defer></script>
-    <script src="js/app.js?v=5" defer></script>
+    <script src="../js/sql-wasm.js"></script>
+    <script src="js/app.js?v=7" defer></script>
 </body>
 
 </html>

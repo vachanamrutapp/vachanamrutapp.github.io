@@ -1,18 +1,20 @@
-const CACHE_NAME = 'shikshapatri-pwa-v1';
+const CACHE_NAME = 'shikshapatri-pwa-v2';
 const urlsToCache = [
     './',
     './index.html',
     './css/styles.css',
     './js/app.js',
     './manifest.json',
+    './assets/data/shikshapatri.db',
     './assets/data.json',
     './assets/images/icon-192.png',
     './assets/images/icon-512.png',
     './assets/images/favicon.ico',
     './assets/images/app-icon.png',
-    './assets/images/swaminarayan.jpg',
-    './assets/images/yellow_bg.png',
-    './assets/images/navbar-image.png'
+    './assets/images/harikrishna-maharaj-bg.png',
+    './assets/images/navbar-image.png',
+    '../js/sql-wasm.js',
+    '../js/sql-wasm.wasm'
 ];
 
 // Add all sloka images (1.png to 212.png)
