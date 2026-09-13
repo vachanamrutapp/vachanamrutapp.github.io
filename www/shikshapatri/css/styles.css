@@ -228,7 +228,7 @@ header {
 #main-content {
     max-width: 1000px;
     margin: 0 auto;
-    padding: calc(72px + var(--safe-top)) 10px calc(65px + var(--safe-bottom, 0px)) 10px;
+    padding: calc(72px + var(--safe-top)) 16px calc(65px + var(--safe-bottom, 0px)) 16px;
     min-height: 100vh;
     width: 100%;
     position: relative;
@@ -237,7 +237,7 @@ header {
 
 @media (max-width: 768px) {
     #main-content {
-        padding: calc(68px + var(--safe-top)) 6px calc(65px + var(--safe-bottom, 0px)) 6px;
+        padding: calc(68px + var(--safe-top)) 12px calc(65px + var(--safe-bottom, 0px)) 12px;
     }
 }
 
@@ -437,47 +437,47 @@ header {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(165, 37, 44, 0.25);
-    border-radius: 18px;
-    padding: 20px 12px;
+    border-radius: 20px;
+    padding: 24px 18px;
     margin: 8px auto calc(90px + var(--safe-bottom, 0px)) auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
     max-width: 860px;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {
     #sloka-content {
-        padding: 12px 6px;
-        border-radius: 14px;
+        padding: 16px 14px;
+        border-radius: 16px;
         margin-bottom: calc(95px + var(--safe-bottom, 0px));
     }
 }
 
-/* Sloka Image Card — Unified Media Card with Header */
+/* Sloka Image & Header — Blended with Main Box (No Separate Box) */
 .sloka-image-card {
-    background: rgba(255, 255, 255, 0.62);
-    border: 1px solid rgba(165, 37, 44, 0.2);
-    border-radius: 14px;
-    margin: 0 0 14px 0;
-    overflow: hidden;
-    box-shadow: 0 3px 16px rgba(139, 90, 43, 0.07);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: none;
+    border: none;
+    border-radius: 0;
+    margin: -24px -18px 18px -18px;
+    overflow: visible;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .sloka-image-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 10px;
+    padding: 12px 18px;
     background: rgba(165, 37, 44, 0.05);
-    border-bottom: 1px solid rgba(165, 37, 44, 0.12);
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
 }
 
 .sloka-image-title,
 .sloka-title-badge {
     font-family: 'Noto Serif', 'Georgia', serif;
-    font-size: 1.15rem;
+    font-size: 1.18rem;
     font-weight: 700;
     color: #8C252A;
     letter-spacing: 0.8px;
@@ -495,8 +495,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 2px;
-    background: rgba(255, 255, 255, 0.4);
+    padding: 16px 18px 0 18px;
+    background: none;
 }
 
 #sloka-image {
@@ -504,9 +504,9 @@ header {
     height: auto;
     max-height: 380px;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 10px;
     display: block;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease;
 }
 
@@ -516,23 +516,23 @@ header {
 
 @media (max-width: 768px) {
     .sloka-image-card {
-        border-radius: 12px;
-        margin-bottom: 12px;
+        margin: -16px -14px 14px -14px;
+        border-radius: 0;
     }
     .sloka-image-header {
-        padding: 6px 8px;
+        padding: 10px 14px;
     }
     .sloka-image-title,
     .sloka-title-badge {
-        font-size: 1.02rem;
+        font-size: 1.05rem;
         letter-spacing: 0.4px;
         padding: 0;
     }
     .sloka-image-wrap {
-        padding: 2px;
+        padding: 12px 14px 0 14px;
     }
     #sloka-image {
-        border-radius: 6px;
+        border-radius: 8px;
         max-height: 300px;
     }
 }
@@ -541,8 +541,8 @@ header {
 #sloka-sanskrit {
     background: rgba(230, 81, 0, 0.04);
     border: 1.5px dashed rgba(165, 37, 44, 0.35);
-    padding: 14px 8px;
-    margin: 14px 0;
+    padding: 16px 14px;
+    margin: 16px 0;
     border-radius: 12px;
     text-align: center;
     font-size: 1.25rem;
@@ -557,8 +557,8 @@ header {
     #sloka-sanskrit {
         font-size: 1.08rem;
         line-height: 1.8;
-        padding: 10px 4px;
-        margin: 10px 0;
+        padding: 12px 10px;
+        margin: 12px 0;
         border-radius: 10px;
     }
 }
@@ -642,62 +642,64 @@ header {
     margin-top: 15px;
 }
 
-/* Shatanand Muni Arthadeepika Bhashya Card */
+/* Shatanand Muni Arthadeepika Bhashya — Seamless Accordion (matching Translation style) */
 .bhashya-card {
-    background: rgba(255, 230, 150, 0.7);
-    border: 1px solid rgba(165, 37, 44, 0.3);
-    border-radius: 16px;
-    margin: 20px 0 10px 0;
-    overflow: hidden;
-    box-shadow: 0 4px 18px rgba(139, 90, 43, 0.08);
-    transition: var(--transition-smooth);
+    margin-top: 24px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .bhashya-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 14px;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
     cursor: pointer;
-    background: rgba(165, 37, 44, 0.06);
+    background: none;
     user-select: none;
-    transition: background 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .bhashya-header:hover {
-    background: rgba(165, 37, 44, 0.12);
+    opacity: 0.82;
+    background: none;
 }
 
 .bhashya-title {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 1.12rem;
+    gap: 6px;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #A5252C;
     font-family: 'Noto Sans Gujarati', sans-serif;
 }
 
 .bhashya-title i {
-    font-size: 1.18rem;
+    font-size: 1.1rem;
 }
 
 .toggle-icon {
     font-size: 1.05rem;
     color: #A5252C;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2px 4px;
 }
 
 .bhashya-body {
-    padding: 14px 12px 18px 12px;
-    border-top: 1px solid rgba(165, 37, 44, 0.15);
-    background: rgba(255, 255, 255, 0.35);
+    padding: 2px 0 0 0;
+    background: none;
+    border: none;
 }
 
 .bhashya-paragraph {
     font-size: 1.18rem;
-    line-height: 1.9;
-    color: #1a1a1a;
+    line-height: 1.85;
+    color: #111111;
     margin-bottom: 16px;
     text-align: justify;
     font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
@@ -708,11 +710,11 @@ header {
 }
 
 .bhashya-shlok {
-    background: rgba(165, 37, 44, 0.06);
+    background: rgba(165, 37, 44, 0.05);
     border-left: 3.5px solid #A5252C;
-    padding: 10px 12px;
-    margin: 12px 0;
-    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    margin: 12px 0 16px 0;
+    border-radius: 0 8px 8px 0;
     font-family: 'Noto Serif', 'Georgia', serif;
     font-weight: 600;
     font-size: 1.14rem;
@@ -722,28 +724,28 @@ header {
 
 @media (max-width: 768px) {
     .bhashya-card {
-        margin: 16px -6px 10px -6px;
-        border-radius: 14px;
+        margin-top: 20px;
     }
     .bhashya-header {
-        padding: 10px 10px;
+        padding-bottom: 6px;
+        margin-bottom: 10px;
     }
     .bhashya-title {
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
     .bhashya-body {
-        padding: 12px 8px 16px 8px;
+        padding: 0;
     }
     .bhashya-paragraph {
         font-size: 1.12rem;
-        line-height: 1.85;
+        line-height: 1.8;
         margin-bottom: 14px;
     }
     .bhashya-shlok {
         font-size: 1.08rem;
         line-height: 1.75;
-        padding: 8px 8px;
-        margin: 10px 0;
+        padding: 8px 10px;
+        margin: 10px 0 14px 0;
     }
 }
 
