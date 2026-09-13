@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.16.0';
+const CACHE_NAME = '1.18.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -14,6 +14,15 @@ const APP_SHELL = [
     './images/yellow-bg.webp',
     './images/192.png',
     './images/app-icon.png',
+    './shikshapatri/',
+    './shikshapatri/index.html',
+    './shikshapatri/css/styles.css',
+    './shikshapatri/js/app.js',
+    './shikshapatri/manifest.json',
+    './shikshapatri/assets/data/shikshapatri.db',
+    './shikshapatri/assets/data.json',
+    './shikshapatri/assets/images/harikrishna-maharaj-bg.png',
+    './shikshapatri/assets/images/navbar-image.png',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap'
 ];
@@ -128,19 +137,17 @@ self.addEventListener('message', event => {
 self.addEventListener('fetch', event => {
     if (event.request.method !== 'GET') return;
 
-    // Allow Shikshapatri subfolder to handle its own navigation and caching
-    try {
+    if (event.request.mode === 'navigate') {
         const url = new URL(event.request.url);
         if (url.pathname.includes('/shikshapatri')) {
+            event.respondWith(
+                caches.match('./shikshapatri/index.html', { ignoreSearch: true })
+                    .then(r => r || fetch(event.request))
+            );
             return;
         }
-    } catch (e) {
-        // Fallback if URL parsing fails
-    }
-
-    if (event.request.mode === 'navigate') {
         event.respondWith(
-            caches.match('./index.html').then(r => r || fetch(event.request))
+            caches.match('./index.html', { ignoreSearch: true }).then(r => r || fetch(event.request))
         );
         return;
     }

@@ -112,8 +112,8 @@ async function init() {
         currentLang = overrideLang || vachLang;
         updateLanguagePills();
 
-        // Update bookmark bubble
-        updateBookmarkBubble();
+        // Update bookmark header button & bubble
+        updateHeaderBookmarkBtn();
 
         // Render slokas list
         renderSlokas();
@@ -209,12 +209,12 @@ function renderSlokas() {
             translationText = sloka.gujarati || '';
         }
 
+        const isBookmarked = bookmarkedSloka && parseInt(bookmarkedSloka) === parseInt(sloka.id);
         const ariaPreview = translationText ? translationText.substring(0, 60) : firstLine;
-        card.setAttribute('aria-label', `Sloka ${sloka.id}: ${ariaPreview}...`);
+        card.setAttribute('aria-label', `Sloka ${sloka.id}${isBookmarked ? ' (bookmarked)' : ''}: ${ariaPreview}...`);
 
-        if (bookmarkedSloka == sloka.id) {
+        if (isBookmarked) {
             card.classList.add('bookmarked');
-            card.setAttribute('aria-label', `Sloka ${sloka.id} (bookmarked): ${ariaPreview}...`);
         }
         card.setAttribute('data-sloka-id', sloka.id);
 
@@ -231,6 +231,9 @@ function renderSlokas() {
 
         // Format full 2-line Sanskrit verse
         const sanskritVerses = (sloka.sanskrit || '').trim().replace(/\n/g, '<br>');
+        const bookmarkBadge = isBookmarked
+            ? `<div class="sloka-card-bookmark" title="Bookmarked Sloka"><i class="fas fa-bookmark" aria-hidden="true"></i></div>`
+            : '';
 
         card.innerHTML = `
             <div class="sloka-header">
@@ -239,6 +242,7 @@ function renderSlokas() {
                     <div class="sloka-sanskrit-preview">${sanskritVerses}</div>
                     <div class="sloka-translation-preview">${translationText}</div>
                 </div>
+                ${bookmarkBadge}
             </div>
         `;
         slokasList.appendChild(card);
@@ -290,11 +294,10 @@ function showSloka(id, pushState = true) {
     backBtn.setAttribute('aria-label', 'Go back to slokas list');
     backBtn.setAttribute('title', 'Go back to slokas list');
     backBtn.onclick = () => returnToListScreen(true);
-    bookmarkBtn.style.display = 'block';
     document.getElementById('sloka-navigation').style.display = 'flex';
 
-    // Update bookmark button state
-    updateBookmarkButtonState();
+    // Update bookmark button state in detail view
+    updateHeaderBookmarkBtn();
 
     // Reset scroll position when entering detail view
     document.getElementById('main-content').scrollTop = 0;
@@ -384,7 +387,7 @@ function returnToListScreen(pushState = true) {
     listScreen.classList.add('active');
     setBackToVachanamrut();
     renderSlokas();
-    bookmarkBtn.style.display = 'none';
+    updateHeaderBookmarkBtn();
     document.getElementById('sloka-navigation').style.display = 'none';
     currentSloka = null;
     // Scroll to bookmarked sloka when returning to list view
@@ -394,8 +397,7 @@ function returnToListScreen(pushState = true) {
 // Setup navigation
 function setupNavigation() {
     setBackToVachanamrut();
-
-    bookmarkBtn.onclick = toggleBookmark;
+    updateHeaderBookmarkBtn();
 
     prevSlokaBtn.onclick = () => {
         if (currentSloka.id > 1) {
@@ -510,34 +512,55 @@ function toggleBookmark() {
     if (!currentSloka) return;
 
     const bookmarkedSloka = localStorage.getItem('shikshapatri-bookmark');
-    if (bookmarkedSloka == currentSloka.id) {
+    if (bookmarkedSloka && parseInt(bookmarkedSloka) === parseInt(currentSloka.id)) {
         // Remove bookmark
         localStorage.removeItem('shikshapatri-bookmark');
-        updateBookmarkBubble();
     } else {
         // Set bookmark
         localStorage.setItem('shikshapatri-bookmark', currentSloka.id);
-        updateBookmarkBubble();
     }
 
     // Update button state and re-render slokas
-    updateBookmarkButtonState();
+    updateHeaderBookmarkBtn();
     renderSlokas();
+}
+
+function updateHeaderBookmarkBtn() {
+    const bookmarkedSloka = localStorage.getItem('shikshapatri-bookmark');
+    if (detailScreen.classList.contains('active')) {
+        bookmarkBtn.style.display = 'flex';
+        updateBookmarkButtonState();
+        bookmarkBtn.onclick = toggleBookmark;
+    } else {
+        if (bookmarkedSloka) {
+            bookmarkBtn.style.display = 'flex';
+            bookmarkBtn.classList.add('bookmarked');
+            bookmarkBtn.setAttribute('aria-label', `Scroll to bookmarked sloka ${bookmarkedSloka}`);
+            bookmarkBtn.setAttribute('title', `Go to bookmarked sloka ${bookmarkedSloka}`);
+            bookmarkBtn.onclick = scrollToBookmarkedSloka;
+        } else {
+            bookmarkBtn.style.display = 'none';
+            bookmarkBtn.classList.remove('bookmarked');
+        }
+    }
+    updateBookmarkBubble();
 }
 
 function updateBookmarkButtonState() {
     if (!currentSloka) return;
 
     const bookmarkedSloka = localStorage.getItem('shikshapatri-bookmark');
-    const isBookmarked = bookmarkedSloka == currentSloka.id;
+    const isBookmarked = bookmarkedSloka && parseInt(bookmarkedSloka) === parseInt(currentSloka.id);
 
     if (isBookmarked) {
         bookmarkBtn.classList.add('bookmarked');
         bookmarkBtn.setAttribute('aria-label', 'Remove bookmark from this sloka');
+        bookmarkBtn.setAttribute('title', 'Remove bookmark');
         bookmarkBtn.setAttribute('aria-pressed', 'true');
     } else {
         bookmarkBtn.classList.remove('bookmarked');
         bookmarkBtn.setAttribute('aria-label', 'Bookmark this sloka');
+        bookmarkBtn.setAttribute('title', 'Bookmark this sloka');
         bookmarkBtn.setAttribute('aria-pressed', 'false');
     }
 }

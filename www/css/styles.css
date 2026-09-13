@@ -65,7 +65,8 @@ body.reading-screen {
 }
 
 /* Header — full-bleed PWA navbar (extends behind iOS status bar) */
-header {
+header#header,
+body > header {
     position: fixed;
     top: 0;
     width: 100%;
@@ -824,7 +825,8 @@ main {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    header {
+    header#header,
+    body > header {
         padding: var(--safe-top) 15px 0 15px;
     }
 
@@ -938,7 +940,7 @@ footer {
 /* Floating Action Button - Settings / Menu */
 .fab-btn {
     position: fixed;
-    bottom: calc(102px + var(--safe-bottom, 0px));
+    bottom: 102px;
     right: 14px;
     width: 52px;
     height: 52px;
@@ -968,7 +970,7 @@ footer {
 /* Standalone Floating Action Button - Shikshapatri (under Settings) */
 .fab-shikshapatri-btn {
     position: fixed;
-    bottom: calc(40px + var(--safe-bottom, 0px));
+    bottom: 40px;
     right: 14px;
     width: 52px;
     height: 52px;
@@ -998,7 +1000,7 @@ footer {
 /* Expandable FAB Menu */
 .fab-menu {
     position: fixed;
-    bottom: calc(164px + var(--safe-bottom, 0px));
+    bottom: 164px;
     right: 14px;
     display: flex;
     flex-direction: column;
@@ -2315,6 +2317,9 @@ body.english .lang-guj {
     to   { transform: translateY(0); opacity: 1; }
 }
 .facts-modal-header {
+    height: auto !important;
+    min-height: unset;
+    max-height: none;
     display: flex;
     align-items: center;
     justify-content: space-between;

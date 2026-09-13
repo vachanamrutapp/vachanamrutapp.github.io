@@ -176,12 +176,30 @@ header {
     transform: scale(1.08);
 }
 
-#bookmark-btn.active i {
+#bookmark-btn.active i,
+#bookmark-btn.bookmarked i {
     color: #A5252C;
 }
 
 .bookmark-bubble {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #A5252C;
+    color: #FFFFFF;
+    font-size: 0.65rem;
+    font-weight: 700;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 9px;
+    padding: 0 4px;
     display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border: 1.5px solid #FFFFFF;
+    font-family: monospace;
+    pointer-events: none;
 }
 
 /* Main Container */
@@ -322,8 +340,34 @@ header {
 }
 
 .sloka-card.bookmarked {
-    border-color: rgba(165, 37, 44, 0.7);
-    box-shadow: 0 0 0 2px rgba(165, 37, 44, 0.25), 0 8px 25px rgba(139, 90, 43, 0.18);
+    border: 2px solid #A5252C !important;
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.85), rgba(230, 166, 35, 0.35)) !important;
+    box-shadow: 0 0 0 2px rgba(165, 37, 44, 0.3), 0 8px 25px rgba(165, 37, 44, 0.2) !important;
+    position: relative;
+}
+
+.sloka-card.bookmarked .sloka-number-bubble {
+    background: linear-gradient(135deg, #A5252C, #7A1A20) !important;
+    color: #FFD54F !important;
+    box-shadow: 0 3px 10px rgba(165, 37, 44, 0.4) !important;
+}
+
+.sloka-card-bookmark {
+    color: #A5252C;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 6px;
+    filter: drop-shadow(0 2px 4px rgba(165, 37, 44, 0.25));
+    animation: bookmarkPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes bookmarkPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
 }
 
 /* Skeleton Loading */
