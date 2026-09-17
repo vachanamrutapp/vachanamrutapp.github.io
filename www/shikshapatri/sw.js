@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shikshapatri-pwa-v18';
+const CACHE_NAME = 'shikshapatri-pwa-v19';
 
 // Core shell cached synchronously on install — blocks SW activation but is fast & 100% reliable
 const CORE_SHELL = [
@@ -32,7 +32,7 @@ for (let i = 1; i <= 212; i++) {
 self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_SHELL))
+        caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_SHELL.map(u => new Request(u, { cache: 'reload' }))))
     );
 });
 

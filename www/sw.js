@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.25.0';
+const CACHE_NAME = '1.26.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -82,7 +82,7 @@ const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES];
 self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
+        caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL.map(u => new Request(u, { cache: 'reload' }))))
     );
 });
 
