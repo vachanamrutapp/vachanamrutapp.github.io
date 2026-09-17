@@ -922,14 +922,16 @@ footer,
     left: 0;
     right: 0;
     width: 100%;
+    height: calc(52px + var(--safe-bottom, 0px));
     background: #E6A623;
     /* Match Header Color */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     color: #A5252C;
     display: flex;
-    flex-direction: column;
-    padding: 0;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 0 0 var(--safe-bottom, 0px) 0;
     margin: 0;
     box-shadow: 0 -3px 18px rgba(0, 0, 0, 0.12);
     z-index: 10000; /* Match header z-index */
@@ -939,15 +941,6 @@ footer,
     overflow: hidden;
 }
 
-/* Tabs Row (Two Big Tabs) */
-.footer-tabs-row {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-around;
-    width: 100%;
-    height: 48px;
-}
-
 /* Two Big Tabs */
 .footer-tab {
     flex: 1;
@@ -955,7 +948,7 @@ footer,
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     height: 100%;
     background: transparent;
     border: none;
@@ -1005,7 +998,7 @@ footer,
 }
 
 .footer-tab-icon {
-    font-size: 1.15rem;
+    font-size: 1.22rem;
     color: inherit;
     line-height: 1;
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1016,33 +1009,23 @@ footer,
 }
 
 .footer-tab-label {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     font-weight: 700;
     color: inherit;
     line-height: 1;
     letter-spacing: 0.3px;
 }
 
-/* Footer Tagline (utilizes bottom safe area on PWA / notch devices) */
-.footer-tagline {
-    width: 100%;
+/* Home Screen Tagline */
+.home-tagline {
     text-align: center;
-    padding: 3px 8px calc(4px + var(--safe-bottom)) 8px;
-    background: rgba(165, 37, 44, 0.06);
-    border-top: 1px solid rgba(165, 37, 44, 0.15);
-}
-
-.footer-tagline p {
-    font-size: 0.76rem;
-    font-weight: 700;
     color: #A5252C;
-    letter-spacing: 0.2px;
-    line-height: 1.2;
-    opacity: 0.95;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin: 24px auto 12px auto;
+    padding: 8px 16px;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
 }
 
 /* Floating Action Button - Settings / Menu (legacy support) */
@@ -1075,11 +1058,11 @@ footer,
     transform: scale(0.95);
 }
 
-/* Standalone Floating Action Button - Shikshapatri (positioned cleanly above bottom tab bar) */
+/* Standalone Floating Action Button - Shikshapatri (positioned right above bottom tab bar) */
 .fab-shikshapatri-btn {
     position: fixed;
-    bottom: calc(80px + var(--safe-bottom));
-    right: 16px;
+    bottom: calc(60px + var(--safe-bottom, 0px));
+    right: 14px;
     width: 52px;
     height: 52px;
     border-radius: 50%;
