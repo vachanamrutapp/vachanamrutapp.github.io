@@ -922,7 +922,7 @@ footer,
     left: 0;
     right: 0;
     width: 100%;
-    height: calc(52px + var(--safe-bottom, 0px));
+    height: calc(52px + env(safe-area-inset-bottom, 0px) * 0.45);
     background: #E6A623;
     /* Match Header Color */
     backdrop-filter: var(--glass-blur);
@@ -931,11 +931,12 @@ footer,
     display: flex;
     align-items: stretch;
     justify-content: space-around;
-    padding: 0 0 var(--safe-bottom, 0px) 0;
+    padding: 0 0 calc(env(safe-area-inset-bottom, 0px) * 0.45) 0;
     margin: 0;
     box-shadow: 0 -3px 18px rgba(0, 0, 0, 0.12);
     z-index: 10000; /* Match header z-index */
-    border-top: 1px solid rgba(165, 37, 44, 0.25);
+    border-top: 1px solid rgba(165, 37, 44, 0.22);
+    box-sizing: border-box;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     overflow: hidden;
@@ -998,7 +999,7 @@ footer,
 }
 
 .footer-tab-icon {
-    font-size: 1.22rem;
+    font-size: 1.2rem;
     color: inherit;
     line-height: 1;
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1009,22 +1010,10 @@ footer,
 }
 
 .footer-tab-label {
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 700;
     color: inherit;
     line-height: 1;
-    letter-spacing: 0.3px;
-}
-
-/* Home Screen Tagline */
-.home-tagline {
-    text-align: center;
-    color: #A5252C;
-    font-size: 0.88rem;
-    font-weight: 700;
-    margin: 24px auto 12px auto;
-    padding: 8px 16px;
-    opacity: 0.9;
     letter-spacing: 0.3px;
 }
 
@@ -1061,16 +1050,16 @@ footer,
 /* Standalone Floating Action Button - Shikshapatri (positioned right above bottom tab bar) */
 .fab-shikshapatri-btn {
     position: fixed;
-    bottom: calc(60px + var(--safe-bottom, 0px));
+    bottom: calc(58px + env(safe-area-inset-bottom, 0px) * 0.45);
     right: 14px;
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #E6A623;
     color: #A5252C;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     cursor: pointer;
     display: flex;
     align-items: center;

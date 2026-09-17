@@ -327,6 +327,8 @@ function showSloka(id, pushState = true) {
     backBtn.setAttribute('title', 'Go back to slokas list');
     backBtn.onclick = () => returnToListScreen(true);
     document.getElementById('sloka-navigation').style.display = 'flex';
+    const appFooter = document.getElementById('app-footer');
+    if (appFooter) appFooter.style.display = 'none';
 
     // Update bookmark button state in detail view
     updateHeaderBookmarkBtn();
@@ -438,6 +440,8 @@ function returnToListScreen(pushState = true) {
     renderSlokas();
     updateHeaderBookmarkBtn();
     document.getElementById('sloka-navigation').style.display = 'none';
+    const appFooter = document.getElementById('app-footer');
+    if (appFooter) appFooter.style.display = 'block';
     currentSloka = null;
     // Scroll to bookmarked sloka when returning to list view
     setTimeout(scrollToBookmarkedSloka, 100);
@@ -662,8 +666,19 @@ function scrollToBookmarkedSloka(smooth = true) {
 // Register service worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('SW registered'))
+        .then(reg => {
+            console.log('SW registered');
+            reg.update();
+        })
         .catch(err => console.log('SW registration failed'));
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+        }
+    });
 }
 
 // Start app

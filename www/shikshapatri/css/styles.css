@@ -933,10 +933,16 @@ header {
     -webkit-backdrop-filter: blur(16px);
     color: #A5252C;
     text-align: center;
-    padding: 6px 12px calc(6px + var(--safe-bottom, 0px)) 12px;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px) * 0.3) 12px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
     z-index: 10000;
-    border-top: 1px solid rgba(165, 37, 44, 0.3);
+    border-top: 1px solid rgba(165, 37, 44, 0.22);
+    box-sizing: border-box;
+}
+
+#app-footer p {
+    margin: 0;
+    line-height: 1.3;
 }
