@@ -156,6 +156,8 @@ let bookmarkBtn = document.getElementById('bookmark-pill-btn');
 const fabBtn = document.getElementById('fab-btn');
 const fabShikshapatriBtn = document.getElementById('fab-shikshapatri-btn');
 const footer = document.getElementById('footer');
+const footerJourneyBtn = document.getElementById('footer-journey-btn');
+const footerSettingsBtn = document.getElementById('footer-settings-btn');
 const readingFooter = document.getElementById('reading-footer');
 const navPrevBtn = document.getElementById('nav-prev-btn');
 const navNextBtn = document.getElementById('nav-next-btn');
@@ -363,7 +365,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
     applyTheme();
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'block';
-    fabBtn.style.display = 'none'; // Hide FAB in detail view
+    if (fabBtn) fabBtn.style.display = 'none'; // Hide FAB in detail view
     if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 
     // Update bookmark button state
@@ -1006,7 +1008,7 @@ function showSectionDetail(sectionIndex) {
     showScreen('section-detail-screen');
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'none';
-    fabBtn.style.display = 'none';
+    if (fabBtn) fabBtn.style.display = 'none';
     if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 }
 
@@ -2256,20 +2258,46 @@ function setupMenu() {
     const fabJourney = document.getElementById('fab-journey');
     let isMenuOpen = false;
 
-    // FAB Click - Toggle menu
-    fabBtn.addEventListener('click', () => {
-        isMenuOpen = !isMenuOpen;
+    // Footer Journey tab click
+    if (footerJourneyBtn) {
+        footerJourneyBtn.addEventListener('click', () => {
+            const journeyScreen = document.getElementById('journey-screen');
+            if (journeyScreen && journeyScreen.classList.contains('active')) {
+                showScreen('home-screen');
+            } else {
+                showScreen('journey-screen');
+            }
+        });
+    }
 
-        if (isMenuOpen) {
-            // Open menu
-            fabMenu.classList.add('active');
-            fabBtn.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-            // Close menu
-            fabMenu.classList.remove('active');
-            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
-        }
-    });
+    // Footer Settings tab click
+    if (footerSettingsBtn) {
+        footerSettingsBtn.addEventListener('click', () => {
+            const settingsScreen = document.getElementById('settings-screen');
+            if (settingsScreen && settingsScreen.classList.contains('active')) {
+                showScreen('home-screen');
+            } else {
+                showScreen('settings-screen');
+            }
+        });
+    }
+
+    // FAB Click - Toggle menu (legacy/fallback if present)
+    if (fabBtn && fabMenu) {
+        fabBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+
+            if (isMenuOpen) {
+                // Open menu
+                fabMenu.classList.add('active');
+                fabBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                // Close menu
+                fabMenu.classList.remove('active');
+                fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            }
+        });
+    }
 
     // Standalone Shikshapatri FAB click
     if (fabShikshapatriBtn) {
@@ -2278,24 +2306,28 @@ function setupMenu() {
         });
     }
 
-    // Settings button click
+    // Settings button click (FAB fallback)
     if (fabSettings) {
         fabSettings.addEventListener('click', () => {
             showScreen('settings-screen');
-            // Close menu
-            isMenuOpen = false;
-            fabMenu.classList.remove('active');
-            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            if (fabBtn && fabMenu) {
+                // Close menu
+                isMenuOpen = false;
+                fabMenu.classList.remove('active');
+                fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            }
         });
     }
 
-    // Journey button click
+    // Journey button click (FAB fallback)
     if (fabJourney) {
         fabJourney.addEventListener('click', () => {
             showScreen('journey-screen');
-            isMenuOpen = false;
-            fabMenu.classList.remove('active');
-            fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            if (fabBtn && fabMenu) {
+                isMenuOpen = false;
+                fabMenu.classList.remove('active');
+                fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
+            }
         });
     }
 
@@ -2401,12 +2433,26 @@ function showScreen(screenId, pushState = true) {
 
 
 
+    // Update footer tab states
+    if (footerJourneyBtn && footerSettingsBtn) {
+        if (screenId === 'journey-screen') {
+            footerJourneyBtn.classList.add('active');
+            footerSettingsBtn.classList.remove('active');
+        } else if (screenId === 'settings-screen') {
+            footerSettingsBtn.classList.add('active');
+            footerJourneyBtn.classList.remove('active');
+        } else {
+            footerJourneyBtn.classList.remove('active');
+            footerSettingsBtn.classList.remove('active');
+        }
+    }
+
     // Toggle footer and navbar buttons visibility
     if (screenId === 'home-screen') {
-        footer.style.display = 'block';
+        footer.style.display = 'flex';
         backBtn.style.display = 'none';
         bookmarkBtn.style.display = 'none';
-        fabBtn.style.display = 'flex';
+        if (fabBtn) fabBtn.style.display = 'none';
         if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'flex';
 
         // Re-render home screen sections to ensure correct language translation
@@ -2418,19 +2464,21 @@ function showScreen(screenId, pushState = true) {
             window.history.pushState({}, '', newUrl);
         }
     } else if (screenId === 'section-detail-screen') {
-        footer.style.display = 'block';
-        // backBtn and fabBtn are handled in showSectionDetail
+        footer.style.display = 'flex';
+        if (fabBtn) fabBtn.style.display = 'none';
+        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
     } else if (screenId === 'settings-screen' || screenId === 'journey-screen') {
-        footer.style.display = 'none';
+        footer.style.display = 'flex';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
-        fabBtn.style.display = 'none';
+        if (fabBtn) fabBtn.style.display = 'none';
         if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
     } else {
         footer.style.display = 'none';
+        if (fabBtn) fabBtn.style.display = 'none';
         if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
     }
