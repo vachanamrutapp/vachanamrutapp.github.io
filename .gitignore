@@ -12,3 +12,8 @@ venv/
 scratch/__pycache__/
 *.pyc
 .env
+
+# Android release signing — never commit
+*.keystore
+*.jks
+keystore.properties

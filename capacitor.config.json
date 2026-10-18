@@ -12,6 +12,9 @@
       "splashFullScreen": true,
       "splashImmersive": true,
       "showSpinner": false
+    },
+    "SystemBars": {
+      "style": "LIGHT"
     }
   }
 }

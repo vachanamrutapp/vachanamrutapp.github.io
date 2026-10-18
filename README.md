@@ -38,15 +38,16 @@ triggers a build normally, even if it also touches `www/`.
 
 ### A note on app size
 
-`www/assets/data/audio/` currently holds ~650MB of MP3 narration for offline
-in-app playback, bundled straight into both native shells (per the
-architecture decision for this app — unlike some other Capacitor apps that
-stream audio remotely to keep the download small). That makes this a large
-app: expect long `npx cap sync` copies, long Xcode/Gradle builds, and a
-multi-hundred-MB install size on both stores. If that ever becomes a problem,
-the fix is switching `js/app.js`'s audio `src` to an absolute URL pointing at
-the Firebase-hosted `www/` instead of the bundled relative path, and dropping
-`assets/data/audio/` from the native copies.
+`www/assets/data/audio/` holds ~650MB of MP3 narration. The web/PWA and iOS
+builds still serve it locally, but **Android streams it** from
+`https://vachanamrut.in/assets/data/audio/`: Google Play caps an app bundle's
+base module at 200MB, so `android/app/build.gradle` drops the `audio` folder
+via `ignoreAssetsPattern` and `js/app.js` switches `AUDIO_BASE` on Android.
+The Android bundle comes out around 86MB; audio needs an internet connection there.
+
+Inside the native shells the service worker is not registered (the files are
+already bundled), and YouTube video embeds are hidden because they don't play
+in the app's WebView. Videos remain on the website.
 
 ## Project structure
 
@@ -144,14 +145,21 @@ npx cap run ios
    keytool -genkey -v -keystore vachanamrut-release.keystore \
      -alias vachanamrut -keyalg RSA -keysize 2048 -validity 10000
    ```
-4. Build a signed release bundle. Easiest path is via Android Studio: **Build → Generate Signed App Bundle / APK → Android App Bundle**, point it at your keystore, and build the `release` variant.
-   - Or from the command line, after configuring signing in `android/app/build.gradle` (or a `keystore.properties` file):
-     ```bash
-     cd android
-     ./gradlew bundleRelease
-     ```
-     The output `.aab` lands in `android/app/build/outputs/bundle/release/`.
-5. Upload the `.aab` to the [Google Play Console](https://play.google.com/console/), fill in the release track (internal/closed/open/production), listing details, and submit.
+4. Create `android/keystore.properties` (git-ignored, as are `*.keystore`/`*.jks`) so Gradle signs the release build:
+   ```properties
+   storeFile=../vachanamrut-release.keystore
+   storePassword=...
+   keyAlias=vachanamrut
+   keyPassword=...
+   ```
+   `storeFile` is relative to `android/`. Without this file `bundleRelease` still builds, but unsigned, and Play won't accept it.
+5. Build the signed release bundle:
+   ```bash
+   cd android
+   ./gradlew bundleRelease
+   ```
+   The output `.aab` lands in `android/app/build/outputs/bundle/release/`. (Android Studio's **Build → Generate Signed App Bundle** works too.)
+6. Upload the `.aab` to the [Google Play Console](https://play.google.com/console/), fill in the release track (internal/closed/open/production), listing details, and submit. Personal developer accounts must first run a closed test with at least 12 testers for 14 days before production access is granted.
 
 Supported SDKs (from [`android/variables.gradle`](android/variables.gradle)): `minSdkVersion 24`, `compileSdkVersion`/`targetSdkVersion 36`.
 
@@ -172,7 +180,7 @@ npx cap run android
 - [ ] iOS: archived with a **distribution** (not development) signing profile.
 - [ ] Android: built with the **release** keystore, and that keystore is safely backed up.
 - [ ] Tested a release build on a real device for both platforms before submitting.
-- [ ] Confirm the ~650MB bundled audio is acceptable for both stores' size guidance, or switch to remote streaming (see [A note on app size](#a-note-on-app-size)).
+- [ ] iOS: confirm the ~650MB bundled audio is acceptable, or stream it like Android does (see [A note on app size](#a-note-on-app-size)).
 
 ## Useful Capacitor CLI commands
 

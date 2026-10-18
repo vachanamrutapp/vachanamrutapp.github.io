@@ -663,8 +663,8 @@ function scrollToBookmarkedSloka(smooth = true) {
 
 // 
 
-// Register service worker
-if ('serviceWorker' in navigator) {
+// Register service worker (web/PWA only — the native shells already ship the files)
+if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) {
     navigator.serviceWorker.register('./sw.js')
         .then(reg => {
             console.log('SW registered');

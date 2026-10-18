@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=28">
+    <link rel="stylesheet" href="css/styles.css?v=29">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -358,6 +358,7 @@
                 <p class="settings-note">This will clear all bookmarks and favourites.</p>
                 <button id="reset-app-btn" type="button" class="danger-btn-subtle">Reset App Data</button>
                 <p id="app-version" class="settings-version">Version: Loading...</p>
+                <p class="settings-note"><a href="privacy.html" style="color: var(--color-royal-blue);">Privacy Policy</a></p>
             </div>
         </div>
 
@@ -513,10 +514,10 @@
     </div>
 
     <script src="js/sql-wasm.js"></script>
-    <script src="js/app.js?v=28"></script>
+    <script src="js/app.js?v=29"></script>
     <script>
-        // Register service worker
-        if ('serviceWorker' in navigator) {
+        // Register service worker (web/PWA only — the native shells already ship the files)
+        if ('serviceWorker' in navigator && !isNativeApp) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {

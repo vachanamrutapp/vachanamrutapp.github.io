@@ -1722,9 +1722,10 @@ body.gujarati .chapter-description {
     overflow: visible; /* Prevent scrubber thumb clipping! */
 }
 
+/* No reading footer, but the bottom tab bar is showing (Partharo list) — sit just above it, like .fab-shikshapatri-btn */
 .audio-player-container.state-fab.no-footer,
 .audio-player-container.state-bar.no-footer {
-    bottom: 40px;
+    bottom: calc(58px + env(safe-area-inset-bottom, 0px) * 0.25);
 }
 
 /* Toggle visibility based on state */

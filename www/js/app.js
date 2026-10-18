@@ -16,6 +16,11 @@ let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default 
 let currentReadingVachanamrutId = null;
 let hasIncrementedInSession = false;
 let audioPlayer = new Audio();
+// The Android build leaves the ~650MB of MP3s out (Play Store size cap), so stream them from the website there.
+const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const AUDIO_BASE = (window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform() === 'android')
+    ? 'https://vachanamrut.in/assets/data/audio/'
+    : './assets/data/audio/';
 let isPlaying = false;
 let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
@@ -262,7 +267,8 @@ function showVachanamrut(vachanamrut, pushState = true) {
 
     // Video embed
     vachanamrutVideo.innerHTML = '';
-    if (vachanamrut.id && videoEnabled) {
+    // YouTube embeds don't play inside the native app's WebView, so videos are web-only.
+    if (vachanamrut.id && videoEnabled && !isNativeApp) {
         const video = videoData.find(v => v.number === vachanamrut.id);
         if (video && video.videoId) {
             vachanamrutVideo.innerHTML = `
@@ -423,11 +429,11 @@ function setupAudioPlayer(vachanamrut) {
     if (currentAudioId !== vachanamrutId) {
         audioPlayer.pause();
         if (vachanamrutId === 10000) {
-            audioPlayer.src = `./assets/data/audio/1 Partharo.mp3`;
+            audioPlayer.src = `${AUDIO_BASE}1 Partharo.mp3`;
         } else if (vachanamrutId === 10006) {
-            audioPlayer.src = `./assets/data/audio/264 Khagol Bhugol.mp3`;
+            audioPlayer.src = `${AUDIO_BASE}264 Khagol Bhugol.mp3`;
         } else {
-            audioPlayer.src = `./assets/data/audio/${vachanamrutId}.mp3`;
+            audioPlayer.src = `${AUDIO_BASE}${vachanamrutId}.mp3`;
         }
         audioPlayer.load();
         currentAudioId = vachanamrutId;
@@ -769,8 +775,8 @@ async function init() {
             }
         }
 
-        // Register service worker
-        if ('serviceWorker' in navigator) {
+        // Register service worker (web/PWA only — the native shells already ship the files)
+        if ('serviceWorker' in navigator && !isNativeApp) {
             navigator.serviceWorker.register('./sw.js');
         }
 
@@ -2689,7 +2695,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoToggle = document.getElementById('video-toggle');
     const audioToggle = document.getElementById('audio-toggle');
     
-    if (videoToggle) {
+    if (videoToggle && isNativeApp) {
+        videoToggle.closest('.setting-item').style.display = 'none';
+    } else if (videoToggle) {
         videoToggle.checked = videoEnabled;
         videoToggle.addEventListener('change', () => {
             videoEnabled = videoToggle.checked;

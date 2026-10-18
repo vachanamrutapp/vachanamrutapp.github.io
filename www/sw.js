@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.26.0';
+const CACHE_NAME = '1.27.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -139,6 +139,8 @@ self.addEventListener('fetch', event => {
 
     if (event.request.mode === 'navigate') {
         const url = new URL(event.request.url);
+        // Standalone pages, not app routes — let the browser fetch them normally.
+        if (url.pathname.endsWith('/privacy.html')) return;
         if (url.pathname.includes('/shikshapatri')) {
             event.respondWith(
                 caches.match('./shikshapatri/index.html', { ignoreSearch: true })
