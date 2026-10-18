@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!-- Source for feature-graphic.png (1024×500). Re-render from the repo root with:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars \
+       --force-device-scale-factor=1 --window-size=1024,500 --virtual-time-budget=4000 \
+       --screenshot=play-store/feature-graphic.png play-store/feature-graphic.html -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Feature Graphic</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@500;600&family=Poppins:wght@500;600&display=block">
+<style>
+    :root {
+        --gold: #E6A623;
+        --gold-light: #F7C844;
+        --red: #A5252C;
+        --brown: #5a3410;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { width: 1024px; height: 500px; overflow: hidden; }
+
+    body {
+        position: relative;
+        background:
+            radial-gradient(ellipse 620px 420px at 30% 45%, rgba(255, 236, 160, 0.95), rgba(255, 236, 160, 0) 70%),
+            linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, #D99418 100%);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Soft sun rays behind the text */
+    .rays {
+        position: absolute;
+        inset: -300px auto auto -200px;
+        width: 1100px;
+        height: 1100px;
+        background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.10) 0deg 6deg, rgba(255, 255, 255, 0) 6deg 18deg);
+        -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0, transparent 60%);
+        mask-image: radial-gradient(circle at 50% 50%, #000 0, transparent 60%);
+    }
+
+    .copy {
+        position: absolute;
+        left: 72px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 500px;
+    }
+
+    .copy img {
+        width: 440px;
+        display: block;
+        filter: drop-shadow(0 3px 6px rgba(120, 40, 0, 0.18));
+    }
+
+    .tagline {
+        margin-top: 26px;
+        color: var(--red);
+        font-size: 33px;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    .chips {
+        margin-top: 22px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chips span {
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(165, 37, 44, 0.18);
+        color: var(--brown);
+        border-radius: 999px;
+        padding: 7px 16px;
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    .chips span.guj { font-family: 'Noto Sans Gujarati', sans-serif; font-weight: 600; }
+
+    .phone {
+        position: absolute;
+        width: 236px;
+        height: 420px;
+        border-radius: 32px;
+        background: #1d1408;
+        padding: 9px;
+        box-shadow: 0 22px 40px rgba(90, 40, 0, 0.35), 0 4px 10px rgba(90, 40, 0, 0.2);
+    }
+
+    .phone img {
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        display: block;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .phone.back { right: 196px; top: 62px; transform: rotate(-7deg); }
+    .phone.front { right: 52px; top: 40px; transform: rotate(5deg); }
+</style>
+</head>
+<body>
+    <div class="rays"></div>
+
+    <div class="copy">
+        <img src="../www/images/logo-vachanamrut.png" alt="Vachanamrut">
+        <p class="tagline">Read and listen to every Vachanamrut</p>
+        <div class="chips">
+            <span class="guj">ગુજરાતી</span>
+            <span>English</span>
+            <span>Audio</span>
+        </div>
+    </div>
+
+    <div class="phone back"><img src="screenshots/03-partharo.png" alt=""></div>
+    <div class="phone front"><img src="screenshots/02-reading-audio.png" alt=""></div>
+</body>
+</html>
