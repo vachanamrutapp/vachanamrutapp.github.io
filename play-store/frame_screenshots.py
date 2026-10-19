@@ -5,9 +5,10 @@ screen (the white area around the image centre), fits the screenshot into it,
 keeps the rounded corners and camera dot, and writes 1080x1920 PNGs.
 
 Capture each screenshot at its template's screen ratio first (see listing.md),
-e.g. `adb shell wm size 1080x2382` for Poster-1.
+e.g. `adb shell wm size 1080x2382` for Poster-1, or `wm size 2560x1532` with
+`wm density 320` for the tablet template.
 
-Usage:  python3 play-store/frame_screenshots.py RAW_DIR OUT_DIR
+Usage:  python3 play-store/frame_screenshots.py phone|tablet RAW_DIR OUT_DIR
 """
 import sys
 from pathlib import Path
@@ -18,8 +19,8 @@ ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = ROOT / "screenshot-ref"
 OUT_SIZE = (1080, 1920)
 
-# Screenshot name -> template, cycling through the three backdrops.
-FRAMES = {
+# Screenshot name -> template. Phone shots cycle through the three backdrops.
+PHONE_FRAMES = {
     "01-home-gujarati": "Vachanamrut App Launch Poster-1.png",
     "02-reading-audio": "Royal Vachanamrut App Launch-2.png",
     "03-partharo": "Royal Vachanamrut App Launch-3.png",
@@ -29,6 +30,14 @@ FRAMES = {
     "07-dark-theme": "Vachanamrut App Launch Poster-1.png",
     "08-journey": "Royal Vachanamrut App Launch-2.png",
 }
+
+TABLET_TEMPLATE = "Timeless Wisdom Tablet Launch.png"
+TABLET_FRAMES = {
+    name: TABLET_TEMPLATE
+    for name in ["01-home-gujarati", "02-reading-audio", "03-partharo", "04-facts", "05-reading-english", "06-journey"]
+}
+
+FRAMES = {"phone": PHONE_FRAMES, "tablet": TABLET_FRAMES}
 
 
 def screen_mask(template):
@@ -78,9 +87,9 @@ def frame(raw_path, template_path, out_path):
 
 
 def main():
-    raw_dir, out_dir = Path(sys.argv[1]), Path(sys.argv[2])
+    kind, raw_dir, out_dir = sys.argv[1], Path(sys.argv[2]), Path(sys.argv[3])
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, template in FRAMES.items():
+    for name, template in FRAMES[kind].items():
         size = frame(raw_dir / f"{name}.png", TEMPLATES / template, out_dir / f"{name}.png")
         print(f"{name}: screen {size[0]}x{size[1]} in {template}")
 

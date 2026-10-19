@@ -70,7 +70,10 @@ Jay Swaminarayan.
 | App icon | 512 × 512 PNG | Ready: `play-store/icon-512.png` |
 | Feature graphic | 1024 × 500 PNG/JPEG | Not made yet |
 | Phone screenshots | 2–8, 1080 × 1920 (9:16) | Ready: 8 framed in `play-store/screenshots-framed/` (temple backdrops), or 8 plain in `play-store/screenshots/`; upload in filename order |
+| 7-inch and 10-inch tablet screenshots | 1080 × 1920 (9:16) | Ready: 6 in `play-store/screenshots-tablet/` (Timeless Wisdom template); use the same set for both slots |
 
 Screenshot order: Gujarati home, reading with audio, Partharo, glossary meaning, historical facts, English reading, dark theme, Your Journey. The Journey shot uses sample progress (96 of 262 read).
 
-To regenerate the framed set, capture each screen on the emulator at its template's screen ratio (`adb shell wm size 1080x2382` for Poster-1, `1080x2368` for Launch-2, `1080x2305` for Launch-3; see `FRAMES` in `frame_screenshots.py`), save them as `NN-name.png` in one folder, then run `python3 play-store/frame_screenshots.py <that folder> play-store/screenshots-framed`.
+To regenerate the framed set, capture each screen on the emulator at its template's screen ratio (`adb shell wm size 1080x2382` for Poster-1, `1080x2368` for Launch-2, `1080x2305` for Launch-3; see `FRAMES` in `frame_screenshots.py`), save them as `NN-name.png` in one folder, then run `python3 play-store/frame_screenshots.py phone <that folder> play-store/screenshots-framed`.
+
+For the tablet set, capture with `adb shell wm size 2560x1532` and `adb shell wm density 320` (keep the emulator in portrait rotation so the phone's camera cutout stays in the status bar), then run `python3 play-store/frame_screenshots.py tablet <that folder> play-store/screenshots-tablet`.
