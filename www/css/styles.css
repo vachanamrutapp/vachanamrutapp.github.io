@@ -1569,6 +1569,63 @@ body.gujarati .chapter-description {
     font-weight: 500;
 }
 
+.offline-audio-item {
+    gap: 14px;
+}
+
+.offline-audio-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.offline-audio-text small {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.35;
+}
+
+.offline-audio-progress {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(165, 37, 44, 0.12);
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.offline-audio-progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--color-royal-blue);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.offline-audio-btn {
+    flex-shrink: 0;
+    background: var(--color-royal-blue);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.offline-audio-btn.secondary {
+    background: transparent;
+    color: var(--color-royal-blue);
+    border: 1px solid rgba(165, 37, 44, 0.35);
+}
+
+.offline-audio-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 .settings-link-row {
     cursor: pointer;
     transition: opacity 0.2s ease;

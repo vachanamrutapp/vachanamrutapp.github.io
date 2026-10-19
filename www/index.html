@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=29">
+    <link rel="stylesheet" href="css/styles.css?v=30">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -242,6 +242,17 @@
                         <input type="checkbox" id="video-toggle">
                         <span class="slider"></span>
                     </label>
+                </div>
+                <!-- Shown only where audio streams (Android app); see setupOfflineAudio() -->
+                <div class="setting-item offline-audio-item" id="offline-audio-item" style="display: none;">
+                    <div class="offline-audio-text">
+                        <span>Offline Audio / ઓફલાઇન ઓડિયો</span>
+                        <small id="offline-audio-status">Download all audio to listen without internet (about 650 MB).</small>
+                        <div class="offline-audio-progress" id="offline-audio-progress" hidden>
+                            <div class="offline-audio-progress-fill" id="offline-audio-progress-fill"></div>
+                        </div>
+                    </div>
+                    <button type="button" id="offline-audio-btn" class="offline-audio-btn">Download</button>
                 </div>
 
             </div>
@@ -514,7 +525,7 @@
     </div>
 
     <script src="js/sql-wasm.js"></script>
-    <script src="js/app.js?v=29"></script>
+    <script src="js/app.js?v=30"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

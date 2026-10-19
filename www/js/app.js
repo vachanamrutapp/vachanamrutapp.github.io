@@ -18,9 +18,15 @@ let hasIncrementedInSession = false;
 let audioPlayer = new Audio();
 // The Android build leaves the ~650MB of MP3s out (Play Store size cap), so stream them from the website there.
 const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const SITE_URL = 'https://vachanamrut.in/';
 const AUDIO_BASE = (window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform() === 'android')
-    ? 'https://vachanamrut.in/assets/data/audio/'
+    ? `${SITE_URL}assets/data/audio/`
     : './assets/data/audio/';
+// Where AUDIO_BASE is remote, Settings can download every file into Cache Storage for offline listening.
+const OFFLINE_AUDIO_CACHE = 'offline-audio-v1';
+const canDownloadAudio = AUDIO_BASE.startsWith('http') && 'caches' in window;
+const OFFLINE_AUDIO_FILES = ['1 Partharo.mp3', '264 Khagol Bhugol.mp3', ...Array.from({ length: 262 }, (_, i) => `${i + 1}.mp3`)];
+let offlineAudioObjectUrl = null;
 let isPlaying = false;
 let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
@@ -240,7 +246,10 @@ function showVachanamrut(vachanamrut, pushState = true) {
     const shareBtn = document.getElementById('share-btn');
     // Share functionality
     shareBtn.addEventListener('click', async () => {
-        const cleanPath = window.location.origin + window.location.pathname.replace('index.html', '');
+        // Inside the native app the page lives at https://localhost, so link to the website instead.
+        const cleanPath = isNativeApp
+            ? SITE_URL
+            : window.location.origin + window.location.pathname.replace('index.html', '');
         const shareUrl = `${cleanPath}?id=${safeId}&lang=${currentLanguage}`;
         const shareData = {
             url: shareUrl
@@ -428,14 +437,7 @@ function setupAudioPlayer(vachanamrut) {
     // Reset if new vachanamrut
     if (currentAudioId !== vachanamrutId) {
         audioPlayer.pause();
-        if (vachanamrutId === 10000) {
-            audioPlayer.src = `${AUDIO_BASE}1 Partharo.mp3`;
-        } else if (vachanamrutId === 10006) {
-            audioPlayer.src = `${AUDIO_BASE}264 Khagol Bhugol.mp3`;
-        } else {
-            audioPlayer.src = `${AUDIO_BASE}${vachanamrutId}.mp3`;
-        }
-        audioPlayer.load();
+        setAudioSource(audioFileName(vachanamrutId));
         currentAudioId = vachanamrutId;
         isPlaying = false;
         updateAudioBarUI();
@@ -453,6 +455,162 @@ function setupAudioPlayer(vachanamrut) {
     }
 
     audioPlayerContainer.style.display = 'flex';
+}
+
+function audioFileName(vachanamrutId) {
+    if (vachanamrutId === 10000) return '1 Partharo.mp3';
+    if (vachanamrutId === 10006) return '264 Khagol Bhugol.mp3';
+    return `${vachanamrutId}.mp3`;
+}
+
+// Point the player at the file, preferring a copy downloaded for offline use.
+function setAudioSource(fileName) {
+    const url = `${AUDIO_BASE}${fileName}`;
+    if (offlineAudioObjectUrl) {
+        URL.revokeObjectURL(offlineAudioObjectUrl);
+        offlineAudioObjectUrl = null;
+    }
+    audioPlayer.src = url;
+    audioPlayer.load();
+    if (!canDownloadAudio) return;
+
+    caches.open(OFFLINE_AUDIO_CACHE)
+        .then(cache => cache.match(url))
+        .then(res => res ? res.blob() : null)
+        .then(blob => {
+            // Swap only if this file is still selected and hasn't started playing.
+            if (!blob || audioPlayer.src !== encodeURI(url) || !audioPlayer.paused || audioPlayer.currentTime > 0) return;
+            offlineAudioObjectUrl = URL.createObjectURL(blob);
+            audioPlayer.src = offlineAudioObjectUrl;
+            audioPlayer.load();
+        })
+        .catch(() => {});
+}
+
+// ---- Offline audio (Settings → Media) --------------------------------------
+// Downloads every MP3 into Cache Storage so the Android app can play without internet.
+let offlineAudioDownloading = false;
+let offlineAudioStopRequested = false;
+const OFFLINE_AUDIO_TOTAL_MB = 650;
+
+async function countOfflineAudio() {
+    const cache = await caches.open(OFFLINE_AUDIO_CACHE);
+    return (await cache.keys()).length;
+}
+
+function renderOfflineAudio(state, done = 0) {
+    const status = document.getElementById('offline-audio-status');
+    const btn = document.getElementById('offline-audio-btn');
+    const bar = document.getElementById('offline-audio-progress');
+    const fill = document.getElementById('offline-audio-progress-fill');
+    const total = OFFLINE_AUDIO_FILES.length;
+
+    bar.hidden = !(state === 'downloading' || state === 'partial' || state === 'error');
+    fill.style.width = `${Math.round((done / total) * 100)}%`;
+    btn.disabled = false;
+    btn.classList.remove('secondary');
+
+    if (state === 'downloading') {
+        status.textContent = `Downloading ${done} of ${total}… Keep the app open.`;
+        btn.textContent = 'Stop';
+        btn.classList.add('secondary');
+    } else if (state === 'complete') {
+        status.textContent = 'All audio downloaded. You can listen without internet.';
+        btn.textContent = 'Remove';
+        btn.classList.add('secondary');
+    } else if (state === 'partial') {
+        status.textContent = `${done} of ${total} downloaded. Tap Resume to finish.`;
+        btn.textContent = 'Resume';
+    } else if (state === 'error') {
+        status.textContent = `Download paused at ${done} of ${total}. Check your internet connection and tap Resume.`;
+        btn.textContent = 'Resume';
+    } else if (state === 'no-space') {
+        status.textContent = `Not enough free space. About ${OFFLINE_AUDIO_TOTAL_MB} MB is needed.`;
+        btn.textContent = 'Download';
+    } else {
+        status.textContent = `Download all audio to listen without internet (about ${OFFLINE_AUDIO_TOTAL_MB} MB).`;
+        btn.textContent = 'Download';
+    }
+}
+
+async function refreshOfflineAudio() {
+    const done = await countOfflineAudio();
+    const total = OFFLINE_AUDIO_FILES.length;
+    renderOfflineAudio(done === 0 ? 'none' : done >= total ? 'complete' : 'partial', done);
+}
+
+async function downloadAllAudio() {
+    offlineAudioDownloading = true;
+    offlineAudioStopRequested = false;
+    const cache = await caches.open(OFFLINE_AUDIO_CACHE);
+    const cached = new Set((await cache.keys()).map(req => req.url));
+    const pending = OFFLINE_AUDIO_FILES.map(f => new URL(`${AUDIO_BASE}${f}`).href).filter(url => !cached.has(url));
+    let done = cached.size;
+    let failed = false;
+    renderOfflineAudio('downloading', done);
+
+    // Ask Android to keep this storage even when space runs low.
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    if (navigator.storage && navigator.storage.estimate) {
+        const { quota = Infinity, usage = 0 } = await navigator.storage.estimate();
+        const neededBytes = (pending.length / OFFLINE_AUDIO_FILES.length) * OFFLINE_AUDIO_TOTAL_MB * 1024 * 1024;
+        if (quota - usage < neededBytes) {
+            offlineAudioDownloading = false;
+            renderOfflineAudio('no-space', done);
+            return;
+        }
+    }
+
+    // A few files at a time: quick on Wi-Fi without flooding a slow connection.
+    const worker = async () => {
+        while (pending.length && !offlineAudioStopRequested && !failed) {
+            const url = pending.shift();
+            try {
+                const res = await fetch(url, { mode: 'cors' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                await cache.put(url, res);
+                done++;
+                renderOfflineAudio('downloading', done);
+            } catch (err) {
+                console.error('Offline audio download failed:', url, err);
+                failed = true;
+            }
+        }
+    };
+    await Promise.all([worker(), worker(), worker()]);
+
+    offlineAudioDownloading = false;
+    if (failed) {
+        renderOfflineAudio('error', done);
+    } else {
+        await refreshOfflineAudio();
+        if (done >= OFFLINE_AUDIO_FILES.length) showToast('All audio downloaded / બધો ઓડિયો ડાઉનલોડ થયો', 'fas fa-check');
+    }
+}
+
+function setupOfflineAudio() {
+    const item = document.getElementById('offline-audio-item');
+    const btn = document.getElementById('offline-audio-btn');
+    if (!item || !canDownloadAudio) return;
+    item.style.display = '';
+    refreshOfflineAudio();
+
+    btn.addEventListener('click', async () => {
+        if (offlineAudioDownloading) {
+            offlineAudioStopRequested = true;
+            btn.disabled = true;
+            return;
+        }
+        const done = await countOfflineAudio();
+        if (done >= OFFLINE_AUDIO_FILES.length) {
+            if (confirm(`Remove downloaded audio? This frees about ${OFFLINE_AUDIO_TOTAL_MB} MB. Audio will stream from the internet again.`)) {
+                await caches.delete(OFFLINE_AUDIO_CACHE);
+                refreshOfflineAudio();
+            }
+            return;
+        }
+        downloadAllAudio();
+    });
 }
 
 function toggleAudio() {
@@ -2712,6 +2870,8 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('audioEnabled', audioEnabled);
         });
     }
+
+    setupOfflineAudio();
 
     const progressToggle = document.getElementById('progress-toggle');
     if (progressToggle) {
