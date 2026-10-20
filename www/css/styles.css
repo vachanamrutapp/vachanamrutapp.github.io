@@ -4723,3 +4723,661 @@ html.text-large #settings-text-large {
     background: #A5252C;
     color: #FFE08A;
 }
+
+
+/* Vachanamrut tiles: reading time, and progress on a part-read one */
+.vachanamrut-tile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7a6a5a;
+}
+
+.vachanamrut-tile-meta i {
+    font-size: 0.7rem;
+    margin-right: 2px;
+}
+
+.vachanamrut-tile-resume {
+    color: #A5252C;
+}
+
+/* ===========================================================
+   Audio player bar — glass card (matches Journey / Settings)
+   =========================================================== */
+.audio-player-container.state-bar {
+    left: 12px;
+    right: 12px;
+    bottom: 84px;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 12px 14px 12px;
+    background: linear-gradient(160deg, rgba(255, 248, 225, 0.78), rgba(255, 228, 160, 0.72));
+    backdrop-filter: blur(22px) saturate(1.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 26px;
+    box-shadow: 0 14px 36px rgba(110, 50, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Over the bottom bar (Partharo list): clear the raised search button */
+.audio-player-container.state-bar.no-footer {
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px) * 0.25);
+}
+
+.audio-bar-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 2px;
+}
+
+.audio-bar-head-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.audio-player-container .audio-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2C1D18;
+}
+
+.audio-player-container .audio-timer {
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #7a6a5a;
+}
+
+.audio-player-container .audio-bar-btn.close-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+    color: #A5252C;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(165, 37, 44, 0.15);
+}
+
+.audio-player-container .audio-scrubber-layout {
+    padding: 6px 2px 2px;
+}
+
+.audio-player-container .audio-scrubber-container::before {
+    height: 6px;
+    top: 9px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.12);
+}
+
+.audio-player-container .audio-progress-fill {
+    height: 6px;
+    top: 9px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #A5252C, #E65100 70%, #F7A928);
+}
+
+.audio-player-container .audio-progress-bar::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    background: #A5252C;
+    border: 3px solid #FFF6DC;
+    box-shadow: 0 2px 6px rgba(120, 30, 20, 0.35);
+}
+
+.audio-player-container .audio-bar-controls-row {
+    padding: 4px 0 0;
+    gap: 8px;
+    justify-content: center;
+}
+
+.audio-player-container .audio-bar-controls {
+    gap: 18px;
+}
+
+.audio-player-container .audio-bar-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.05rem;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(165, 37, 44, 0.12);
+}
+
+.audio-player-container .audio-bar-btn.play-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 1.3rem;
+    color: #FFE9A8;
+    border: none;
+    background: radial-gradient(circle at 35% 30%, #C8363E, #8E1C22 75%);
+    box-shadow: 0 6px 16px rgba(142, 28, 34, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+
+/* ===========================================================
+   Highlights & notes (js/annotations.js)
+   =========================================================== */
+mark.hl {
+    color: inherit;
+    border-radius: 3px;
+    padding: 0 1px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.hl-yellow { background: rgba(255, 224, 102, 0.75); }
+.hl-saffron { background: rgba(255, 166, 77, 0.6); }
+.hl-green { background: rgba(140, 214, 140, 0.6); }
+.hl-blue { background: rgba(130, 196, 255, 0.55); }
+
+mark.hl.hl-flash {
+    box-shadow: 0 0 0 3px rgba(165, 37, 44, 0.45);
+}
+
+.hl-note-icon {
+    font-size: 0.7em;
+    color: #A5252C;
+    margin: 0 2px 0 3px;
+    vertical-align: super;
+    cursor: pointer;
+}
+
+.note-open-btn.has-note {
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+.doc-note-card {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 4px 0 14px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(165, 37, 44, 0.18);
+    border-left: 4px solid #A5252C;
+    background: rgba(255, 255, 255, 0.5);
+    font-family: inherit;
+    color: #2C1D18;
+    cursor: pointer;
+}
+
+.doc-note-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #A5252C;
+    margin-bottom: 2px;
+}
+
+.doc-note-text {
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.hl-other-lang {
+    font-size: 0.75rem;
+    color: #7a6a5a;
+    margin: -6px 0 10px;
+}
+
+/* Floating glass toolbar while text is selected */
+.hl-toolbar {
+    position: fixed;
+    left: 50%;
+    bottom: calc(152px + env(safe-area-inset-bottom, 0px)); /* above the audio button and reading footer */
+    transform: translate(-50%, 20px);
+    z-index: 10030;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: linear-gradient(160deg, rgba(255, 248, 225, 0.88), rgba(255, 228, 160, 0.84));
+    backdrop-filter: blur(22px) saturate(1.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 12px 30px rgba(110, 50, 0, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.hl-toolbar.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+}
+
+.hl-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(165, 37, 44, 0.2);
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.hl-swatch.hl-yellow { background: #FFE066; }
+.hl-swatch.hl-saffron { background: #FFA64D; }
+.hl-swatch.hl-green { background: #8CD68C; }
+.hl-swatch.hl-blue { background: #82C4FF; }
+
+.hl-swatch.active {
+    box-shadow: 0 0 0 3px #A5252C;
+}
+
+.hl-toolbar-sep {
+    width: 1px;
+    height: 24px;
+    background: rgba(165, 37, 44, 0.2);
+}
+
+.hl-tool {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    border: none;
+    background: none;
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 4px;
+    cursor: pointer;
+}
+
+.hl-tool i {
+    font-size: 1rem;
+}
+
+/* Bottom sheet for editing a highlight or note */
+body.sheet-open {
+    overflow: hidden;
+}
+
+.sheet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10040;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(40, 20, 0, 0.35);
+    animation: searchFadeIn 0.2s ease;
+}
+
+.note-sheet {
+    width: 100%;
+    max-width: 560px;
+    padding: 10px 18px calc(18px + env(safe-area-inset-bottom, 0px));
+    border-radius: 26px 26px 0 0;
+    background: linear-gradient(160deg, rgba(255, 249, 230, 0.97), rgba(255, 232, 170, 0.96));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 -10px 30px rgba(110, 50, 0, 0.25);
+}
+
+.sheet-handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.25);
+    margin: 0 auto 12px;
+}
+
+.note-sheet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.note-sheet-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2C1D18;
+}
+
+.note-sheet-sub {
+    font-size: 0.8rem;
+    color: #7a6a5a;
+    font-weight: 600;
+}
+
+.note-sheet-delete {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(198, 40, 40, 0.25);
+    background: rgba(255, 255, 255, 0.6);
+    color: #C62828;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.note-sheet-quote {
+    margin: 12px 0 0;
+    padding: 8px 12px;
+    border-left: 3px solid #E6A623;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 0 10px 10px 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #4a3b30;
+    max-height: 7.5em;
+    overflow-y: auto;
+}
+
+.note-sheet-colors {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0 0;
+}
+
+.note-sheet-text {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    background: rgba(255, 255, 255, 0.8);
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2C1D18;
+    resize: vertical;
+    outline: none;
+}
+
+.note-sheet-text:focus {
+    border-color: #A5252C;
+}
+
+.note-sheet-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.note-sheet-btn {
+    flex: 1;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    background: rgba(255, 255, 255, 0.6);
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.note-sheet-btn.primary {
+    background: #A5252C;
+    color: #FFE9A8;
+    border-color: #A5252C;
+}
+
+/* My Notes in Your Journey */
+.my-notes-count {
+    margin-left: 6px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.12);
+    font-size: 0.7rem;
+}
+
+.my-notes-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.my-notes-filters .search-chip.active {
+    background: #A5252C;
+    color: #FFE08A;
+    border-color: #A5252C;
+}
+
+.notes-backup-nudge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px dashed rgba(165, 37, 44, 0.4);
+    background: rgba(255, 255, 255, 0.45);
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.my-notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.my-notes-empty {
+    font-size: 0.85rem;
+    color: #7a6a5a;
+    padding: 6px 2px;
+}
+
+.my-note {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-left: 4px solid #A5252C;
+    background: rgba(255, 255, 255, 0.5);
+    font-family: inherit;
+    color: #2C1D18;
+    cursor: pointer;
+}
+
+.my-note.hl-edge-yellow { border-left-color: #F2C500; }
+.my-note.hl-edge-saffron { border-left-color: #FF8A1F; }
+.my-note.hl-edge-green { border-left-color: #4CAF50; }
+.my-note.hl-edge-blue { border-left-color: #2E8BEA; }
+
+.my-note-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #A5252C;
+}
+
+.my-note-lang {
+    font-size: 0.65rem;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.1);
+}
+
+.my-note-quote {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: #4a3b30;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.my-note-text {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
+}
+
+/* Reading toolbar: font · theme · [bookmark info find note]; wraps to two rows on narrow screens */
+.reader-toolbar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+}
+
+.reader-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+/* Settings → Menus & Buttons = English: interface labels in English while reading in Gujarati */
+body.ui-english .lang-guj {
+    display: none !important;
+}
+
+body.ui-english .lang-eng {
+    display: revert !important;
+}
+
+body:not(.ui-english) #settings-ui-auto,
+body.ui-english #settings-ui-eng {
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+/* Reading toolbar on one row: font size · [theme bookmark info find note] */
+.reader-toolbar {
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.reader-toolbar .font-controls {
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.reader-actions {
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+/* Reading theme: palette button + labelled swatches in a glass pop-up under it */
+.theme-toggle-btn i {
+    font-size: 0.85rem;
+}
+
+.theme-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: auto;
+    z-index: 30;
+    display: flex !important;
+    align-items: flex-start !important;
+    height: auto !important;
+    gap: 14px !important;
+    padding: 12px 16px 8px !important;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(255, 250, 232, 0.97), rgba(255, 233, 175, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 14px 30px rgba(110, 50, 0, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(0.96);
+    transform-origin: var(--caret-x, 50%) top;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+
+.theme-popover.open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+/* Small pointer up to the palette button */
+.theme-popover::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: calc(var(--caret-x, 50%) - 7px);
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 250, 232, 0.97);
+    border-left: 1px solid rgba(255, 255, 255, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.85);
+    transform: rotate(45deg);
+    border-radius: 3px 0 0 0;
+}
+
+.theme-popover .theme-btn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 18px;
+    border: 2px solid rgba(165, 37, 44, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transform: none;
+}
+
+.theme-popover .theme-btn.active {
+    border-color: #A5252C;
+    box-shadow: 0 0 0 3px rgba(165, 37, 44, 0.18);
+    transform: none;
+}
+
+/* Name under each swatch */
+.theme-popover .theme-btn::after {
+    content: attr(data-label);
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #7a6a5a;
+    white-space: nowrap;
+}
+
+.theme-popover .theme-btn.active::after {
+    color: #A5252C;
+}
+
+/* Tick on the current theme */
+.theme-popover .theme-btn.active::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.8rem;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A5252C;
+}
+
+.theme-popover .theme-btn.theme-dark.active::before {
+    color: #FFE08A;
+}

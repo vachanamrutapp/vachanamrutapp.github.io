@@ -146,7 +146,7 @@
         const chip = $('sp-bookmark-chip');
         const id = bookmarkedId();
         chip.style.display = id ? 'inline-flex' : 'none';
-        if (id) $('sp-bookmark-chip-num').textContent = currentLang === 'english' ? id : toGujaratiDigitsSafe(id);
+        if (id) $('sp-bookmark-chip-num').textContent = uiEnglish() ? id : toGujaratiDigitsSafe(id);
     }
 
     const toGujaratiDigitsSafe = n => (typeof toGujaratiDigits === 'function' ? toGujaratiDigits(n) : String(n));

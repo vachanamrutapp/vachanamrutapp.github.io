@@ -5,6 +5,12 @@ let initSqlPromise = null;
 let vachanamrutData = [];
 let videoData = [];
 let currentLanguage = 'gujarati'; // Default language
+// Settings → Menus & buttons: interface wording in English even while reading in Gujarati.
+// Reading content (text, titles, section names) always follows currentLanguage.
+const uiEnglish = () => currentLanguage === 'english' || localStorage.getItem('uiLanguage') === 'english';
+function applyUiLanguage() {
+    document.body.classList.toggle('ui-english', currentLanguage !== 'english' && localStorage.getItem('uiLanguage') === 'english');
+}
 let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
 let sections = [];
 let currentSection = null;
@@ -24,6 +30,14 @@ const SITE_URL = 'https://vachanamrut.in/';
 const AUDIO_BASE = (window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform() === 'android')
     ? `${SITE_URL}assets/data/audio/`
     : './assets/data/audio/';
+// If vachanamrut.in can't be reached, the same files come from GitHub via these mirrors, in order.
+// jsDelivr is a CDN but skips files over 20MB ("1 Partharo.mp3"), so GitHub's raw file server is last.
+const AUDIO_MIRRORS = [
+    'https://cdn.jsdelivr.net/gh/vachanamrutapp/vachanamrutapp.github.io@main/www/assets/data/audio/',
+    'https://raw.githubusercontent.com/vachanamrutapp/vachanamrutapp.github.io/main/www/assets/data/audio/',
+];
+const audioSources = fileName => (AUDIO_BASE.startsWith('http') ? [AUDIO_BASE, ...AUDIO_MIRRORS] : [AUDIO_BASE]).map(base => `${base}${fileName}`);
+
 // Where AUDIO_BASE is remote, Settings can download every file into Cache Storage for offline listening.
 const OFFLINE_AUDIO_CACHE = 'offline-audio-v1';
 const canDownloadAudio = AUDIO_BASE.startsWith('http') && 'caches' in window;
@@ -84,10 +98,44 @@ function applyTheme() {
             btn.classList.remove('active');
         }
     });
+    const toggle = document.getElementById('theme-toggle-btn');
+    if (toggle) toggle.dataset.theme = appTheme;
+}
+
+// Reading theme pop-up: the palette button in the reading toolbar opens the three swatches
+function setupThemePopover() {
+    const toggle = document.getElementById('theme-toggle-btn');
+    const popover = document.getElementById('theme-popover');
+    if (!toggle || !popover) return;
+    toggle.addEventListener('click', e => {
+        e.stopPropagation();
+        if (popover.classList.contains('open')) {
+            popover.classList.remove('open');
+            return;
+        }
+        // Labels in the interface language
+        popover.querySelectorAll('.theme-btn').forEach(b => { b.dataset.label = uiEnglish() ? b.dataset.labelEn : b.dataset.labelGu; });
+        popover.classList.add('open');
+        // Sit centred under the palette button (kept inside the toolbar), pointer aimed at the button
+        const bar = toggle.closest('.reader-toolbar').getBoundingClientRect();
+        const btn = toggle.getBoundingClientRect();
+        const width = popover.offsetWidth;
+        const centre = btn.left + btn.width / 2 - bar.left;
+        const left = Math.max(0, Math.min(bar.width - width, centre - width / 2));
+        popover.style.left = `${left}px`;
+        popover.style.setProperty('--caret-x', `${centre - left}px`);
+    });
+    popover.addEventListener('click', e => {
+        if (e.target.closest('.theme-btn')) setTimeout(() => popover.classList.remove('open'), 150);
+    });
+    document.addEventListener('click', e => {
+        if (!popover.contains(e.target)) popover.classList.remove('open');
+    });
 }
 
 // Setup Reader font size and theme controls
 function setupReaderControls() {
+    setupThemePopover();
     const decBtn = document.getElementById('font-dec-btn');
     const incBtn = document.getElementById('font-inc-btn');
     
@@ -109,8 +157,8 @@ function setupReaderControls() {
     }
     
     document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            appTheme = e.target.dataset.theme;
+        btn.addEventListener('click', () => {
+            appTheme = btn.dataset.theme;
             localStorage.setItem('appTheme', appTheme);
             applyTheme();
         });
@@ -126,6 +174,7 @@ function checkScrollCompletion() {
             const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
             // If scrollHeight is <= 0, it means it's fully visible immediately
             const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 100;
+            saveReadingPosition(currentReadingVachanamrutId, scrollPercent / 100);
             const progressBar = document.getElementById('scroll-progress-bar');
             if (progressBar) {
                 progressBar.style.width = `${scrollPercent}%`;
@@ -141,6 +190,60 @@ function checkScrollCompletion() {
             }
         }
     }
+}
+
+// Estimated reading time in minutes (≈200 words/min in English, ≈130 in Gujarati)
+const readingMinutesCache = new Map();
+function readingMinutes(vachanamrut) {
+    const key = `${currentLanguage}:${vachanamrut.id}`;
+    if (!readingMinutesCache.has(key)) {
+        const words = (vachanamrut.text || '').split(/\s+/).filter(Boolean).length;
+        readingMinutesCache.set(key, Math.max(1, Math.round(words / (currentLanguage === 'english' ? 200 : 130))));
+    }
+    return readingMinutesCache.get(key);
+}
+
+// ---- Resume where you stopped -------------------------------------------------
+// How far down each Vachanamrut the reader got (0–1), so reopening it continues there.
+let positionSaveTimer = null;
+
+function getReadingPositions() {
+    try {
+        return JSON.parse(localStorage.getItem('vach_scroll')) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+// Saved shortly after scrolling stops, so the final position is the one kept
+function saveReadingPosition(id, fraction) {
+    if (!id || restoringPosition) return;
+    clearTimeout(positionSaveTimer);
+    positionSaveTimer = setTimeout(() => {
+        const positions = getReadingPositions();
+        if (fraction > 0.03 && fraction < 0.97) positions[id] = Math.round(fraction * 1000) / 1000;
+        else delete positions[id]; // at the top, or finished: start fresh next time
+        localStorage.setItem('vach_scroll', JSON.stringify(positions));
+    }, 300);
+}
+
+let restoringPosition = false;
+function restoreReadingPosition(id) {
+    if (window.skipResumeOnce) { // opened from a search result: that jumps to the matched words instead
+        window.skipResumeOnce = false;
+        return;
+    }
+    const fraction = getReadingPositions()[id];
+    if (!fraction) return;
+    restoringPosition = true;
+    setTimeout(() => {
+        const mainContent = document.getElementById('main-content');
+        if (currentReadingVachanamrutId === id && mainContent) {
+            mainContent.scrollTo(0, fraction * (mainContent.scrollHeight - mainContent.clientHeight));
+            showToast(uiEnglish() ? 'Continued where you left off' : 'જ્યાંથી છોડ્યું હતું ત્યાંથી આગળ', 'fas fa-bookmark');
+        }
+        setTimeout(() => { restoringPosition = false; }, 300);
+    }, 200);
 }
 
 // Setup Scroll progress bar tracking
@@ -345,6 +448,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
         if (!trimmed) return '';
         return `<p>${highlightGlossaryWords(trimmed, glossaryList, safeId, currentLanguage)}</p>`;
     }).join('');
+    if (window.Annotations) Annotations.render(safeId); // the reader's highlights and note
 
     // Set footer text
     if (safeId >= 10001 && safeId <= 10005) {
@@ -381,6 +485,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
     showScreen('vachanamrut-detail-screen');
     setTimeout(checkScrollCompletion, 150);
     applyFontSize();
+    restoreReadingPosition(safeId);
     applyTheme();
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'block';
@@ -467,8 +572,26 @@ function audioFileName(vachanamrutId) {
 }
 
 // Point the player at the file, preferring a copy downloaded for offline use.
+// If a source fails to load, the player's error handler moves on to the next mirror.
+let audioSourceList = [];
+let audioSourceIndex = 0;
+
+audioPlayer.addEventListener('error', () => {
+    if (audioPlayer.src.startsWith('blob:') || audioSourceIndex >= audioSourceList.length - 1) return;
+    const wasPlaying = isPlaying;
+    const resumeAt = audioPlayer.currentTime || 0;
+    audioSourceIndex++;
+    console.warn('Audio source failed, trying mirror:', audioSourceList[audioSourceIndex]);
+    audioPlayer.src = audioSourceList[audioSourceIndex];
+    audioPlayer.load();
+    if (resumeAt) audioPlayer.addEventListener('loadedmetadata', () => { audioPlayer.currentTime = resumeAt; }, { once: true });
+    if (wasPlaying) audioPlayer.play().catch(() => {});
+});
+
 function setAudioSource(fileName) {
-    const url = `${AUDIO_BASE}${fileName}`;
+    audioSourceList = audioSources(fileName);
+    audioSourceIndex = 0;
+    const url = audioSourceList[0];
     if (offlineAudioObjectUrl) {
         URL.revokeObjectURL(offlineAudioObjectUrl);
         offlineAudioObjectUrl = null;
@@ -488,6 +611,22 @@ function setAudioSource(fileName) {
             audioPlayer.load();
         })
         .catch(() => {});
+}
+
+// Download for offline: try vachanamrut.in, then the mirrors. Stored under the vachanamrut.in URL either way.
+async function fetchAudioWithMirrors(url) {
+    const fileName = decodeURIComponent(url.slice(AUDIO_BASE.length));
+    let lastError = null;
+    for (const source of audioSources(fileName)) {
+        try {
+            const res = await fetch(source, { mode: 'cors' });
+            if (res.ok) return res;
+            lastError = new Error(`HTTP ${res.status}`);
+        } catch (err) {
+            lastError = err;
+        }
+    }
+    throw lastError;
 }
 
 // ---- Offline audio (Settings → Media) --------------------------------------
@@ -514,7 +653,7 @@ function renderOfflineAudio(state, done = 0) {
     btn.classList.remove('secondary');
 
     // [English, Gujarati] for each state, following the app language
-    const en = currentLanguage === 'english';
+    const en = uiEnglish();
     const n = num => (en ? num : toGujaratiDigits(num));
     const mb = `${n(OFFLINE_AUDIO_TOTAL_MB)} MB`;
     const text = {
@@ -571,7 +710,7 @@ async function downloadAllAudio() {
         while (pending.length && !offlineAudioStopRequested && !failed) {
             const url = pending.shift();
             try {
-                const res = await fetch(url, { mode: 'cors' });
+                const res = await fetchAudioWithMirrors(url);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 await cache.put(url, res);
                 done++;
@@ -608,7 +747,7 @@ function setupOfflineAudio() {
         }
         const done = await countOfflineAudio();
         if (done >= OFFLINE_AUDIO_FILES.length) {
-            const question = currentLanguage === 'english'
+            const question = uiEnglish()
                 ? `Remove downloaded audio? This frees about ${OFFLINE_AUDIO_TOTAL_MB} MB. Audio will stream from the internet again.`
                 : `ડાઉનલોડ કરેલો ઓડિયો દૂર કરવો છે? આશરે ${toGujaratiDigits(OFFLINE_AUDIO_TOTAL_MB)} MB જગ્યા ખાલી થશે. ઓડિયો ફરી ઇન્ટરનેટથી ચાલશે.`;
             if (confirm(question)) {
@@ -884,6 +1023,7 @@ async function init() {
 
     console.log('Current Language set to:', currentLanguage);
     document.body.className = currentLanguage; // Set body class
+    applyUiLanguage();
     try {
         // Load all data
         await Promise.all([
@@ -1096,9 +1236,9 @@ function renderSections() {
         // Count label based on language
         let countLabel;
         if (section.name_en === 'Partharo' || section.name_gu === 'પરથારો') {
-            countLabel = currentLanguage === 'english' ? `${section.count} Parthara` : `${section.count} પરથારા`;
+            countLabel = uiEnglish() ? `${section.count} Parthara` : `${section.count} પરથારા`;
         } else {
-            countLabel = currentLanguage === 'english' ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
+            countLabel = uiEnglish() ? `${section.count} Vachanamruts` : `${section.count} વચનામૃત`;
         }
 
         // Reading progress bar
@@ -1108,7 +1248,7 @@ function renderSections() {
             const readCount = readIds.filter(id => sectionIds.includes(id)).length;
             if (readCount > 0) {
                 const pct = section.count > 0 ? Math.min(100, Math.round((readCount / section.count) * 100)) : 0;
-                const isEn = currentLanguage === 'english';
+                const isEn = uiEnglish();
                 const status = pct >= 100
                     ? `<span class="chapter-progress-done"><i class="fas fa-check-circle"></i> ${isEn ? 'Complete' : 'પૂર્ણ'}</span>`
                     : `<span class="chapter-progress-pct">${pct}%</span>`;
@@ -1200,6 +1340,7 @@ function showSectionDetail(sectionIndex) {
 
 // Render vachanamrut tiles in section detail
 function renderSectionVachanamruts(section, container) {
+    const readingPositions = getReadingPositions();
     container.innerHTML = '';
 
     const showProgress = isProgressTrackingEnabled();
@@ -1224,19 +1365,29 @@ function renderSectionVachanamruts(section, container) {
         if (isRead) {
             const count = getVachReadCount(vachanamrut.id);
             let countStr = '';
-            if (currentLanguage === 'english') {
+            if (uiEnglish()) {
                 countStr = count === 1 ? '1 time' : `${count} times`;
             } else {
                 countStr = `${toGujaratiDigits(count)} વાર`;
             }
-            readIcon = `<span class="vachanamrut-tile-read" title="${currentLanguage === 'english' ? 'Read frequency' : 'વાંચન આવૃત્તિ'}"><i class="fas fa-check-circle"></i> ${countStr}</span>`;
+            readIcon = `<span class="vachanamrut-tile-read" title="${uiEnglish() ? 'Read frequency' : 'વાંચન આવૃત્તિ'}"><i class="fas fa-check-circle"></i> ${countStr}</span>`;
         }
+
+        // Reading time, and how far in a part-read one is (Resume where you stopped)
+        const isEn = uiEnglish();
+        const minutes = readingMinutes(vachanamrut);
+        const position = readingPositions[vachanamrut.id];
+        const metaHtml = `<div class="vachanamrut-tile-meta">
+                    <span><i class="far fa-clock"></i> ~${isEn ? minutes : toGujaratiDigits(minutes)} ${isEn ? 'min' : 'મિનિટ'}</span>
+                    ${position ? `<span class="vachanamrut-tile-resume"><i class="fas fa-play-circle"></i> ${isEn ? `${Math.round(position * 100)}% read` : `${toGujaratiDigits(Math.round(position * 100))}% વાંચ્યું`}</span>` : ''}
+                </div>`;
 
         tile.innerHTML = `
             <span class="vachanamrut-tile-number">${index + 1}</span>
             <div class="vachanamrut-tile-content">
                 <div class="vachanamrut-tile-name">${cleanNumber}</div>
                 <div class="vachanamrut-tile-title">${title}</div>
+                ${metaHtml}
             </div>
             <div class="vachanamrut-tile-indicators">
                 ${readIcon}
@@ -1346,7 +1497,7 @@ function updateBookmarkButtonState(currentId) {
             icon.className = 'fas fa-bookmark'; // Solid icon
         }
         if (textSpan) {
-            textSpan.textContent = currentLanguage === 'english' ? 'Bookmarked' : 'બુકમાર્ક કરેલ';
+            textSpan.textContent = uiEnglish() ? 'Bookmarked' : 'બુકમાર્ક કરેલ';
         }
     } else {
         btn.classList.remove('active');
@@ -1354,7 +1505,7 @@ function updateBookmarkButtonState(currentId) {
             icon.className = 'far fa-bookmark'; // Regular icon
         }
         if (textSpan) {
-            textSpan.textContent = currentLanguage === 'english' ? 'Bookmark' : 'બુકમાર્ક';
+            textSpan.textContent = uiEnglish() ? 'Bookmark' : 'બુકમાર્ક';
         }
     }
 }
@@ -1557,7 +1708,7 @@ function formatReadDate(dateStr) {
         const monthIndex = parseInt(parts[1]) - 1;
         const day = parseInt(parts[2]);
         
-        if (currentLanguage === 'english') {
+        if (uiEnglish()) {
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             return `${day} ${months[monthIndex]}`;
         } else {
@@ -1607,9 +1758,9 @@ function renderJourneyPage() {
         }
         if (dateStr) {
             const formatted = formatReadDate(dateStr);
-            dateEl.innerHTML = currentLanguage === 'english' ? `Last read: <b>${formatted}</b>` : `છેલ્લે વાંચેલ: <b>${formatted}</b>`;
+            dateEl.innerHTML = uiEnglish() ? `Last read: <b>${formatted}</b>` : `છેલ્લે વાંચેલ: <b>${formatted}</b>`;
         } else {
-            dateEl.innerHTML = currentLanguage === 'english' ? 'Start reading' : 'વાંચવાનું શરૂ કરો';
+            dateEl.innerHTML = uiEnglish() ? 'Start reading' : 'વાંચવાનું શરૂ કરો';
         }
     }
 
@@ -1620,13 +1771,13 @@ function renderJourneyPage() {
         if (lastRead) {
             const targetVachanamrut = vachanamrutData.find(v => v.id === lastRead.id);
             const num = targetVachanamrut ? targetVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : lastRead.id;
-            continueLabel.textContent = currentLanguage === 'english' ? 'Continue' : 'ચાલુ રાખો';
+            continueLabel.textContent = uiEnglish() ? 'Continue' : 'ચાલુ રાખો';
             continueTarget.textContent = num;
         } else {
             const section2 = sections.find(s => s.id === 2);
             const firstVachanamrut = section2 && section2.vachanamruts.length ? section2.vachanamruts[0] : (sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null);
             const num = firstVachanamrut ? firstVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : '';
-            continueLabel.textContent = currentLanguage === 'english' ? 'Start' : 'શરૂ કરો';
+            continueLabel.textContent = uiEnglish() ? 'Start' : 'શરૂ કરો';
             continueTarget.textContent = num;
         }
     }
@@ -1724,17 +1875,17 @@ function renderJourneyPage() {
     // Stats chips
     const sectionsEl = document.getElementById('journey-page-sections');
     if (sectionsEl) {
-        sectionsEl.innerHTML = `<b>${sectionsCompleted}</b> ${currentLanguage === 'english' ? (sectionsCompleted === 1 ? 'section' : 'sections') + ' completed' : 'વિભાગ પૂર્ણ'}`;
+        sectionsEl.innerHTML = `<b>${sectionsCompleted}</b> ${uiEnglish() ? (sectionsCompleted === 1 ? 'section' : 'sections') + ' completed' : 'વિભાગ પૂર્ણ'}`;
     }
     const favsEl = document.getElementById('journey-page-favs');
     const favCount = favourites.length;
-    if (favsEl) favsEl.innerHTML = `<b>${favCount}</b> ${currentLanguage === 'english' ? (favCount === 1 ? 'favourite' : 'favourites') : 'ફેવરિટ'}`;
+    if (favsEl) favsEl.innerHTML = `<b>${favCount}</b> ${uiEnglish() ? (favCount === 1 ? 'favourite' : 'favourites') : 'ફેવરિટ'}`;
 
     // Milestones
     const milestonesEl = document.getElementById('journey-milestones');
     if (milestonesEl) {
         const longestStreak = computeLongestStreak(activityDates);
-        const isEn = currentLanguage === 'english';
+        const isEn = uiEnglish();
         const milestones = [
             { icon: 'fa-seedling', name: isEn ? 'First Vachanamrut' : 'પ્રથમ વચનામૃત', desc: isEn ? 'Read your first discourse' : 'પ્રથમ પ્રવચન વાંચ્યું', done: readCount >= 1 },
             { icon: 'fa-scroll', name: isEn ? 'First Shloka' : 'પ્રથમ શ્લોક', desc: isEn ? 'Read your first Shikshapatri shloka' : 'શિક્ષાપત્રીનો પ્રથમ શ્લોક વાંચ્યો', done: spCount >= 1 },
@@ -1759,11 +1910,12 @@ function renderJourneyPage() {
 
     // Render favourites inline
     renderFavourites();
+    if (window.Annotations) Annotations.renderMyNotes();
 }
 
 // Journey: Shikshapatri progress card and its map row (groups of 20 shlokas)
 function renderShikshapatriJourney(readIds) {
-    const isEn = currentLanguage === 'english';
+    const isEn = uiEnglish();
     const count = readIds.length;
     const pct = Math.min(100, Math.round((count / TOTAL_SHLOKAS) * 100));
     document.getElementById('sp-journey-bar-fill').style.width = `${pct}%`;
@@ -2233,10 +2385,10 @@ function getChapterLabel(vachanamrutId) {
 // Format days-from-event as a human phrase.
 function formatXrefDelta(deltaDays, isShakotsavLoya = false) {
     if (isShakotsavLoya) {
-        return currentLanguage === 'english' ? 'During this stay in Loya' : 'આ જ લોયા રોકાણ દરમિયાન';
+        return uiEnglish() ? 'During this stay in Loya' : 'આ જ લોયા રોકાણ દરમિયાન';
     }
     const abs = Math.abs(deltaDays);
-    const isEnglish = currentLanguage === 'english';
+    const isEnglish = uiEnglish();
     const beforeAfter = deltaDays > 0
         ? (isEnglish ? 'after' : 'પછી')
         : (isEnglish ? 'before' : 'પહેલાં');
@@ -2608,6 +2760,19 @@ function setupMenu() {
     document.getElementById('settings-lang-guj').addEventListener('click', () => document.getElementById('lang-btn-guj').click());
     document.getElementById('settings-lang-eng').addEventListener('click', () => document.getElementById('lang-btn-eng').click());
 
+    // Settings → Menus & buttons: same as the text, or always English
+    const setUiLanguage = value => {
+        localStorage.setItem('uiLanguage', value);
+        applyUiLanguage();
+        // Redraw the JS-built labels on whatever is showing
+        renderSections();
+        if (document.getElementById('journey-screen').classList.contains('active')) renderJourneyPage();
+        if (canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
+        if (window.Shikshapatri) Shikshapatri.onAppLanguageChange();
+    };
+    document.getElementById('settings-ui-auto').addEventListener('click', () => setUiLanguage('auto'));
+    document.getElementById('settings-ui-eng').addEventListener('click', () => setUiLanguage('english'));
+
     // Settings → Text Size: Default / Large
     const setTextSize = size => {
         localStorage.setItem('appTextSize', size);
@@ -2694,6 +2859,7 @@ function updateScriptureChrome(screenId) {
     document.getElementById('sloka-navigation').style.display = screenId === 'shikshapatri-detail-screen' ? 'flex' : 'none';
     document.body.classList.toggle('in-shikshapatri', inShikshapatri);
     if (window.SearchUI) SearchUI.closeFind();
+    if (window.Annotations) Annotations.onScreenChange();
 }
 
 // Open a Vachanamrut with its own section as context (search results, switching back)
@@ -2797,7 +2963,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
         footer.style.display = isList ? 'flex' : 'none';
-        backBtn.style.display = isList ? 'none' : 'block';
+        backBtn.style.display = 'block'; // shloka → list; list → Vachanamrut home
         bookmarkBtn.style.display = 'none';
         if (fabBtn) fabBtn.style.display = 'none';
     } else {
@@ -2870,6 +3036,8 @@ function setupNavigation() {
             showScreen('settings-screen'); // Journey lives inside Settings
         } else if (settingsScreen.classList.contains('active')) {
             returnToScripture();
+        } else if (document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
+            showScreen('home-screen'); // Shikshapatri list → Vachanamrut home
         } else if (window.Shikshapatri) {
             Shikshapatri.back(); // shloka → list
         }
@@ -2882,12 +3050,13 @@ function setupNavigation() {
     const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
     if (AppPlugin) {
         AppPlugin.addListener('backButton', () => {
-            if (window.SearchUI && SearchUI.handleBack()) {
+            if (window.Annotations && Annotations.handleBack()) {
+                // closed the note sheet or highlight toolbar
+            } else if (window.SearchUI && SearchUI.handleBack()) {
                 // closed search or find-in-page
             } else if (document.body.classList.contains('facts-modal-open')) {
                 closeFactsModal();
-            } else if (document.getElementById('home-screen').classList.contains('active') ||
-                       document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
+            } else if (document.getElementById('home-screen').classList.contains('active')) {
                 AppPlugin.exitApp();
             } else {
                 backBtn.click();
@@ -2962,6 +3131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentLanguage = selectedLanguage;
             localStorage.setItem('appLanguage', currentLanguage);
             document.body.className = currentLanguage;
+            applyUiLanguage();
             document.body.classList.toggle('in-shikshapatri', currentScripture === 'shikshapatri');
             document.body.classList.toggle('reading-screen', document.getElementById('vachanamrut-detail-screen').classList.contains('active'));
             if (canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();

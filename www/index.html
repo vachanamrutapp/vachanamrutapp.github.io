@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=34">
+    <link rel="stylesheet" href="css/styles.css?v=43">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -210,22 +210,35 @@
                         <span id="font-size-display" class="font-size-display">100%</span>
                         <button id="font-inc-btn" class="toolbar-btn" title="Increase Font Size"><i class="fas fa-plus"></i> A</button>
                     </div>
-                    <div class="theme-controls">
-                        <button class="theme-btn theme-default active" data-theme="default" title="Default Golden Theme"></button>
-                        <button class="theme-btn theme-sepia" data-theme="sepia" title="Sepia Theme"></button>
-                        <button class="theme-btn theme-dark" data-theme="dark" title="Dark Theme"></button>
+                    <div class="theme-controls theme-popover" id="theme-popover" role="menu" aria-label="Reading theme">
+                        <button class="theme-btn theme-default active" data-theme="default" data-label-en="Golden" data-label-gu="સોનેરી" title="Golden theme"></button>
+                        <button class="theme-btn theme-sepia" data-theme="sepia" data-label-en="Sepia" data-label-gu="સેપિયા" title="Sepia theme"></button>
+                        <button class="theme-btn theme-dark" data-theme="dark" data-label-en="Dark" data-label-gu="ડાર્ક" title="Dark theme"></button>
                     </div>
-                    <button id="bookmark-pill-btn" class="bookmark-pill" title="Bookmark Vachanamrut">
-                        <i class="far fa-bookmark"></i>
-                        <span id="bookmark-pill-text">Bookmark</span>
-                    </button>
-                    <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                    <button type="button" class="facts-pill find-open-btn" title="Find in this Vachanamrut" aria-label="Find in this Vachanamrut">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <div class="reader-actions">
+                        <button type="button" id="theme-toggle-btn" class="facts-pill theme-toggle-btn" title="Reading theme" aria-label="Reading theme" aria-haspopup="true">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                        <button id="bookmark-pill-btn" class="bookmark-pill" title="Bookmark Vachanamrut">
+                            <i class="far fa-bookmark"></i>
+                            <span id="bookmark-pill-text">Bookmark</span>
+                        </button>
+                        <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                        <button type="button" class="facts-pill find-open-btn" title="Find in this Vachanamrut" aria-label="Find in this Vachanamrut">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button type="button" class="facts-pill note-open-btn" title="My note on this Vachanamrut" aria-label="My note on this Vachanamrut">
+                            <i class="fas fa-sticky-note"></i>
+                        </button>
+                    </div>
                 </div>
+                <button type="button" id="doc-note-card" class="doc-note-card" style="display: none;">
+                    <span class="doc-note-label"><i class="fas fa-sticky-note"></i> <span class="lang-guj">મારી નોંધ</span><span class="lang-eng">My note</span></span>
+                    <span id="doc-note-text" class="doc-note-text"></span>
+                </button>
+                <div id="hl-other-lang" class="hl-other-lang" style="display: none;"></div>
                 <div id="vachanamrut-setting"></div>
                 <div id="vachanamrut-image-container" class="vachanamrut-image-container" style="display: none;">
                     <img id="vachanamrut-image" src="" alt="Vachanamrut Image" class="vachanamrut-image">
@@ -257,6 +270,17 @@
                         <div class="settings-segmented" role="group" aria-label="Language">
                             <button type="button" id="settings-lang-guj" class="settings-seg-btn">ગુજરાતી</button>
                             <button type="button" id="settings-lang-eng" class="settings-seg-btn">English</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-sliders-h"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">મેનુ અને બટન</span><span class="lang-eng">Menus &amp; Buttons</span></div>
+                            <div class="setting-desc"><span class="lang-guj">ગુજરાતી વાંચતી વખતે પણ મેનુ અંગ્રેજીમાં રાખી શકો</span><span class="lang-eng">Keep menus in English while reading in Gujarati</span></div>
+                        </div>
+                        <div class="settings-segmented" role="group" aria-label="Menus and buttons language">
+                            <button type="button" id="settings-ui-auto" class="settings-seg-btn"><span class="lang-guj">લખાણ પ્રમાણે</span><span class="lang-eng">As text</span></button>
+                            <button type="button" id="settings-ui-eng" class="settings-seg-btn">English</button>
                         </div>
                     </div>
                     <div class="setting-item">
@@ -363,6 +387,30 @@
                         </div>
                         <button type="button" id="offline-audio-btn" class="offline-audio-btn"></button>
                     </div>
+                </div>
+
+                <div class="journey-section-title"><i class="fas fa-database"></i>
+                    <span class="lang-guj">તમારો ડેટા</span>
+                    <span class="lang-eng">Your Data</span>
+                </div>
+                <div class="settings-group">
+                    <div class="setting-item settings-link-row" id="settings-export-row">
+                        <div class="setting-icon"><i class="fas fa-file-export"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">બેકઅપ લો</span><span class="lang-eng">Back up</span></div>
+                            <div class="setting-desc"><span class="lang-guj">નોંધ, હાઇલાઇટ, પ્રગતિ અને બુકમાર્ક એક ફાઈલમાં સાચવો</span><span class="lang-eng">Save notes, highlights, progress and bookmarks to a file</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                    <div class="setting-item settings-link-row" id="settings-import-row">
+                        <div class="setting-icon"><i class="fas fa-file-import"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">બેકઅપ પાછો લાવો</span><span class="lang-eng">Restore</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બેકઅપ ફાઈલમાંથી પાછું લાવો (હાલનું ડેટા સાથે જોડાશે)</span><span class="lang-eng">Bring back a backup file (merged with what is here)</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                    <input type="file" id="backup-file-input" accept="application/json,.json" hidden>
                 </div>
 
                 <div class="journey-section-title"><i class="fas fa-info-circle"></i>
@@ -483,8 +531,8 @@
                     </div>
                     <div class="settings-expand" id="settings-reset-content" style="display: none;">
                         <p class="settings-expand-note">
-                            <span class="lang-guj">આ વચનામૃત અને શિક્ષાપત્રીના બધા બુકમાર્ક, મનપસંદ, વાંચન પ્રગતિ અને સેટિંગ્સ કાઢી નાખશે. ડાઉનલોડ કરેલો ઓડિયો રહેશે.</span>
-                            <span class="lang-eng">This deletes all bookmarks, favourites, reading progress and settings for both Vachanamrut and Shikshapatri. Downloaded audio is kept.</span>
+                            <span class="lang-guj">આ વચનામૃત અને શિક્ષાપત્રીના બધા બુકમાર્ક, મનપસંદ, નોંધ, હાઇલાઇટ, વાંચન પ્રગતિ અને સેટિંગ્સ કાઢી નાખશે. ડાઉનલોડ કરેલો ઓડિયો રહેશે.</span>
+                            <span class="lang-eng">This deletes all bookmarks, favourites, notes, highlights, reading progress and settings for both Vachanamrut and Shikshapatri. Downloaded audio is kept.</span>
                         </p>
                         <button id="reset-app-btn" type="button" class="danger-btn-subtle">
                             <span class="lang-guj">બધું રીસેટ કરો</span>
@@ -592,6 +640,23 @@
                     <span class="lang-eng">No favourites yet.</span>
                 </div>
 
+                <!-- My Notes & Highlights (js/annotations.js) -->
+                <div class="journey-section-title"><i class="fas fa-highlighter"></i>
+                    <span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span>
+                    <span class="lang-eng">My Notes &amp; Highlights</span>
+                    <span id="my-notes-count" class="my-notes-count">0</span>
+                </div>
+                <div class="my-notes-filters">
+                    <button type="button" class="search-chip" data-notes-filter="all"><span class="lang-guj">બધું</span><span class="lang-eng">All</span></button>
+                    <button type="button" class="search-chip" data-notes-filter="notes"><span class="lang-guj">ફક્ત નોંધ</span><span class="lang-eng">Notes only</span></button>
+                </div>
+                <button type="button" id="notes-backup-nudge" class="notes-backup-nudge" style="display: none;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span class="lang-guj">તમારી નોંધ ફક્ત આ ફોનમાં છે. બેકઅપ લો.</span>
+                    <span class="lang-eng">Your notes live only on this phone. Back them up.</span>
+                </button>
+                <div id="my-notes-list" class="my-notes-list"></div>
+
                 <div class="journey-reset-row">
                     <button id="journey-reset-btn" class="journey-reset-link"><i class="fas fa-undo"></i> Reset progress</button>
                 </div>
@@ -646,26 +711,26 @@
                 <i class="fas fa-play"></i>
             </button>
             
-            <!-- Bar View -->
+            <!-- Bar View: title + time, scrubber, then controls (−15 · play · +15) -->
             <div class="audio-bar-view">
+                <div class="audio-bar-head">
+                    <div class="audio-bar-head-text">
+                        <span id="audio-bar-title" class="audio-title">વચનામૃત</span>
+                        <span id="audio-timer" class="audio-timer">0:00 / 0:00</span>
+                    </div>
+                    <button id="audio-btn-close" class="audio-bar-btn close-btn" title="Minimize" aria-label="Minimize player"><i class="fas fa-chevron-down"></i></button>
+                </div>
                 <div class="audio-scrubber-layout">
                     <div class="audio-scrubber-container">
                         <div id="audio-progress-fill" class="audio-progress-fill"></div>
-                        <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0">
+                        <input type="range" id="audio-progress-bar" class="audio-progress-bar" min="0" max="100" value="0" aria-label="Seek">
                     </div>
                 </div>
                 <div class="audio-bar-controls-row">
-                    <div class="audio-bar-info">
-                        <span id="audio-bar-title" class="audio-title">વચનામૃત</span>
-                    </div>
                     <div class="audio-bar-controls">
-                        <button id="audio-btn-prev" class="audio-bar-btn" title="Skip Back 15s"><i class="fas fa-undo"></i></button>
-                        <button id="audio-btn-play" class="audio-bar-btn play-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
-                        <button id="audio-btn-next" class="audio-bar-btn" title="Skip Forward 15s"><i class="fas fa-redo"></i></button>
-                    </div>
-                    <div class="audio-bar-right">
-                        <span id="audio-timer" class="audio-timer">0:00 / 0:00</span>
-                        <button id="audio-btn-close" class="audio-bar-btn close-btn" title="Minimize to FAB"><i class="fas fa-compress-alt"></i></button>
+                        <button id="audio-btn-prev" class="audio-bar-btn" title="Back 15s" aria-label="Back 15 seconds"><i class="fas fa-undo"></i></button>
+                        <button id="audio-btn-play" class="audio-bar-btn play-btn" title="Play/Pause" aria-label="Play or pause"><i class="fas fa-play"></i></button>
+                        <button id="audio-btn-next" class="audio-bar-btn" title="Forward 15s" aria-label="Forward 15 seconds"><i class="fas fa-redo"></i></button>
                     </div>
                 </div>
             </div>
@@ -731,6 +796,42 @@
         <button id="find-close-btn" class="search-icon-btn" type="button" aria-label="Close find"><i class="fas fa-times"></i></button>
     </div>
 
+    <!-- Highlight toolbar: shown while text is selected in a Vachanamrut (js/annotations.js) -->
+    <div id="hl-toolbar" class="hl-toolbar" role="toolbar" aria-label="Highlight">
+        <button type="button" class="hl-swatch hl-yellow" data-color="yellow" aria-label="Yellow highlight"></button>
+        <button type="button" class="hl-swatch hl-saffron" data-color="saffron" aria-label="Saffron highlight"></button>
+        <button type="button" class="hl-swatch hl-green" data-color="green" aria-label="Green highlight"></button>
+        <button type="button" class="hl-swatch hl-blue" data-color="blue" aria-label="Blue highlight"></button>
+        <span class="hl-toolbar-sep"></span>
+        <button type="button" class="hl-tool" data-action="note"><i class="fas fa-sticky-note"></i><span class="lang-guj">નોંધ</span><span class="lang-eng">Note</span></button>
+        <button type="button" class="hl-tool" data-action="copy"><i class="fas fa-copy"></i><span class="lang-guj">કોપી</span><span class="lang-eng">Copy</span></button>
+    </div>
+
+    <div id="note-sheet-overlay" class="sheet-overlay" style="display: none;">
+        <div class="note-sheet" role="dialog" aria-modal="true" aria-labelledby="note-sheet-title">
+            <div class="sheet-handle"></div>
+            <div class="note-sheet-head">
+                <div>
+                    <div id="note-sheet-title" class="note-sheet-title"></div>
+                    <div id="note-sheet-sub" class="note-sheet-sub"></div>
+                </div>
+                <button type="button" id="note-sheet-delete" class="note-sheet-delete" aria-label="Delete"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <blockquote id="note-sheet-quote" class="note-sheet-quote"></blockquote>
+            <div id="note-sheet-colors" class="note-sheet-colors">
+                <button type="button" class="hl-swatch hl-yellow" data-sheet-color="yellow" aria-label="Yellow"></button>
+                <button type="button" class="hl-swatch hl-saffron" data-sheet-color="saffron" aria-label="Saffron"></button>
+                <button type="button" class="hl-swatch hl-green" data-sheet-color="green" aria-label="Green"></button>
+                <button type="button" class="hl-swatch hl-blue" data-sheet-color="blue" aria-label="Blue"></button>
+            </div>
+            <textarea id="note-sheet-text" class="note-sheet-text" rows="4"></textarea>
+            <div class="note-sheet-actions">
+                <button type="button" id="note-sheet-cancel" class="note-sheet-btn"><span class="lang-guj">રદ કરો</span><span class="lang-eng">Cancel</span></button>
+                <button type="button" id="note-sheet-save" class="note-sheet-btn primary"><span class="lang-guj">સાચવો</span><span class="lang-eng">Save</span></button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container" class="toast-container"></div>
 
     <!-- Vachanamrut Facts Modal -->
@@ -753,9 +854,10 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=34"></script>
-    <script src="js/shikshapatri.js?v=2"></script>
-    <script src="js/search.js?v=1"></script>
+    <script src="js/app.js?v=41"></script>
+    <script src="js/shikshapatri.js?v=3"></script>
+    <script src="js/search.js?v=4"></script>
+    <script src="js/annotations.js?v=3"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

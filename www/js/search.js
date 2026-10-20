@@ -5,7 +5,7 @@
     const overlay = $('search-overlay');
     const input = $('search-input');
     const body = $('search-body');
-    const isEnglish = () => currentLanguage === 'english';
+    const isEnglish = () => uiEnglish(); // interface wording; reading content uses currentLanguage
     const gu = n => (isEnglish() ? String(n) : toGujaratiDigits(n));
     const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -189,11 +189,11 @@
     // ---- Rendering --------------------------------------------------------------
     function vachName(id) {
         const m = vachMeta.get(id) || {};
-        return isEnglish() ? (m.name_en || m.name_gu || '') : (m.name_gu || m.name_en || '');
+        return currentLanguage === 'english' ? (m.name_en || m.name_gu || '') : (m.name_gu || m.name_en || '');
     }
     function vachTitle(id) {
         const m = vachMeta.get(id) || {};
-        return isEnglish() ? (m.title_en || m.title_gu || '') : (m.title_gu || m.title_en || '');
+        return currentLanguage === 'english' ? (m.title_en || m.title_gu || '') : (m.title_gu || m.title_en || '');
     }
     const shlokaName = id => (isEnglish() ? `Shloka ${id}` : `શ્લોક ${gu(id)}`);
     const t = (en, guText) => (isEnglish() ? en : guText);
@@ -233,7 +233,7 @@
             html += `<div class="journey-section-title"><i class="fas fa-spell-check"></i> ${t('Glossary', 'શબ્દાર્થ')}</div>
                 <div class="search-glossary-card">
                     <div class="search-glossary-word">${esc(g.word_gu)} <span>${esc(g.word_en || '')}</span></div>
-                    <div class="search-glossary-meaning">${esc(isEnglish() ? (g.meaning_en || g.meaning_gu) : (g.meaning_gu || g.meaning_en))}</div>
+                    <div class="search-glossary-meaning">${esc(currentLanguage === 'english' ? (g.meaning_en || g.meaning_gu) : (g.meaning_gu || g.meaning_en))}</div>
                     <div class="search-glossary-count">${t(`Explained in ${g.count} Vachanamrut${g.count === 1 ? '' : 's'}`, `${gu(g.count)} વચનામૃતમાં સમજાવેલ`)}</div>
                 </div>`;
         }
@@ -270,9 +270,9 @@
     // Excerpts come from the reader's language first
     function snippetFields() {
         if (scope === 'shikshapatri') {
-            return isEnglish() ? ['en', 'gu', 'sa', 'bhashya'] : ['gu', 'en', 'sa', 'bhashya'];
+            return currentLanguage === 'english' ? ['en', 'gu', 'sa', 'bhashya'] : ['gu', 'en', 'sa', 'bhashya'];
         }
-        return isEnglish() ? ['en', 'gu', 'title'] : ['gu', 'en', 'title'];
+        return currentLanguage === 'english' ? ['en', 'gu', 'title'] : ['gu', 'en', 'title'];
     }
 
     let debounce = null;
@@ -338,7 +338,7 @@
         const after = () => keys.length && setTimeout(() => openFind(lastQuery, keys), 350);
         if (kind === 'shloka') {
             Shikshapatri.showSloka(id).then(after);
-        } else if (openVachanamrutById(id)) {
+        } else if ((window.skipResumeOnce = keys.length > 0, openVachanamrutById(id))) {
             after();
         }
     }
@@ -395,7 +395,7 @@
         const exact = new Set(extraKeys);
         if (!qKeys.length && !exact.size) return;
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
-            acceptNode: node => (node.nodeValue.trim() && !node.parentElement.closest('select, option, button, mark')
+            acceptNode: node => (node.nodeValue.trim() && !node.parentElement.closest('select, option, button, mark.find-hit')
                 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
         });
         const nodes = [];

@@ -4,8 +4,18 @@ Status: draft, October 2026. App version at time of writing: 1.2 (code 3).
 
 Everything here works **without internet and without accounts or servers**. All user data stays on the device, which is why backup/export (Phase 3) is part of the plan rather than an extra.
 
-| Phase | Version | Features | Effort |
-|---|---|---|---|
+| Phase | Status | Features |
+|---|---|---|
+| 2 | ✅ Built (1.3, code 4) | One app: Vachanamrut ↔ Shikshapatri switch, combined Settings, Journey for both, transliteration search, find-in-page, text size, splash |
+| 4a | ✅ Built (unreleased) | Quick wins: resume where you stopped, audio speed + sleep timer, read time on tiles; glass audio bar |
+| 4b | ✅ Built (unreleased) | Audio backup source: jsDelivr, then GitHub raw, when vachanamrut.in is unreachable |
+| 3 | ✅ Built (unreleased) | Highlights (4 colours), notes, note per Vachanamrut, My Notes in Journey, backup & restore |
+| 1 | 📝 Planned — next | Daily reminder + first-run setup (detailed below) |
+| 4c | Later | Bigger extras (list at the end) |
+
+**Unreleased** = on `main` / the website once pushed, but not yet in a signed Play build.
+
+---|---|---|---|
 | 1 | 1.3 | Daily reminder + first-run setup | ~1 day |
 | 2 | 1.4 | One app: Vachanamrut ↔ Shikshapatri switch, shared Settings (with Journey), search button for both | ~3 days |
 | 3 | 1.5 | Highlights, notes, "My Notes", backup & restore | ~3 days |
@@ -21,7 +31,7 @@ Everything here works **without internet and without accounts or servers**. All 
 
 - **Code layout.** `www/js/app.js` is ~3,000 lines. New features go in their own files, loaded with plain `<script>` tags (no bundler): `js/shikshapatri.js`, `js/search.js`, `js/search-worker.js`, `js/reminders.js`, `js/onboarding.js`, `js/annotations.js`, `js/backup.js`.
 - **One single-page app.** Today Shikshapatri is a separate page (`www/shikshapatri/`, own JS/CSS/database). Phase 2 moves it into the main page, so switching is instant, there's one Settings, one search button and one back-gesture handler.
-- **Storage.** Settings stay in `localStorage` as today. Notes and highlights go in **IndexedDB** (`vachanamrut-user` database), which handles more data and structured queries. Both are on-device only.
+- **Storage.** Everything is in `localStorage` on the device, including notes and highlights (key `annotations`). Even thousands of notes are well under its limit, and it keeps backup simple. Settings → Your Data exports and restores it all.
 - **Native plugins** (all official Capacitor 8):
   - `@capacitor/app` (installed in 1.2: back gesture, app version)
   - `@capacitor/local-notifications` 8.3.x: reminders (Phase 1)
@@ -31,43 +41,67 @@ Everything here works **without internet and without accounts or servers**. All 
 
 ---
 
-## Phase 1 — Daily reminder + first-run setup (v1.3)
+## Phase 1 — Daily reminder + first-run setup (next, ~1–1.5 days)
 
-### Reminder behaviour
-- **Default on at 7:00 AM device time.** Users can turn it off or pick another time in Settings.
-- **Content changes daily**, so it doesn't feel like spam. It suggests the next Vachanamrut to read, using the Journey "continue" logic:
-  - Title: "આજનું વચનામૃત" / "Today's Vachanamrut"
-  - Body: "Continue with Gadhada I-19 · ~8 min read"
-  - On the user's streak days: "Keep your 5-day streak going 🔥"
-- **Tapping it opens that Vachanamrut** (`localNotificationActionPerformed` carries the Vachanamrut id).
+### What the reader gets
+- **A gentle daily nudge, on by default at 7:00 AM device time.** Changeable or off in Settings, and offered in the first-run setup.
+- **Different every day, and useful:** the notification names what to read next, and tapping it opens straight to it.
 
-### How scheduling works
-- **Rolling window:** each time the app opens, cancel and re-schedule the next **14 days** as individual notifications (`schedule.at`, `allowWhileIdle: true`), each with that day's content. This keeps the content personal and adjusts automatically for time-zone travel and daylight-saving changes. If someone doesn't open the app for 14 days, reminders stop, which avoids nagging inactive users.
-- **Reboots:** the plugin's built-in boot receiver (`LocalNotificationRestoreReceiver`, `RECEIVE_BOOT_COMPLETED`) restores pending reminders after a restart. Verified in the 8.3.1 package.
-- **Inexact timing:** use `isExactNotification: false`. Android may deliver a few minutes after 7:00 to save battery, which is fine for a reading reminder. Remove the plugin's `SCHEDULE_EXACT_ALARM` permission from the merged manifest (`tools:node="remove"`): Android 14+ denies it by default, it would mean an extra settings screen for users, and Play scrutinises alarm permissions.
-- **Permission:** Android 13+ needs the notification permission (`requestPermissions()`). It's requested **only** in the setup step below, after explaining why, never cold on launch.
-- **Known limit:** some phone brands (Xiaomi, Oppo, Vivo, some Samsung battery modes) kill scheduled notifications aggressively. Add a short "Not getting reminders?" help line in Settings.
+| Situation | Title | Body |
+|---|---|---|
+| Reading Vachanamrut | આજનું વચનામૃત / Today's Vachanamrut | ચાલુ રાખો: ગઢડા પ્રથમ ૧૯ · ~૮ મિનિટ / Continue with Gadhada I-19 · ~8 min |
+| On a streak (3+ days) | 🔥 ૫ દિવસની સ્ટ્રીક / 5-day streak | Same body, so the streak is the hook |
+| Has been reading Shikshapatri more recently | આજનો શ્લોક / Today's shloka | શ્લોક ૩૮ … first line of the translation |
+| Nothing read yet | વચનામૃત વાંચવાનું શરૂ કરો / Start the Vachanamrut | ગઢડા પ્રથમ ૧ · ~૩ મિનિટ |
 
-### First-run setup (skippable, 4 cards)
-1. **Welcome** — app name, short tagline, language choice ગુજરાતી / English (sets `appLanguage`).
-2. **Daily reminder** — on/off and a time picker (default 7:00), with an **"Allow notifications"** button that triggers the system prompt. If denied, show "You can turn this on later in Settings."
-3. **Offline audio** — explain streaming vs. downloading (~650 MB), with a "Download now (Wi-Fi)" / "Later" choice.
-4. **You're set** — "Start reading: Gadhada I-1" or "Continue: …".
+- Text follows the app language (ગુજ / EN).
+- "Next" reuses existing logic: Journey's Continue target (`vach_last_read` → the next one in that section) and `sp_last_read` + 1.
+- Read time reuses `readingMinutes()`.
 
-- Stored as `onboardingDone` in `localStorage`.
-- **Existing users updating to 1.3** see only card 2 once, as a "New: daily reminder" card.
-- Style: full-screen glass cards on the golden background, matching Settings and Journey, with progress dots and Skip.
+### How it's built
+- **Plugin:** `@capacitor/local-notifications` 8.3.x (official). Everything runs on the phone, with no server.
+- **New file:** `www/js/reminders.js`. It exposes `Reminders.reschedule()`, `Reminders.setEnabled()`, `Reminders.setTime()` and `Reminders.sendTest()`.
+- **Rolling 14-day window:** every app open (and on every Settings change), cancel ids 1001–1014 and schedule the next 14 days, one notification per day at the chosen local time, each with that day's content. `allowWhileIdle: true`, `isExactNotification: false`.
+  - It follows time-zone and daylight-saving changes automatically, since times are recomputed in local time on each open.
+  - If someone stops opening the app for 2 weeks, the reminders stop on their own. That's deliberate: no nagging people who've lost interest.
+  - Content beyond day 1 assumes they keep reading in order. When they open the app, it's recomputed.
+- **Tap → open:** `extra: { scripture, id }` on each notification. A `localNotificationActionPerformed` listener calls `openVachanamrutById(id)` or `Shikshapatri.showSloka(id)`. It also works when the tap cold-starts the app; the listener is registered before the first screen renders, and the native splash covers the wait.
+- **Reboots:** handled by the plugin's own boot receiver (`RECEIVE_BOOT_COMPLETED`). Already verified in the package.
+- **No exact alarms:** remove `SCHEDULE_EXACT_ALARM` from the merged manifest (`tools:node="remove"`). Delivery may be a few minutes late, which is fine for a reading reminder, and it avoids a special permission screen and extra Play review attention.
+- **Notification channel** "Daily reading / દૈનિક વાંચન": default importance, the app's small icon (white silhouette, `ic_stat_reminder`), and gold accent `#E6A623`.
+- **Permission (Android 13+):** asked **only** from the setup card or the Settings toggle, after explaining why, never cold on launch. If it's denied, the toggle shows "Off in Android settings → Open" and links there with `App.openSettings` via the existing App plugin.
+- **Storage:** `reminderEnabled` (default true), `reminderTime` ("07:00"), and `onboardingDone`. All of them are included in Backup.
+- **Website:** nothing. Reminders and setup are app-only, because web push needs a server.
 
-### Settings additions
-- Under a new **Reminders** section: Daily reminder toggle, Time, "Send a test notification", and a help line.
-- If the permission was denied: a row saying "Notifications are off for this app → Open settings".
+### First-run setup (shown once, skippable; appears right after the splash)
+Full-screen glass cards on the gold background, with progress dots, Skip and Next. It uses the same components as Settings and Journey.
+1. **Welcome:** the Vachanamrut and Shikshapatri in one app. Pick a language: ગુજરાતી / English (sets `appLanguage`).
+2. **Daily reminder:** time picker (default 7:00) and **Allow notifications**, which triggers the system prompt. "Not now" leaves it off. If the user allows, the first 14 reminders are scheduled straight away.
+3. **Read your way:** Text Size Default / Large (from Settings), plus a note that Offline Audio is in Settings. The ~650 MB download isn't offered here, so a first launch never starts a big download.
+4. **You're all set:** two buttons, "Start: Gadhada I-1" and "Open Shikshapatri".
+
+- **Existing users updating:** setup is skipped. They see one card, "New: daily reminder", the next time the home screen opens, with Allow / Not now.
+
+### Settings changes
+A new **Reminders / રિમાઇન્ડર** group under Language & Reading:
+- **Daily reminder:** toggle.
+- **Time:** a native time picker (`<input type="time">`) showing "7:00 AM".
+- **Send a test reminder:** fires one in 5 seconds.
+- **Help line:** "Not getting reminders? Allow the app to run in the background in your phone's battery settings." This matters on Xiaomi, Oppo, Vivo and some Samsung phones, which kill scheduled notifications.
 
 ### Test checklist
-- Set the time 2 minutes ahead and confirm it arrives. Tap it and confirm the right Vachanamrut opens.
-- Reboot the phone and confirm the reminder still fires.
+- Set the time 2 minutes ahead and confirm it arrives. Tap it from a killed app, and from the background; both should open the right Vachanamrut or shloka.
+- Read something, reopen the app, and confirm tomorrow's reminder content updated.
+- Reboot the phone, then confirm it still fires.
 - Force Doze (`adb shell dumpsys deviceidle force-idle`) and confirm it still arrives, possibly late.
-- Deny permission, then re-enable from Settings.
-- Change the time zone and confirm the time follows local time.
+- Deny permission in setup, then turn it on from Settings: the system prompt or the "Open settings" path appears.
+- Change the time zone or toggle daylight saving, and confirm it still fires at 7:00 local.
+- Fresh install shows setup, an update shows only the "New" card, and Skip never shows it again.
+
+### Open questions
+1. Default **on** at 7:00 (as you asked) but only after the permission is granted. On Android 13+ nothing can be shown until the user allows notifications. OK?
+2. Also offer an **evening** reminder (e.g. 8 PM, off by default)?
+3. Alternate Vachanamrut and Shikshapatri days, or follow whichever was read most recently (current plan)?
 
 ---
 
