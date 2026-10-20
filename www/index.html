@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=43">
+    <link rel="stylesheet" href="css/styles.css?v=46">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -772,6 +772,8 @@
 
     <!-- Search (js/search.js) -->
     <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search" style="display: none;">
+        <!-- One gold header block: back + search field, then the scripture tabs -->
+        <div class="search-header">
         <div class="search-top">
             <button id="search-close-btn" class="search-icon-btn" type="button" aria-label="Close search"><i class="fas fa-arrow-left"></i></button>
             <div class="search-input-wrap">
@@ -784,7 +786,10 @@
             <button class="search-scope-btn" type="button" role="tab" data-scope="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
             <button class="search-scope-btn" type="button" role="tab" data-scope="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
         </div>
-        <div id="search-body" class="search-body"></div>
+        </div>
+        <div class="search-body">
+            <div id="search-body" class="search-card"></div>
+        </div>
     </div>
 
     <div id="find-bar" class="find-bar" role="search" style="display: none;">
@@ -856,7 +861,7 @@
     <script src="js/search-core.js?v=1"></script>
     <script src="js/app.js?v=41"></script>
     <script src="js/shikshapatri.js?v=3"></script>
-    <script src="js/search.js?v=4"></script>
+    <script src="js/search.js?v=7"></script>
     <script src="js/annotations.js?v=3"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)

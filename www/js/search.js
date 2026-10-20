@@ -210,9 +210,14 @@
         const examples = scope === 'shikshapatri'
             ? ['dharma', 'ekadashi', 'tilak', '37']
             : ['ahar', 'ekantik dharm', 'vairagya', 'Gadhada 1 18'];
+        const title = scope === 'shikshapatri' ? t('Search the Shikshapatri', 'શિક્ષાપત્રીમાં શોધો') : t('Search the Vachanamrut', 'વચનામૃતમાં શોધો');
         body.innerHTML = `
-            <p class="search-hint">${t('Type in English letters or Gujarati — <b>ahar</b>, <b>aahar</b> and <b>આહાર</b> all match.',
-                'અંગ્રેજી અક્ષરોમાં કે ગુજરાતીમાં લખો — <b>ahar</b>, <b>aahar</b> અને <b>આહાર</b> બધું મળશે.')}</p>
+            <div class="search-empty-hero">
+                <div class="search-empty-icon"><i class="fas ${scope === 'shikshapatri' ? 'fa-scroll' : 'fa-book-open'}"></i></div>
+                <div class="search-empty-title">${title}</div>
+                <p class="search-hint">${t('Type in English letters or Gujarati — <b>ahar</b>, <b>aahar</b> and <b>આહાર</b> all match.',
+                    'અંગ્રેજી અક્ષરોમાં કે ગુજરાતીમાં લખો — <b>ahar</b>, <b>aahar</b> અને <b>આહાર</b> બધું મળશે.')}</p>
+            </div>
             ${recent.length ? `<div class="journey-section-title"><i class="fas fa-history"></i> ${t('Recent', 'તાજેતરની શોધ')}
                 <button type="button" class="search-clear-recent" data-clear-recent>${t('Clear', 'સાફ કરો')}</button></div>
                 <div class="search-chips">${recent.map(r => `<button type="button" class="search-chip" data-q="${esc(r)}"><i class="fas fa-history"></i>${esc(r)}</button>`).join('')}</div>` : ''}
@@ -225,12 +230,13 @@
         if (jumps.length) {
             html += `<div class="journey-section-title"><i class="fas fa-location-arrow"></i> ${t('Go to', 'સીધું ખોલો')}</div><div class="settings-group search-group">`;
             html += jumps.map(j => j.kind === 'shloka'
-                ? resultRow({ kind: 'shloka', id: j.id, name: shlokaName(j.id), sub: '' }, 'fa-scroll')
-                : resultRow({ kind: 'vachanamrut', id: j.id, name: vachName(j.id), sub: vachTitle(j.id) }, 'fa-book-open')).join('');
+                ? resultRow({ kind: 'shloka', id: j.id, name: shlokaName(j.id), sub: '' })
+                : resultRow({ kind: 'vachanamrut', id: j.id, name: vachName(j.id), sub: vachTitle(j.id) })).join('');
             html += '</div>';
         }
+        if (glossaryHits.length) html += `<div class="journey-section-title"><i class="fas fa-spell-check"></i> ${t('Glossary', 'શબ્દાર્થ')}</div>`;
         for (const g of glossaryHits) {
-            html += `<div class="journey-section-title"><i class="fas fa-spell-check"></i> ${t('Glossary', 'શબ્દાર્થ')}</div>
+            html += `
                 <div class="search-glossary-card">
                     <div class="search-glossary-word">${esc(g.word_gu)} <span>${esc(g.word_en || '')}</span></div>
                     <div class="search-glossary-meaning">${esc(currentLanguage === 'english' ? (g.meaning_en || g.meaning_gu) : (g.meaning_gu || g.meaning_en))}</div>
@@ -245,7 +251,7 @@
                 : t(`${results.length} Vachanamrut${results.length === 1 ? '' : 's'}`, `${gu(results.length)} વચનામૃત`);
             html += `<div class="journey-section-title"><i class="fas fa-search"></i> ${label}</div><div class="settings-group search-group">`;
             html += results.map(r => scope === 'shikshapatri'
-                ? resultRow({ kind: 'shloka', id: r.id, name: shlokaName(r.id), sub: '', snippet: r.snippet, keys: r.matchedKeys }, 'fa-scroll')
+                ? resultRow({ kind: 'shloka', id: r.id, name: shlokaName(r.id), sub: '', snippet: r.snippet, keys: r.matchedKeys })
                 : resultRow({ kind: 'vachanamrut', id: r.id, name: vachName(r.id), sub: vachTitle(r.id), snippet: r.snippet, count: r.count, keys: r.matchedKeys })).join('');
             html += '</div>';
         } else if (!jumps.length && !glossaryHits.length) {
@@ -254,16 +260,15 @@
         body.innerHTML = html;
     }
 
-    function resultRow(item, icon = 'fa-book-open') {
+    function resultRow(item) {
         const keys = item.keys ? ` data-keys="${esc(item.keys.join(' '))}"` : '';
-        return `<button type="button" class="setting-item settings-link-row search-result" data-kind="${item.kind}" data-id="${item.id}"${keys}>
-            <div class="setting-icon"><i class="fas ${icon}"></i></div>
-            <div class="setting-text">
-                <div class="setting-name">${esc(item.name)}${item.count ? ` <span class="search-count">×${gu(item.count)}</span>` : ''}</div>
-                ${item.sub ? `<div class="setting-desc">${esc(item.sub)}</div>` : ''}
-                ${item.snippet ? `<div class="search-snippet">${snippetHtml(item.snippet)}</div>` : ''}
-            </div>
-            <i class="fas fa-chevron-right settings-row-chevron"></i>
+        return `<button type="button" class="search-result" data-kind="${item.kind}" data-id="${item.id}"${keys}>
+            <span class="search-result-head">
+                <span class="search-result-name">${esc(item.name)}</span>
+                ${item.count ? `<span class="search-count">${t(`${item.count}×`, `${gu(item.count)} વાર`)}</span>` : ''}
+            </span>
+            ${item.sub ? `<span class="search-result-title">${esc(item.sub)}</span>` : ''}
+            ${item.snippet ? `<span class="search-snippet">${snippetHtml(item.snippet)}</span>` : ''}
         </button>`;
     }
 

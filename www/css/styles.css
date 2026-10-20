@@ -5381,3 +5381,189 @@ body.ui-english #settings-ui-eng {
 .theme-popover .theme-btn.theme-dark.active::before {
     color: #FFE08A;
 }
+
+/* ===========================================================
+   Search screen, unified: gold header block + glass content card
+   =========================================================== */
+.search-overlay {
+    padding-top: 0;
+}
+
+.search-header {
+    background: linear-gradient(180deg, #E6A623, #EDB13A);
+    padding-top: var(--safe-top);
+    border-radius: 0 0 26px 26px;
+    box-shadow: 0 8px 24px rgba(110, 50, 0, 0.22);
+    position: relative;
+    z-index: 1;
+}
+
+.search-header .search-top {
+    background: transparent;
+    padding: 10px 12px 8px;
+}
+
+.search-header .search-input-wrap {
+    background: rgba(255, 252, 240, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 2px rgba(110, 50, 0, 0.08);
+}
+
+.search-header .search-scope {
+    margin: 0 14px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 14px;
+    transform: translateY(0);
+    margin-bottom: 14px;
+}
+
+.search-header .search-scope-btn {
+    color: #7A1A1F;
+}
+
+.search-header .search-scope-btn.active {
+    background: #A5252C;
+    color: #FFE08A;
+    box-shadow: 0 3px 8px rgba(120, 30, 20, 0.3);
+}
+
+.search-overlay .search-body {
+    padding: 14px 12px calc(24px + var(--safe-bottom));
+}
+
+/* All results / suggestions sit in one glass card, like Settings and Journey */
+.search-card {
+    background: rgba(255, 236, 170, 0.82);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    padding: 6px 16px 18px;
+    box-shadow: 0 10px 30px rgba(110, 50, 0, 0.12);
+}
+
+.search-card > .journey-section-title:first-child {
+    margin-top: 14px;
+}
+
+.search-empty-hero {
+    text-align: center;
+    padding: 18px 6px 4px;
+}
+
+.search-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 10px;
+    border-radius: 18px;
+    background: rgba(165, 37, 44, 0.12);
+    color: #A5252C;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-empty-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #2C1D18;
+}
+
+.search-empty-hero .search-hint {
+    margin: 6px auto 0;
+    max-width: 300px;
+    text-align: center;
+    color: #7a6a5a;
+}
+
+.search-card .search-chips {
+    margin-bottom: 4px;
+}
+
+.search-card .search-status {
+    padding: 22px 6px 10px;
+}
+
+.search-glossary-card + .search-glossary-card {
+    margin-top: 8px;
+}
+
+/* Search results: each one its own glass tile (no row box, icon or chevron) */
+.search-card .search-group {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-card .search-result {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 3px 10px rgba(110, 50, 0, 0.06);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.search-card .search-result:active {
+    transform: scale(0.985);
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.search-result-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-result-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #A5252C;
+}
+
+.search-card .search-count {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 2px 9px;
+    font-size: 0.72rem;
+    background: rgba(165, 37, 44, 0.1);
+}
+
+.search-result-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #7a6a5a;
+    line-height: 1.35;
+}
+
+.search-card .search-snippet {
+    display: block;
+    margin-top: 6px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border-left: 3px solid rgba(230, 166, 35, 0.8);
+    background: rgba(255, 244, 214, 0.7);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #3d2f25;
+}
+
+.search-card .search-snippet mark {
+    padding: 0 2px;
+}
