@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=46">
+    <link rel="stylesheet" href="css/styles.css?v=50">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -280,6 +280,46 @@
                     </div>
                 </div>
                 <p class="settings-group-note"><span class="lang-guj">ગુજરાતી વાંચતી વખતે પણ મેનુ અંગ્રેજીમાં રાખી શકો.</span><span class="lang-eng">Keep menus in English while reading in Gujarati.</span></p>
+
+                <!-- Daily reminders (Android app only; js/reminders.js) -->
+                <div id="settings-reminders" style="display: none;">
+                <div class="settings-section-title"><span class="lang-guj">રિમાઇન્ડર</span><span class="lang-eng">Reminders</span></div>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-icon icon-orange"><i class="fas fa-sun"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">સવારે</span><span class="lang-eng">Morning</span></div>
+                            <div class="setting-desc"><span class="lang-guj">આગળનું વચનામૃત અને શિક્ષાપત્રી શ્લોક</span><span class="lang-eng">Next Vachanamrut and Shikshapatri shloka</span></div>
+                        </div>
+                        <input type="time" id="reminder-morning-time" class="reminder-time" value="07:00" aria-label="Morning time">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="reminder-morning-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon icon-indigo"><i class="fas fa-moon"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">સાંજે</span><span class="lang-eng">Evening</span></div>
+                            <div class="setting-desc"><span class="lang-guj">આગળનું વચનામૃત</span><span class="lang-eng">Next Vachanamrut</span></div>
+                        </div>
+                        <input type="time" id="reminder-evening-time" class="reminder-time" value="20:00" aria-label="Evening time">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="reminder-evening-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item settings-link-row" id="reminder-test-row">
+                        <div class="setting-icon icon-teal"><i class="fas fa-paper-plane"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">ટેસ્ટ રિમાઇન્ડર મોકલો</span><span class="lang-eng">Send a Test Reminder</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                </div>
+                <p class="settings-group-note" id="reminder-note"><span class="lang-guj">રિમાઇન્ડર ન આવે તો ફોનના બેટરી સેટિંગ્સમાં આ એપને બેકગ્રાઉન્ડમાં ચાલવા દો.</span><span class="lang-eng">Not getting reminders? Allow this app to run in the background in your phone's battery settings.</span></p>
+                <p class="settings-group-note reminder-denied" id="reminder-denied-note" style="display: none;"><span class="lang-guj">નોટિફિકેશન બંધ છે. ફોનના Settings → Apps → Vachanamrut → Notifications માં ચાલુ કરો.</span><span class="lang-eng">Notifications are off. Turn them on in your phone's Settings → Apps → Vachanamrut → Notifications.</span></p>
+                </div>
 
                 <div class="settings-section-title"><span class="lang-guj">વાંચન</span><span class="lang-eng">Reading</span></div>
                 <div class="settings-group">
@@ -806,10 +846,12 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=41"></script>
+    <script src="js/app.js?v=42"></script>
     <script src="js/shikshapatri.js?v=3"></script>
     <script src="js/search.js?v=7"></script>
-    <script src="js/annotations.js?v=3"></script>
+    <script src="js/annotations.js?v=4"></script>
+    <script src="js/reminders.js?v=7"></script>
+    <script src="js/onboarding.js?v=4"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

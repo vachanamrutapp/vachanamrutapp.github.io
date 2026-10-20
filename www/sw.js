@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.43.0';
+const CACHE_NAME = '1.48.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -13,6 +13,8 @@ const APP_SHELL = [
     './js/search.js',
     './js/shikshapatri.js',
     './js/annotations.js',
+    './js/reminders.js',
+    './js/onboarding.js',
     './manifest.json',
     './assets/data/vachanamrut.db',
     './images/logo-vachanamrut.png',

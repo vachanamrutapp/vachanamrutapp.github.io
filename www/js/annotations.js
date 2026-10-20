@@ -396,7 +396,8 @@
     const LIST_KEYS = ['vach_read_ids', 'sp_read_ids', 'vach_activity_dates', 'favourites', 'searchRecent'];
     const LATEST_KEYS = ['vach_last_read', 'sp_last_read'];
     const PLAIN_KEYS = ['bookmarkedVachanamrutId', 'shikshapatri-bookmark', 'vach_scroll', 'appLanguage', 'appTheme',
-        'appFontSizePercent', 'appTextSize', 'glossaryHighlightEnabled', 'showProgressTracking', 'audioEnabled', 'uiLanguage'];
+        'appFontSizePercent', 'appTextSize', 'glossaryHighlightEnabled', 'showProgressTracking', 'audioEnabled', 'uiLanguage',
+        'reminderMorning', 'reminderMorningTime', 'reminderEvening', 'reminderEveningTime', 'onboardingDone'];
 
     async function exportBackup() {
         const data = {};

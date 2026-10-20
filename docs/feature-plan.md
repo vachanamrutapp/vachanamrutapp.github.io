@@ -10,7 +10,7 @@ Everything here works **without internet and without accounts or servers**. All 
 | 4a | ✅ Built (unreleased) | Quick wins: resume where you stopped, audio speed + sleep timer, read time on tiles; glass audio bar |
 | 4b | ✅ Built (unreleased) | Audio backup source: jsDelivr, then GitHub raw, when vachanamrut.in is unreachable |
 | 3 | ✅ Built (unreleased) | Highlights (4 colours), notes, note per Vachanamrut, My Notes in Journey, backup & restore |
-| 1 | 📝 Planned — next | Daily reminder + first-run setup (detailed below) |
+| 1 | ✅ Built (unreleased) | Morning + evening reminders, first-run setup, Settings → Reminders (decisions below) |
 | 4c | Later | Bigger extras (list at the end) |
 
 **Unreleased** = on `main` / the website once pushed, but not yet in a signed Play build.
@@ -41,7 +41,26 @@ Everything here works **without internet and without accounts or servers**. All 
 
 ---
 
-## Phase 1 — Daily reminder + first-run setup (next, ~1–1.5 days)
+## Phase 1 — Daily reminders + first-run setup (built)
+
+**Decisions (2026-10-20):**
+1. Reminders start only after the user allows notifications. The setup card asks, and Settings can ask again later.
+2. There are two reminders, chosen in setup and in Settings: **Morning** (default 7:00, on by default in setup) and **Evening** (default 8:00 PM, off by default).
+3. Content is always "where you left off": the next Vachanamrut after the last one finished. **Shikshapatri appears only in the morning**, as the next shloka with its own "Shloka" button. The evening reminder is the Vachanamrut only.
+
+**As built:**
+- Code: `www/js/reminders.js` (scheduler) and `www/js/onboarding.js` (setup flow plus the Settings rows).
+- Reminders are inexact (`isExactNotification: false`), and `SCHEDULE_EXACT_ALARM` is removed from the manifest, so users never see an "Alarms & reminders" permission screen.
+- The next 14 days are re-scheduled on every app open or resume, and whenever a Vachanamrut or shloka is finished.
+- Setup for new users has 4 cards: Welcome and language → Reminders → Text size → All set. Users updating from an older version see only the "New: daily reminders" card.
+- Tested on an Android 16 emulator:
+  - the permission prompt appears
+  - 27 reminders are scheduled
+  - a test reminder arrives
+  - tapping it with the app killed opens the Vachanamrut, and the Shloka button opens the shloka
+  - the content moves on after reading
+
+The original plan follows, for reference.
 
 ### What the reader gets
 - **A gentle daily nudge, on by default at 7:00 AM device time.** Changeable or off in Settings, and offered in the first-run setup.

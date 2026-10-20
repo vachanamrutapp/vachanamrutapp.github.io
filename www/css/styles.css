@@ -6088,3 +6088,375 @@ body.ui-english #settings-ui-eng {
     font-size: 0.88rem;
     font-weight: 500;
 }
+
+/* Reminder time next to its toggle (Settings → Reminders) */
+.reminder-time {
+    flex-shrink: 0;
+    width: 118px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(118, 118, 128, 0.12);
+    color: #2C1D18;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.reminder-time:disabled {
+    opacity: 0.45;
+}
+
+.reminder-denied {
+    color: #C62828;
+}
+
+/* ===========================================================
+   First-run setup (js/onboarding.js)
+   =========================================================== */
+.setup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(60, 30, 0, 0.35);
+    animation: searchFadeIn 0.25s ease;
+    transition: opacity 0.3s ease;
+}
+
+.setup-overlay.closing {
+    opacity: 0;
+}
+
+.setup-sheet {
+    width: 100%;
+    max-width: 520px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 14px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    border-radius: 28px 28px 0 0;
+    background: linear-gradient(170deg, rgba(255, 250, 232, 0.98), rgba(255, 230, 165, 0.97));
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 -12px 34px rgba(110, 50, 0, 0.3);
+}
+
+.setup-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 30px;
+}
+
+.setup-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.setup-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.2);
+    transition: width 0.2s ease;
+}
+
+.setup-dots span.active {
+    width: 20px;
+    background: #A5252C;
+}
+
+.setup-skip {
+    border: none;
+    background: none;
+    color: #7a6a5a;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 6px 4px;
+    cursor: pointer;
+}
+
+.setup-card {
+    text-align: center;
+    padding: 8px 0 4px;
+    animation: searchFadeIn 0.25s ease;
+}
+
+.setup-logo {
+    width: 76px;
+    height: 76px;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(110, 50, 0, 0.25);
+    margin: 4px auto 12px;
+    display: block;
+}
+
+.setup-icon {
+    width: 60px;
+    height: 60px;
+    margin: 4px auto 12px;
+    border-radius: 18px;
+    background: #A5252C;
+    color: #FFE08A;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(142, 28, 34, 0.35);
+}
+
+.setup-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #2C1D18;
+    margin: 0 0 6px;
+}
+
+.setup-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #5d4e45;
+    margin: 0 auto 16px;
+    max-width: 340px;
+}
+
+.setup-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #A5252C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.setup-choice {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.setup-choice-btn {
+    flex: 1;
+    max-width: 160px;
+    height: 52px;
+    border-radius: 16px;
+    border: 2px solid rgba(165, 37, 44, 0.18);
+    background: rgba(255, 255, 255, 0.7);
+    color: #A5252C;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.setup-choice-btn.active {
+    border-color: #A5252C;
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+.setup-preview {
+    margin: 16px auto 0;
+    padding: 12px 14px;
+    max-width: 340px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #2C1D18;
+}
+
+.setup-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    margin: 0 0 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 2px solid rgba(165, 37, 44, 0.12);
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+.setup-option:has(input[type="checkbox"]:checked) {
+    border-color: #A5252C;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.setup-option input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    accent-color: #A5252C;
+    flex-shrink: 0;
+}
+
+.setup-option-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.setup-option-icon.icon-orange { background: #FF9500; }
+.setup-option-icon.icon-indigo { background: #5856D6; }
+
+.setup-option-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.setup-option-text b {
+    font-size: 0.95rem;
+    color: #2C1D18;
+}
+
+.setup-option-text small {
+    font-size: 0.75rem;
+    color: #7a6a5a;
+    line-height: 1.3;
+}
+
+.setup-fine {
+    font-size: 0.75rem;
+    color: #7a6a5a;
+    margin: 4px 0 0;
+}
+
+.setup-next,
+.setup-primary {
+    width: 100%;
+    height: 52px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 16px;
+    background: radial-gradient(circle at 30% 20%, #C8363E, #8E1C22 80%);
+    color: #FFE9A8;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(142, 28, 34, 0.35);
+    cursor: pointer;
+}
+
+.setup-primary i,
+.setup-secondary i {
+    margin-right: 6px;
+}
+
+.setup-secondary {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 16px;
+    border: 2px solid rgba(165, 37, 44, 0.25);
+    background: rgba(255, 255, 255, 0.7);
+    color: #A5252C;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.setup-link {
+    margin-top: 10px;
+    border: none;
+    background: none;
+    color: #7a6a5a;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Setup as the first screen: full-screen gold with the card centred */
+.setup-overlay.setup-fullscreen {
+    align-items: center;
+    padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
+    background-color: #E6A623;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)), url('../images/harikrishna-maharaj-bg.png');
+    background-size: cover;
+    background-position: center;
+    animation: none;
+}
+
+.setup-fullscreen .setup-sheet {
+    border-radius: 28px;
+    padding: 16px 20px 20px;
+    box-shadow: 0 16px 40px rgba(110, 50, 0, 0.3);
+}
+
+.setup-fullscreen .setup-top {
+    justify-content: center;
+    min-height: 16px;
+}
+
+.setup-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+    margin: 14px auto 0;
+    max-width: 340px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 2px solid rgba(165, 37, 44, 0.15);
+    background: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+}
+
+.setup-check[hidden] {
+    display: none;
+}
+
+.setup-check input {
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    accent-color: #A5252C;
+    flex-shrink: 0;
+}
+
+.setup-check b {
+    display: block;
+    font-size: 0.92rem;
+    color: #2C1D18;
+}
+
+.setup-check small {
+    display: block;
+    font-size: 0.75rem;
+    color: #7a6a5a;
+    line-height: 1.35;
+    margin-top: 2px;
+}
+
+/* Setup: back button (left), progress dots (centre) */
+.setup-fullscreen .setup-top {
+    justify-content: space-between;
+}
+
+.setup-back,
+.setup-back-spacer {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.setup-back {
+    border: none;
+    border-radius: 50%;
+    background: rgba(165, 37, 44, 0.08);
+    color: #A5252C;
+    font-size: 1rem;
+    cursor: pointer;
+}

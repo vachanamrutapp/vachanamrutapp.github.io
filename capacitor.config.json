@@ -15,6 +15,10 @@
     },
     "SystemBars": {
       "style": "LIGHT"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_reminder",
+      "iconColor": "#A5252C"
     }
   },
   "backgroundColor": "#E6A623"

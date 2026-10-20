@@ -1087,6 +1087,9 @@ async function init() {
 
         // First screen is ready: fade out the app's illustrated splash (index.html)
         if (window.hideNativeSplash) window.hideNativeSplash();
+        // Everything is loaded: reminders (re)schedule, a tapped reminder opens its reading, setup may show
+        window.appReady = true;
+        window.dispatchEvent(new Event('app-ready'));
 
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {
@@ -1597,6 +1600,7 @@ function markVachanamrutAsRead(id) {
     const todayStr = localDateString();
     localStorage.setItem('vach_last_read', JSON.stringify({ id, date: todayStr }));
     recordReadingDay(todayStr);
+    if (window.Reminders) Reminders.refreshSoon(); // tomorrow's reminder suggests the next one
 }
 
 // Today as YYYY-MM-DD in local time
@@ -1646,6 +1650,7 @@ function markShlokaAsRead(id) {
     const todayStr = localDateString();
     localStorage.setItem('sp_last_read', JSON.stringify({ id, date: todayStr }));
     recordReadingDay(todayStr);
+    if (window.Reminders) Reminders.refreshSoon();
 }
 
 function computeStreak(dates) {
@@ -2888,6 +2893,7 @@ function showScreen(screenId, pushState = true) {
     // Show requested screen
     document.getElementById(screenId).classList.add('active');
     if (screenId === 'settings-screen' && canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
+    if (screenId === 'settings-screen' && window.Onboarding) Onboarding.syncSettings();
 
     const scriptureOfScreen = {
         'home-screen': 'vachanamrut', 'section-detail-screen': 'vachanamrut', 'vachanamrut-detail-screen': 'vachanamrut',
@@ -3037,7 +3043,9 @@ function setupNavigation() {
     const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
     if (AppPlugin) {
         AppPlugin.addListener('backButton', () => {
-            if (window.Annotations && Annotations.handleBack()) {
+            if (window.Onboarding && Onboarding.handleBack()) {
+                // skipped a setup step
+            } else if (window.Annotations && Annotations.handleBack()) {
                 // closed the note sheet or highlight toolbar
             } else if (window.SearchUI && SearchUI.handleBack()) {
                 // closed search or find-in-page
