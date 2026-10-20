@@ -945,6 +945,9 @@ async function init() {
             }
         }
 
+        // First screen is ready: fade out the app's illustrated splash (index.html)
+        if (window.hideNativeSplash) window.hideNativeSplash();
+
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {
             navigator.serviceWorker.register('./sw.js');

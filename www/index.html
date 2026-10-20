@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=33">
+    <link rel="stylesheet" href="css/styles.css?v=34">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -116,6 +116,15 @@
 </head>
 
 <body>
+    <script>
+        // Android app: the illustrated launch splash is drawn natively (LaunchSplashPlugin.java);
+        // app.js calls this once the first screen is ready, and it fades out (shown at least ~1.2s).
+        window.hideNativeSplash = function () {
+            var cap = window.Capacitor;
+            if (!(cap && cap.isPluginAvailable && cap.isPluginAvailable('LaunchSplash'))) return;
+            setTimeout(function () { cap.Plugins.LaunchSplash.hide(); }, Math.max(0, 1200 - performance.now()));
+        };
+    </script>
     <noscript>
         <div style="padding: 20px; font-family: sans-serif; background-color: #f7f7f7; color: #333; max-width: 800px; margin: 0 auto;">
             <h1>Vachanamrut Online | વચનામૃત</h1>
@@ -744,7 +753,7 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=33"></script>
+    <script src="js/app.js?v=34"></script>
     <script src="js/shikshapatri.js?v=2"></script>
     <script src="js/search.js?v=1"></script>
     <script>

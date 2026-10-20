@@ -16,5 +16,6 @@
     "SystemBars": {
       "style": "LIGHT"
     }
-  }
+  },
+  "backgroundColor": "#E6A623"
 }

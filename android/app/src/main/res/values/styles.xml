@@ -24,7 +24,11 @@
     </style>
 
 
+    <!-- Launch: plain gold with no icon, so it leads straight into the illustrated splash (LaunchSplashPlugin.java) -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
-        <item name="android:background">@drawable/splash</item>
+        <item name="android:background">@color/systemBarsBackground</item>
+        <item name="windowSplashScreenBackground">@color/systemBarsBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
     </style>
 </resources>
