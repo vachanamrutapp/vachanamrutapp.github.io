@@ -510,27 +510,29 @@ function renderOfflineAudio(state, done = 0) {
     btn.disabled = false;
     btn.classList.remove('secondary');
 
-    if (state === 'downloading') {
-        status.textContent = `Downloading ${done} of ${total}… Keep the app open.`;
-        btn.textContent = 'Stop';
-        btn.classList.add('secondary');
-    } else if (state === 'complete') {
-        status.textContent = 'All audio downloaded. You can listen without internet.';
-        btn.textContent = 'Remove';
-        btn.classList.add('secondary');
-    } else if (state === 'partial') {
-        status.textContent = `${done} of ${total} downloaded. Tap Resume to finish.`;
-        btn.textContent = 'Resume';
-    } else if (state === 'error') {
-        status.textContent = `Download paused at ${done} of ${total}. Check your internet connection and tap Resume.`;
-        btn.textContent = 'Resume';
-    } else if (state === 'no-space') {
-        status.textContent = `Not enough free space. About ${OFFLINE_AUDIO_TOTAL_MB} MB is needed.`;
-        btn.textContent = 'Download';
-    } else {
-        status.textContent = `Download all audio to listen without internet (about ${OFFLINE_AUDIO_TOTAL_MB} MB).`;
-        btn.textContent = 'Download';
-    }
+    // [English, Gujarati] for each state, following the app language
+    const en = currentLanguage === 'english';
+    const n = num => (en ? num : toGujaratiDigits(num));
+    const mb = `${n(OFFLINE_AUDIO_TOTAL_MB)} MB`;
+    const text = {
+        downloading: [`Downloading ${done} of ${total}… Keep the app open.`, `ડાઉનલોડ થાય છે: ${n(done)} / ${n(total)}… એપ ખુલ્લી રાખો.`],
+        complete: ['All audio downloaded. You can listen without internet.', 'બધો ઓડિયો ડાઉનલોડ થયો. હવે ઇન્ટરનેટ વગર સાંભળી શકો છો.'],
+        partial: [`${done} of ${total} downloaded. Tap Resume to finish.`, `${n(done)} / ${n(total)} ડાઉનલોડ થયા. પૂરું કરવા "ફરી શરૂ" દબાવો.`],
+        error: [`Paused at ${done} of ${total}. Check your internet and tap Resume.`, `${n(done)} / ${n(total)} પર અટક્યું. ઇન્ટરનેટ તપાસી "ફરી શરૂ" દબાવો.`],
+        'no-space': [`Not enough free space. About ${mb} is needed.`, `પૂરતી જગ્યા નથી. આશરે ${mb} જોઈએ.`],
+        none: [`Download all audio to listen without internet (about ${mb}).`, `ઇન્ટરનેટ વગર સાંભળવા બધો ઓડિયો ડાઉનલોડ કરો (આશરે ${mb}).`],
+    };
+    const label = {
+        downloading: ['Stop', 'રોકો'],
+        complete: ['Remove', 'દૂર કરો'],
+        partial: ['Resume', 'ફરી શરૂ'],
+        error: ['Resume', 'ફરી શરૂ'],
+        'no-space': ['Download', 'ડાઉનલોડ'],
+        none: ['Download', 'ડાઉનલોડ'],
+    };
+    status.textContent = text[state][en ? 0 : 1];
+    btn.textContent = label[state][en ? 0 : 1];
+    if (state === 'downloading' || state === 'complete') btn.classList.add('secondary');
 }
 
 async function refreshOfflineAudio() {
@@ -603,7 +605,10 @@ function setupOfflineAudio() {
         }
         const done = await countOfflineAudio();
         if (done >= OFFLINE_AUDIO_FILES.length) {
-            if (confirm(`Remove downloaded audio? This frees about ${OFFLINE_AUDIO_TOTAL_MB} MB. Audio will stream from the internet again.`)) {
+            const question = currentLanguage === 'english'
+                ? `Remove downloaded audio? This frees about ${OFFLINE_AUDIO_TOTAL_MB} MB. Audio will stream from the internet again.`
+                : `ડાઉનલોડ કરેલો ઓડિયો દૂર કરવો છે? આશરે ${toGujaratiDigits(OFFLINE_AUDIO_TOTAL_MB)} MB જગ્યા ખાલી થશે. ઓડિયો ફરી ઇન્ટરનેટથી ચાલશે.`;
+            if (confirm(question)) {
                 await caches.delete(OFFLINE_AUDIO_CACHE);
                 refreshOfflineAudio();
             }
@@ -2466,7 +2471,7 @@ function setupMenu() {
     // Standalone Shikshapatri FAB click
     if (fabShikshapatriBtn) {
         fabShikshapatriBtn.addEventListener('click', () => {
-            window.location.href = './shikshapatri/';
+            window.location.href = './shikshapatri/index.html';
         });
     }
 
@@ -2507,7 +2512,7 @@ function setupMenu() {
     const settingsShikshapatriRow = document.getElementById('settings-shikshapatri-row');
     if (settingsShikshapatriRow) {
         settingsShikshapatriRow.addEventListener('click', () => {
-            window.location.href = './shikshapatri/';
+            window.location.href = './shikshapatri/index.html';
         });
     }
 
@@ -2523,18 +2528,20 @@ function setupMenu() {
     }
 
     // Toggle Collapsible Compilers Card in Settings
-    const compilersHeader = document.getElementById('settings-compilers-header');
-    const compilersContent = document.getElementById('settings-compilers-content');
-    if (compilersHeader && compilersContent) {
-        compilersHeader.addEventListener('click', () => {
-            const isCollapsed = compilersContent.style.display === 'none';
-            compilersContent.style.display = isCollapsed ? 'block' : 'none';
-            const icon = compilersHeader.querySelector('.toggle-icon');
+    // Collapsible Settings rows: Compilers & About, Reset App Data
+    [['settings-compilers-header', 'settings-compilers-content'], ['settings-reset-header', 'settings-reset-content']].forEach(([headerId, contentId]) => {
+        const header = document.getElementById(headerId);
+        const content = document.getElementById(contentId);
+        if (!header || !content) return;
+        header.addEventListener('click', () => {
+            const isCollapsed = content.style.display === 'none';
+            content.style.display = isCollapsed ? 'block' : 'none';
+            const icon = header.querySelector('.toggle-icon');
             if (icon) {
                 icon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
             }
         });
-    }
+    });
 
     // Journey reset button
     const journeyResetBtn = document.getElementById('journey-reset-btn');
@@ -2577,6 +2584,7 @@ function showScreen(screenId, pushState = true) {
 
     // Show requested screen
     document.getElementById(screenId).classList.add('active');
+    if (screenId === 'settings-screen' && canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
 
     // Toggle reading theme class on body
     if (screenId === 'vachanamrut-detail-screen') {
@@ -2714,6 +2722,20 @@ function setupNavigation() {
 
     // Initially hide back button
     backBtn.style.display = 'none';
+
+    // Android back gesture/button: close the popup, otherwise do what the ← arrow does, and leave the app from home.
+    const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+    if (AppPlugin) {
+        AppPlugin.addListener('backButton', () => {
+            if (document.body.classList.contains('facts-modal-open')) {
+                closeFactsModal();
+            } else if (document.getElementById('home-screen').classList.contains('active')) {
+                AppPlugin.exitApp();
+            } else {
+                backBtn.click();
+            }
+        });
+    }
 }
 
 // Add Font Awesome for icons
@@ -2727,6 +2749,13 @@ function loadFontAwesome() {
 // Display App Version from SW
 async function displayAppVersion() {
     try {
+        // Inside the app, show the store version (e.g. 1.2) rather than the website's cache version
+        const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+        if (isNativeApp && AppPlugin) {
+            const info = await AppPlugin.getInfo();
+            document.getElementById('app-version').textContent = `Version ${info.version} (${info.build})`;
+            return;
+        }
         const response = await fetch('./sw.js');
         if (response.ok) {
             const text = await response.text();
@@ -2735,7 +2764,7 @@ async function displayAppVersion() {
                 const version = match[1];
                 const versionElement = document.getElementById('app-version');
                 if (versionElement) {
-                    versionElement.textContent = `Version: ${version}`;
+                    versionElement.textContent = `Version ${version}`;
                 }
             }
         }
@@ -2775,6 +2804,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentLanguage = selectedLanguage;
             localStorage.setItem('appLanguage', currentLanguage);
             document.body.className = currentLanguage;
+            if (canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
 
             // Highlight the active button
             if (currentLanguage === 'english') {

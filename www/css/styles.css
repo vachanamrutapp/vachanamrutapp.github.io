@@ -1569,22 +1569,151 @@ body.gujarati .chapter-description {
     font-weight: 500;
 }
 
-.offline-audio-item {
-    gap: 14px;
+/* Settings page — built from the same pieces as the Journey screen */
+.settings-group {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    padding: 0 14px;
 }
 
-.offline-audio-text {
+.settings-page-card .setting-item {
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: none;
+}
+
+/* Divider between rows only (an expanded panel belongs to the row above it) */
+.settings-group > * + .setting-item {
+    border-top: 1px solid rgba(165, 37, 44, 0.08);
+}
+
+.settings-page-card .setting-item span {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.setting-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: rgba(165, 37, 44, 0.12);
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.setting-icon i {
+    color: #A5252C;
+    font-size: 14px;
+}
+
+.setting-text {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.offline-audio-text small {
+.setting-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2C1D18;
+    line-height: 1.25;
+}
+
+.setting-desc {
+    font-size: 0.78rem;
+    color: #7a6a5a;
+    line-height: 1.3;
+}
+
+.settings-page-card .toggle-switch {
+    flex-shrink: 0;
+}
+
+.settings-page-card .settings-row-chevron {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.settings-expand {
+    padding: 2px 0 14px;
+}
+
+.settings-page-card .authors-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 14px;
+}
+
+.settings-page-card .author-figure {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(165, 37, 44, 0.12);
+    border-radius: 12px;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.settings-page-card .author-photo {
+    width: 48px;
+    height: 48px;
+    aspect-ratio: auto;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid rgba(165, 37, 44, 0.2);
+}
+
+.settings-page-card .author-name {
+    font-size: 0.8rem;
+}
+
+.settings-about {
+    border-top: 1px solid rgba(165, 37, 44, 0.1);
+    padding-top: 12px;
+}
+
+.settings-about .about-vachanamrut-text {
     font-size: 0.85rem;
-    color: var(--text-light);
-    line-height: 1.35;
+    line-height: 1.55;
+}
+
+.settings-group-danger {
+    margin-top: 22px;
+}
+
+.settings-group-danger .setting-icon {
+    background: rgba(198, 40, 40, 0.1);
+}
+
+.settings-group-danger .setting-icon i {
+    color: #C62828;
+}
+
+.settings-expand-note {
+    font-size: 0.82rem;
+    color: #7a6a5a;
+    line-height: 1.4;
+    margin: 0 0 4px;
+}
+
+.settings-footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.settings-footer a {
+    color: #999;
 }
 
 .offline-audio-progress {

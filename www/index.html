@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=30">
+    <link rel="stylesheet" href="css/styles.css?v=31">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -225,74 +225,120 @@
 
         </div>
         <div id="settings-screen" class="screen">
-            <h2 class="screen-title">Settings</h2>
+            <div class="glass-card journey-page-card settings-page-card">
+                <h2 class="screen-title">
+                    <span class="lang-guj">સેટિંગ્સ</span>
+                    <span class="lang-eng">Settings</span>
+                </h2>
 
-            <div class="settings-card glass-card">
-                <h3>Media Settings / મીડિયા સેટિંગ્સ</h3>
-                <div class="setting-item">
-                    <span>Audio / ઓડિયો</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="audio-toggle">
-                        <span class="slider"></span>
-                    </label>
+                <div class="journey-section-title"><i class="fas fa-headphones"></i>
+                    <span class="lang-guj">ઓડિયો અને વિડિયો</span>
+                    <span class="lang-eng">Audio & Video</span>
                 </div>
-                <div class="setting-item">
-                    <span>Video / વિડિયો</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="video-toggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <!-- Shown only where audio streams (Android app); see setupOfflineAudio() -->
-                <div class="setting-item offline-audio-item" id="offline-audio-item" style="display: none;">
-                    <div class="offline-audio-text">
-                        <span>Offline Audio / ઓફલાઇન ઓડિયો</span>
-                        <small id="offline-audio-status">Download all audio to listen without internet (about 650 MB).</small>
-                        <div class="offline-audio-progress" id="offline-audio-progress" hidden>
-                            <div class="offline-audio-progress-fill" id="offline-audio-progress-fill"></div>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">ઓડિયો</span><span class="lang-eng">Audio</span></div>
+                            <div class="setting-desc"><span class="lang-guj">વાંચતી વખતે ઓડિયો પ્લેયર બતાવો</span><span class="lang-eng">Show the audio player while reading</span></div>
                         </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="audio-toggle">
+                            <span class="slider"></span>
+                        </label>
                     </div>
-                    <button type="button" id="offline-audio-btn" class="offline-audio-btn">Download</button>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-video"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">વિડિયો</span><span class="lang-eng">Video</span></div>
+                            <div class="setting-desc"><span class="lang-guj">વિડિયો સમજૂતી બતાવો</span><span class="lang-eng">Show video explanations</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="video-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <!-- Shown only where audio streams (Android app); see setupOfflineAudio() -->
+                    <div class="setting-item offline-audio-item" id="offline-audio-item" style="display: none;">
+                        <div class="setting-icon"><i class="fas fa-cloud-download-alt"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">ઓફલાઇન ઓડિયો</span><span class="lang-eng">Offline Audio</span></div>
+                            <div class="setting-desc" id="offline-audio-status"></div>
+                            <div class="offline-audio-progress" id="offline-audio-progress" hidden>
+                                <div class="offline-audio-progress-fill" id="offline-audio-progress-fill"></div>
+                            </div>
+                        </div>
+                        <button type="button" id="offline-audio-btn" class="offline-audio-btn"></button>
+                    </div>
                 </div>
 
-            </div>
+                <div class="journey-section-title"><i class="fas fa-book-open"></i>
+                    <span class="lang-guj">વાંચન</span>
+                    <span class="lang-eng">Reading</span>
+                </div>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-highlighter"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">શબ્દાર્થ હાઇલાઇટ</span><span class="lang-eng">Highlight Glossary</span></div>
+                            <div class="setting-desc"><span class="lang-guj">અર્થવાળા શબ્દો રેખાંકિત કરો</span><span class="lang-eng">Underline words that have meanings</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="glossary-highlight-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">પ્રગતિ ટ્રૅક કરો</span><span class="lang-eng">Track Progress</span></div>
+                            <div class="setting-desc"><span class="lang-guj">હોમ સ્ક્રીન પર વાંચન પ્રગતિ બતાવો</span><span class="lang-eng">Show reading progress on the home screen</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="progress-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
 
-            <div class="settings-card glass-card">
-                <h3>Reading Settings / વાંચન સેટિંગ્સ</h3>
-                <div class="setting-item">
-                    <span>Highlight Glossary / શબ્દાર્થ હાઇલાઇટ</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="glossary-highlight-toggle" checked>
-                        <span class="slider"></span>
-                    </label>
+                <div class="journey-section-title"><i class="fas fa-compass"></i>
+                    <span class="lang-guj">વધુ</span>
+                    <span class="lang-eng">Explore</span>
                 </div>
-                <div class="setting-item">
-                    <span>Track Progress / પ્રગતિ ટ્રૅક કરો</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="progress-toggle">
-                        <span class="slider"></span>
-                    </label>
+                <div class="settings-group">
+                    <div class="setting-item settings-link-row" id="settings-journey-row">
+                        <div class="setting-icon"><i class="fas fa-route"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">તમારી યાત્રા</span><span class="lang-eng">Your Journey</span></div>
+                            <div class="setting-desc"><span class="lang-guj">પ્રગતિ, સ્ટ્રીક અને સિદ્ધિઓ</span><span class="lang-eng">Progress, streak and milestones</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                    <div class="setting-item settings-link-row" id="settings-shikshapatri-row">
+                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
+                            <div class="setting-desc"><span class="lang-guj">સચિત્ર શ્લોકો સાથે શિક્ષાપત્રી વાંચો</span><span class="lang-eng">Read the Shikshapatri with illustrated shlokas</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
                 </div>
-                <div class="setting-item settings-link-row" id="settings-journey-row">
-                    <span><i class="fas fa-route"></i> Your Journey / તમારી યાત્રા</span>
-                    <i class="fas fa-chevron-right settings-row-chevron"></i>
-                </div>
-                <div class="setting-item settings-link-row" id="settings-shikshapatri-row">
-                    <span><i class="fas fa-scroll"></i> Shikshapatri / શિક્ષાપત્રી</span>
-                    <i class="fas fa-chevron-right settings-row-chevron"></i>
-                </div>
-            </div>
 
-            <div class="settings-card glass-card collapsible-settings-card" id="settings-compilers-card">
-                <div class="settings-card-header" id="settings-compilers-header">
-                    <h3>
-                        <span class="lang-guj">વચનામૃત સંપાદકો અને પરિચય</span>
-                        <span class="lang-eng">Compilers & About</span>
-                    </h3>
-                    <i class="fas fa-chevron-down toggle-icon"></i>
+                <div class="journey-section-title"><i class="fas fa-info-circle"></i>
+                    <span class="lang-guj">પરિચય</span>
+                    <span class="lang-eng">About</span>
                 </div>
-                <div class="settings-card-content" id="settings-compilers-content" style="display: none;">
-                    <div class="authors-grid" style="margin-top: 15px;">
+                <div class="settings-group">
+                    <div class="setting-item settings-link-row" id="settings-compilers-header">
+                        <div class="setting-icon"><i class="fas fa-feather-alt"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">વચનામૃત સંપાદકો અને પરિચય</span><span class="lang-eng">Compilers & About</span></div>
+                            <div class="setting-desc"><span class="lang-guj">ચાર સંપાદક સંતો અને વચનામૃતનો ઇતિહાસ</span><span class="lang-eng">The four compiling saints and the history</span></div>
+                        </div>
+                        <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
+                    </div>
+                    <div class="settings-expand" id="settings-compilers-content" style="display: none;">
+                        <div class="authors-grid">
                         <figure class="author-figure">
                             <img src="images/facts/authors/muktanandSwami.webp" alt="Muktanand Swami" class="author-photo">
                             <figcaption class="author-caption">
@@ -333,14 +379,9 @@
                                 <span class="author-dates">1799 – 1872</span>
                             </figcaption>
                         </figure>
-                    </div>
-
-                    <div class="about-vachanamrut-card glass-card" style="margin-top: 15px; margin-bottom: 0; box-shadow: none; border: 1px solid rgba(165, 37, 44, 0.15);">
-                        <h3 class="about-vachanamrut-title">
-                            <span class="lang-guj">વચનામૃત વિશે</span>
-                            <span class="lang-eng">About the Vachanāmrut</span>
-                        </h3>
-                        <p class="about-vachanamrut-text lang-eng">
+                        </div>
+                        <div class="settings-about">
+                            <p class="about-vachanamrut-text lang-eng">
                             The Vachanāmrut is a compilation of 273 spiritual discourses delivered by Bhagwān Swāminārāyan between 21 November 1819 and 25 July 1829. Over this decade, his senior paramhansas recorded nearly 2,000 sermons, ultimately selecting 262 discourses as canonical (with 11 additional discourses accepted by the Ahmedabad diocese).
                         </p>
                         <p class="about-vachanamrut-text lang-eng">
@@ -357,19 +398,36 @@
                             <span class="lang-eng">Source:</span>
                             <a href="https://en.wikipedia.org/wiki/Vachanamrut" target="_blank" rel="noopener noreferrer">Wikipedia — Vachanamrut</a>
                         </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="settings-card glass-card settings-centered">
-                <div class="settings-header-badge">
-                    <h3>Reset Settings</h3>
-                    <span class="danger-badge">DANGER ZONE</span>
+                <div class="settings-group settings-group-danger">
+                    <div class="setting-item settings-link-row" id="settings-reset-header">
+                        <div class="setting-icon"><i class="fas fa-undo-alt"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">એપ ડેટા રીસેટ કરો</span><span class="lang-eng">Reset App Data</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બુકમાર્ક, મનપસંદ અને પ્રગતિ સાફ કરો</span><span class="lang-eng">Clear bookmarks, favourites and progress</span></div>
+                        </div>
+                        <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
+                    </div>
+                    <div class="settings-expand" id="settings-reset-content" style="display: none;">
+                        <p class="settings-expand-note">
+                            <span class="lang-guj">આ તમારા બધા બુકમાર્ક, મનપસંદ, વાંચન પ્રગતિ અને સેટિંગ્સ કાઢી નાખશે. ડાઉનલોડ કરેલો ઓડિયો રહેશે.</span>
+                            <span class="lang-eng">This deletes all your bookmarks, favourites, reading progress and settings. Downloaded audio is kept.</span>
+                        </p>
+                        <button id="reset-app-btn" type="button" class="danger-btn-subtle">
+                            <span class="lang-guj">બધું રીસેટ કરો</span>
+                            <span class="lang-eng">Reset everything</span>
+                        </button>
+                    </div>
                 </div>
-                <p class="settings-note">This will clear all bookmarks and favourites.</p>
-                <button id="reset-app-btn" type="button" class="danger-btn-subtle">Reset App Data</button>
-                <p id="app-version" class="settings-version">Version: Loading...</p>
-                <p class="settings-note"><a href="privacy.html" style="color: var(--color-royal-blue);">Privacy Policy</a></p>
+
+                <div class="settings-footer">
+                    <span id="app-version">Version</span> · <a href="privacy.html">
+                        <span class="lang-guj">ગોપનીયતા નીતિ</span><span class="lang-eng">Privacy Policy</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -525,7 +583,7 @@
     </div>
 
     <script src="js/sql-wasm.js"></script>
-    <script src="js/app.js?v=30"></script>
+    <script src="js/app.js?v=31"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

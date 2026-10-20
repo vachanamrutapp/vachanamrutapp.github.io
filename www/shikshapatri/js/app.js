@@ -681,5 +681,11 @@ if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNat
     });
 }
 
+// Android back gesture/button: same as the ← arrow (sloka → list → back to Vachanamrut)
+const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+if (AppPlugin) {
+    AppPlugin.addListener('backButton', () => backBtn.click());
+}
+
 // Start app
 init();
