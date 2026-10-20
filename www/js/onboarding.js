@@ -73,7 +73,7 @@
     const STEPS = {
         welcome: () => `
             <div class="setup-card" data-step="welcome">
-                <img class="setup-logo" src="images/app-icon.png" alt="">
+                <img class="setup-logo" src="images/app-logo.png" alt="">
                 <h2 class="setup-title">${g('જય સ્વામિનારાયણ', 'Jay Swaminarayan')}</h2>
                 <p class="setup-text">${g('વચનામૃત અને શિક્ષાપત્રી, એક જ એપમાં — વાંચો, સાંભળો, શોધો અને નોંધ કરો.', 'The Vachanamrut and the Shikshapatri in one app: read, listen, search and take notes.')}</p>
                 <div class="setup-label">App language · એપની ભાષા</div>
