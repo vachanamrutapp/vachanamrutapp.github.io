@@ -251,21 +251,17 @@
         </div>
         <div id="settings-screen" class="screen">
             <div class="glass-card journey-page-card settings-page-card">
-                <h2 class="screen-title">
-                    <span class="lang-guj">સેટિંગ્સ</span>
-                    <span class="lang-eng">Settings</span>
-                </h2>
-
-                <div class="journey-section-title"><i class="fas fa-book-reader"></i>
-                    <span class="lang-guj">ભાષા અને વાંચન</span>
-                    <span class="lang-eng">Language & Reading</span>
+                <div class="hub-tabs" role="tablist" aria-label="Settings and Journey">
+                    <button type="button" class="hub-tab active" role="tab" aria-selected="true" data-hub="settings-screen"><span class="lang-guj">સેટિંગ્સ</span><span class="lang-eng">Settings</span></button>
+                    <button type="button" class="hub-tab" role="tab" aria-selected="false" data-hub="journey-screen"><span class="lang-guj">યાત્રા</span><span class="lang-eng">Journey</span></button>
                 </div>
+
+                <div class="settings-section-title"><span class="lang-guj">ભાષા</span><span class="lang-eng">Language</span></div>
                 <div class="settings-group">
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-language"></i></div>
+                        <div class="setting-icon icon-blue"><i class="fas fa-language"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">ભાષા</span><span class="lang-eng">Language</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોનું લખાણ અને અનુવાદ</span><span class="lang-eng">Text and translations in both scriptures</span></div>
+                            <div class="setting-name"><span class="lang-guj">લખાણ</span><span class="lang-eng">Text</span></div>
                         </div>
                         <div class="settings-segmented" role="group" aria-label="Language">
                             <button type="button" id="settings-lang-guj" class="settings-seg-btn">ગુજરાતી</button>
@@ -273,21 +269,24 @@
                         </div>
                     </div>
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-sliders-h"></i></div>
+                        <div class="setting-icon icon-gray"><i class="fas fa-sliders-h"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">મેનુ અને બટન</span><span class="lang-eng">Menus &amp; Buttons</span></div>
-                            <div class="setting-desc"><span class="lang-guj">ગુજરાતી વાંચતી વખતે પણ મેનુ અંગ્રેજીમાં રાખી શકો</span><span class="lang-eng">Keep menus in English while reading in Gujarati</span></div>
                         </div>
                         <div class="settings-segmented" role="group" aria-label="Menus and buttons language">
                             <button type="button" id="settings-ui-auto" class="settings-seg-btn"><span class="lang-guj">લખાણ પ્રમાણે</span><span class="lang-eng">As text</span></button>
                             <button type="button" id="settings-ui-eng" class="settings-seg-btn">English</button>
                         </div>
                     </div>
+                </div>
+                <p class="settings-group-note"><span class="lang-guj">ગુજરાતી વાંચતી વખતે પણ મેનુ અંગ્રેજીમાં રાખી શકો.</span><span class="lang-eng">Keep menus in English while reading in Gujarati.</span></p>
+
+                <div class="settings-section-title"><span class="lang-guj">વાંચન</span><span class="lang-eng">Reading</span></div>
+                <div class="settings-group">
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-text-height"></i></div>
+                        <div class="setting-icon icon-indigo"><i class="fas fa-text-height"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">અક્ષરનું કદ</span><span class="lang-eng">Text Size</span></div>
-                            <div class="setting-desc"><span class="lang-guj">આખી એપમાં અક્ષર મોટા કરો</span><span class="lang-eng">Make text bigger across the whole app</span></div>
                         </div>
                         <div class="settings-segmented" role="group" aria-label="Text size">
                             <button type="button" id="settings-text-default" class="settings-seg-btn"><span class="lang-guj">સામાન્ય</span><span class="lang-eng">Default</span></button>
@@ -295,10 +294,9 @@
                         </div>
                     </div>
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-highlighter"></i></div>
+                        <div class="setting-icon icon-orange"><i class="fas fa-highlighter"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">શબ્દાર્થ હાઇલાઇટ</span><span class="lang-eng">Highlight Glossary</span></div>
-                            <div class="setting-desc"><span class="lang-guj">વચનામૃતમાં અર્થવાળા શબ્દો રેખાંકિત કરો</span><span class="lang-eng">Underline words with meanings in the Vachanamrut</span></div>
                         </div>
                         <label class="toggle-switch">
                             <input type="checkbox" id="glossary-highlight-toggle" checked>
@@ -306,10 +304,9 @@
                         </label>
                     </div>
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="setting-icon icon-green"><i class="fas fa-chart-line"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">પ્રગતિ ટ્રૅક કરો</span><span class="lang-eng">Track Progress</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોમાં વાંચેલું બતાવો અને યાત્રામાં ગણો</span><span class="lang-eng">Mark what you have read in both, and count it in Your Journey</span></div>
                         </div>
                         <label class="toggle-switch">
                             <input type="checkbox" id="progress-toggle">
@@ -317,48 +314,14 @@
                         </label>
                     </div>
                 </div>
+                <p class="settings-group-note"><span class="lang-guj">શબ્દાર્થ: વચનામૃતમાં અર્થવાળા શબ્દો રેખાંકિત થાય. પ્રગતિ: બંને ગ્રંથોમાં વાંચેલું બતાવે અને યાત્રામાં ગણાય.</span><span class="lang-eng">Glossary underlines words with meanings in the Vachanamrut. Progress marks what you have read in both scriptures and counts it in Journey.</span></p>
 
-                <div class="journey-section-title"><i class="fas fa-book"></i>
-                    <span class="lang-guj">ગ્રંથો</span>
-                    <span class="lang-eng">Scriptures</span>
-                </div>
-                <div class="settings-group">
-                    <div class="setting-item settings-link-row" id="settings-vachanamrut-row">
-                        <div class="setting-icon"><i class="fas fa-book-open"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
-                            <div class="setting-desc"><span class="lang-guj">૨૬૨ વચનામૃત · ગુજરાતી અને અંગ્રેજી, ઓડિયો સાથે</span><span class="lang-eng">262 discourses · Gujarati and English, with audio</span></div>
-                        </div>
-                        <i class="fas fa-chevron-right settings-row-chevron"></i>
-                    </div>
-                    <div class="setting-item settings-link-row" id="settings-shikshapatri-row">
-                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
-                            <div class="setting-desc"><span class="lang-guj">૨૧૨ શ્લોક · ચિત્ર અને અનુવાદ સાથે</span><span class="lang-eng">212 shlokas · illustrated, with translation</span></div>
-                        </div>
-                        <i class="fas fa-chevron-right settings-row-chevron"></i>
-                    </div>
-                    <div class="setting-item settings-link-row" id="settings-journey-row">
-                        <div class="setting-icon"><i class="fas fa-route"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">તમારી યાત્રા</span><span class="lang-eng">Your Journey</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોની પ્રગતિ, સ્ટ્રીક અને સિદ્ધિઓ</span><span class="lang-eng">Progress, streak and milestones for both</span></div>
-                        </div>
-                        <i class="fas fa-chevron-right settings-row-chevron"></i>
-                    </div>
-                </div>
-
-                <div class="journey-section-title"><i class="fas fa-headphones"></i>
-                    <span class="lang-guj">ઓડિયો અને વિડિયો</span>
-                    <span class="lang-eng">Audio & Video</span>
-                </div>
+                <div class="settings-section-title"><span class="lang-guj">ઓડિયો અને વિડિયો</span><span class="lang-eng">Audio &amp; Video</span></div>
                 <div class="settings-group">
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="setting-icon icon-pink"><i class="fas fa-volume-up"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">ઓડિયો</span><span class="lang-eng">Audio</span></div>
-                            <div class="setting-desc"><span class="lang-guj">વચનામૃતનું પઠન સાંભળો</span><span class="lang-eng">Listen to the Vachanamrut narration</span></div>
+                            <div class="setting-name"><span class="lang-guj">ઓડિયો પઠન</span><span class="lang-eng">Audio Narration</span></div>
                         </div>
                         <label class="toggle-switch">
                             <input type="checkbox" id="audio-toggle">
@@ -366,10 +329,9 @@
                         </label>
                     </div>
                     <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-video"></i></div>
+                        <div class="setting-icon icon-red"><i class="fas fa-video"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">વિડિયો</span><span class="lang-eng">Video</span></div>
-                            <div class="setting-desc"><span class="lang-guj">વિડિયો સમજૂતી બતાવો</span><span class="lang-eng">Show video explanations</span></div>
+                            <div class="setting-name"><span class="lang-guj">વિડિયો સમજૂતી</span><span class="lang-eng">Video Explanations</span></div>
                         </div>
                         <label class="toggle-switch">
                             <input type="checkbox" id="video-toggle">
@@ -377,7 +339,7 @@
                         </label>
                     </div>
                     <div class="setting-item offline-audio-item" id="offline-audio-item" style="display: none;">
-                        <div class="setting-icon"><i class="fas fa-cloud-download-alt"></i></div>
+                        <div class="setting-icon icon-teal"><i class="fas fa-cloud-download-alt"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">ઓફલાઇન ઓડિયો</span><span class="lang-eng">Offline Audio</span></div>
                             <div class="setting-desc" id="offline-audio-status"></div>
@@ -389,40 +351,32 @@
                     </div>
                 </div>
 
-                <div class="journey-section-title"><i class="fas fa-database"></i>
-                    <span class="lang-guj">તમારો ડેટા</span>
-                    <span class="lang-eng">Your Data</span>
-                </div>
+                <div class="settings-section-title"><span class="lang-guj">તમારો ડેટા</span><span class="lang-eng">Your Data</span></div>
                 <div class="settings-group">
                     <div class="setting-item settings-link-row" id="settings-export-row">
-                        <div class="setting-icon"><i class="fas fa-file-export"></i></div>
+                        <div class="setting-icon icon-green"><i class="fas fa-file-export"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">બેકઅપ લો</span><span class="lang-eng">Back up</span></div>
-                            <div class="setting-desc"><span class="lang-guj">નોંધ, હાઇલાઇટ, પ્રગતિ અને બુકમાર્ક એક ફાઈલમાં સાચવો</span><span class="lang-eng">Save notes, highlights, progress and bookmarks to a file</span></div>
+                            <div class="setting-name"><span class="lang-guj">બેકઅપ લો</span><span class="lang-eng">Back Up</span></div>
                         </div>
                         <i class="fas fa-chevron-right settings-row-chevron"></i>
                     </div>
                     <div class="setting-item settings-link-row" id="settings-import-row">
-                        <div class="setting-icon"><i class="fas fa-file-import"></i></div>
+                        <div class="setting-icon icon-blue"><i class="fas fa-file-import"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">બેકઅપ પાછો લાવો</span><span class="lang-eng">Restore</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બેકઅપ ફાઈલમાંથી પાછું લાવો (હાલનું ડેટા સાથે જોડાશે)</span><span class="lang-eng">Bring back a backup file (merged with what is here)</span></div>
                         </div>
                         <i class="fas fa-chevron-right settings-row-chevron"></i>
                     </div>
                     <input type="file" id="backup-file-input" accept="application/json,.json" hidden>
                 </div>
+                <p class="settings-group-note"><span class="lang-guj">નોંધ, હાઇલાઇટ, પ્રગતિ અને બુકમાર્ક એક ફાઈલમાં સચવાય. પાછો લાવો ત્યારે હાલના ડેટા સાથે જોડાશે.</span><span class="lang-eng">Saves notes, highlights, progress and bookmarks to a file. Restoring merges it with what is here.</span></p>
 
-                <div class="journey-section-title"><i class="fas fa-info-circle"></i>
-                    <span class="lang-guj">પરિચય</span>
-                    <span class="lang-eng">About</span>
-                </div>
+                <div class="settings-section-title"><span class="lang-guj">પરિચય</span><span class="lang-eng">About</span></div>
                 <div class="settings-group">
                     <div class="setting-item settings-link-row" id="settings-compilers-header">
-                        <div class="setting-icon"><i class="fas fa-feather-alt"></i></div>
+                        <div class="setting-icon icon-brown"><i class="fas fa-book-open"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">વચનામૃત વિશે</span><span class="lang-eng">About the Vachanamrut</span></div>
-                            <div class="setting-desc"><span class="lang-guj">ચાર સંપાદક સંતો અને ઇતિહાસ</span><span class="lang-eng">The four compiling saints and its history</span></div>
+                            <div class="setting-name"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
                         </div>
                         <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
                     </div>
@@ -490,10 +444,9 @@
                         </div>
                     </div>
                     <div class="setting-item settings-link-row" id="settings-sp-about-header">
-                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                        <div class="setting-icon icon-brown"><i class="fas fa-scroll"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી વિશે</span><span class="lang-eng">About the Shikshapatri</span></div>
-                            <div class="setting-desc"><span class="lang-guj">ભગવાન શ્રીસ્વામિનારાયણે લખેલી આજ્ઞાઓ</span><span class="lang-eng">The code of conduct written by Bhagwan Swaminarayan</span></div>
+                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
                         </div>
                         <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
                     </div>
@@ -522,10 +475,9 @@
 
                 <div class="settings-group settings-group-danger">
                     <div class="setting-item settings-link-row" id="settings-reset-header">
-                        <div class="setting-icon"><i class="fas fa-undo-alt"></i></div>
+                        <div class="setting-icon icon-red"><i class="fas fa-undo-alt"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">એપ ડેટા રીસેટ કરો</span><span class="lang-eng">Reset App Data</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોના બુકમાર્ક, મનપસંદ અને પ્રગતિ</span><span class="lang-eng">Bookmarks, favourites and progress for both</span></div>
                         </div>
                         <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
                     </div>
@@ -551,17 +503,17 @@
 
         <!-- Journey Screen -->
         <div id="journey-screen" class="screen">
-            <div class="glass-card journey-page-card">
-                <h2 class="screen-title">
-                    <span class="lang-guj">તમારી યાત્રા</span>
-                    <span class="lang-eng">Your Journey</span>
-                </h2>
+            <div class="glass-card journey-page-card settings-page-card">
+                <div class="hub-tabs" role="tablist" aria-label="Settings and Journey">
+                    <button type="button" class="hub-tab" role="tab" aria-selected="false" data-hub="settings-screen"><span class="lang-guj">સેટિંગ્સ</span><span class="lang-eng">Settings</span></button>
+                    <button type="button" class="hub-tab active" role="tab" aria-selected="true" data-hub="journey-screen"><span class="lang-guj">યાત્રા</span><span class="lang-eng">Journey</span></button>
+                </div>
 
                 <!-- Progress: one card per scripture -->
                 <div class="journey-progress">
                     <div class="journey-progress-card">
                         <div class="journey-progress-head">
-                            <div class="setting-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="setting-icon icon-brown"><i class="fas fa-book-open"></i></div>
                             <div class="journey-progress-name"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
                             <div id="journey-page-pct" class="journey-progress-pct">0%</div>
                         </div>
@@ -578,7 +530,7 @@
                     </div>
                     <div class="journey-progress-card">
                         <div class="journey-progress-head">
-                            <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                            <div class="setting-icon icon-orange"><i class="fas fa-scroll"></i></div>
                             <div class="journey-progress-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
                             <div id="sp-journey-pct" class="journey-progress-pct">0%</div>
                         </div>
@@ -597,8 +549,7 @@
                 <div id="journey-page-last-read-date" class="journey-ring-date"></div>
 
                 <!-- Section map -->
-                <div class="journey-section-title"><i class="fas fa-map"></i>
-                    <span class="lang-guj">વિભાગ નકશો</span>
+                <div class="settings-section-title"><span class="lang-guj">વિભાગ નકશો</span>
                     <span class="lang-eng">Section Map</span>
                 </div>
                 <div class="journey-map-label"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
@@ -607,8 +558,7 @@
                 <div id="sp-journey-map" class="journey-section-map"></div>
 
                 <!-- Streak -->
-                <div class="journey-section-title"><i class="fas fa-fire"></i>
-                    <span class="lang-guj">દૈનિક સ્ટ્રીક</span>
+                <div class="settings-section-title"><span class="lang-guj">દૈનિક સ્ટ્રીક</span>
                     <span class="lang-eng">Daily Streak</span>
                 </div>
                 <div class="journey-streak-card">
@@ -623,15 +573,13 @@
                 </div>
 
                 <!-- Milestones -->
-                <div class="journey-section-title"><i class="fas fa-award"></i>
-                    <span class="lang-guj">સિદ્ધિઓ</span>
+                <div class="settings-section-title"><span class="lang-guj">સિદ્ધિઓ</span>
                     <span class="lang-eng">Milestones</span>
                 </div>
                 <div id="journey-milestones" class="journey-milestones"></div>
 
                 <!-- Favourites Section -->
-                <div class="journey-section-title" id="journey-favourites-title"><i class="fas fa-heart"></i>
-                    <span class="lang-guj">મનપસંદ વચનામૃતો</span>
+                <div class="settings-section-title" id="journey-favourites-title"><span class="lang-guj">મનપસંદ વચનામૃતો</span>
                     <span class="lang-eng">Favorite Vachanamruts</span>
                 </div>
                 <div id="favourites-list"></div>
@@ -641,8 +589,7 @@
                 </div>
 
                 <!-- My Notes & Highlights (js/annotations.js) -->
-                <div class="journey-section-title"><i class="fas fa-highlighter"></i>
-                    <span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span>
+                <div class="settings-section-title"><span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span>
                     <span class="lang-eng">My Notes &amp; Highlights</span>
                     <span id="my-notes-count" class="my-notes-count">0</span>
                 </div>

@@ -2738,23 +2738,12 @@ function setupMenu() {
         });
     }
 
-    // Journey row inside Settings
-    const settingsJourneyRow = document.getElementById('settings-journey-row');
-    if (settingsJourneyRow) {
-        settingsJourneyRow.addEventListener('click', () => {
-            showScreen('journey-screen');
+    // Settings / Journey pills at the top of both screens
+    document.querySelectorAll('.hub-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            if (!document.getElementById(tab.dataset.hub).classList.contains('active')) showScreen(tab.dataset.hub);
         });
-    }
-
-    // Shikshapatri row inside Settings
-    const settingsShikshapatriRow = document.getElementById('settings-shikshapatri-row');
-    if (settingsShikshapatriRow) {
-        settingsShikshapatriRow.addEventListener('click', () => {
-            returnToScripture('shikshapatri');
-        });
-    }
-    const settingsVachanamrutRow = document.getElementById('settings-vachanamrut-row');
-    if (settingsVachanamrutRow) settingsVachanamrutRow.addEventListener('click', () => returnToScripture('vachanamrut'));
+    });
 
     // Settings → Language: same as the ગુજ / EN switch in the header
     document.getElementById('settings-lang-guj').addEventListener('click', () => document.getElementById('lang-btn-guj').click());
@@ -2929,7 +2918,7 @@ function showScreen(screenId, pushState = true) {
 
 
 
-    // Bottom bar: Settings is active on Settings and on Journey (which lives inside Settings)
+    // Bottom bar: Settings is active on Settings and on its Journey tab
     if (footerSettingsBtn) {
         footerSettingsBtn.classList.toggle('active', screenId === 'settings-screen' || screenId === 'journey-screen');
     }
@@ -3032,10 +3021,8 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (document.getElementById('journey-screen').classList.contains('active')) {
-            showScreen('settings-screen'); // Journey lives inside Settings
-        } else if (settingsScreen.classList.contains('active')) {
-            returnToScripture();
+        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
+            returnToScripture(); // Settings and Journey are tabs of one place
         } else if (document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
             showScreen('home-screen'); // Shikshapatri list → Vachanamrut home
         } else if (window.Shikshapatri) {

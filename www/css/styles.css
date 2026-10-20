@@ -5567,3 +5567,524 @@ body.ui-english #settings-ui-eng {
 .search-card .search-snippet mark {
     padding: 0 2px;
 }
+
+/* ===========================================================
+   Settings · Journey pill tabs, and Settings as an iOS-style grouped list
+   =========================================================== */
+.hub-tabs {
+    display: flex;
+    gap: 4px;
+    max-width: 300px;
+    margin: 0 auto 16px;
+    padding: 3px;
+    background: rgba(165, 37, 44, 0.08);
+    border: 1px solid rgba(165, 37, 44, 0.12);
+    border-radius: 999px;
+}
+
+.hub-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #A5252C;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hub-tab.active {
+    background: #A5252C;
+    color: #FFE08A;
+    box-shadow: 0 2px 8px rgba(165, 37, 44, 0.25);
+}
+
+.settings-page-card {
+    padding: 20px 14px;
+}
+
+.settings-section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #7a6a5a;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 20px 12px 6px;
+}
+
+.hub-tabs + .settings-section-title {
+    margin-top: 4px;
+}
+
+.settings-page-card .settings-group {
+    background: rgba(255, 255, 255, 0.72);
+    border: none;
+    border-radius: 12px;
+    padding: 0 0 0 12px;
+}
+
+.settings-page-card .setting-item {
+    position: relative;
+    gap: 12px;
+    min-height: 44px;
+    padding: 7px 12px 7px 0;
+}
+
+/* Hairline between rows, starting at the label like iOS */
+.settings-page-card .settings-group > * + .setting-item {
+    border-top: none;
+}
+
+.settings-page-card .settings-group > * + .setting-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40px;
+    right: 0;
+    height: 1px;
+    background: rgba(60, 40, 30, 0.1);
+}
+
+.settings-page-card .setting-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: #8E8E93;
+}
+
+.settings-page-card .setting-icon i {
+    color: #fff;
+    font-size: 13px;
+}
+
+.settings-page-card .setting-icon.icon-blue { background: #007AFF; }
+.settings-page-card .setting-icon.icon-gray { background: #8E8E93; }
+.settings-page-card .setting-icon.icon-indigo { background: #5856D6; }
+.settings-page-card .setting-icon.icon-orange { background: #FF9500; }
+.settings-page-card .setting-icon.icon-green { background: #34C759; }
+.settings-page-card .setting-icon.icon-pink { background: #FF2D55; }
+.settings-page-card .setting-icon.icon-red { background: #FF3B30; }
+.settings-page-card .setting-icon.icon-teal { background: #30B0C7; }
+.settings-page-card .setting-icon.icon-brown { background: #A5252C; }
+
+.settings-page-card .setting-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #2C1D18;
+}
+
+.settings-page-card .setting-desc {
+    font-size: 0.72rem;
+}
+
+.settings-group-note {
+    font-size: 0.72rem;
+    color: #7a6a5a;
+    line-height: 1.4;
+    margin: 6px 12px 0;
+}
+
+.settings-page-card .settings-segmented {
+    background: rgba(118, 118, 128, 0.12);
+    border: none;
+    border-radius: 8px;
+}
+
+.settings-page-card .settings-seg-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+
+.settings-page-card .toggle-switch {
+    width: 44px;
+    height: 26px;
+}
+
+.settings-page-card .slider {
+    border: none;
+    background-color: rgba(120, 120, 128, 0.24);
+}
+
+.settings-page-card .slider:before {
+    width: 22px;
+    height: 22px;
+    left: 2px;
+    bottom: 2px;
+}
+
+.settings-page-card input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+.settings-page-card .settings-row-chevron {
+    color: #b3a594;
+    opacity: 1;
+    font-size: 0.75rem;
+}
+
+.settings-page-card .settings-expand {
+    padding: 2px 12px 14px 0;
+}
+
+.settings-page-card .offline-audio-btn {
+    padding: 5px 12px;
+    font-size: 0.76rem;
+}
+
+.settings-page-card .settings-group-danger {
+    margin-top: 20px;
+}
+
+.settings-page-card .settings-group-danger .setting-name {
+    color: #C62828;
+}
+
+.settings-page-card .settings-footer {
+    margin-top: 20px;
+    font-size: 0.72rem;
+}
+
+/* ===========================================================
+   Journey tab in the same grouped style as Settings
+   =========================================================== */
+#journey-screen .settings-section-title {
+    margin-top: 22px;
+}
+
+/* Progress: one white group per scripture, Continue as its last row */
+#journey-screen .journey-progress {
+    gap: 12px;
+}
+
+#journey-screen .journey-progress-card {
+    background: rgba(255, 255, 255, 0.72);
+    border: none;
+    border-radius: 12px;
+    box-shadow: none;
+    padding: 12px 12px 0;
+}
+
+#journey-screen .journey-progress-name {
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+#journey-screen .journey-progress-pct {
+    font-size: 1.25rem;
+}
+
+#journey-screen .journey-progress-bar {
+    height: 6px;
+    margin: 10px 0 6px;
+}
+
+#journey-screen .journey-progress-count {
+    font-size: 0.72rem;
+    padding-bottom: 10px;
+}
+
+#journey-screen .journey-progress-card .journey-continue-btn {
+    margin: 0;
+    padding: 11px 0;
+    border-radius: 0;
+    background: none;
+    border-top: 1px solid rgba(60, 40, 30, 0.1);
+    font-size: 0.82rem;
+}
+
+#journey-screen .journey-continue-chevron {
+    color: #b3a594;
+    opacity: 1;
+}
+
+#journey-screen #journey-page-last-read-date {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: #7a6a5a;
+    margin-top: 8px;
+}
+
+/* Section map */
+#journey-screen .journey-map-label {
+    font-size: 0.72rem;
+    font-weight: 400;
+    margin: 0 12px 6px;
+}
+
+#journey-screen .journey-section-map {
+    gap: 5px;
+}
+
+#journey-screen .journey-map-cell {
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+#journey-screen .journey-map-cell.complete {
+    background: #A5252C;
+}
+
+#journey-screen .journey-map-num {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Streak and stats */
+#journey-screen .journey-streak-card {
+    background: rgba(255, 255, 255, 0.72);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+#journey-screen .journey-week-dot {
+    width: 20px;
+    height: 20px;
+    background: rgba(118, 118, 128, 0.14);
+}
+
+#journey-screen .journey-week-day.active .journey-week-dot {
+    background: #A5252C;
+}
+
+#journey-screen .journey-streak-count span:first-child {
+    font-size: 1.25rem;
+}
+
+#journey-screen .journey-chips {
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#journey-screen .journey-chip {
+    background: rgba(255, 255, 255, 0.72);
+    border: none;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.74rem;
+    font-weight: 500;
+}
+
+#journey-screen .journey-chip i {
+    font-size: 0.7rem;
+}
+
+#journey-screen .journey-chip b {
+    font-weight: 700;
+}
+
+/* Milestones: a grouped list with hairlines */
+#journey-screen .journey-milestones {
+    display: block;
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    padding-left: 12px;
+}
+
+#journey-screen .journey-milestone {
+    position: relative;
+    gap: 12px;
+    min-height: 44px;
+    padding: 8px 12px 8px 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    opacity: 1;
+}
+
+#journey-screen .journey-milestone + .journey-milestone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40px;
+    right: 0;
+    height: 1px;
+    background: rgba(60, 40, 30, 0.1);
+}
+
+#journey-screen .journey-milestone-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(118, 118, 128, 0.2);
+}
+
+#journey-screen .journey-milestone-icon i {
+    color: #fff;
+    font-size: 13px;
+}
+
+#journey-screen .journey-milestone.done .journey-milestone-icon {
+    background: #A5252C;
+}
+
+#journey-screen .journey-milestone.done .journey-milestone-icon i {
+    color: #FFE08A;
+}
+
+#journey-screen .journey-milestone:not(.done) .journey-milestone-text {
+    opacity: 0.55;
+}
+
+#journey-screen .journey-milestone-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+#journey-screen .journey-milestone-desc {
+    font-size: 0.7rem;
+}
+
+#journey-screen .journey-milestone-check {
+    color: #34C759;
+    font-size: 0.95rem;
+}
+
+/* Favourites: grouped rows */
+#journey-screen #favourites-list {
+    gap: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    padding-left: 12px;
+}
+
+#journey-screen #favourites-list:empty {
+    display: none;
+}
+
+#journey-screen .fav-card {
+    position: relative;
+    padding: 9px 12px 9px 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+#journey-screen .fav-card:hover {
+    transform: none;
+    background: none;
+    box-shadow: none;
+}
+
+#journey-screen .fav-card + .fav-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(60, 40, 30, 0.1);
+}
+
+#journey-screen .fav-number {
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+#journey-screen .fav-title {
+    font-size: 0.85rem;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+#journey-screen #no-favourites-msg {
+    text-align: left;
+    font-size: 0.72rem;
+    color: #7a6a5a;
+    opacity: 1;
+    margin: 0 12px;
+}
+
+/* My Notes: All / Notes only as a segmented control, notes as white cards */
+#journey-screen .my-notes-filters {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    margin-bottom: 8px;
+    background: rgba(118, 118, 128, 0.12);
+    border-radius: 8px;
+}
+
+#journey-screen .my-notes-filters .search-chip {
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #A5252C;
+}
+
+#journey-screen .my-notes-filters .search-chip.active {
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+#journey-screen .my-notes-count {
+    font-size: 0.65rem;
+}
+
+#journey-screen .notes-backup-nudge {
+    border-radius: 12px;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+#journey-screen .my-notes-list {
+    gap: 6px;
+}
+
+#journey-screen .my-note {
+    border: none;
+    border-left: 3px solid #A5252C;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.72);
+    padding: 9px 12px;
+}
+
+#journey-screen .my-note.hl-edge-yellow { border-left-color: #F2C500; }
+#journey-screen .my-note.hl-edge-saffron { border-left-color: #FF8A1F; }
+#journey-screen .my-note.hl-edge-green { border-left-color: #4CAF50; }
+#journey-screen .my-note.hl-edge-blue { border-left-color: #2E8BEA; }
+
+#journey-screen .my-note-head {
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+#journey-screen .my-note-quote,
+#journey-screen .my-note-text {
+    font-size: 0.8rem;
+}
+
+#journey-screen .my-notes-empty {
+    font-size: 0.72rem;
+    padding: 0 12px;
+}
+
+/* Reset progress: a red-text row like Settings → Reset */
+#journey-screen .journey-reset-row {
+    margin-top: 20px;
+}
+
+#journey-screen .journey-reset-link {
+    width: 100%;
+    min-height: 44px;
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    color: #C62828;
+    font-size: 0.88rem;
+    font-weight: 500;
+}
