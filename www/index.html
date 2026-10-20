@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=32">
+    <link rel="stylesheet" href="css/styles.css?v=33">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -234,6 +234,88 @@
                     <span class="lang-eng">Settings</span>
                 </h2>
 
+                <div class="journey-section-title"><i class="fas fa-book-reader"></i>
+                    <span class="lang-guj">ભાષા અને વાંચન</span>
+                    <span class="lang-eng">Language & Reading</span>
+                </div>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-language"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">ભાષા</span><span class="lang-eng">Language</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોનું લખાણ અને અનુવાદ</span><span class="lang-eng">Text and translations in both scriptures</span></div>
+                        </div>
+                        <div class="settings-segmented" role="group" aria-label="Language">
+                            <button type="button" id="settings-lang-guj" class="settings-seg-btn">ગુજરાતી</button>
+                            <button type="button" id="settings-lang-eng" class="settings-seg-btn">English</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-text-height"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">અક્ષરનું કદ</span><span class="lang-eng">Text Size</span></div>
+                            <div class="setting-desc"><span class="lang-guj">આખી એપમાં અક્ષર મોટા કરો</span><span class="lang-eng">Make text bigger across the whole app</span></div>
+                        </div>
+                        <div class="settings-segmented" role="group" aria-label="Text size">
+                            <button type="button" id="settings-text-default" class="settings-seg-btn"><span class="lang-guj">સામાન્ય</span><span class="lang-eng">Default</span></button>
+                            <button type="button" id="settings-text-large" class="settings-seg-btn"><span class="lang-guj">મોટા</span><span class="lang-eng">Large</span></button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-highlighter"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">શબ્દાર્થ હાઇલાઇટ</span><span class="lang-eng">Highlight Glossary</span></div>
+                            <div class="setting-desc"><span class="lang-guj">વચનામૃતમાં અર્થવાળા શબ્દો રેખાંકિત કરો</span><span class="lang-eng">Underline words with meanings in the Vachanamrut</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="glossary-highlight-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">પ્રગતિ ટ્રૅક કરો</span><span class="lang-eng">Track Progress</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોમાં વાંચેલું બતાવો અને યાત્રામાં ગણો</span><span class="lang-eng">Mark what you have read in both, and count it in Your Journey</span></div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="progress-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="journey-section-title"><i class="fas fa-book"></i>
+                    <span class="lang-guj">ગ્રંથો</span>
+                    <span class="lang-eng">Scriptures</span>
+                </div>
+                <div class="settings-group">
+                    <div class="setting-item settings-link-row" id="settings-vachanamrut-row">
+                        <div class="setting-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
+                            <div class="setting-desc"><span class="lang-guj">૨૬૨ વચનામૃત · ગુજરાતી અને અંગ્રેજી, ઓડિયો સાથે</span><span class="lang-eng">262 discourses · Gujarati and English, with audio</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                    <div class="setting-item settings-link-row" id="settings-shikshapatri-row">
+                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
+                            <div class="setting-desc"><span class="lang-guj">૨૧૨ શ્લોક · ચિત્ર અને અનુવાદ સાથે</span><span class="lang-eng">212 shlokas · illustrated, with translation</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                    <div class="setting-item settings-link-row" id="settings-journey-row">
+                        <div class="setting-icon"><i class="fas fa-route"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">તમારી યાત્રા</span><span class="lang-eng">Your Journey</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોની પ્રગતિ, સ્ટ્રીક અને સિદ્ધિઓ</span><span class="lang-eng">Progress, streak and milestones for both</span></div>
+                        </div>
+                        <i class="fas fa-chevron-right settings-row-chevron"></i>
+                    </div>
+                </div>
+
                 <div class="journey-section-title"><i class="fas fa-headphones"></i>
                     <span class="lang-guj">ઓડિયો અને વિડિયો</span>
                     <span class="lang-eng">Audio & Video</span>
@@ -243,7 +325,7 @@
                         <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">ઓડિયો</span><span class="lang-eng">Audio</span></div>
-                            <div class="setting-desc"><span class="lang-guj">વાંચતી વખતે ઓડિયો પ્લેયર બતાવો</span><span class="lang-eng">Show the audio player while reading</span></div>
+                            <div class="setting-desc"><span class="lang-guj">વચનામૃતનું પઠન સાંભળો</span><span class="lang-eng">Listen to the Vachanamrut narration</span></div>
                         </div>
                         <label class="toggle-switch">
                             <input type="checkbox" id="audio-toggle">
@@ -261,7 +343,6 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <!-- Shown only where audio streams (Android app); see setupOfflineAudio() -->
                     <div class="setting-item offline-audio-item" id="offline-audio-item" style="display: none;">
                         <div class="setting-icon"><i class="fas fa-cloud-download-alt"></i></div>
                         <div class="setting-text">
@@ -275,58 +356,6 @@
                     </div>
                 </div>
 
-                <div class="journey-section-title"><i class="fas fa-book-open"></i>
-                    <span class="lang-guj">વાંચન</span>
-                    <span class="lang-eng">Reading</span>
-                </div>
-                <div class="settings-group">
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-highlighter"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">શબ્દાર્થ હાઇલાઇટ</span><span class="lang-eng">Highlight Glossary</span></div>
-                            <div class="setting-desc"><span class="lang-guj">અર્થવાળા શબ્દો રેખાંકિત કરો</span><span class="lang-eng">Underline words that have meanings</span></div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="glossary-highlight-toggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">પ્રગતિ ટ્રૅક કરો</span><span class="lang-eng">Track Progress</span></div>
-                            <div class="setting-desc"><span class="lang-guj">હોમ સ્ક્રીન પર વાંચન પ્રગતિ બતાવો</span><span class="lang-eng">Show reading progress on the home screen</span></div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="progress-toggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="journey-section-title"><i class="fas fa-compass"></i>
-                    <span class="lang-guj">વધુ</span>
-                    <span class="lang-eng">Explore</span>
-                </div>
-                <div class="settings-group">
-                    <div class="setting-item settings-link-row" id="settings-journey-row">
-                        <div class="setting-icon"><i class="fas fa-route"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">તમારી યાત્રા</span><span class="lang-eng">Your Journey</span></div>
-                            <div class="setting-desc"><span class="lang-guj">પ્રગતિ, સ્ટ્રીક અને સિદ્ધિઓ</span><span class="lang-eng">Progress, streak and milestones</span></div>
-                        </div>
-                        <i class="fas fa-chevron-right settings-row-chevron"></i>
-                    </div>
-                    <div class="setting-item settings-link-row" id="settings-shikshapatri-row">
-                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
-                        <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
-                            <div class="setting-desc"><span class="lang-guj">સચિત્ર શ્લોકો સાથે શિક્ષાપત્રી વાંચો</span><span class="lang-eng">Read the Shikshapatri with illustrated shlokas</span></div>
-                        </div>
-                        <i class="fas fa-chevron-right settings-row-chevron"></i>
-                    </div>
-                </div>
-
                 <div class="journey-section-title"><i class="fas fa-info-circle"></i>
                     <span class="lang-guj">પરિચય</span>
                     <span class="lang-eng">About</span>
@@ -335,8 +364,8 @@
                     <div class="setting-item settings-link-row" id="settings-compilers-header">
                         <div class="setting-icon"><i class="fas fa-feather-alt"></i></div>
                         <div class="setting-text">
-                            <div class="setting-name"><span class="lang-guj">વચનામૃત સંપાદકો અને પરિચય</span><span class="lang-eng">Compilers & About</span></div>
-                            <div class="setting-desc"><span class="lang-guj">ચાર સંપાદક સંતો અને વચનામૃતનો ઇતિહાસ</span><span class="lang-eng">The four compiling saints and the history</span></div>
+                            <div class="setting-name"><span class="lang-guj">વચનામૃત વિશે</span><span class="lang-eng">About the Vachanamrut</span></div>
+                            <div class="setting-desc"><span class="lang-guj">ચાર સંપાદક સંતો અને ઇતિહાસ</span><span class="lang-eng">The four compiling saints and its history</span></div>
                         </div>
                         <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
                     </div>
@@ -403,6 +432,35 @@
                         </p>
                         </div>
                     </div>
+                    <div class="setting-item settings-link-row" id="settings-sp-about-header">
+                        <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">શિક્ષાપત્રી વિશે</span><span class="lang-eng">About the Shikshapatri</span></div>
+                            <div class="setting-desc"><span class="lang-guj">ભગવાન શ્રીસ્વામિનારાયણે લખેલી આજ્ઞાઓ</span><span class="lang-eng">The code of conduct written by Bhagwan Swaminarayan</span></div>
+                        </div>
+                        <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
+                    </div>
+                    <div class="settings-expand" id="settings-sp-about-content" style="display: none;">
+                        <div class="settings-about">
+                            <p class="about-vachanamrut-text lang-eng">
+                                The Shikshapatri is a code of conduct in 212 Sanskrit shlokas written by Bhagwan Swāminārāyan. Shloka 211 records the date he wrote it: the fifth day of the bright half of Mahā, Vikram Samvat 1882 (1826).
+                            </p>
+                            <p class="about-vachanamrut-text lang-eng">
+                                Each shloka in this app comes with an illustration and a Gujarati and English translation, along with Shatānand Muni's Arthadeepikā commentary.
+                            </p>
+                            <p class="about-vachanamrut-text lang-guj">
+                                શિક્ષાપત્રી એ ભગવાન શ્રીસ્વામિનારાયણે લખેલા ૨૧૨ સંસ્કૃત શ્લોકોનો આચારસંહિતા ગ્રંથ છે. શ્લોક ૨૧૧ મુજબ તે સંવત ૧૮૮૨ના મહા સુદ પંચમી (ઈ.સ. ૧૮૨૬)ના દિવસે લખાઈ.
+                            </p>
+                            <p class="about-vachanamrut-text lang-guj">
+                                આ એપમાં દરેક શ્લોક ચિત્ર, ગુજરાતી અને અંગ્રેજી અનુવાદ તથા શ્રી શતાનંદ મુનિ કૃત અર્થદીપિકા ભાષ્ય સાથે છે.
+                            </p>
+                            <p class="about-vachanamrut-source">
+                                <span class="lang-guj">સ્રોત:</span>
+                                <span class="lang-eng">Source:</span>
+                                <a href="https://en.wikipedia.org/wiki/Shikshapatri" target="_blank" rel="noopener noreferrer">Wikipedia — Shikshapatri</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="settings-group settings-group-danger">
@@ -410,14 +468,14 @@
                         <div class="setting-icon"><i class="fas fa-undo-alt"></i></div>
                         <div class="setting-text">
                             <div class="setting-name"><span class="lang-guj">એપ ડેટા રીસેટ કરો</span><span class="lang-eng">Reset App Data</span></div>
-                            <div class="setting-desc"><span class="lang-guj">બુકમાર્ક, મનપસંદ અને પ્રગતિ સાફ કરો</span><span class="lang-eng">Clear bookmarks, favourites and progress</span></div>
+                            <div class="setting-desc"><span class="lang-guj">બંને ગ્રંથોના બુકમાર્ક, મનપસંદ અને પ્રગતિ</span><span class="lang-eng">Bookmarks, favourites and progress for both</span></div>
                         </div>
                         <i class="fas fa-chevron-down settings-row-chevron toggle-icon"></i>
                     </div>
                     <div class="settings-expand" id="settings-reset-content" style="display: none;">
                         <p class="settings-expand-note">
-                            <span class="lang-guj">આ તમારા બધા બુકમાર્ક, મનપસંદ, વાંચન પ્રગતિ અને સેટિંગ્સ કાઢી નાખશે. ડાઉનલોડ કરેલો ઓડિયો રહેશે.</span>
-                            <span class="lang-eng">This deletes all your bookmarks, favourites, reading progress and settings. Downloaded audio is kept.</span>
+                            <span class="lang-guj">આ વચનામૃત અને શિક્ષાપત્રીના બધા બુકમાર્ક, મનપસંદ, વાંચન પ્રગતિ અને સેટિંગ્સ કાઢી નાખશે. ડાઉનલોડ કરેલો ઓડિયો રહેશે.</span>
+                            <span class="lang-eng">This deletes all bookmarks, favourites, reading progress and settings for both Vachanamrut and Shikshapatri. Downloaded audio is kept.</span>
                         </p>
                         <button id="reset-app-btn" type="button" class="danger-btn-subtle">
                             <span class="lang-guj">બધું રીસેટ કરો</span>
@@ -442,31 +500,54 @@
                     <span class="lang-eng">Your Journey</span>
                 </h2>
 
-                <!-- Hero: progress ring + continue reading -->
-                <div class="journey-hero">
-                    <div class="journey-ring-wrap">
-                        <svg class="journey-ring-svg" viewBox="0 0 200 110">
-                            <path class="journey-ring-track" d="M 15,100 A 85,85 0 0,1 185,100"></path>
-                            <path id="journey-ring-fill" class="journey-ring-fill" d="M 15,100 A 85,85 0 0,1 185,100"></path>
-                        </svg>
-                        <div class="journey-ring-center">
-                            <div id="journey-page-pct" class="journey-ring-pct">0%</div>
-                            <div class="journey-ring-sub"><span id="journey-page-read">0</span> / <span id="journey-page-total">268</span></div>
-                            <div id="journey-page-last-read-date" class="journey-ring-date"></div>
+                <!-- Progress: one card per scripture -->
+                <div class="journey-progress">
+                    <div class="journey-progress-card">
+                        <div class="journey-progress-head">
+                            <div class="setting-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="journey-progress-name"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
+                            <div id="journey-page-pct" class="journey-progress-pct">0%</div>
                         </div>
+                        <div class="journey-progress-bar"><div id="journey-bar-fill" class="journey-progress-fill"></div></div>
+                        <div class="journey-progress-count"><span id="journey-page-read">0</span> / <span id="journey-page-total">262</span>
+                            <span class="lang-guj">વાંચ્યા</span><span class="lang-eng">read</span>
+                        </div>
+                        <button id="journey-continue-btn" class="journey-continue-btn" type="button">
+                            <i class="fas fa-play"></i>
+                            <span id="journey-continue-label" class="journey-continue-label">Start</span>
+                            <span id="journey-continue-target" class="journey-continue-target"></span>
+                            <i class="fas fa-chevron-right journey-continue-chevron"></i>
+                        </button>
                     </div>
-                    <button id="journey-continue-btn" class="journey-continue-btn">
-                        <span id="journey-continue-label">Start your journey</span>: <span id="journey-continue-target">Vachanamrut 1</span>
-                        <i class="fas fa-chevron-right" style="margin-left: 6px;"></i>
-                    </button>
+                    <div class="journey-progress-card">
+                        <div class="journey-progress-head">
+                            <div class="setting-icon"><i class="fas fa-scroll"></i></div>
+                            <div class="journey-progress-name"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></div>
+                            <div id="sp-journey-pct" class="journey-progress-pct">0%</div>
+                        </div>
+                        <div class="journey-progress-bar"><div id="sp-journey-bar-fill" class="journey-progress-fill"></div></div>
+                        <div class="journey-progress-count"><span id="sp-journey-read">0</span> / <span id="sp-journey-total">212</span>
+                            <span class="lang-guj">વાંચ્યા</span><span class="lang-eng">read</span>
+                        </div>
+                        <button id="sp-journey-continue-btn" class="journey-continue-btn" type="button">
+                            <i class="fas fa-play"></i>
+                            <span id="sp-journey-continue-label" class="journey-continue-label">Start</span>
+                            <span id="sp-journey-continue-target" class="journey-continue-target"></span>
+                            <i class="fas fa-chevron-right journey-continue-chevron"></i>
+                        </button>
+                    </div>
                 </div>
+                <div id="journey-page-last-read-date" class="journey-ring-date"></div>
 
                 <!-- Section map -->
                 <div class="journey-section-title"><i class="fas fa-map"></i>
                     <span class="lang-guj">વિભાગ નકશો</span>
                     <span class="lang-eng">Section Map</span>
                 </div>
+                <div class="journey-map-label"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></div>
                 <div id="journey-section-map" class="journey-section-map"></div>
+                <div class="journey-map-label"><span class="lang-guj">શિક્ષાપત્રી · ૨૦ શ્લોકના જૂથ</span><span class="lang-eng">Shikshapatri · groups of 20 shlokas</span></div>
+                <div id="sp-journey-map" class="journey-section-map"></div>
 
                 <!-- Streak -->
                 <div class="journey-section-title"><i class="fas fa-fire"></i>
@@ -663,8 +744,8 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=32"></script>
-    <script src="js/shikshapatri.js?v=1"></script>
+    <script src="js/app.js?v=33"></script>
+    <script src="js/shikshapatri.js?v=2"></script>
     <script src="js/search.js?v=1"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)

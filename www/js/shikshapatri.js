@@ -7,6 +7,7 @@
     let loadPromise = null;
     let currentSloka = null;
     let lastViewedId = null;
+    let readTimer = null; // counts a shloka as read after it's been open a few seconds
     let currentLang = 'gujarati'; // translation shown: follows the app's ગુજ / EN switch
 
     const $ = id => document.getElementById(id);
@@ -112,11 +113,12 @@
         const list = $('slokas-list');
         list.innerHTML = '';
         const bookmarked = bookmarkedId();
+        const read = new Set(isProgressTrackingEnabled() ? getShlokaReadIds() : []);
         updateBookmarkChip();
 
         slokas.forEach(sloka => {
             const card = document.createElement('div');
-            card.className = 'sloka-card' + (bookmarked === sloka.id ? ' bookmarked' : '');
+            card.className = 'sloka-card' + (bookmarked === sloka.id ? ' bookmarked' : '') + (read.has(sloka.id) ? ' read' : '');
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             card.dataset.slokaId = sloka.id;
@@ -128,7 +130,7 @@
             };
             card.innerHTML = `
                 <div class="sloka-header">
-                    <div class="sloka-number-bubble" aria-hidden="true">${sloka.id}</div>
+                    <div class="sloka-number-bubble" aria-hidden="true">${sloka.id}${read.has(sloka.id) ? '<span class="sloka-read-tick"><i class="fas fa-check"></i></span>' : ''}</div>
                     <div class="sloka-content-preview">
                         <div class="sloka-sanskrit-preview">${cleanSanskritVerse(sloka.sanskrit).replace(/\n/g, '<br>')}</div>
                         <div class="sloka-translation-preview"></div>
@@ -157,14 +159,15 @@
         setTimeout(() => el.classList.remove('bookmark-highlight'), 1600);
     }
 
-    async function showList(pushState = true) {
+    async function showList(pushState = true, scrollToId = null) {
         await ensureLoaded();
+        clearTimeout(readTimer);
         currentSloka = null;
         renderList();
         showScreen('shikshapatri-list-screen', false);
         document.title = 'શિક્ષાપત્રી | Shikshapatri — vachanamrut.in';
         if (pushState) window.history.pushState({ shikshapatri: true }, '', `${window.location.pathname}?s=shikshapatri`);
-        const target = lastViewedId || bookmarkedId();
+        const target = scrollToId || lastViewedId || bookmarkedId();
         if (target) setTimeout(() => scrollToSloka(target, false), 60);
     }
 
@@ -242,6 +245,11 @@
         await ensureLoaded();
         if (!renderSloka(id)) return;
         showScreen('shikshapatri-detail-screen', false);
+        // Counts toward Journey once it's been on screen for 5 seconds
+        clearTimeout(readTimer);
+        readTimer = setTimeout(() => {
+            if (isDetailActive() && currentSloka && currentSloka.id === id) markShlokaAsRead(id);
+        }, 5000);
         document.title = `શ્લોક ${id} | શિક્ષાપત્રી — vachanamrut.in`;
         if (pushState) window.history.pushState({ slokaId: id }, '', `${window.location.pathname}?s=shikshapatri&id=${id}`);
     }

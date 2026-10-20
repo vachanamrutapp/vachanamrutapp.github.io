@@ -16,6 +16,8 @@ let audioEnabled = localStorage.getItem('audioEnabled') !== 'false'; // Default 
 let currentReadingVachanamrutId = null;
 let hasIncrementedInSession = false;
 let audioPlayer = new Audio();
+// Settings → Text Size: "large" scales every rem-based size in the app
+document.documentElement.classList.toggle('text-large', localStorage.getItem('appTextSize') === 'large');
 // The Android build leaves the ~650MB of MP3s out (Play Store size cap), so stream them from the website there.
 const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const SITE_URL = 'https://vachanamrut.in/';
@@ -1103,15 +1105,19 @@ function renderSections() {
             const readCount = readIds.filter(id => sectionIds.includes(id)).length;
             if (readCount > 0) {
                 const pct = section.count > 0 ? Math.min(100, Math.round((readCount / section.count) * 100)) : 0;
-                const readLabel = currentLanguage === 'english' ? `${pct}% Read` : `${pct}% વંચાયું`;
+                const isEn = currentLanguage === 'english';
+                const status = pct >= 100
+                    ? `<span class="chapter-progress-done"><i class="fas fa-check-circle"></i> ${isEn ? 'Complete' : 'પૂર્ણ'}</span>`
+                    : `<span class="chapter-progress-pct">${pct}%</span>`;
+                // Same look as the Your Journey cards: slim gradient bar, count left, % right
                 progressHtml = `
                     <div class="chapter-progress-container-small">
-                        <div class="chapter-progress-header">
-                            <span>${readLabel}</span>
-                            <span>${readCount} / ${section.count}</span>
-                        </div>
                         <div class="chapter-progress-bar-track">
                             <div class="chapter-progress-bar-fill" style="width: ${pct}%;"></div>
+                        </div>
+                        <div class="chapter-progress-header">
+                            <span><b>${readCount}</b> / ${section.count} ${isEn ? 'read' : 'વાંચ્યા'}</span>
+                            ${status}
                         </div>
                     </div>
                 `;
@@ -1434,19 +1440,58 @@ function markVachanamrutAsRead(id) {
     readCounts[id] = (readCounts[id] || 0) + 1;
     localStorage.setItem('vach_read_counts', JSON.stringify(readCounts));
 
-    // Save today's activity date (local time)
-    const today = new Date();
-    const offset = today.getTimezoneOffset();
-    const localToday = new Date(today.getTime() - (offset * 60 * 1000));
-    const todayStr = localToday.toISOString().split('T')[0];
-
+    const todayStr = localDateString();
     localStorage.setItem('vach_last_read', JSON.stringify({ id, date: todayStr }));
+    recordReadingDay(todayStr);
+}
 
-    let activityDates = getActivityDates();
-    if (!activityDates.includes(todayStr)) {
-        activityDates.push(todayStr);
+// Today as YYYY-MM-DD in local time
+function localDateString() {
+    const today = new Date();
+    const local = new Date(today.getTime() - (today.getTimezoneOffset() * 60 * 1000));
+    return local.toISOString().split('T')[0];
+}
+
+// The daily streak counts a day of reading in either scripture (stored under the original Vachanamrut key)
+function recordReadingDay(dateStr) {
+    const activityDates = getActivityDates();
+    if (!activityDates.includes(dateStr)) {
+        activityDates.push(dateStr);
         localStorage.setItem('vach_activity_dates', JSON.stringify(activityDates));
     }
+}
+
+// ---- Shikshapatri reading progress -------------------------------------------
+const TOTAL_SHLOKAS = 212;
+
+function getShlokaReadIds() {
+    try {
+        const ids = JSON.parse(localStorage.getItem('sp_read_ids'));
+        return Array.isArray(ids) ? ids.filter(id => id >= 1 && id <= TOTAL_SHLOKAS) : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function getShlokaLastRead() {
+    try {
+        return JSON.parse(localStorage.getItem('sp_last_read'));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Called by js/shikshapatri.js once a shloka has been open for a few seconds
+function markShlokaAsRead(id) {
+    if (!isProgressTrackingEnabled()) return;
+    const ids = getShlokaReadIds();
+    if (!ids.includes(id)) {
+        ids.push(id);
+        localStorage.setItem('sp_read_ids', JSON.stringify(ids));
+    }
+    const todayStr = localDateString();
+    localStorage.setItem('sp_last_read', JSON.stringify({ id, date: todayStr }));
+    recordReadingDay(todayStr);
 }
 
 function computeStreak(dates) {
@@ -1539,13 +1584,9 @@ function renderJourneyPage() {
     const readCount = readIds.filter(id => journeyVachIds.includes(id)).length;
     const readPct = Math.min(100, Math.round((readCount / TOTAL_VACHANAMRUTS) * 100));
 
-    // Progress ring
-    const ring = document.getElementById('journey-ring-fill');
-    if (ring) {
-        const pathLength = ring.getTotalLength ? ring.getTotalLength() : (Math.PI * 85);
-        ring.style.strokeDasharray = `${pathLength}`;
-        ring.style.strokeDashoffset = `${pathLength * (1 - readPct / 100)}`;
-    }
+    // Progress bar
+    const bar = document.getElementById('journey-bar-fill');
+    if (bar) bar.style.width = `${readPct}%`;
     const pctEl = document.getElementById('journey-page-pct');
     if (pctEl) pctEl.textContent = `${readPct}%`;
     const readEl = document.getElementById('journey-page-read');
@@ -1556,7 +1597,8 @@ function renderJourneyPage() {
     // Display last read date
     const dateEl = document.getElementById('journey-page-last-read-date');
     if (dateEl) {
-        let dateStr = lastRead && lastRead.date ? lastRead.date : null;
+        const spLast = getShlokaLastRead();
+        let dateStr = [lastRead && lastRead.date, spLast && spLast.date].filter(Boolean).sort().pop() || null;
         if (!dateStr && activityDates.length > 0) {
             dateStr = activityDates[activityDates.length - 1]; // Use last active date as fallback
         }
@@ -1575,13 +1617,13 @@ function renderJourneyPage() {
         if (lastRead) {
             const targetVachanamrut = vachanamrutData.find(v => v.id === lastRead.id);
             const num = targetVachanamrut ? targetVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : lastRead.id;
-            continueLabel.textContent = currentLanguage === 'english' ? 'Continue reading' : 'વાંચન ચાલુ રાખો';
+            continueLabel.textContent = currentLanguage === 'english' ? 'Continue' : 'ચાલુ રાખો';
             continueTarget.textContent = num;
         } else {
             const section2 = sections.find(s => s.id === 2);
             const firstVachanamrut = section2 && section2.vachanamruts.length ? section2.vachanamruts[0] : (sections.length && sections[0].vachanamruts.length ? sections[0].vachanamruts[0] : null);
             const num = firstVachanamrut ? firstVachanamrut.vachanamrut.replace(/\n/g, ' ').trim() : '';
-            continueLabel.textContent = currentLanguage === 'english' ? 'Start your journey' : 'તમારી યાત્રા શરૂ કરો';
+            continueLabel.textContent = currentLanguage === 'english' ? 'Start' : 'શરૂ કરો';
             continueTarget.textContent = num;
         }
     }
@@ -1639,6 +1681,11 @@ function renderJourneyPage() {
         });
     }
 
+    // Shikshapatri card + map row
+    const spReadIds = getShlokaReadIds();
+    const spCount = spReadIds.length;
+    renderShikshapatriJourney(spReadIds);
+
     // Streak: current week starting from Monday
     const weekDots = document.getElementById('journey-week-dots');
     if (weekDots) {
@@ -1687,11 +1734,13 @@ function renderJourneyPage() {
         const isEn = currentLanguage === 'english';
         const milestones = [
             { icon: 'fa-seedling', name: isEn ? 'First Vachanamrut' : 'પ્રથમ વચનામૃત', desc: isEn ? 'Read your first discourse' : 'પ્રથમ પ્રવચન વાંચ્યું', done: readCount >= 1 },
+            { icon: 'fa-scroll', name: isEn ? 'First Shloka' : 'પ્રથમ શ્લોક', desc: isEn ? 'Read your first Shikshapatri shloka' : 'શિક્ષાપત્રીનો પ્રથમ શ્લોક વાંચ્યો', done: spCount >= 1 },
             { icon: 'fa-om', name: isEn ? 'Parayan Begins' : 'પારાયણનો પ્રારંભ', desc: isEn ? 'Read 27 vachanamruts' : '૨૭ વચનામૃત વાંચ્યાં', done: readCount >= 27 },
             { icon: 'fa-book-open', name: isEn ? 'Section Complete' : 'વિભાગ પૂર્ણ', desc: isEn ? 'Finish a full section' : 'એક વિભાગ પૂર્ણ કર્યો', done: sectionsCompleted >= 1 },
             { icon: 'fa-mountain', name: isEn ? 'Halfway There' : 'અડધે રસ્તે', desc: isEn ? 'Read 131 vachanamruts' : '૧૩૧ વચનામૃત વાંચ્યાં', done: readCount >= 131 },
             { icon: 'fa-fire', name: isEn ? 'Steady Sadhana' : 'સ્થિર સાધના', desc: isEn ? '7-day reading streak' : '૭ દિવસની સ્ટ્રીક', done: longestStreak >= 7 },
             { icon: 'fa-crown', name: isEn ? 'Vachanamrut Complete' : 'વચનામૃત સંપૂર્ણ', desc: isEn ? `Read all ${TOTAL_VACHANAMRUTS} vachanamruts` : 'સંપૂર્ણ વચનામૃત વાંચ્યાં', done: readCount >= TOTAL_VACHANAMRUTS },
+            { icon: 'fa-dharmachakra', name: isEn ? 'Shikshapatri Complete' : 'શિક્ષાપત્રી સંપૂર્ણ', desc: isEn ? `Read all ${TOTAL_SHLOKAS} shlokas` : 'સંપૂર્ણ ૨૧૨ શ્લોક વાંચ્યા', done: spCount >= TOTAL_SHLOKAS },
         ];
         milestonesEl.innerHTML = milestones.map(m => `
             <div class="journey-milestone${m.done ? ' done' : ''}">
@@ -1707,6 +1756,44 @@ function renderJourneyPage() {
 
     // Render favourites inline
     renderFavourites();
+}
+
+// Journey: Shikshapatri progress card and its map row (groups of 20 shlokas)
+function renderShikshapatriJourney(readIds) {
+    const isEn = currentLanguage === 'english';
+    const count = readIds.length;
+    const pct = Math.min(100, Math.round((count / TOTAL_SHLOKAS) * 100));
+    document.getElementById('sp-journey-bar-fill').style.width = `${pct}%`;
+    document.getElementById('sp-journey-pct').textContent = `${pct}%`;
+    document.getElementById('sp-journey-read').textContent = count;
+    document.getElementById('sp-journey-total').textContent = TOTAL_SHLOKAS;
+
+    // Continue with the shloka after the last one read (or start at 1)
+    const last = getShlokaLastRead();
+    const target = last && last.id ? Math.min(last.id + 1, TOTAL_SHLOKAS) : 1;
+    document.getElementById('sp-journey-continue-label').textContent = last ? (isEn ? 'Continue' : 'ચાલુ રાખો') : (isEn ? 'Start' : 'શરૂ કરો');
+    document.getElementById('sp-journey-continue-target').textContent = isEn ? `Shloka ${target}` : `શ્લોક ${toGujaratiDigits(target)}`;
+    document.getElementById('sp-journey-continue-btn').onclick = () => Shikshapatri.showSloka(target);
+
+    const map = document.getElementById('sp-journey-map');
+    if (!map) return;
+    map.innerHTML = '';
+    const read = new Set(readIds);
+    for (let start = 1; start <= TOTAL_SHLOKAS; start += 20) {
+        const end = Math.min(start + 19, TOTAL_SHLOKAS);
+        let cnt = 0;
+        for (let i = start; i <= end; i++) if (read.has(i)) cnt++;
+        const groupPct = Math.round((cnt / (end - start + 1)) * 100);
+        const cell = document.createElement('button');
+        cell.className = 'journey-map-cell' + (groupPct >= 100 ? ' complete' : (cnt > 0 ? ' started' : ''));
+        cell.title = isEn ? `Shlokas ${start}–${end}` : `શ્લોક ${toGujaratiDigits(start)}–${toGujaratiDigits(end)}`;
+        cell.innerHTML = `
+            <span class="journey-map-fill" style="height: ${groupPct}%;"></span>
+            <span class="journey-map-num">${groupPct >= 100 ? '<i class="fas fa-check"></i>' : start}</span>
+        `;
+        cell.addEventListener('click', () => Shikshapatri.showList(true, start));
+        map.appendChild(cell);
+    }
 }
 
 // ===========================================================
@@ -2511,6 +2598,20 @@ function setupMenu() {
             returnToScripture('shikshapatri');
         });
     }
+    const settingsVachanamrutRow = document.getElementById('settings-vachanamrut-row');
+    if (settingsVachanamrutRow) settingsVachanamrutRow.addEventListener('click', () => returnToScripture('vachanamrut'));
+
+    // Settings → Language: same as the ગુજ / EN switch in the header
+    document.getElementById('settings-lang-guj').addEventListener('click', () => document.getElementById('lang-btn-guj').click());
+    document.getElementById('settings-lang-eng').addEventListener('click', () => document.getElementById('lang-btn-eng').click());
+
+    // Settings → Text Size: Default / Large
+    const setTextSize = size => {
+        localStorage.setItem('appTextSize', size);
+        document.documentElement.classList.toggle('text-large', size === 'large');
+    };
+    document.getElementById('settings-text-default').addEventListener('click', () => setTextSize('default'));
+    document.getElementById('settings-text-large').addEventListener('click', () => setTextSize('large'));
 
     // Favourites chip inside Journey page
     const journeyFavouritesChip = document.getElementById('journey-favourites-chip');
@@ -2524,8 +2625,8 @@ function setupMenu() {
     }
 
     // Toggle Collapsible Compilers Card in Settings
-    // Collapsible Settings rows: Compilers & About, Reset App Data
-    [['settings-compilers-header', 'settings-compilers-content'], ['settings-reset-header', 'settings-reset-content']].forEach(([headerId, contentId]) => {
+    // Collapsible Settings rows: About the Vachanamrut / Shikshapatri, Reset App Data
+    [['settings-compilers-header', 'settings-compilers-content'], ['settings-sp-about-header', 'settings-sp-about-content'], ['settings-reset-header', 'settings-reset-content']].forEach(([headerId, contentId]) => {
         const header = document.getElementById(headerId);
         const content = document.getElementById(contentId);
         if (!header || !content) return;
@@ -2543,10 +2644,12 @@ function setupMenu() {
     const journeyResetBtn = document.getElementById('journey-reset-btn');
     if (journeyResetBtn) {
         journeyResetBtn.addEventListener('click', () => {
-            if (confirm('Reset your reading progress? This will not affect favourites or bookmarks.')) {
+            if (confirm('Reset your reading progress for Vachanamrut and Shikshapatri? This will not affect favourites or bookmarks.')) {
                 localStorage.removeItem('vach_read_ids');
                 localStorage.removeItem('vach_last_read');
                 localStorage.removeItem('vach_activity_dates');
+                localStorage.removeItem('sp_read_ids');
+                localStorage.removeItem('sp_last_read');
                 renderJourneyPage();
                 renderSections(); // Refresh home screen progress bars too
             }
@@ -2940,6 +3043,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (videoToggle && isNativeApp) {
         videoToggle.closest('.setting-item').style.display = 'none';
+        // Section title without "& Video" in the app
+        const avTitle = videoToggle.closest('.settings-group').previousElementSibling;
+        avTitle.querySelector('.lang-guj').textContent = 'ઓડિયો';
+        avTitle.querySelector('.lang-eng').textContent = 'Audio';
     } else if (videoToggle) {
         videoToggle.checked = videoEnabled;
         videoToggle.addEventListener('change', () => {

@@ -1775,34 +1775,50 @@ body.gujarati .chapter-description {
     font-size: 0.85rem;
 }
 
-/* Home screen section progress bar */
+/* Home screen section progress (matches the Your Journey cards) */
 .chapter-progress-container-small {
     margin-top: 12px;
-    margin-left: 44px;
-}
-
-.chapter-progress-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #7a1500;
-    margin-bottom: 4px;
 }
 
 .chapter-progress-bar-track {
     width: 100%;
     height: 6px;
-    background: rgba(165, 37, 44, 0.12);
-    border-radius: 4px;
+    background: rgba(165, 37, 44, 0.1);
+    border-radius: 999px;
     overflow: hidden;
 }
 
 .chapter-progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #E6A623, #A5252C);
-    border-radius: 4px;
-    transition: width 0.4s ease;
+    background: linear-gradient(90deg, #A5252C, #E65100 70%, #F7A928);
+    border-radius: 999px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chapter-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #7a6a5a;
+}
+
+.chapter-progress-header b {
+    color: #2C1D18;
+    font-weight: 800;
+}
+
+.chapter-progress-pct {
+    color: #A5252C;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.chapter-progress-done {
+    color: #2E7D32;
+    font-weight: 700;
 }
 
 /* Container for Audio Player (handles both FAB and Bar states) */
@@ -4534,4 +4550,176 @@ mark.find-hit {
 mark.find-hit.current {
     background: #E65100;
     color: #fff;
+}
+
+/* Read shlokas get a small tick on their number (Journey progress) */
+.sloka-number-bubble {
+    position: relative;
+}
+
+.sloka-read-tick {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #2E7D32;
+    color: #fff;
+    font-size: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #FFE6A0;
+}
+
+/* Journey: one progress card per scripture (name + %, bar, count, continue) */
+.journey-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.journey-progress-card {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 18px;
+    padding: 14px 14px 12px;
+    box-shadow: 0 4px 14px rgba(120, 60, 0, 0.06);
+}
+
+.journey-progress-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.journey-progress-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2C1D18;
+}
+
+.journey-progress-pct {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #A5252C;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.journey-progress-bar {
+    height: 10px;
+    margin: 12px 0 6px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.1);
+    overflow: hidden;
+}
+
+.journey-progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #A5252C, #E65100 70%, #F7A928);
+    transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.journey-progress-count {
+    font-size: 0.8rem;
+    color: #7a6a5a;
+    font-weight: 600;
+}
+
+.journey-progress-count > span:first-child {
+    color: #2C1D18;
+    font-weight: 800;
+}
+
+.journey-progress-card .journey-continue-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px 12px;
+    gap: 6px;
+    justify-content: flex-start;
+    border-radius: 12px;
+    background: rgba(165, 37, 44, 0.08);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.journey-progress-card .journey-continue-btn > .fa-play {
+    font-size: 0.7rem;
+    margin: 0 2px 0 0;
+}
+
+.journey-progress-card .journey-continue-label {
+    font-size: inherit;
+    color: #7a6a5a;
+    font-weight: 600;
+}
+
+.journey-progress-card .journey-continue-target {
+    color: #A5252C;
+    font-weight: 700;
+}
+
+.journey-continue-chevron {
+    margin-left: auto;
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+#journey-page-last-read-date {
+    margin: 8px 0 0;
+}
+
+.journey-map-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #7a6a5a;
+    margin: 4px 0 6px;
+}
+
+.journey-map-label + .journey-section-map {
+    margin-bottom: 10px;
+}
+
+/* Settings → Text Size: Large (nearly every size in this stylesheet is in rem, so it all scales) */
+html.text-large {
+    font-size: 118.75%;
+}
+
+/* Two-option switch inside a Settings row (Language, Text Size) */
+.settings-segmented {
+    flex-shrink: 0;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(165, 37, 44, 0.2);
+    border-radius: 10px;
+}
+
+.settings-seg-btn {
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #A5252C;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+body.gujarati #settings-lang-guj,
+body.english #settings-lang-eng,
+html:not(.text-large) #settings-text-default,
+html.text-large #settings-text-large {
+    background: #A5252C;
+    color: #FFE08A;
 }
