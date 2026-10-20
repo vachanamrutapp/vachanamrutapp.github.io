@@ -1,108 +1,24 @@
 <!DOCTYPE html>
 <html lang="gu">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>शिक्षापत्री - Shikshapatri</title>
-    <meta name="description"
-        content="Read Shikshapatri slokas with Sanskrit, Gujarati and English translations. A sacred text by Lord Swaminarayan.">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/styles.css?v=28">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <meta name="theme-color" content="#E6A623">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="assets/images/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshapatri | Vachanamrut</title>
+    <link rel="canonical" href="https://vachanamrut.in/?s=shikshapatri">
+    <meta http-equiv="refresh" content="0; url=../?s=shikshapatri">
+    <script>
+        // Shikshapatri is part of the main app now; keep old links (?id=12, #12, #sloka-12) working.
+        (function () {
+            var params = new URLSearchParams(location.search);
+            var id = parseInt(params.get('id') || location.hash.replace('#', '').replace('sloka-', ''), 10);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function (regs) {
+                    regs.forEach(function (r) { if (r.scope.indexOf('/shikshapatri/') !== -1) r.unregister(); });
+                });
+            }
+            location.replace('../?s=shikshapatri' + (id ? '&id=' + id : ''));
+        })();
+    </script>
 </head>
-
-<body>
-    <div id="shikshapatri-bg" class="shikshapatri-bg" aria-hidden="true"></div>
-    <!-- Skip link for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <header id="header" role="banner">
-        <button id="back-btn" aria-label="Back to Vachanamrut" title="Back to Vachanamrut / વચનામૃત">
-            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-        </button>
-        <img src="assets/images/navbar-image.png?v=2" alt="Shikshapatri" id="navbar-logo">
-        <button id="bookmark-btn" style="display:none;" aria-label="Bookmark this sloka" aria-pressed="false">
-            <i class="fas fa-bookmark" aria-hidden="true"></i>
-            <span id="bookmark-bubble" class="bookmark-bubble" aria-hidden="true"></span>
-        </button>
-    </header>
-
-    <main id="main-content" role="main">
-        <div id="list-screen" class="screen active" aria-label="List of all slokas">
-            <div id="slokas-list" role="list" aria-label="Shikshapatri slokas"></div>
-        </div>
-        <div id="detail-screen" class="screen" aria-label="Sloka detail view">
-            <article id="sloka-content">
-                <div id="sloka-image-card" class="sloka-image-card">
-                    <div class="sloka-image-header">
-                        <span id="sloka-title-badge" class="sloka-image-title">श्लोक १</span>
-                    </div>
-                    <div class="sloka-image-wrap">
-                        <img id="sloka-image" src="" alt="Sloka illustration" loading="lazy">
-                    </div>
-                </div>
-                <div id="sloka-sanskrit" aria-label="Sanskrit text"></div>
-                <div id="translation-card">
-                    <div class="translation-header">
-                        <span class="translation-title"><i class="fas fa-language"></i> Translation</span>
-                        <select id="language-select" class="language-select" aria-label="Select language">
-                            <option value="gujarati">ગુજરાતી</option>
-                            <option value="hindi">हिन्दी</option>
-                            <option value="english">English</option>
-                        </select>
-                    </div>
-                    <div id="sloka-text" aria-label="Translation"></div>
-                </div>
-                <div id="sloka-translation" aria-label="Additional translation"></div>
-
-                <!-- Shatanand Muni Arthadeepika Bhashya -->
-                <div id="bhashya-card" class="bhashya-card" style="display: none;">
-                    <div id="bhashya-header" class="bhashya-header" role="button" tabindex="0" aria-expanded="false" aria-controls="bhashya-body">
-                        <div class="bhashya-title">
-                            <i class="fas fa-book-open"></i>
-                            <span>શ્રી શતાનંદ મુનિ કૃત અર્થદીપિકા ભાષ્ય</span>
-                        </div>
-                        <i id="bhashya-toggle-icon" class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div id="bhashya-body" class="bhashya-body" style="display: none;"></div>
-                </div>
-            </article>
-        </div>
-    </main>
-
-    <div id="bottom-bar-container">
-        <nav id="sloka-navigation" class="reading-footer" aria-label="Sloka navigation" style="display: none;">
-            <button id="prev-sloka-btn" class="nav-btn" aria-label="Previous sloka">
-                <i class="fas fa-chevron-left" aria-hidden="true"></i>
-            </button>
-            <div id="sloka-slider-container" class="slider-wrapper">
-                <input type="range" id="sloka-slider" min="1" max="212" value="1" class="nav-slider" aria-label="Sloka number"
-                    aria-valuemin="1" aria-valuemax="212" aria-valuenow="1" aria-valuetext="Sloka 1 of 212">
-                <div id="sloka-counter" class="reading-progress" aria-live="polite">1 / 212</div>
-            </div>
-            <button id="next-sloka-btn" class="nav-btn" aria-label="Next sloka">
-                <i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </button>
-        </nav>
-        <footer id="app-footer" role="contentinfo">
-            <p><strong>✍️ by</strong> Lord Swaminarayan 🙏</p>
-        </footer>
-    </div>
-
-
-
-    <script src="../js/sql-wasm.js"></script>
-    <script src="js/app.js?v=29" defer></script>
-</body>
-
+<body style="background: #E6A623;"></body>
 </html>

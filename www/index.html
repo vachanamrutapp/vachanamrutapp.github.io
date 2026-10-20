@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=31">
+    <link rel="stylesheet" href="css/styles.css?v=32">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -212,6 +212,9 @@
                     </button>
                     <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
                         <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button type="button" class="facts-pill find-open-btn" title="Find in this Vachanamrut" aria-label="Find in this Vachanamrut">
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
                 <div id="vachanamrut-setting"></div>
@@ -505,6 +508,45 @@
             </div>
         </div>
 
+        <!-- Shikshapatri (js/shikshapatri.js) -->
+        <div id="shikshapatri-list-screen" class="screen shikshapatri" aria-label="Shikshapatri shlokas">
+            <button id="sp-bookmark-chip" class="sp-bookmark-chip" type="button" style="display: none;">
+                <i class="fas fa-bookmark"></i>
+                <span class="lang-guj">બુકમાર્ક: શ્લોક</span><span class="lang-eng">Bookmarked: Shloka</span>
+                <b id="sp-bookmark-chip-num"></b>
+            </button>
+            <div id="slokas-list" role="list" aria-label="Shikshapatri slokas"></div>
+        </div>
+        <div id="shikshapatri-detail-screen" class="screen shikshapatri" aria-label="Sloka detail view">
+            <article id="sloka-content">
+                <div id="sloka-image-card" class="sloka-image-card">
+                    <div class="sloka-image-header">
+                        <button type="button" class="sp-bookmark-btn sp-find-btn find-open-btn" aria-label="Find in this shloka"><i class="fas fa-search"></i></button>
+                        <span id="sloka-title-badge" class="sloka-image-title">श्लोक १</span>
+                        <button id="sp-bookmark-btn" class="sp-bookmark-btn" type="button" aria-label="Bookmark this sloka" aria-pressed="false"><i class="far fa-bookmark"></i></button>
+                    </div>
+                    <div class="sloka-image-wrap">
+                        <img id="sloka-image" src="" alt="Sloka illustration" loading="lazy">
+                    </div>
+                </div>
+                <div id="sloka-sanskrit" aria-label="Sanskrit text"></div>
+                <div id="translation-card">
+                    <div id="sloka-text" aria-label="Translation"></div>
+                </div>
+                <!-- Shatanand Muni Arthadeepika Bhashya -->
+                <div id="bhashya-card" class="bhashya-card" style="display: none;">
+                    <div id="bhashya-header" class="bhashya-header" role="button" tabindex="0" aria-expanded="false" aria-controls="bhashya-body">
+                        <div class="bhashya-title">
+                            <i class="fas fa-book-open"></i>
+                            <span>શ્રી શતાનંદ મુનિ કૃત અર્થદીપિકા ભાષ્ય</span>
+                        </div>
+                        <i id="bhashya-toggle-icon" class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div id="bhashya-body" class="bhashya-body" style="display: none;"></div>
+                </div>
+            </article>
+        </div>
+
         <div id="audio-player-container" class="audio-player-container state-fab" style="display: none;">
             <!-- FAB View -->
             <button id="audio-fab-view" class="audio-fab-view" title="Play Vachanamrut Audio">
@@ -539,14 +581,16 @@
             </div>
         </div>
     </main>
-    <button id="fab-shikshapatri-btn" class="fab-shikshapatri-btn" title="Shikshapatri / શિક્ષાપત્રી" aria-label="Open Shikshapatri"><i class="fas fa-scroll"></i></button>
     <footer id="footer" class="app-tab-bar">
-        <button id="footer-journey-btn" class="footer-tab" aria-label="Journey" title="Journey">
-            <i class="fas fa-route footer-tab-icon"></i>
-            <span class="footer-tab-label lang-guj">યાત્રા</span>
-            <span class="footer-tab-label lang-eng">Journey</span>
+        <button id="footer-switch-btn" class="footer-tab" type="button">
+            <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
+            <span id="footer-switch-label-guj" class="footer-tab-label lang-guj">શિક્ષાપત્રી</span>
+            <span id="footer-switch-label-eng" class="footer-tab-label lang-eng">Shikshapatri</span>
         </button>
-        <button id="footer-settings-btn" class="footer-tab" aria-label="Settings" title="Settings">
+        <div class="footer-search-slot">
+            <button id="footer-search-btn" class="footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <button id="footer-settings-btn" class="footer-tab" type="button" aria-label="Settings" title="Settings">
             <i class="fas fa-cog footer-tab-icon"></i>
             <span class="footer-tab-label lang-guj">સેટિંગ્સ</span>
             <span class="footer-tab-label lang-eng">Settings</span>
@@ -560,6 +604,41 @@
             <span id="reading-progress" class="reading-progress">1 / 1</span>
         </div>
         <button id="nav-next-btn" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <nav id="sloka-navigation" class="reading-footer" aria-label="Sloka navigation" style="display: none;">
+        <button id="prev-sloka-btn" class="nav-btn" aria-label="Previous sloka"><i class="fas fa-chevron-left"></i></button>
+        <div class="slider-wrapper">
+            <input type="range" id="sloka-slider" min="1" max="212" value="1" class="nav-slider" aria-label="Sloka number">
+            <span id="sloka-counter" class="reading-progress" aria-live="polite">1 / 212</span>
+        </div>
+        <button id="next-sloka-btn" class="nav-btn" aria-label="Next sloka"><i class="fas fa-chevron-right"></i></button>
+    </nav>
+
+    <!-- Search (js/search.js) -->
+    <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search" style="display: none;">
+        <div class="search-top">
+            <button id="search-close-btn" class="search-icon-btn" type="button" aria-label="Close search"><i class="fas fa-arrow-left"></i></button>
+            <div class="search-input-wrap">
+                <i class="fas fa-search"></i>
+                <input id="search-input" type="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+                <button id="search-clear-btn" class="search-icon-btn" type="button" aria-label="Clear" hidden><i class="fas fa-times-circle"></i></button>
+            </div>
+        </div>
+        <div class="search-scope" role="tablist">
+            <button class="search-scope-btn" type="button" role="tab" data-scope="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
+            <button class="search-scope-btn" type="button" role="tab" data-scope="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
+        </div>
+        <div id="search-body" class="search-body"></div>
+    </div>
+
+    <div id="find-bar" class="find-bar" role="search" style="display: none;">
+        <i class="fas fa-search"></i>
+        <input id="find-input" type="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <span id="find-count" class="find-count"></span>
+        <button id="find-prev-btn" class="search-icon-btn" type="button" aria-label="Previous match"><i class="fas fa-chevron-up"></i></button>
+        <button id="find-next-btn" class="search-icon-btn" type="button" aria-label="Next match"><i class="fas fa-chevron-down"></i></button>
+        <button id="find-close-btn" class="search-icon-btn" type="button" aria-label="Close find"><i class="fas fa-times"></i></button>
     </div>
 
     <div id="toast-container" class="toast-container"></div>
@@ -583,7 +662,10 @@
     </div>
 
     <script src="js/sql-wasm.js"></script>
-    <script src="js/app.js?v=31"></script>
+    <script src="js/search-core.js?v=1"></script>
+    <script src="js/app.js?v=32"></script>
+    <script src="js/shikshapatri.js?v=1"></script>
+    <script src="js/search.js?v=1"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

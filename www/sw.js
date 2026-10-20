@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.29.0';
+const CACHE_NAME = '1.30.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -8,6 +8,10 @@ const APP_SHELL = [
     './js/sql-wasm.js',
     './js/sql-wasm.wasm',
     './js/app.js',
+    './js/search-core.js',
+    './js/search-worker.js',
+    './js/search.js',
+    './js/shikshapatri.js',
     './manifest.json',
     './assets/data/vachanamrut.db',
     './images/logo-vachanamrut.png',
@@ -16,9 +20,6 @@ const APP_SHELL = [
     './images/app-icon.png',
     './shikshapatri/',
     './shikshapatri/index.html',
-    './shikshapatri/css/styles.css',
-    './shikshapatri/js/app.js',
-    './shikshapatri/manifest.json',
     './shikshapatri/assets/data/shikshapatri.db',
     './shikshapatri/assets/data.json',
     './shikshapatri/assets/images/harikrishna-maharaj-bg.png',
@@ -76,7 +77,13 @@ const EXTRA_IMAGES = [
     './images/facts/authors/shukanandSwami.webp'
 ];
 
-const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES];
+// Shikshapatri illustrations (Shikshapatri is part of this app now)
+const SHIKSHAPATRI_IMAGES = [];
+for (let i = 1; i <= 212; i++) {
+    SHIKSHAPATRI_IMAGES.push(`./shikshapatri/assets/pictorial/${i}.png`);
+}
+
+const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES, ...SHIKSHAPATRI_IMAGES];
 
 // Install — cache only the shell so the SW activates quickly.
 self.addEventListener('install', event => {

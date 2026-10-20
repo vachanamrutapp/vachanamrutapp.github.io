@@ -3613,3 +3613,925 @@ body.facts-modal-open {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===========================================================
+   Shikshapatri (merged in from www/shikshapatri/css/styles.css)
+   =========================================================== */
+#slokas-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    padding: 8px 0 24px 0;
+}
+
+@media (max-width: 768px) {
+    #slokas-list {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .sloka-number-bubble {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+        font-size: 0.88rem;
+    }
+}
+
+/* Sloka Card — Liquid Gold Glass Style matching Vachanamrut Chapter Tiles */
+.sloka-card {
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.45), rgba(165, 37, 44, 0.09));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.12);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sloka-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top right, rgba(255, 180, 80, 0.3), transparent 70%);
+    pointer-events: none;
+}
+
+.sloka-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(139, 90, 43, 0.22);
+    border-color: rgba(165, 37, 44, 0.5);
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.55), rgba(165, 37, 44, 0.16));
+}
+
+.sloka-card:active {
+    transform: translateY(-1px);
+}
+
+.sloka-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+}
+
+.sloka-number-bubble {
+    background: linear-gradient(135deg, #FFB300, #FF8F00);
+    color: #7A181E;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.96rem;
+    line-height: 1;
+    letter-spacing: -0.2px;
+    font-family: 'Poppins', -apple-system, sans-serif;
+    box-shadow: 0 3px 10px rgba(255, 179, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.sloka-card:hover .sloka-number-bubble {
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(255, 179, 0, 0.55);
+}
+
+.sloka-content-preview {
+    flex: 1;
+    min-width: 0;
+}
+
+.sloka-sanskrit-preview {
+    color: #A5252C;
+    font-weight: 600;
+    font-size: 0.92rem;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.sloka-translation-preview {
+    color: #333333;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.9;
+}
+
+.sloka-card.bookmarked {
+    border: 2px solid #A5252C !important;
+    background: linear-gradient(135deg, rgba(255, 230, 150, 0.85), rgba(230, 166, 35, 0.35)) !important;
+    box-shadow: 0 0 0 2px rgba(165, 37, 44, 0.3), 0 8px 25px rgba(165, 37, 44, 0.2) !important;
+    position: relative;
+}
+
+.sloka-card.bookmarked .sloka-number-bubble {
+    background: linear-gradient(135deg, #A5252C, #6A1016) !important;
+    color: #FFD54F !important;
+    border-color: rgba(255, 213, 79, 0.8) !important;
+    box-shadow: 0 3px 12px rgba(165, 37, 44, 0.45) !important;
+}
+
+.sloka-card-bookmark {
+    color: #A5252C;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 6px;
+    filter: drop-shadow(0 2px 4px rgba(165, 37, 44, 0.25));
+    animation: bookmarkPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes bookmarkPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.sloka-card.bookmark-highlight {
+    animation: bookmarkGlow 1.6s ease;
+}
+
+@keyframes bookmarkGlow {
+    0% {
+        box-shadow: 0 0 0 3px rgba(165, 37, 44, 0.4), 0 8px 30px rgba(165, 37, 44, 0.35);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 5px rgba(165, 37, 44, 0.7), 0 12px 35px rgba(165, 37, 44, 0.45);
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Skeleton Loading */
+.sloka-card.skeleton {
+    min-height: 86px;
+    background: linear-gradient(90deg, rgba(255, 230, 150, 0.3) 25%, rgba(255, 230, 150, 0.5) 50%, rgba(255, 230, 150, 0.3) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Reading Pane (Detail Screen) — Matching Vachanamrut Glass Card */
+#sloka-content {
+    background: rgba(255, 230, 150, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    border-radius: 20px;
+    padding: 24px 18px;
+    margin: 8px auto calc(90px + var(--safe-bottom, 0px)) auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    max-width: 860px;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    #sloka-content {
+        padding: 16px 14px;
+        border-radius: 16px;
+        margin-bottom: calc(95px + var(--safe-bottom, 0px));
+    }
+}
+
+/* Sloka Image & Header — Blended with Main Box (No Separate Box) */
+.sloka-image-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    margin: -24px -18px 18px -18px;
+    overflow: visible;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.sloka-image-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(165, 37, 44, 0.05);
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
+}
+
+.sloka-image-title,
+.sloka-title-badge {
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #8C252A;
+    letter-spacing: 0.8px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    text-align: center;
+    display: block;
+}
+
+.sloka-image-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 18px 0 18px;
+    background: none;
+}
+
+#sloka-image {
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 10px;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+#sloka-image:hover {
+    transform: scale(1.01);
+}
+
+@media (max-width: 768px) {
+    .sloka-image-card {
+        margin: -16px -14px 14px -14px;
+        border-radius: 0;
+    }
+    .sloka-image-header {
+        padding: 10px 14px;
+    }
+    .sloka-image-title,
+    .sloka-title-badge {
+        font-size: 1.05rem;
+        letter-spacing: 0.4px;
+        padding: 0;
+    }
+    .sloka-image-wrap {
+        padding: 12px 14px 0 14px;
+    }
+    #sloka-image {
+        border-radius: 8px;
+        max-height: 300px;
+    }
+}
+
+/* Sanskrit Verse Box — Red verse text matching user preference */
+#sloka-sanskrit {
+    background: rgba(230, 81, 0, 0.04);
+    border: 1.5px dashed rgba(165, 37, 44, 0.35);
+    padding: 16px 14px;
+    margin: 16px 0;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 2.1;
+    color: #A5252C; /* Red Sanskrit Sloka */
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-weight: 700;
+    box-shadow: inset 0 0 12px rgba(230, 81, 0, 0.02);
+}
+
+@media (max-width: 768px) {
+    #sloka-sanskrit {
+        font-size: 1.08rem;
+        line-height: 1.8;
+        padding: 12px 10px;
+        margin: 12px 0;
+        border-radius: 10px;
+    }
+}
+
+/* Translation Card & Header */
+#translation-card {
+    margin-top: 14px;
+}
+
+.translation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
+}
+
+.translation-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.sp-language-select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(165, 37, 44, 0.35);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #A5252C;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.sp-language-select:hover, .sp-language-select:focus {
+    border-color: #A5252C;
+    box-shadow: 0 2px 8px rgba(165, 37, 44, 0.2);
+}
+
+/* Translation Text */
+#sloka-text {
+    font-size: 1.18rem;
+    line-height: 1.85;
+    color: #111111;
+    text-align: justify;
+    font-weight: 400;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    padding: 2px 0;
+}
+
+#sloka-text.gujarati {
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    font-size: 1.18rem;
+    line-height: 1.85;
+}
+
+@media (max-width: 768px) {
+    #sloka-text {
+        font-size: 1.12rem;
+        line-height: 1.8;
+    }
+    #sloka-text.gujarati {
+        font-size: 1.12rem;
+        line-height: 1.8;
+    }
+}
+
+/* Additional translation box (if used) */
+#sloka-translation {
+    font-size: 1.18rem;
+    line-height: 1.85;
+    color: #333;
+    margin-top: 15px;
+}
+
+/* Shatanand Muni Arthadeepika Bhashya — Seamless Accordion (matching Translation style) */
+.bhashya-card {
+    margin-top: 24px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.bhashya-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px solid rgba(165, 37, 44, 0.15);
+    cursor: pointer;
+    background: none;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+.bhashya-header:hover {
+    opacity: 0.82;
+    background: none;
+}
+
+.bhashya-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #A5252C;
+    font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.bhashya-title i {
+    font-size: 1.1rem;
+}
+
+.bhashya-header .toggle-icon {
+    font-size: 1.05rem;
+    color: #A5252C;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2px 4px;
+}
+
+.bhashya-body {
+    padding: 2px 0 0 0;
+    background: none;
+    border: none;
+}
+
+.bhashya-paragraph {
+    font-size: 1.18rem;
+    line-height: 1.85;
+    color: #111111;
+    margin-bottom: 16px;
+    text-align: justify;
+    font-family: 'Noto Sans Gujarati', 'Roboto', sans-serif;
+}
+
+.bhashya-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.bhashya-shlok {
+    background: rgba(165, 37, 44, 0.05);
+    border-left: 3.5px solid #A5252C;
+    padding: 10px 14px;
+    margin: 12px 0 16px 0;
+    border-radius: 0 8px 8px 0;
+    font-family: 'Noto Serif', 'Georgia', serif;
+    font-weight: 600;
+    font-size: 1.14rem;
+    color: #A5252C;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .bhashya-card {
+        margin-top: 20px;
+    }
+    .bhashya-header {
+        padding-bottom: 6px;
+        margin-bottom: 10px;
+    }
+    .bhashya-title {
+        font-size: 1rem;
+    }
+    .bhashya-body {
+        padding: 0;
+    }
+    .bhashya-paragraph {
+        font-size: 1.12rem;
+        line-height: 1.8;
+        margin-bottom: 14px;
+    }
+    .bhashya-shlok {
+        font-size: 1.08rem;
+        line-height: 1.75;
+        padding: 8px 10px;
+        margin: 10px 0 14px 0;
+    }
+}
+
+/* Error message */
+.shikshapatri .error-message {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255, 230, 150, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(165, 37, 44, 0.3);
+    margin: 20px 0;
+}
+
+.shikshapatri .error-message p {
+    color: #A5252C;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.shikshapatri .error-message button {
+    background: #A5252C;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.shikshapatri .error-message button:hover {
+    background: #8A1F25;
+    transform: scale(1.05);
+}
+
+/* Bottom Bar Container */
+
+
+.sloka-image-header {
+    position: relative;
+}
+
+/* Bookmark this shloka (top-right of the shloka card) */
+.sp-bookmark-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(165, 37, 44, 0.2);
+    background: rgba(255, 255, 255, 0.5);
+    color: #A5252C;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sp-bookmark-btn.bookmarked {
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+/* "Bookmarked: Shloka 37" chip above the list */
+.sp-bookmark-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto 12px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    background: rgba(255, 255, 255, 0.55);
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#shikshapatri-list-screen {
+    text-align: center;
+}
+
+#shikshapatri-list-screen #slokas-list {
+    text-align: left;
+}
+
+/* ===========================================================
+   Bottom bar: scripture switch · search · settings
+   =========================================================== */
+.app-tab-bar {
+    overflow: visible;
+}
+
+.footer-tab:first-child::after {
+    display: none;
+}
+
+.footer-search-slot {
+    flex: 0 0 84px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.footer-search-btn {
+    width: 60px;
+    height: 60px;
+    margin-top: -26px;
+    border-radius: 50%;
+    border: 4px solid #E6A623;
+    background: #A5252C;
+    color: #FFE08A;
+    font-size: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(120, 30, 20, 0.35);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease;
+}
+
+.footer-search-btn:active {
+    transform: scale(0.94);
+}
+
+/* Find-in-page on a shloka: top-left of the card, mirroring the bookmark */
+.sp-find-btn {
+    right: auto;
+    left: 12px;
+}
+
+/* ===========================================================
+   Search screen
+   =========================================================== */
+body.search-open {
+    overflow: hidden;
+}
+
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10020;
+    flex-direction: column;
+    background-color: #E6A623;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url('../images/harikrishna-maharaj-bg.png');
+    background-size: cover;
+    background-position: center;
+    padding-top: var(--safe-top);
+    animation: searchFadeIn 0.2s ease;
+}
+
+@keyframes searchFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px 6px;
+    background: #E6A623;
+}
+
+.search-icon-btn {
+    background: transparent;
+    border: none;
+    color: #A5252C;
+    font-size: 1.15rem;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    border-radius: 14px;
+    padding: 0 6px 0 12px;
+}
+
+.search-input-wrap > i {
+    color: #A5252C;
+    opacity: 0.7;
+}
+
+#search-input,
+#find-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-family: 'Noto Sans Gujarati', 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #2C1D18;
+    padding: 11px 0;
+    outline: none;
+}
+
+#search-input::-webkit-search-cancel-button,
+#find-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search-scope {
+    display: flex;
+    gap: 4px;
+    margin: 4px 14px 0;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(165, 37, 44, 0.15);
+    border-radius: 12px;
+}
+
+.search-scope-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 9px;
+    padding: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #A5252C;
+    cursor: pointer;
+}
+
+.search-scope-btn.active {
+    background: #A5252C;
+    color: #FFE08A;
+}
+
+.search-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 14px calc(24px + var(--safe-bottom));
+    -webkit-overflow-scrolling: touch;
+}
+
+.search-hint {
+    font-size: 0.85rem;
+    color: #5d4e75;
+    margin: 14px 2px 0;
+    line-height: 1.45;
+}
+
+.search-clear-recent {
+    margin-left: auto;
+    border: none;
+    background: none;
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.search-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(165, 37, 44, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    color: #2C1D18;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+.search-chip i {
+    color: #A5252C;
+    opacity: 0.6;
+    font-size: 0.75rem;
+}
+
+.search-result {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+    cursor: pointer;
+    align-items: flex-start;
+}
+
+.search-result .setting-icon {
+    margin-top: 2px;
+}
+
+.search-result .settings-row-chevron {
+    align-self: center;
+}
+
+.search-count {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.12);
+    color: #A5252C;
+    font-size: 0.72rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.search-snippet {
+    margin-top: 4px;
+    font-size: 0.83rem;
+    line-height: 1.45;
+    color: #4a3b30;
+}
+
+.search-snippet mark,
+mark.find-hit {
+    background: rgba(247, 200, 68, 0.85);
+    color: inherit;
+    border-radius: 3px;
+    padding: 0 1px;
+}
+
+.search-glossary-card {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(165, 37, 44, 0.18);
+    border-radius: 16px;
+    padding: 12px 14px;
+}
+
+.search-glossary-word {
+    font-weight: 700;
+    color: #A5252C;
+    font-size: 1rem;
+}
+
+.search-glossary-word span {
+    color: #7a6a5a;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-left: 6px;
+}
+
+.search-glossary-meaning {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #2C1D18;
+}
+
+.search-glossary-count {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #7a6a5a;
+}
+
+.search-status {
+    text-align: center;
+    color: #5d4e75;
+    font-size: 0.9rem;
+    padding: 28px 10px;
+}
+
+/* ===========================================================
+   Find in page
+   =========================================================== */
+.find-bar {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    top: calc(66px + var(--safe-top));
+    z-index: 10010;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px 2px 12px;
+    background: rgba(255, 245, 210, 0.97);
+    border: 1px solid rgba(165, 37, 44, 0.25);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.find-bar > i {
+    color: #A5252C;
+    opacity: 0.7;
+}
+
+.find-count {
+    font-size: 0.8rem;
+    color: #7a6a5a;
+    white-space: nowrap;
+    padding: 0 4px;
+}
+
+mark.find-hit.current {
+    background: #E65100;
+    color: #fff;
+}

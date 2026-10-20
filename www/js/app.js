@@ -165,9 +165,11 @@ const vachanamrutFooterText = document.getElementById('vachanamrut-footer-text')
 const backBtn = document.getElementById('back-btn');
 let bookmarkBtn = document.getElementById('bookmark-pill-btn');
 const fabBtn = document.getElementById('fab-btn');
-const fabShikshapatriBtn = document.getElementById('fab-shikshapatri-btn');
 const footer = document.getElementById('footer');
-const footerJourneyBtn = document.getElementById('footer-journey-btn');
+const footerSwitchBtn = document.getElementById('footer-switch-btn');
+// Which scripture the reader is in, and the last screen in each (for the bottom-bar switch and Settings)
+let currentScripture = 'vachanamrut';
+const lastPlace = { vachanamrut: null, shikshapatri: null };
 const footerSettingsBtn = document.getElementById('footer-settings-btn');
 const readingFooter = document.getElementById('reading-footer');
 const navPrevBtn = document.getElementById('nav-prev-btn');
@@ -381,7 +383,6 @@ function showVachanamrut(vachanamrut, pushState = true) {
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'block';
     if (fabBtn) fabBtn.style.display = 'none'; // Hide FAB in detail view
-    if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 
     // Update bookmark button state
     updateBookmarkButtonState(vachanamrut.id);
@@ -923,7 +924,11 @@ async function init() {
 
 
         // Initial screen setup
-        if (deepLinkId) {
+        if (urlParams.get('s') === 'shikshapatri') {
+            const slokaId = parseInt(deepLinkId);
+            if (slokaId) Shikshapatri.showSloka(slokaId, false);
+            else Shikshapatri.showList(false);
+        } else if (deepLinkId) {
             const vachanamrut = vachanamrutData.find(v => v.id === parseInt(deepLinkId));
             if (vachanamrut) {
                 showVachanamrut(vachanamrut, true); // Push state to restore URL after showScreen cleared it
@@ -945,7 +950,11 @@ async function init() {
 
         // Handle browser back/forward
         window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.vachanamrutId) {
+            if (event.state && event.state.slokaId) {
+                Shikshapatri.showSloka(event.state.slokaId, false);
+            } else if (event.state && event.state.shikshapatri) {
+                Shikshapatri.showList(false);
+            } else if (event.state && event.state.vachanamrutId) {
                 const vachanamrut = vachanamrutData.find(v => v.id === event.state.vachanamrutId);
                 if (vachanamrut) {
                     showVachanamrut(vachanamrut, false);
@@ -1178,7 +1187,6 @@ function showSectionDetail(sectionIndex) {
     backBtn.style.display = 'block';
     bookmarkBtn.style.display = 'none';
     if (fabBtn) fabBtn.style.display = 'none';
-    if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
 }
 
 // Render vachanamrut tiles in section detail
@@ -2427,15 +2435,10 @@ function setupMenu() {
     const fabJourney = document.getElementById('fab-journey');
     let isMenuOpen = false;
 
-    // Footer Journey tab click
-    if (footerJourneyBtn) {
-        footerJourneyBtn.addEventListener('click', () => {
-            const journeyScreen = document.getElementById('journey-screen');
-            if (journeyScreen && journeyScreen.classList.contains('active')) {
-                showScreen('home-screen');
-            } else {
-                showScreen('journey-screen');
-            }
+    // Bottom bar: jump to the other scripture, back where you left it
+    if (footerSwitchBtn) {
+        footerSwitchBtn.addEventListener('click', () => {
+            returnToScripture(currentScripture === 'vachanamrut' ? 'shikshapatri' : 'vachanamrut');
         });
     }
 
@@ -2444,7 +2447,7 @@ function setupMenu() {
         footerSettingsBtn.addEventListener('click', () => {
             const settingsScreen = document.getElementById('settings-screen');
             if (settingsScreen && settingsScreen.classList.contains('active')) {
-                showScreen('home-screen');
+                returnToScripture();
             } else {
                 showScreen('settings-screen');
             }
@@ -2465,13 +2468,6 @@ function setupMenu() {
                 fabMenu.classList.remove('active');
                 fabBtn.innerHTML = '<i class="fas fa-cog"></i>';
             }
-        });
-    }
-
-    // Standalone Shikshapatri FAB click
-    if (fabShikshapatriBtn) {
-        fabShikshapatriBtn.addEventListener('click', () => {
-            window.location.href = './shikshapatri/index.html';
         });
     }
 
@@ -2512,7 +2508,7 @@ function setupMenu() {
     const settingsShikshapatriRow = document.getElementById('settings-shikshapatri-row');
     if (settingsShikshapatriRow) {
         settingsShikshapatriRow.addEventListener('click', () => {
-            window.location.href = './shikshapatri/index.html';
+            returnToScripture('shikshapatri');
         });
     }
 
@@ -2576,6 +2572,52 @@ function setupMenu() {
 }
 
 // Show screen
+// Header logo, bottom-bar switch and the shloka footer follow the current scripture
+function updateScriptureChrome(screenId) {
+    const inShikshapatri = currentScripture === 'shikshapatri';
+    const logo = document.getElementById('navbar-logo');
+    const logoSrc = inShikshapatri ? 'shikshapatri/assets/images/navbar-image.png?v=2' : 'images/logo-vachanamrut.png';
+    if (!logo.src.endsWith(logoSrc)) {
+        logo.src = logoSrc;
+        logo.alt = inShikshapatri ? 'Shikshapatri' : 'Vachanamrut';
+    }
+    document.getElementById('footer-switch-icon').className = `fas ${inShikshapatri ? 'fa-book-open' : 'fa-scroll'} footer-tab-icon`;
+    document.getElementById('footer-switch-label-guj').textContent = inShikshapatri ? 'વચનામૃત' : 'શિક્ષાપત્રી';
+    document.getElementById('footer-switch-label-eng').textContent = inShikshapatri ? 'Vachanamrut' : 'Shikshapatri';
+    footerSwitchBtn.setAttribute('aria-label', inShikshapatri ? 'Switch to Vachanamrut' : 'Switch to Shikshapatri');
+    document.getElementById('sloka-navigation').style.display = screenId === 'shikshapatri-detail-screen' ? 'flex' : 'none';
+    document.body.classList.toggle('in-shikshapatri', inShikshapatri);
+    if (window.SearchUI) SearchUI.closeFind();
+}
+
+// Open a Vachanamrut with its own section as context (search results, switching back)
+function openVachanamrutById(id) {
+    const vachanamrut = vachanamrutData.find(v => v.id === id);
+    if (!vachanamrut) return false;
+    const section = sections.find(s => s.vachanamruts.some(v => v.id === id));
+    if (section) {
+        currentSection = section;
+        currentSectionVachanamruts = section.vachanamruts;
+    }
+    showVachanamrut(vachanamrut);
+    return true;
+}
+
+// Go back to where the reader was in a scripture (Settings back, bottom-bar switch)
+function returnToScripture(scripture = currentScripture) {
+    if (scripture === 'shikshapatri') {
+        Shikshapatri.resume(lastPlace.shikshapatri === 'shikshapatri-detail-screen');
+        return;
+    }
+    const place = lastPlace.vachanamrut;
+    if (place === 'vachanamrut-detail-screen' && activeVachanamrutId !== -1 && openVachanamrutById(activeVachanamrutId)) return;
+    if (place === 'section-detail-screen' && currentSection) {
+        showSectionDetail(sections.indexOf(currentSection));
+        return;
+    }
+    showScreen('home-screen');
+}
+
 function showScreen(screenId, pushState = true) {
     // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
@@ -2585,6 +2627,16 @@ function showScreen(screenId, pushState = true) {
     // Show requested screen
     document.getElementById(screenId).classList.add('active');
     if (screenId === 'settings-screen' && canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
+
+    const scriptureOfScreen = {
+        'home-screen': 'vachanamrut', 'section-detail-screen': 'vachanamrut', 'vachanamrut-detail-screen': 'vachanamrut',
+        'shikshapatri-list-screen': 'shikshapatri', 'shikshapatri-detail-screen': 'shikshapatri',
+    }[screenId];
+    if (scriptureOfScreen) {
+        currentScripture = scriptureOfScreen;
+        lastPlace[scriptureOfScreen] = screenId;
+    }
+    updateScriptureChrome(screenId);
 
     // Toggle reading theme class on body
     if (screenId === 'vachanamrut-detail-screen') {
@@ -2605,18 +2657,9 @@ function showScreen(screenId, pushState = true) {
 
 
 
-    // Update footer tab states
-    if (footerJourneyBtn && footerSettingsBtn) {
-        if (screenId === 'journey-screen') {
-            footerJourneyBtn.classList.add('active');
-            footerSettingsBtn.classList.remove('active');
-        } else if (screenId === 'settings-screen') {
-            footerSettingsBtn.classList.add('active');
-            footerJourneyBtn.classList.remove('active');
-        } else {
-            footerJourneyBtn.classList.remove('active');
-            footerSettingsBtn.classList.remove('active');
-        }
+    // Bottom bar: Settings is active on Settings and on Journey (which lives inside Settings)
+    if (footerSettingsBtn) {
+        footerSettingsBtn.classList.toggle('active', screenId === 'settings-screen' || screenId === 'journey-screen');
     }
 
     // Toggle footer and navbar buttons visibility
@@ -2625,7 +2668,6 @@ function showScreen(screenId, pushState = true) {
         backBtn.style.display = 'none';
         bookmarkBtn.style.display = 'none';
         if (fabBtn) fabBtn.style.display = 'none';
-        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'flex';
 
         // Re-render home screen sections to ensure correct language translation
         renderSections();
@@ -2638,20 +2680,23 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'flex';
         if (fabBtn) fabBtn.style.display = 'none';
-        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
     } else if (screenId === 'settings-screen' || screenId === 'journey-screen') {
         footer.style.display = 'flex';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
         if (fabBtn) fabBtn.style.display = 'none';
-        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
+    } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
+        const isList = screenId === 'shikshapatri-list-screen';
+        footer.style.display = isList ? 'flex' : 'none';
+        backBtn.style.display = isList ? 'none' : 'block';
+        bookmarkBtn.style.display = 'none';
+        if (fabBtn) fabBtn.style.display = 'none';
     } else {
         footer.style.display = 'none';
         if (fabBtn) fabBtn.style.display = 'none';
-        if (fabShikshapatriBtn) fabShikshapatriBtn.style.display = 'none';
         // Buttons are handled in showVachanamrut for detail screen
     }
 
@@ -2715,8 +2760,12 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
-            showScreen('home-screen');
+        } else if (document.getElementById('journey-screen').classList.contains('active')) {
+            showScreen('settings-screen'); // Journey lives inside Settings
+        } else if (settingsScreen.classList.contains('active')) {
+            returnToScripture();
+        } else if (window.Shikshapatri) {
+            Shikshapatri.back(); // shloka → list
         }
     });
 
@@ -2727,9 +2776,12 @@ function setupNavigation() {
     const AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
     if (AppPlugin) {
         AppPlugin.addListener('backButton', () => {
-            if (document.body.classList.contains('facts-modal-open')) {
+            if (window.SearchUI && SearchUI.handleBack()) {
+                // closed search or find-in-page
+            } else if (document.body.classList.contains('facts-modal-open')) {
                 closeFactsModal();
-            } else if (document.getElementById('home-screen').classList.contains('active')) {
+            } else if (document.getElementById('home-screen').classList.contains('active') ||
+                       document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
                 AppPlugin.exitApp();
             } else {
                 backBtn.click();
@@ -2804,7 +2856,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentLanguage = selectedLanguage;
             localStorage.setItem('appLanguage', currentLanguage);
             document.body.className = currentLanguage;
+            document.body.classList.toggle('in-shikshapatri', currentScripture === 'shikshapatri');
+            document.body.classList.toggle('reading-screen', document.getElementById('vachanamrut-detail-screen').classList.contains('active'));
             if (canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
+            if (window.Shikshapatri) Shikshapatri.onAppLanguageChange();
 
             // Highlight the active button
             if (currentLanguage === 'english') {
