@@ -40,7 +40,11 @@ const audioSources = fileName => (AUDIO_BASE.startsWith('http') ? [AUDIO_BASE, .
 
 // Where AUDIO_BASE is remote, Settings can download every file into Cache Storage for offline listening.
 const OFFLINE_AUDIO_CACHE = 'offline-audio-v1';
-const canDownloadAudio = AUDIO_BASE.startsWith('http') && 'caches' in window;
+// Android app: audio is remote and downloads are swapped in as blob URLs. Web / PWA: the service worker
+// (sw.js) plays downloaded files back itself, so the same download works there too.
+const blobOfflineAudio = AUDIO_BASE.startsWith('http');
+const canDownloadAudio = 'caches' in window && (blobOfflineAudio || 'serviceWorker' in navigator);
+const AUDIO_BASE_ABS = new URL(AUDIO_BASE, document.baseURI).href;
 const OFFLINE_AUDIO_FILES = ['1 Partharo.mp3', '264 Khagol Bhugol.mp3', ...Array.from({ length: 262 }, (_, i) => `${i + 1}.mp3`)];
 let offlineAudioObjectUrl = null;
 let isPlaying = false;
@@ -279,6 +283,8 @@ let currentScripture = 'vachanamrut';
 const lastPlace = { vachanamrut: null, shikshapatri: null };
 const footerSettingsBtn = document.getElementById('footer-settings-btn');
 const footerNotesBtn = document.getElementById('footer-notes-btn');
+const footerAudioBtn = document.getElementById('footer-audio-btn');
+if (footerAudioBtn && localStorage.getItem('audioEnabled') === 'false') footerAudioBtn.style.display = 'none'; // Settings → Audio narration is off
 const readingFooter = document.getElementById('reading-footer');
 const navPrevBtn = document.getElementById('nav-prev-btn');
 const navNextBtn = document.getElementById('nav-next-btn');
@@ -545,6 +551,23 @@ function setupAudioPlayer(vachanamrut) {
         audioBarTitle.textContent = cleanNumber;
     }
 
+    // Waveform for this Vachanamrut (tap or drag to seek)
+    const waveSlot = document.getElementById('audio-wave-slot');
+    if (waveSlot && window.AudioWave) {
+        if (!waveSlot.dataset.bound) {
+            waveSlot.dataset.bound = '1';
+            AudioWave.bindSeek(waveSlot, audioPlayer, {
+                start: () => { isDraggingScrubber = true; },
+                move: f => { if (audioPlayer.duration) audioTimer.textContent = `${formatTime(f * audioPlayer.duration)} / ${formatTime(audioPlayer.duration)}`; },
+                end: () => { isDraggingScrubber = false; },
+            });
+        }
+        if (waveSlot.dataset.id !== String(vachanamrutId)) {
+            waveSlot.dataset.id = String(vachanamrutId);
+            waveSlot.innerHTML = AudioWave.html(vachanamrutId, 40);
+        }
+    }
+
     // Reset if new vachanamrut
     if (currentAudioId !== vachanamrutId) {
         audioPlayer.pause();
@@ -601,7 +624,7 @@ function setAudioSource(fileName) {
     }
     audioPlayer.src = url;
     audioPlayer.load();
-    if (!canDownloadAudio) return;
+    if (!blobOfflineAudio) return; // on the web the service worker serves downloaded audio
 
     caches.open(OFFLINE_AUDIO_CACHE)
         .then(cache => cache.match(url))
@@ -618,7 +641,7 @@ function setAudioSource(fileName) {
 
 // Download for offline: try vachanamrut.in, then the mirrors. Stored under the vachanamrut.in URL either way.
 async function fetchAudioWithMirrors(url) {
-    const fileName = decodeURIComponent(url.slice(AUDIO_BASE.length));
+    const fileName = decodeURIComponent(url.slice(AUDIO_BASE_ABS.length));
     let lastError = null;
     for (const source of audioSources(fileName)) {
         try {
@@ -644,16 +667,7 @@ async function countOfflineAudio() {
 }
 
 function renderOfflineAudio(state, done = 0) {
-    const status = document.getElementById('offline-audio-status');
-    const btn = document.getElementById('offline-audio-btn');
-    const bar = document.getElementById('offline-audio-progress');
-    const fill = document.getElementById('offline-audio-progress-fill');
     const total = OFFLINE_AUDIO_FILES.length;
-
-    bar.hidden = !(state === 'downloading' || state === 'partial' || state === 'error');
-    fill.style.width = `${Math.round((done / total) * 100)}%`;
-    btn.disabled = false;
-    btn.classList.remove('secondary');
 
     // [English, Gujarati] for each state, following the app language
     const en = uiEnglish();
@@ -675,9 +689,24 @@ function renderOfflineAudio(state, done = 0) {
         'no-space': ['Download', 'ડાઉનલોડ'],
         none: ['Download', 'ડાઉનલોડ'],
     };
-    status.textContent = text[state][en ? 0 : 1];
-    btn.textContent = label[state][en ? 0 : 1];
-    if (state === 'downloading' || state === 'complete') btn.classList.add('secondary');
+
+    // The same card lives in Settings (offline-audio-*) and on the Audio page (ap-offline-*)
+    for (const prefix of ['offline-audio-', 'ap-offline-']) {
+        const status = document.getElementById(`${prefix}status`);
+        const btn = document.getElementById(`${prefix}btn`);
+        const bar = document.getElementById(`${prefix}progress`);
+        const fill = document.getElementById(`${prefix}progress-fill`);
+        if (!status || !btn) continue;
+        bar.hidden = !(state === 'downloading' || state === 'partial' || state === 'error');
+        fill.style.width = `${Math.round((done / total) * 100)}%`;
+        btn.disabled = false;
+        btn.classList.remove('secondary');
+        status.textContent = text[state][en ? 0 : 1];
+        btn.textContent = label[state][en ? 0 : 1];
+        if (state === 'downloading' || state === 'complete') btn.classList.add('secondary');
+    }
+    // Keep the Audio page's "downloaded" ticks current (not on every file while downloading)
+    if (window.AudioPage && (state !== 'downloading' || done % 10 === 0)) AudioPage.refreshDownloaded();
 }
 
 async function refreshOfflineAudio() {
@@ -691,7 +720,7 @@ async function downloadAllAudio() {
     offlineAudioStopRequested = false;
     const cache = await caches.open(OFFLINE_AUDIO_CACHE);
     const cached = new Set((await cache.keys()).map(req => req.url));
-    const pending = OFFLINE_AUDIO_FILES.map(f => new URL(`${AUDIO_BASE}${f}`).href).filter(url => !cached.has(url));
+    const pending = OFFLINE_AUDIO_FILES.map(f => new URL(`${AUDIO_BASE}${f}`, document.baseURI).href).filter(url => !cached.has(url));
     let done = cached.size;
     let failed = false;
     renderOfflineAudio('downloading', done);
@@ -737,15 +766,17 @@ async function downloadAllAudio() {
 
 function setupOfflineAudio() {
     const item = document.getElementById('offline-audio-item');
-    const btn = document.getElementById('offline-audio-btn');
+    const buttons = ['offline-audio-btn', 'ap-offline-btn'].map(id => document.getElementById(id)).filter(Boolean);
     if (!item || !canDownloadAudio) return;
     item.style.display = '';
+    const apCard = document.getElementById('ap-offline');
+    if (apCard) apCard.hidden = false;
     refreshOfflineAudio();
 
-    btn.addEventListener('click', async () => {
+    const onClick = async () => {
         if (offlineAudioDownloading) {
             offlineAudioStopRequested = true;
-            btn.disabled = true;
+            buttons.forEach(b => { b.disabled = true; });
             return;
         }
         const done = await countOfflineAudio();
@@ -760,10 +791,12 @@ function setupOfflineAudio() {
             return;
         }
         downloadAllAudio();
-    });
+    };
+    buttons.forEach(b => b.addEventListener('click', onClick));
 }
 
 function toggleAudio() {
+    if (!isPlaying && window.AudioPage) AudioPage.pause(); // never two at once
     if (isPlaying) {
         audioPlayer.pause();
     } else {
@@ -834,6 +867,8 @@ audioPlayer.addEventListener('timeupdate', () => {
             const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
             if (audioProgressBar) audioProgressBar.value = percent;
             if (audioProgressFill) audioProgressFill.style.width = `${percent}%`;
+            const wave = document.querySelector('#audio-wave-slot .ap-wave');
+            if (wave) wave.style.setProperty('--p', `${percent}%`);
             audioTimer.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
         }
     }
@@ -844,6 +879,8 @@ audioPlayer.addEventListener('ended', () => {
     updateAudioBarUI();
     if (audioProgressBar) audioProgressBar.value = 0;
     if (audioProgressFill) audioProgressFill.style.width = '0%';
+    const endedWave = document.querySelector('#audio-wave-slot .ap-wave');
+    if (endedWave) endedWave.style.setProperty('--p', '0%');
     
     // Reset FAB progress circle
     const progressCircle = document.querySelector('.audio-fab-progress-circle');
@@ -2764,6 +2801,14 @@ function setupMenu() {
         });
     }
 
+    // Footer Audio tab: the audio library; tap again to go back where you were
+    if (footerAudioBtn) {
+        footerAudioBtn.addEventListener('click', () => {
+            if (document.getElementById('audio-screen').classList.contains('active')) returnToScripture();
+            else showScreen('audio-screen');
+        });
+    }
+
     // Footer Notes tab: your notes and highlights; tap again to go back where you were
     if (footerNotesBtn) {
         footerNotesBtn.addEventListener('click', () => {
@@ -2846,6 +2891,7 @@ function setupMenu() {
         if (document.getElementById('journey-screen').classList.contains('active')) renderJourneyPage();
         if (canDownloadAudio && !offlineAudioDownloading) refreshOfflineAudio();
         if (window.Shikshapatri) Shikshapatri.onAppLanguageChange();
+        if (window.AudioPage && document.getElementById('audio-screen').classList.contains('active')) AudioPage.show();
     };
     document.getElementById('settings-ui-auto').addEventListener('click', () => setUiLanguage('auto'));
     document.getElementById('settings-ui-eng').addEventListener('click', () => setUiLanguage('english'));
@@ -3022,6 +3068,7 @@ function showScreen(screenId, pushState = true) {
         footerSettingsBtn.classList.toggle('active', screenId === 'settings-screen' || screenId === 'journey-screen');
     }
     if (footerNotesBtn) footerNotesBtn.classList.toggle('active', screenId === 'notes-screen');
+    if (footerAudioBtn) footerAudioBtn.classList.toggle('active', screenId === 'audio-screen');
 
     // Toggle footer and navbar buttons visibility
     if (screenId === 'home-screen') {
@@ -3041,7 +3088,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'flex';
         if (fabBtn) fabBtn.style.display = 'none';
-    } else if (screenId === 'settings-screen' || screenId === 'journey-screen' || screenId === 'notes-screen') {
+    } else if (screenId === 'settings-screen' || screenId === 'journey-screen' || screenId === 'notes-screen' || screenId === 'audio-screen') {
         footer.style.display = 'flex';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -3050,6 +3097,7 @@ function showScreen(screenId, pushState = true) {
             renderJourneyPage();
         }
         if (screenId === 'notes-screen' && window.Annotations) Annotations.renderMyNotes();
+        if (screenId === 'audio-screen' && window.AudioPage) AudioPage.show();
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
         footer.style.display = isList ? 'flex' : 'none';
@@ -3072,6 +3120,7 @@ function showScreen(screenId, pushState = true) {
 
     // Handle audio player visibility
     const isPartharoSectionScreen = screenId === 'section-detail-screen' && currentSection && (currentSection.name_en === 'Partharo' || currentSection.name_gu === 'પરથારો');
+    if (window.AudioPage) AudioPage.onScreen(screenId, screenId === 'vachanamrut-detail-screen' || isPartharoSectionScreen);
     if (screenId === 'vachanamrut-detail-screen' || isPartharoSectionScreen) {
         if (audioEnabled && currentAudioId !== -1) {
             audioPlayerContainer.style.display = 'flex';
@@ -3122,8 +3171,8 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active') || document.getElementById('notes-screen').classList.contains('active')) {
-            returnToScripture(); // Settings, Journey and Notes are tabs of one place
+        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active') || document.getElementById('notes-screen').classList.contains('active') || document.getElementById('audio-screen').classList.contains('active')) {
+            returnToScripture(); // Settings, Journey, Notes and Audio are tabs of one place
         } else if (document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
             showScreen('home-screen'); // Shikshapatri list → Vachanamrut home
         } else if (window.Shikshapatri) {
@@ -3363,6 +3412,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderJourneyPage();
                 } else if (activeScreenId === 'notes-screen' && window.Annotations) {
                     Annotations.renderMyNotes();
+                } else if (activeScreenId === 'audio-screen' && window.AudioPage) {
+                    AudioPage.show();
                 }
             } catch (error) {
                 console.error('Dynamic language switch error:', error);
@@ -3401,6 +3452,8 @@ document.addEventListener('DOMContentLoaded', () => {
         audioToggle.addEventListener('change', () => {
             audioEnabled = audioToggle.checked;
             localStorage.setItem('audioEnabled', audioEnabled);
+            if (footerAudioBtn) footerAudioBtn.style.display = audioEnabled ? '' : 'none';
+            if (!audioEnabled && window.AudioPage) AudioPage.pause();
         });
     }
 
@@ -3491,6 +3544,9 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
             titleString = `Your Reading Journey | Vachanamrut`;
             descString = `Track your Vachanamrut reading progress, daily streaks, milestones, and saved favorite Vachanamruts.`;
         }
+    } else if (screenId === 'audio-screen') {
+        titleString = isGuj ? 'ઓડિયો | વચનામૃત' : 'Audio | Vachanamrut';
+        descString = isGuj ? 'બધા વચનામૃત ઓડિયો સ્વરૂપે સાંભળો.' : 'Listen to every Vachanamrut as audio.';
     } else if (screenId === 'notes-screen') {
         titleString = isGuj ? 'મારી નોંધ | વચનામૃત' : 'My Notes | Vachanamrut';
         descString = isGuj ? 'તમારી હાઇલાઇટ અને નોંધ એક જગ્યાએ.' : 'Your highlights and notes in one place.';

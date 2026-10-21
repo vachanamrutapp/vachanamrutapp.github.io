@@ -9,6 +9,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(LaunchSplashPlugin.class);
         registerPlugin(NotificationSettingsPlugin.class);
+        registerPlugin(MediaPlaybackPlugin.class);
         super.onCreate(savedInstanceState);
         // Illustrated splash over the app until the page is ready (see LaunchSplashPlugin)
         LaunchSplashPlugin.show(this);

@@ -8601,3 +8601,857 @@ html.dark .audio-credit {
     touch-action: none;
 }
 
+
+/* ===========================================================
+   Audio page (1.9): now-playing card, offline card, filters, track list
+   =========================================================== */
+.audio-page-card {
+    --ap-surface: rgba(255, 255, 255, 0.55);
+    --ap-line: rgba(80, 50, 20, 0.1);
+    --ap-text: #2A1B12;
+    --ap-muted: #6E5E50;
+    --ap-accent: #A5252C;
+}
+
+html.dark .audio-page-card {
+    --ap-surface: #1E1E21;
+    --ap-line: rgba(255, 255, 255, 0.08);
+    --ap-text: #FFFFFF;
+    --ap-muted: #A8A8AE;
+    --ap-accent: #FFFFFF;
+}
+
+.ap-seek {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 22px;
+    margin: 0;
+    background: transparent;
+    --ap-pos: 0%;
+}
+
+.ap-seek::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ap-accent) var(--ap-pos), rgba(120, 90, 60, 0.22) var(--ap-pos));
+}
+
+.ap-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin-top: -5.5px;
+    border-radius: 50%;
+    background: var(--ap-accent);
+    border: 3px solid #FFF8E6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .ap-seek::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #FFFFFF var(--ap-pos), rgba(255, 255, 255, 0.2) var(--ap-pos));
+}
+
+html.dark .ap-seek::-webkit-slider-thumb {
+    border-color: #1E1E21;
+}
+
+.ap-times {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--ap-muted);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+}
+
+.ap-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+}
+
+.ap-ctl {
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ap-accent);
+    font-size: 1.1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.ap-ctl:active {
+    transform: scale(0.9);
+}
+
+.ap-ctl:disabled {
+    opacity: 0.35;
+}
+
+.ap-ctl-main {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    background: var(--ap-accent);
+    color: #FFF3D0;
+    box-shadow: 0 6px 16px rgba(120, 30, 20, 0.3);
+}
+
+html.dark .ap-ctl-main {
+    color: #000000;
+    box-shadow: none;
+}
+
+.ap-read,
+.ap-auto {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(120, 90, 60, 0.1);
+    color: var(--ap-text);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.ap-auto.on {
+    background: var(--ap-accent);
+    color: #FFF3D0;
+}
+
+html.dark .ap-read,
+html.dark .ap-auto {
+    background: #2A2A2E;
+}
+
+html.dark .ap-auto.on {
+    background: #FFFFFF;
+    color: #000000;
+}
+
+/* Offline download card */
+.ap-offline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: var(--ap-surface);
+}
+
+.ap-offline[hidden] {
+    display: none;
+}
+
+html.dark .ap-offline {
+    background: var(--ap-surface);
+}
+
+.ap-offline-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-offline-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ap-text);
+}
+
+.ap-offline-status {
+    font-size: 0.86rem;
+    line-height: 1.4;
+    color: var(--ap-muted);
+    margin-top: 2px;
+}
+
+/* Filters */
+.ap-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: var(--ap-surface);
+}
+
+.ap-search i {
+    color: var(--ap-muted);
+}
+
+.ap-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 12px 0;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ap-text);
+}
+
+.ap-search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.ap-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0 -4px 10px;
+    padding: 2px 4px 6px;
+    scrollbar-width: none;
+}
+
+.ap-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.ap-chips .search-chip {
+    flex: none;
+}
+
+html.dark .ap-chips .search-chip.active {
+    background: var(--d-selected);
+    color: #FFFFFF;
+}
+
+.ap-list-head {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 2px 8px;
+}
+
+.ap-play-all {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ap-accent);
+    cursor: pointer;
+    padding: 6px 4px;
+}
+
+/* Track list: one grouped surface with hairline dividers */
+.ap-list {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--ap-surface);
+}
+
+.ap-list .my-notes-empty {
+    padding: 22px 16px;
+    text-align: center;
+    color: var(--ap-muted);
+}
+
+.ap-row {
+    display: flex;
+    align-items: center;
+}
+
+.ap-row + .ap-row {
+    border-top: 1px solid var(--ap-line);
+}
+
+.ap-row.current {
+    background: rgba(165, 37, 44, 0.08);
+}
+
+html.dark .ap-row.current {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.ap-row-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 6px 12px 14px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-family: inherit;
+    color: var(--ap-text);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ap-row-icon {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    background: rgba(165, 37, 44, 0.1);
+    color: var(--ap-accent);
+}
+
+.ap-row.current .ap-row-icon {
+    background: var(--ap-accent);
+    color: #FFF3D0;
+}
+
+html.dark .ap-row-icon {
+    background: #2A2A2E;
+}
+
+html.dark .ap-row.current .ap-row-icon {
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.ap-row-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ap-row-name {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.ap-row-title {
+    font-size: 0.9rem;
+    color: var(--ap-muted);
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ap-row-dl {
+    flex: none;
+    font-size: 0.9rem;
+    color: #2E9E5B;
+}
+
+/* The tab pill now has four tabs: a little tighter */
+#footer .footer-tab-label {
+    font-size: 0.68rem;
+}
+
+/* ---- Audio page, expandable rows and docked player ---- */
+.ap-credit {
+    margin: -4px 4px 12px;
+    text-align: left;
+}
+
+.ap-list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 2px 10px;
+}
+
+.ap-auto {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+}
+
+.ap-row {
+    display: flex;
+    align-items: center;
+}
+
+.ap-row-chev {
+    flex: none;
+    font-size: 0.8rem;
+    color: var(--ap-muted);
+    transition: transform 0.25s ease;
+}
+
+.ap-row.open .ap-row-chev {
+    transform: rotate(180deg);
+}
+
+.ap-row-main {
+    width: auto;
+}
+
+.ap-row-body:empty {
+    display: none;
+}
+
+.ap-panel {
+    padding: 0 16px 14px;
+    animation: ap-open 0.25s ease;
+}
+
+@keyframes ap-open {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ap-panel .ap-read {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Docked player: glass, above the bottom bar, like the reading page's audio bar */
+.ap-dock {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(var(--bar-h) + 10px + var(--bar-bottom));
+    z-index: 10001;
+    padding: 4px 8px 8px 12px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, rgba(255, 252, 240, 0.58) 0%, rgba(255, 246, 220, 0.4) 100%);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) brightness(1.06);
+    box-shadow: var(--glass-rim), 0 10px 26px rgba(60, 35, 0, 0.22);
+    color: #A5252C;
+}
+
+.ap-dock[hidden] {
+    display: none;
+}
+
+html.dark .ap-dock {
+    background: linear-gradient(180deg, rgba(40, 40, 46, 0.5) 0%, rgba(6, 6, 8, 0.6) 100%);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: url(#glass-refract) brightness(0.78);
+    box-shadow:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.3),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.12),
+        0 0 0 0.5px rgba(0, 0, 0, 0.6),
+        0 10px 28px rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+}
+
+@supports (-webkit-touch-callout: none) {
+    .ap-dock {
+        backdrop-filter: blur(16px) saturate(1.4);
+    }
+}
+
+.ap-dock-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.ap-dock-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    padding: 2px 6px 0 0;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+}
+
+.ap-dock-name {
+    max-width: 100%;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ap-dock-time {
+    font-size: 0.74rem;
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+}
+
+.ap-dock .ap-ctl {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+    color: inherit;
+}
+
+.ap-dock .ap-ctl-main {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.4);
+    color: inherit;
+    box-shadow: var(--glass-rim);
+}
+
+html.dark .ap-dock .ap-ctl-main {
+    background: rgba(255, 255, 255, 0.16);
+    color: #FFFFFF;
+}
+
+/* leave room under the list for the dock */
+body.ap-dock-on #audio-screen .audio-page-card {
+    margin-bottom: 84px;
+}
+
+
+/* ---- Audio page: waveform player ---- */
+.ap-wave {
+    position: relative;
+    height: 64px;
+    margin: 4px 0 2px;
+    cursor: pointer;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    --p: 0%;
+}
+
+.ap-wave-bars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.ap-wave-bars i {
+    flex: 1;
+    height: calc(var(--h) * 100%);
+    min-height: 6px;
+    border-radius: 999px;
+    transform-origin: center;
+}
+
+.ap-wave-base i {
+    background: var(--ap-muted);
+    opacity: 0.32;
+}
+
+/* The same bars in the accent colour, revealed up to the playhead */
+.ap-wave-fill {
+    clip-path: inset(0 calc(100% - var(--p)) 0 0);
+}
+
+.ap-wave-fill i {
+    background: var(--ap-accent);
+}
+
+.ap-wave::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: var(--p);
+    width: 3px;
+    margin-left: -1.5px;
+    border-radius: 3px;
+    background: var(--ap-accent);
+    opacity: 0.9;
+    box-shadow: 0 0 10px rgba(165, 37, 44, 0.45);
+}
+
+html.dark .ap-wave::after {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* While playing the bars breathe like a live waveform */
+.ap-row.playing .ap-wave-bars i {
+    animation: ap-bar 1.1s ease-in-out infinite alternate;
+    animation-delay: calc(var(--k) * -85ms);
+}
+
+@keyframes ap-bar {
+    0% { transform: scaleY(0.52); }
+    100% { transform: scaleY(1); }
+}
+
+/* Mini equalizer on the playing row */
+.ap-eq {
+    display: none;
+    flex: none;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    margin-right: 2px;
+}
+
+.ap-row.playing .ap-eq {
+    display: flex;
+}
+
+.ap-eq i {
+    width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--ap-accent);
+    transform-origin: bottom;
+    animation: ap-eq 0.9s ease-in-out infinite alternate;
+}
+
+.ap-eq i:nth-child(1) { animation-delay: -0.1s; }
+.ap-eq i:nth-child(2) { animation-delay: -0.5s; animation-duration: 0.7s; }
+.ap-eq i:nth-child(3) { animation-delay: -0.3s; animation-duration: 1.1s; }
+.ap-eq i:nth-child(4) { animation-delay: -0.7s; animation-duration: 0.8s; }
+
+@keyframes ap-eq {
+    0% { transform: scaleY(0.25); }
+    100% { transform: scaleY(1); }
+}
+
+.ap-panel-foot {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ap-panel-foot .ap-read {
+    flex: 1;
+    margin-top: 0;
+}
+
+.ap-rate {
+    min-width: 64px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(120, 90, 60, 0.1);
+    color: var(--ap-text);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+}
+
+html.dark .ap-rate {
+    background: #2A2A2E;
+}
+
+.ap-panel .ap-times {
+    margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ap-row.playing .ap-wave-bars i,
+    .ap-eq i {
+        animation: none;
+    }
+}
+
+/* ---- Dock redesign: waveform on top, name and controls below ---- */
+.ap-dock {
+    --ap-accent: #A5252C;
+    --ap-muted: rgb(120, 75, 40);
+    padding: 12px 12px 10px 16px;
+    border-radius: 28px;
+}
+
+html.dark .ap-dock {
+    --ap-accent: #FFFFFF;
+    --ap-muted: rgba(255, 255, 255, 0.4);
+}
+
+.ap-dock-wave-slot .ap-wave {
+    height: 42px;
+    margin: 0 2px 6px 0;
+}
+
+.ap-dock-wave-slot .ap-wave-bars {
+    gap: 2px;
+}
+
+.ap-dock-wave-slot .ap-wave-base i {
+    opacity: 0.38;
+}
+
+html.dark .ap-dock-wave-slot .ap-wave-base i {
+    opacity: 0.55;
+}
+
+.ap-dock-wave-slot .ap-wave::after {
+    top: 0;
+    bottom: 0;
+}
+
+.ap-dock.playing .ap-wave-bars i {
+    animation: ap-bar 1.1s ease-in-out infinite alternate;
+    animation-delay: calc(var(--k) * -85ms);
+}
+
+.ap-dock-row {
+    gap: 0;
+}
+
+.ap-dock-name {
+    font-size: 1.02rem;
+    font-weight: 600;
+}
+
+.ap-dock-time {
+    max-width: 100%;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ap-dock .ap-ctl {
+    width: 40px;
+    height: 40px;
+}
+
+.ap-dock .ap-ctl-main {
+    width: 48px;
+    height: 48px;
+    margin: 0 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ap-dock.playing .ap-wave-bars i {
+        animation: none;
+    }
+}
+
+/* leave room under the list for the taller dock */
+body.ap-dock-on #audio-screen .audio-page-card {
+    margin-bottom: 110px;
+}
+
+/* ---- Audio page: plain rows (the dock is the player) ---- */
+.ap-row-main {
+    padding-right: 4px;
+}
+
+.ap-row-read {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border: none;
+    background: transparent;
+    color: var(--ap-muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.ap-dock-rate {
+    flex: none;
+    min-width: 38px;
+    height: 30px;
+    padding: 0 8px;
+    margin-right: 2px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.35);
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+}
+
+html.dark .ap-dock-rate {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+/* ===========================================================
+   Reading page audio bar = the Audio page's dock (waveform, name/time, controls, credit)
+   Differences: the last button minimises (⌄) instead of closing (✕).
+   =========================================================== */
+.audio-player-container.state-bar,
+html.dark .audio-player-container.state-bar {
+    --ap-accent: #A5252C;
+    --ap-muted: rgb(120, 75, 40);
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    margin: 0;
+    padding: 12px 12px 10px 16px;
+    border: none;
+    border-radius: 28px;
+    color: #A5252C;
+    background: linear-gradient(180deg, rgba(255, 252, 240, 0.58) 0%, rgba(255, 246, 220, 0.4) 100%);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) brightness(1.06);
+    box-shadow: var(--glass-rim), 0 10px 26px rgba(60, 35, 0, 0.22);
+}
+
+html.dark .audio-player-container.state-bar {
+    --ap-accent: #FFFFFF;
+    --ap-muted: rgba(255, 255, 255, 0.4);
+    color: #FFFFFF;
+    background: linear-gradient(180deg, rgba(40, 40, 46, 0.5) 0%, rgba(6, 6, 8, 0.6) 100%);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: url(#glass-refract) brightness(0.78);
+    box-shadow:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.3),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.12),
+        0 0 0 0.5px rgba(0, 0, 0, 0.6),
+        0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+@supports (-webkit-touch-callout: none) {
+    .audio-player-container.state-bar {
+        backdrop-filter: blur(16px) saturate(1.4);
+    }
+}
+
+.audio-player-container.state-bar .audio-bar-view {
+    display: block;
+}
+
+.audio-player-container.state-bar .ap-ctl {
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+    color: inherit;
+}
+
+.audio-player-container.state-bar .ap-ctl-main {
+    width: 48px;
+    height: 48px;
+    margin: 0 2px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: var(--glass-rim);
+}
+
+html.dark .audio-player-container.state-bar .ap-ctl-main {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.audio-player-container.is-playing .ap-wave-bars i {
+    animation: ap-bar 1.1s ease-in-out infinite alternate;
+    animation-delay: calc(var(--k) * -85ms);
+}
+
+.audio-player-container .audio-credit,
+.ap-dock .audio-credit {
+    margin: 6px 0 0;
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .audio-player-container.is-playing .ap-wave-bars i {
+        animation: none;
+    }
+}
+

@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.84.0';
+const CACHE_NAME = '1.92.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -13,6 +13,8 @@ const APP_SHELL = [
     './js/search.js',
     './js/shikshapatri.js',
     './js/annotations.js',
+    './js/background-audio.js',
+    './js/audio-page.js',
     './js/reminders.js',
     './js/onboarding.js',
     './js/appearance.js',
@@ -42,14 +44,11 @@ const APP_SHELL = [
     './assets/fonts/fa-regular-400.woff2'
 ];
 
+// Audio (~650 MB) is NOT pre-cached any more: it is downloaded on request (Audio page / Settings →
+// "Download all") into OFFLINE_AUDIO_CACHE, and played back from there with byte-range support.
+const OFFLINE_AUDIO_CACHE = 'offline-audio-v1';
+
 // ---- Full offline payload (cached in background after activation) ----------
-const AUDIO_FILES = [
-    './assets/data/audio/1 Partharo.mp3',
-    './assets/data/audio/264 Khagol Bhugol.mp3'
-];
-for (let i = 1; i <= 262; i++) {
-    AUDIO_FILES.push(`./assets/data/audio/${i}.mp3`);
-}
 
 const EXTRA_IMAGES = [
     './images/vachanamrut-locations/gadhada-1.webp',
@@ -97,7 +96,7 @@ for (let i = 1; i <= 212; i++) {
     SHIKSHAPATRI_IMAGES.push(`./shikshapatri/assets/pictorial/${i}.webp`);
 }
 
-const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES, ...SHIKSHAPATRI_IMAGES];
+const FULL_PAYLOAD = [...EXTRA_IMAGES, ...SHIKSHAPATRI_IMAGES];
 
 // Install — cache only the shell so the SW activates quickly.
 self.addEventListener('install', event => {
@@ -112,7 +111,7 @@ self.addEventListener('activate', event => {
     event.waitUntil((async () => {
         await self.clients.claim();
         const names = await caches.keys();
-        await Promise.all(names.map(n => n !== CACHE_NAME && caches.delete(n)));
+        await Promise.all(names.map(n => n !== CACHE_NAME && n !== OFFLINE_AUDIO_CACHE && caches.delete(n)));
         // Don't block activation on the big payload — fire and forget.
         precacheInBackground();
     })());
@@ -175,6 +174,11 @@ self.addEventListener('fetch', event => {
         return;
     }
 
+    if (new URL(event.request.url).pathname.endsWith('.mp3')) {
+        event.respondWith(serveAudio(event.request));
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request, { ignoreSearch: true }).then(cached => {
             if (cached) return cached;
@@ -191,3 +195,32 @@ self.addEventListener('fetch', event => {
         })
     );
 });
+
+// Audio: play from the downloaded copy when there is one (answering Range requests, which iOS and
+// Android media elements always send), otherwise stream from the network without caching it.
+async function serveAudio(request) {
+    const cache = await caches.open(OFFLINE_AUDIO_CACHE);
+    const cached = await cache.match(request.url, { ignoreSearch: true });
+    if (!cached) return fetch(request);
+
+    const range = request.headers.get('range');
+    if (!range) return cached;
+    const m = /bytes=(\d*)-(\d*)/.exec(range);
+    if (!m) return cached;
+    const blob = await cached.blob();
+    const size = blob.size;
+    let start = m[1] === '' ? Math.max(0, size - parseInt(m[2], 10)) : parseInt(m[1], 10);
+    let end = m[1] === '' || m[2] === '' ? size - 1 : Math.min(parseInt(m[2], 10), size - 1);
+    if (isNaN(start) || start >= size || end < start) {
+        return new Response(null, { status: 416, headers: { 'Content-Range': `bytes */${size}` } });
+    }
+    return new Response(blob.slice(start, end + 1), {
+        status: 206,
+        headers: {
+            'Content-Type': cached.headers.get('Content-Type') || 'audio/mpeg',
+            'Content-Length': String(end - start + 1),
+            'Content-Range': `bytes ${start}-${end}/${size}`,
+            'Accept-Ranges': 'bytes',
+        },
+    });
+}

@@ -12,6 +12,11 @@ Living tracker. Status: ✅ shipped · 🚧 in progress · 📋 planned · 💡 
 | 1.7 | Dark mode (Light default; Auto follows the phone; set in setup and Settings), rounded search bar, facts follow reading language, notification permission re-prompt |
 | 1.8 | ✅ Crisper type (lighter headings and tile titles; fonts and icons now **bundled**, so they work offline). ✅ Two-piece bottom bar: tabs pill (scripture switch · **Notes** · Settings) + standalone search circle, 64px thick. ✅ **Notes & Highlights** is its own page (moved out of Journey). ✅ Clear-glass light bar with red icons and thin labels; dark bar is dark-tinted glass. ✅ Facts / word sheets redesigned (solid, grouped lists, larger text) and **swipe down to close**. ✅ Audio credit line (Sadguru Shree Gyanjivandasji Swami · Kundaldham) |
 
+## Also in 1.8: Audio page, background audio, web offline audio
+- ✅ **Audio page** — new tab between Shikshapatri/Vachanamrut and Notes. Full list of all Vachanamruts (+ Partharo, Khagol Bhugol); tap a row to play it (live equalizer on the row, book button to read it); filter by section / text / downloaded; "Play all" and "Play in a row"; glass dock player — the same design on the reading page's audio bar, where the last button minimises instead of closing (animated waveform you can tap/drag to seek, speed 1×/1.25×/1.5×/0.75×, prev/next) appears above the bar while playing and follows you to other tabs; **background playback** (screen off, app closed — native media service with lock-screen controls and a hand-over to a native player when the app is swiped away; also covers the reading-page audio); "Download all" for offline (Android app **and web/PWA**, shares the Settings code); credit line. Hides if Settings → Audio narration is off.
+
+- ✅ **Web / PWA offline audio** — Audio page and Settings now have "Download all" on the website too (it was Android-only). The service worker no longer blanket-caches all 650 MB in the background; downloads are explicit, kept across app updates, and played back from the cache with byte-range support (needed by iOS and Android media players). On low-storage phones (iOS especially) it reports "not enough space" instead of failing silently.
+
 ## Next UX work
 - [ ] 📋 Check 1.8 bar on iPhone Safari/PWA (glass refraction there is blur-only)
 - [ ] 📋 New Play Store screenshots for 1.8 (glass bar, dark mode)
@@ -20,7 +25,7 @@ Living tracker. Status: ✅ shipped · 🚧 in progress · 📋 planned · 💡 
 ## Feature backlog (ranked)
 | # | Feature | Why | Effort | Status |
 |---|---|---|---|---|
-| 1 | Audio: background playback, lock-screen controls, speed (0.75–1.5×), sleep timer | Long discourses; biggest gap today | 1–2 days | 📋 (session card proposed) |
+| 1 | Audio: sleep timer (background playback, lock-screen controls and speed now shipped in 1.8) | Long discourses | 0.5 day | 📋 |
 | 2 | Reading plans ("262 days", "Ekantik Dharma in 21 days", "Vairagya") | Gives reminders a purpose; plugs into Journey | ~1 day | 📋 |
 | 3 | Quote image cards (select text → gold card with source → share) | Word-of-mouth growth, fully offline | ~1 day | 📋 |
 | 4 | Gujarati in English letters reading mode | Youth abroad who speak but can't read Gujarati | ~1 day | 📋 |
@@ -39,4 +44,4 @@ Living tracker. Status: ✅ shipped · 🚧 in progress · 📋 planned · 💡 
 |---|---|---|---|
 | 1.6 | 7 | 2026-10-20 | published |
 | 1.7 | 8 | 2026-10-20 | dark mode, glass bar |
-| 1.8 | 9 | 2026-10-21 | type, split bar, Notes page |
+| 1.8 | 9 | 2026-10-21 | type, split bar, Notes page, redesigned facts, Audio page (waves dock), background audio, web/PWA download-all |

@@ -21,6 +21,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Background audio: media notification + lock-screen controls (MediaPlaybackService) -->
+        <service
+            android:name=".MediaPlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"
+            android:stopWithTask="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -35,6 +42,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Daily reading reminders (@capacitor/local-notifications) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Background audio playback (screen off / app closed) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Reminders don't need to be exact to the minute: drop the exact-alarm permission the plugin adds -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
 </manifest>
