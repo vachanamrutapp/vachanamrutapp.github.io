@@ -3097,6 +3097,28 @@ async function displayAppVersion() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Bottom tab bar: one glass outline — a pill whose top edge rises into a dome around the
+    // search button. Clip the bar to it and draw the rim along it whenever the bar resizes.
+    const tabBar = document.getElementById('footer');
+    const tabBarRim = tabBar && tabBar.querySelector('.tab-bar-rim');
+    if (tabBar && tabBarRim && window.ResizeObserver) {
+        const shapeTabBar = () => {
+            const w = tabBar.offsetWidth, h = tabBar.offsetHeight;
+            if (!w) return;
+            const dome = parseFloat(getComputedStyle(tabBar).paddingTop) || 0;
+            const r = (h - dome) / 2, cx = w / 2, base = 46;
+            const d = `M ${r} ${dome} L ${cx - base} ${dome} `
+                + `C ${cx - base * 0.5} ${dome} ${cx - 33} 0 ${cx} 0 `
+                + `C ${cx + 33} 0 ${cx + base * 0.5} ${dome} ${cx + base} ${dome} `
+                + `L ${w - r} ${dome} A ${r} ${r} 0 0 1 ${w - r} ${h} L ${r} ${h} A ${r} ${r} 0 0 1 ${r} ${dome} Z`;
+            tabBar.style.clipPath = `path('${d}')`;
+            tabBarRim.setAttribute('viewBox', `0 0 ${w} ${h}`);
+            tabBarRim.querySelectorAll('path').forEach(path => path.setAttribute('d', d));
+        };
+        new ResizeObserver(shapeTabBar).observe(tabBar);
+        shapeTabBar();
+    }
+
     // Reader sliders (Vachanamrut and Shikshapatri): show the "n / total" pill above the thumb
     // only while dragging.
     document.querySelectorAll('.reading-footer .nav-slider').forEach(slider => {

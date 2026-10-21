@@ -4255,7 +4255,6 @@ body.facts-modal-open {
 
 /* Glass buttons inside the bars: brighter drops of glass with the same rim */
 .reading-footer .nav-btn,
-.footer-search-btn,
 #footer .footer-tab.active {
     background: rgba(255, 255, 255, 0.38);
     border: none;
@@ -4318,27 +4317,69 @@ body.facts-modal-open {
 
 .footer-search-slot {
     flex: 0 0 60px;
+    align-self: stretch;
+    margin-top: calc(-1 * var(--tab-bar-dome));
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Search lives inside the bar's dome: the dome is the button, so the button itself is clear */
 .footer-search-btn {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
+    border: none;
+    background: transparent;
     color: #A5252C;
-    font-size: 1rem;
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, background 0.15s ease;
 }
 
 .footer-search-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* The tab bar is one glass shape: a pill whose top edge rises into a dome around search.
+   app.js clips the bar to that outline (clip-path) and draws its rim in .tab-bar-rim, so the
+   blur, refraction and rim all follow the dome with no seam. */
+:root {
+    --tab-bar-dome: 22px; /* how far the dome rises above the bar */
+}
+
+#footer.app-tab-bar {
+    height: calc(48px + var(--tab-bar-dome));
+    padding: var(--tab-bar-dome) 4px 0;
+    box-shadow: none;
+}
+
+.tab-bar-rim {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.tab-bar-rim path {
+    fill: none;
+}
+
+.tab-bar-rim-light {
+    stroke: url(#tab-bar-rim-light);
+    stroke-width: 3.5;
+}
+
+.tab-bar-rim-edge {
+    stroke: rgba(60, 35, 0, 0.16);
+    stroke-width: 1.2;
 }
 
 /* Find-in-page on a shloka: top-left of the card, mirroring the bookmark */
@@ -6530,3 +6571,80 @@ body.ui-english #settings-ui-eng {
     font-size: 1rem;
     cursor: pointer;
 }
+
+/* ===========================================================
+   Glass controls — the same liquid-glass language as the floating bars, for the Settings /
+   Journey hub, the search screen and find-in-page. Tracks are clear glass; the selected
+   option is a brighter drop of glass with red text (instead of a red fill).
+   =========================================================== */
+.hub-tabs,
+.settings-page-card .settings-segmented,
+.search-header .search-scope {
+    border: none;
+    background: rgba(255, 255, 255, 0.18);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: var(--glass-rim);
+}
+
+.hub-tab.active,
+.search-header .search-scope-btn.active,
+body.gujarati #settings-lang-guj,
+body.english #settings-lang-eng,
+html:not(.text-large) #settings-text-default,
+html.text-large #settings-text-large,
+body:not(.ui-english) #settings-ui-auto,
+body.ui-english #settings-ui-eng {
+    background: rgba(255, 255, 255, 0.62);
+    color: #A5252C;
+    box-shadow: var(--glass-rim), 0 2px 8px rgba(60, 35, 0, 0.12);
+}
+
+/* Settings / Journey page: a glass sheet with glass groups on it */
+.glass-card.journey-page-card {
+    background: rgba(255, 255, 255, 0.16);
+    border: none;
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow: var(--glass-rim), 0 10px 30px rgba(60, 35, 0, 0.12);
+}
+
+.settings-page-card .settings-group {
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: var(--glass-rim);
+}
+
+/* Search field and results */
+.search-header .search-input-wrap {
+    background: rgba(255, 255, 255, 0.32);
+    border: none;
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: var(--glass-rim);
+}
+
+.search-card {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    box-shadow: var(--glass-rim), 0 10px 30px rgba(60, 35, 0, 0.12);
+}
+
+/* Find-in-page: a floating liquid-glass pill over the text, like the bottom bars */
+.find-bar {
+    border: none;
+    border-radius: 999px;
+    padding: 2px 6px 2px 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.22));
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) brightness(1.06);
+    box-shadow: var(--glass-rim), 0 8px 26px rgba(50, 30, 0, 0.18);
+}
+
+@supports (-webkit-touch-callout: none) {
+    .find-bar {
+        backdrop-filter: blur(14px) saturate(1.5);
+    }
+}
+

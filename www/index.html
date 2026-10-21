@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=51">
+    <link rel="stylesheet" href="css/styles.css?v=53">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -734,6 +734,18 @@
         </filter>
     </svg>
     <footer id="footer" class="app-tab-bar">
+        <!-- Rim of the bar's glass outline (pill with a dome for search); shaped in app.js -->
+        <svg class="tab-bar-rim" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="tab-bar-rim-light" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
+                    <stop offset="0.55" stop-color="#fff" stop-opacity="0.3"/>
+                    <stop offset="1" stop-color="#fff" stop-opacity="0.55"/>
+                </linearGradient>
+            </defs>
+            <path class="tab-bar-rim-light"/>
+            <path class="tab-bar-rim-edge"/>
+        </svg>
         <button id="footer-switch-btn" class="footer-tab" type="button">
             <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
             <span id="footer-switch-label-guj" class="footer-tab-label lang-guj">શિક્ષાપત્રી</span>
@@ -856,7 +868,7 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=43"></script>
+    <script src="js/app.js?v=44"></script>
     <script src="js/shikshapatri.js?v=4"></script>
     <script src="js/search.js?v=7"></script>
     <script src="js/annotations.js?v=4"></script>
