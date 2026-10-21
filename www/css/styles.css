@@ -8217,3 +8217,35 @@ html.dark .my-notes-filters .search-chip.active {
     background: var(--d-selected);
     color: #FFFFFF;
 }
+
+/* ===========================================================
+   Clear glass bars, light mode (1.8): no amber tint — a frosted, neutral glass with white
+   icons and labels (a soft shadow keeps them legible on the gold page)
+   =========================================================== */
+html:not(.dark) .footer-pill,
+html:not(.dark) .footer-search-btn,
+html:not(.dark) .reading-footer {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 100%);
+    box-shadow: var(--glass-rim), inset 0 -8px 16px rgba(255, 255, 255, 0.08), 0 10px 26px rgba(60, 35, 0, 0.22);
+}
+
+html:not(.dark) .footer-search-btn:active {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.2) 100%);
+}
+
+html:not(.dark) #footer .footer-tab,
+html:not(.dark) #footer .footer-tab-icon,
+html:not(.dark) #footer .footer-tab-label,
+html:not(.dark) .footer-search-btn,
+html:not(.dark) .reading-footer .nav-btn {
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(80, 40, 0, 0.55);
+}
+
+html:not(.dark) .tab-bar-drop {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+html:not(.dark) .reading-footer .nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+}
