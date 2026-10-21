@@ -284,7 +284,7 @@
     async function run(q) {
         q = q.trim();
         lastQuery = q;
-        $('search-clear-btn').hidden = !q;
+        $('search-clear-btn').setAttribute('aria-label', q ? 'Clear' : 'Close search');
         if (!q) return renderEmpty();
         const jumps = parseJumps(q);
         const glossaryHits = scope === 'vachanamrut' ? glossaryMatches(q) : [];
@@ -358,8 +358,13 @@
             input.blur();
         }
     });
-    $('search-clear-btn').addEventListener('click', () => { input.value = ''; run(''); input.focus(); });
-    $('search-close-btn').addEventListener('click', close);
+    // ×: clears the search, or closes search when the field is already empty
+    $('search-clear-btn').addEventListener('click', () => {
+        if (!input.value) return close();
+        input.value = '';
+        run('');
+        input.focus();
+    });
     overlay.querySelectorAll('.search-scope-btn').forEach(b => b.addEventListener('click', () => setScope(b.dataset.scope)));
     body.addEventListener('click', e => {
         const chip = e.target.closest('[data-q]');

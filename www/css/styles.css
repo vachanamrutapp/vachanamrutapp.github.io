@@ -7964,3 +7964,19 @@ html.dark .setup-check b {
 html.dark .setup-check small {
     color: var(--color-text-muted);
 }
+
+/* Search header: a rounded search field and rounded scripture tabs (no back button; × closes) */
+.search-header .search-top {
+    padding: 10px 14px 8px;
+}
+
+.search-header .search-input-wrap,
+.search-header .search-scope,
+.search-header .search-scope-btn {
+    border-radius: 999px;
+}
+
+.search-header .search-input-wrap {
+    padding: 0 6px 0 16px;
+}
+
