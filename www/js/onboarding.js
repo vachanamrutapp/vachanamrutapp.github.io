@@ -24,7 +24,7 @@
         for (const which of ['morning', 'evening']) {
             $(`reminder-${which}-toggle`).addEventListener('change', async e => {
                 const ok = await Reminders.setEnabled(which, e.target.checked);
-                if (!ok) showToast(uiEnglish() ? 'Notifications are off for this app' : 'આ એપ માટે નોટિફિકેશન બંધ છે', 'fas fa-bell-slash');
+                if (!ok) showToast(uiEnglish() ? 'Allow notifications for Vachanamrut, then come back' : 'વચનામૃત માટે નોટિફિકેશન ચાલુ કરી પાછા આવો', 'fas fa-bell');
                 syncSettings();
             });
             $(`reminder-${which}-time`).addEventListener('change', e => {

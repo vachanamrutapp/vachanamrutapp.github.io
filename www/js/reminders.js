@@ -139,15 +139,35 @@
         try { return (await LN.checkPermissions()).display; } catch (e) { return 'denied'; }
     }
 
-    // Asks Android for permission if needed; true when reminders can be shown
+    // Asks Android for permission whenever it isn't granted (Android shows its prompt again after
+    // one refusal); true when reminders can be shown
     async function ensurePermission() {
         if (!LN) return false;
-        let state = await permission();
-        if (state === 'granted') return true;
-        if (state === 'denied') return false;
+        if ((await permission()) === 'granted') return true;
+        let state;
         try { state = (await LN.requestPermissions()).display; } catch (e) { state = 'denied'; }
         return state === 'granted';
     }
+
+    // When Android won't prompt any more (notifications switched off, or refused twice), open the
+    // app's notification settings; the reminder turns on when the user comes back with them allowed
+    let pendingEnable = null;
+    async function openNotificationSettings(which) {
+        const NS = P && P.NotificationSettings;
+        if (!NS) return false;
+        pendingEnable = which;
+        try { await NS.open(); return true; } catch (e) { pendingEnable = null; return false; }
+    }
+
+    document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState !== 'visible' || !pendingEnable) return;
+        const which = pendingEnable;
+        pendingEnable = null;
+        if ((await permission()) === 'granted') {
+            await setEnabled(which, true);
+            if (window.Onboarding) Onboarding.syncSettings();
+        }
+    });
 
     async function reschedule() {
         if (!LN || !window.appReady) return;
@@ -180,7 +200,7 @@
     }
 
     async function sendTest() {
-        if (!(await ensurePermission())) return false;
+        if (!(await ensurePermission())) { await openNotificationSettings(null); return false; }
         await setup();
         await registerActions();
         const n = morningNotification(0, new Date(Date.now() + 5000));
@@ -193,6 +213,7 @@
     async function setEnabled(which, on) {
         if (on && !(await ensurePermission())) {
             localStorage.setItem(`reminder${which === 'morning' ? 'Morning' : 'Evening'}`, 'false');
+            await openNotificationSettings(which);
             return false;
         }
         localStorage.setItem(`reminder${which === 'morning' ? 'Morning' : 'Evening'}`, String(on));
