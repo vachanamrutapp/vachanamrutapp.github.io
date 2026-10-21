@@ -96,8 +96,9 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=63">
+    <link rel="stylesheet" href="css/styles.css?v=68">
     <meta name="theme-color" content="#E6A623">
+    <script src="js/appearance.js?v=1"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -323,6 +324,17 @@
 
                 <div class="settings-section-title"><span class="lang-guj">વાંચન</span><span class="lang-eng">Reading</span></div>
                 <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-icon icon-gray"><i class="fas fa-circle-half-stroke"></i></div>
+                        <div class="setting-text">
+                            <div class="setting-name"><span class="lang-guj">દેખાવ</span><span class="lang-eng">Appearance</span></div>
+                        </div>
+                        <div class="settings-segmented" role="group" aria-label="Appearance">
+                            <button type="button" id="settings-appearance-system" class="settings-seg-btn" data-appearance="system"><span class="lang-guj">ઓટો</span><span class="lang-eng">Auto</span></button>
+                            <button type="button" id="settings-appearance-light" class="settings-seg-btn" data-appearance="light"><span class="lang-guj">લાઇટ</span><span class="lang-eng">Light</span></button>
+                            <button type="button" id="settings-appearance-dark" class="settings-seg-btn" data-appearance="dark"><span class="lang-guj">ડાર્ક</span><span class="lang-eng">Dark</span></button>
+                        </div>
+                    </div>
                     <div class="setting-item">
                         <div class="setting-icon icon-indigo"><i class="fas fa-text-height"></i></div>
                         <div class="setting-text">
@@ -868,12 +880,12 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=47"></script>
+    <script src="js/app.js?v=48"></script>
     <script src="js/shikshapatri.js?v=5"></script>
     <script src="js/search.js?v=7"></script>
     <script src="js/annotations.js?v=4"></script>
     <script src="js/reminders.js?v=7"></script>
-    <script src="js/onboarding.js?v=5"></script>
+    <script src="js/onboarding.js?v=6"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

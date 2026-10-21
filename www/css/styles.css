@@ -6983,3 +6983,361 @@ body.ui-english #settings-ui-eng {
     background: radial-gradient(circle at 50% 40%, rgba(255, 236, 190, 0.55), rgba(200, 120, 20, 0.3) 70%);
 }
 
+
+/* ===========================================================
+   Dark appearance (html.dark, set by js/appearance.js). Yellow surfaces turn black; text is
+   white and headings and accents a bright red.
+   Home uses images/home-bg-dark.webp when it exists (falls back to the dark gradient).
+   =========================================================== */
+html.dark {
+    --color-text-main: #FFFFFF;
+    --color-text-muted: #A1A1A6;
+    --text-color: #FFFFFF;
+    --text-light: #A1A1A6;
+    --d-surface: rgba(14, 14, 16, 0.78);
+    --d-surface-2: rgba(30, 30, 32, 0.82);
+    --d-line: rgba(255, 255, 255, 0.09);
+    --d-gold: #F0555C; /* accent: red */
+    --d-red: #F0555C;
+    --glass-rim:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.28),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 14px rgba(255, 255, 255, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.5);
+    background: #000000;
+}
+
+html.dark body {
+    background-color: #000000;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35)), url('../images/home-bg-dark.webp');
+}
+
+html.dark body.reading-screen {
+    background-color: #000000;
+    background-image: none;
+}
+
+html.dark header#header,
+html.dark body > header,
+html.dark .search-header {
+    background: #000000;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+html.dark #navbar-logo {
+    filter: brightness(1.55) saturate(1.1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Panels */
+html.dark .chapter-tile,
+html.dark .vachanamrut-tile,
+html.dark .sloka-card,
+html.dark .section-header-card,
+html.dark .fav-card,
+html.dark .search-card,
+html.dark .sloka-image-card,
+html.dark .bhashya-card,
+html.dark .glass-card.journey-page-card,
+html.dark .chapter-tile:hover,
+html.dark .vachanamrut-tile:hover,
+html.dark .sloka-card:hover {
+    background: var(--d-surface);
+    border-color: var(--d-line);
+    box-shadow: var(--glass-rim), 0 6px 22px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .settings-page-card .settings-group,
+html.dark .journey-streak-card,
+html.dark .journey-progress-card,
+html.dark .journey-milestone,
+html.dark .journey-chip,
+html.dark .my-note {
+    background: var(--d-surface-2);
+    border-color: var(--d-line);
+}
+
+html.dark .chapter-tile::before,
+html.dark .sloka-card::before {
+    background: radial-gradient(circle at top right, rgba(229, 72, 77, 0.12), transparent 70%);
+}
+
+/* Big background numbers */
+html.dark .chapter-tile::after,
+html.dark .vachanamrut-tile::after,
+html.dark .sloka-card::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 10%, rgba(255, 255, 255, 0.02) 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* Headings and accents */
+html.dark .chapter-name,
+html.dark .vachanamrut-tile-name,
+html.dark .section-header-card #section-title,
+html.dark .sloka-sanskrit-preview,
+html.dark .facts-modal-title,
+html.dark .facts-section-title,
+html.dark .journey-section-title,
+html.dark .setup-title,
+html.dark .word-meaning-primary-term,
+html.dark .facts-glossary-header,
+html.dark .bhashya-title,
+html.dark .sloka-image-title,
+html.dark .sloka-sanskrit {
+    color: var(--d-gold);
+}
+
+html.dark .chapter-description,
+html.dark .vachanamrut-tile-title,
+html.dark .section-header-card #section-description,
+html.dark .sloka-translation-preview,
+html.dark .setting-name,
+html.dark .settings-page-card .setting-name,
+html.dark .fact-value,
+html.dark .word-meaning-content,
+html.dark .facts-glossary-meaning,
+html.dark .setup-text,
+html.dark #sloka-text,
+html.dark .bhashya-body {
+    color: var(--color-text-main);
+}
+
+html.dark .chapter-count,
+html.dark .section-count {
+    background: rgba(229, 72, 77, 0.14);
+    color: var(--d-gold);
+}
+
+html.dark .settings-section-title,
+html.dark .settings-group-note,
+html.dark .setting-desc,
+html.dark .settings-page-card .setting-desc,
+html.dark .vachanamrut-tile-meta,
+html.dark .fact-label,
+html.dark .facts-modal-subtitle,
+html.dark .find-count {
+    color: var(--color-text-muted);
+}
+
+/* Glass controls: selected option in gold */
+html.dark .hub-tab,
+html.dark .settings-seg-btn,
+html.dark .search-header .search-scope-btn,
+html.dark .header-lang-switch .lang-btn,
+html.dark #back-btn,
+html.dark .find-bar > i,
+html.dark .search-input-wrap > i {
+    color: var(--d-gold);
+}
+
+html.dark .hub-tab.active,
+html.dark .search-header .search-scope-btn.active,
+html.dark .header-lang-switch .lang-btn.active,
+html.dark[data-appearance] body.gujarati #settings-lang-guj,
+html.dark[data-appearance] body.english #settings-lang-eng,
+html.dark:not(.text-large) #settings-text-default,
+html.dark.text-large #settings-text-large,
+html.dark body:not(.ui-english) #settings-ui-auto,
+html.dark body.ui-english #settings-ui-eng {
+    background: rgba(229, 72, 77, 0.2);
+    color: #FFFFFF;
+}
+
+html.dark #search-input,
+html.dark #find-input {
+    color: var(--color-text-main);
+}
+
+html.dark .search-header .search-input-wrap,
+html.dark .find-bar,
+html.dark .hub-tabs,
+html.dark .settings-page-card .settings-segmented,
+html.dark .search-header .search-scope,
+html.dark .header-lang-switch,
+html.dark #back-btn {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Floating bars, audio and play button */
+html.dark #footer.app-tab-bar,
+html.dark .reading-footer {
+    background: linear-gradient(180deg, rgba(40, 40, 44, 0.55) 0%, rgba(10, 10, 12, 0.7) 100%);
+    box-shadow: var(--glass-rim), 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+html.dark #footer .footer-tab-icon,
+html.dark #footer .footer-tab-label,
+html.dark .footer-search-btn,
+html.dark .reading-footer .nav-btn,
+html.dark .audio-fab-view,
+html.dark .audio-player-container .audio-bar-btn {
+    color: var(--d-gold);
+    text-shadow: none;
+}
+
+html.dark .footer-search-btn {
+    background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.16), rgba(20, 20, 22, 0.3) 70%);
+    box-shadow:
+        inset 0 0 0 2px rgba(229, 72, 77, 0.55),
+        0 0 0 3.5px rgba(229, 72, 77, 0.12),
+        0 0 0 4.5px rgba(229, 72, 77, 0.35),
+        0 0 16px rgba(229, 72, 77, 0.25);
+}
+
+html.dark .tab-bar-rim-light {
+    stroke-opacity: 0.35;
+}
+
+html.dark #footer .footer-tab.active,
+html.dark .reading-footer .nav-btn,
+html.dark .audio-player-container .audio-bar-btn {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+html.dark .reading-footer .reading-progress {
+    background: rgba(38, 28, 23, 0.9);
+    color: var(--color-text-main);
+}
+
+html.dark .audio-fab-view,
+html.dark .audio-player-container.state-bar {
+    background: linear-gradient(180deg, rgba(40, 40, 44, 0.65), rgba(10, 10, 12, 0.78));
+}
+
+html.dark .audio-player-container .audio-title {
+    color: var(--color-text-main);
+}
+
+html.dark .audio-fab-progress-circle {
+    stroke: var(--d-gold);
+}
+
+/* Sheets */
+html.dark .facts-modal.glass-card:not(.theme-sepia),
+html.dark .note-sheet,
+html.dark .setup-sheet {
+    background: #111113;
+    color: var(--color-text-main);
+}
+
+html.dark .facts-modal.glass-card .facts-modal-header {
+    background: transparent;
+}
+
+html.dark .facts-modal-close,
+html.dark .fact-row,
+html.dark .facts-xref,
+html.dark .facts-questioner-chip,
+html.dark .facts-glossary-card,
+html.dark .word-meaning-pill,
+html.dark .word-meaning-box,
+html.dark .word-meaning-view-all-btn {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-text-main);
+}
+
+html.dark .facts-xref {
+    background: rgba(229, 72, 77, 0.1);
+}
+
+html.dark .facts-modal-close,
+html.dark .word-meaning-view-all-btn,
+html.dark .word-meaning-pill,
+html.dark .facts-xref-text b,
+html.dark .facts-xref-text strong {
+    color: var(--d-gold);
+}
+
+html.dark .setup-choice-btn,
+html.dark .setup-option {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-text-main);
+}
+
+html.dark .setup-choice-btn.active {
+    background: rgba(229, 72, 77, 0.22);
+    color: #FFFFFF;
+}
+
+html.dark .toast-message {
+    background: #1C1C1E;
+    color: var(--color-text-main);
+}
+
+html.dark .facts-modal-overlay,
+html.dark .note-sheet-overlay {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+/* Setup: three appearance choices on one row */
+.setup-choice-3 .setup-choice-btn i {
+    margin-right: 4px;
+}
+
+/* Settings → Appearance: the chosen option */
+html[data-appearance="system"] #settings-appearance-system,
+html[data-appearance="light"] #settings-appearance-light,
+html[data-appearance="dark"] #settings-appearance-dark {
+    background: rgba(255, 255, 255, 0.62);
+    color: #A5252C;
+    box-shadow: var(--glass-rim), 0 2px 8px rgba(60, 35, 0, 0.12);
+}
+
+html.dark[data-appearance="system"] #settings-appearance-system,
+html.dark[data-appearance="dark"] #settings-appearance-dark {
+    background: rgba(229, 72, 77, 0.2);
+    color: #FFFFFF;
+}
+
+html.dark .chapter-progress-header,
+html.dark .chapter-progress-header b {
+    color: var(--color-text-main);
+}
+
+/* Shikshapatri sloka page */
+html.dark #sloka-content {
+    background: var(--d-surface);
+    border-color: var(--d-line);
+    box-shadow: var(--glass-rim), 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .sloka-image-card,
+html.dark .bhashya-card {
+    background: none;
+    box-shadow: none;
+}
+
+html.dark #sloka-sanskrit {
+    background: rgba(229, 72, 77, 0.06);
+    border-color: rgba(229, 72, 77, 0.35);
+}
+
+html.dark #sloka-translation {
+    color: var(--color-text-main);
+}
+
+html.dark .bhashya-header {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--d-line);
+}
+
+html.dark .bhashya-header,
+html.dark .bhashya-title,
+html.dark .sp-bookmark-btn {
+    color: var(--d-gold);
+}
+
+html.dark .sp-bookmark-btn {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+html.dark #sloka-sanskrit,
+html.dark .sloka-sanskrit-preview {
+    color: var(--d-red);
+}
+
+html.dark .reminder-time {
+    color: var(--color-text-main);
+    background: rgba(255, 255, 255, 0.08);
+    color-scheme: dark;
+}

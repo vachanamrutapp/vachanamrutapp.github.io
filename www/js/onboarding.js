@@ -1,5 +1,5 @@
 // First-run setup (Android app) and the Settings → Reminders rows.
-// New users: Welcome + language → Reminders (morning / evening / both, with times) → Text size → All set.
+// New users: Welcome + language → Reminders (morning / evening / both, with times) → Text size → Appearance → All set.
 // Existing users updating: a single "New: daily reminders" card. Shown once; Skip counts as done.
 (function () {
     const $ = id => document.getElementById(id);
@@ -101,6 +101,17 @@
                 </div>
                 <p class="setup-preview">${g('પછી શ્રીજીમહારાજ બોલ્યા જે, “એક વાત કહું તે સાંભળો.”', 'Then Shriji Maharaj said, “Listen, I wish to tell you something.”')}</p>
             </div>`,
+        appearance: () => `
+            <div class="setup-card" data-step="appearance">
+                <div class="setup-icon"><i class="fas fa-circle-half-stroke"></i></div>
+                <h2 class="setup-title">${g('દેખાવ', 'Appearance')}</h2>
+                <p class="setup-text">${g('ઓટો તમારા ફોનના લાઇટ કે ડાર્ક મોડને અનુસરે છે. સેટિંગ્સમાં ક્યારેય બદલી શકો.', 'Auto follows your phone\'s light or dark mode. You can change this anytime in Settings.')}</p>
+                <div class="setup-choice setup-choice-3">
+                    <button type="button" class="setup-choice-btn" data-appearance="system"><i class="fas fa-circle-half-stroke"></i> ${g('ઓટો', 'Auto')}</button>
+                    <button type="button" class="setup-choice-btn" data-appearance="light"><i class="fas fa-sun"></i> ${g('લાઇટ', 'Light')}</button>
+                    <button type="button" class="setup-choice-btn" data-appearance="dark"><i class="fas fa-moon"></i> ${g('ડાર્ક', 'Dark')}</button>
+                </div>
+            </div>`,
         done: () => `
             <div class="setup-card" data-step="done">
                 <div class="setup-icon"><i class="fas fa-check"></i></div>
@@ -177,6 +188,8 @@
         if (row) row.hidden = appLang !== 'english';
         const large = document.documentElement.classList.contains('text-large');
         overlay.querySelectorAll('[data-size]').forEach(b => b.classList.toggle('active', (b.dataset.size === 'large') === large));
+        const look = window.Appearance ? Appearance.get() : 'system';
+        overlay.querySelectorAll('[data-appearance]').forEach(b => b.classList.toggle('active', b.dataset.appearance === look));
     }
 
     async function next() {
@@ -186,7 +199,7 @@
     }
 
     function show(isUpdate) {
-        steps = isUpdate ? ['reminders'] : ['welcome', 'reminders', 'textsize', 'done'];
+        steps = isUpdate ? ['reminders'] : ['welcome', 'reminders', 'textsize', 'appearance', 'done'];
         index = 0;
         overlay = document.createElement('div');
         overlay.className = 'setup-overlay setup-fullscreen';
@@ -217,6 +230,12 @@
             const size = e.target.closest('[data-size]');
             if (size) {
                 $(size.dataset.size === 'large' ? 'settings-text-large' : 'settings-text-default').click();
+                markChoices();
+                return;
+            }
+            const look = e.target.closest('[data-appearance]');
+            if (look) {
+                if (window.Appearance) Appearance.set(look.dataset.appearance);
                 markChoices();
                 return;
             }

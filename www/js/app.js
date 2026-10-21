@@ -89,7 +89,9 @@ function applyTheme() {
     if (!card) return;
     
     card.classList.remove('theme-default', 'theme-sepia', 'theme-dark');
-    card.classList.add(`theme-${appTheme}`);
+    // In dark appearance the default (golden) reading theme reads as the dark theme
+    const effective = appTheme === 'default' && window.Appearance && Appearance.isDark() ? 'dark' : appTheme;
+    card.classList.add(`theme-${effective}`);
     
     document.querySelectorAll('.theme-btn').forEach(btn => {
         if (btn.dataset.theme === appTheme) {
@@ -3097,6 +3099,12 @@ async function displayAppVersion() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Settings → Appearance (Auto follows the phone)
+    document.querySelectorAll('[id^="settings-appearance-"]').forEach(btn => {
+        btn.addEventListener('click', () => window.Appearance && Appearance.set(btn.dataset.appearance));
+    });
+    window.addEventListener('appearance-change', applyTheme);
+
     // Bottom tab bar: one glass outline — a pill whose top edge rises into a dome around the
     // search button. Clip the bar to it and draw the rim along it whenever the bar resizes.
     const tabBar = document.getElementById('footer');
