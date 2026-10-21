@@ -1,11 +1,12 @@
 // Light / dark appearance. Loaded first in <head> so the page never flashes the wrong colours.
-// Setting 'appearance' in localStorage: 'system' (default, follows the phone), 'light' or 'dark'.
+// Setting 'appearance' in localStorage: 'light' (default), 'system' (Auto: follows the phone) or 'dark'.
+// Dark only applies once the user picks Auto or Dark, in setup or in Settings.
 // Sets html.dark and html[data-appearance], the browser theme colour and the Android status bar icons.
 (function () {
     const KEY = 'appearance';
     const media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
     const get = () => {
-        try { return localStorage.getItem(KEY) || 'system'; } catch (e) { return 'system'; }
+        try { return localStorage.getItem(KEY) || 'light'; } catch (e) { return 'light'; }
     };
     const isDark = () => get() === 'dark' || (get() === 'system' && !!(media && media.matches));
 

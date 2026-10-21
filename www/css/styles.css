@@ -7951,3 +7951,16 @@ html.dark .facts-modal .facts-modal-close {
     background: var(--d-raised);
     border-color: transparent;
 }
+
+html.dark .setup-check {
+    background: var(--d-raised);
+    border-color: transparent;
+}
+
+html.dark .setup-check b {
+    color: #FFFFFF;
+}
+
+html.dark .setup-check small {
+    color: var(--color-text-muted);
+}

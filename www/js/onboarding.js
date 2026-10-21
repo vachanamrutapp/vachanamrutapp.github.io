@@ -188,7 +188,7 @@
         if (row) row.hidden = appLang !== 'english';
         const large = document.documentElement.classList.contains('text-large');
         overlay.querySelectorAll('[data-size]').forEach(b => b.classList.toggle('active', (b.dataset.size === 'large') === large));
-        const look = window.Appearance ? Appearance.get() : 'system';
+        const look = window.Appearance ? Appearance.get() : 'light';
         overlay.querySelectorAll('[data-appearance]').forEach(b => b.classList.toggle('active', b.dataset.appearance === look));
     }
 
