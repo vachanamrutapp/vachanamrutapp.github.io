@@ -2390,10 +2390,10 @@ function getChapterLabel(vachanamrutId) {
 // Format days-from-event as a human phrase.
 function formatXrefDelta(deltaDays, isShakotsavLoya = false) {
     if (isShakotsavLoya) {
-        return uiEnglish() ? 'During this stay in Loya' : 'આ જ લોયા રોકાણ દરમિયાન';
+        return currentLanguage === 'english' ? 'During this stay in Loya' : 'આ જ લોયા રોકાણ દરમિયાન';
     }
     const abs = Math.abs(deltaDays);
-    const isEnglish = uiEnglish();
+    const isEnglish = currentLanguage === 'english'; // facts follow the reading language
     const beforeAfter = deltaDays > 0
         ? (isEnglish ? 'after' : 'પછી')
         : (isEnglish ? 'before' : 'પહેલાં');

@@ -50,6 +50,9 @@
 @supports (-webkit-touch-callout: none) {
     :root {
         --safe-top: calc(env(safe-area-inset-top, 0px) + 12px);
+        /* The iPhone home indicator (34px) is not a button bar: the floating bars sit low over it */
+        --nav-buttons: 0px;
+        --bar-bottom: max(6px, calc(var(--safe-bottom) * 0.3));
     }
 }
 
@@ -4359,7 +4362,7 @@ body.facts-modal-open {
    app.js clips the bar to that outline (clip-path) and draws its rim in .tab-bar-rim, so the
    blur, refraction and rim all follow the dome with no seam. */
 :root {
-    --tab-bar-dome: 22px; /* how far the dome rises above the bar */
+    --tab-bar-dome: 12px; /* how far the dome rises above the bar */
 }
 
 #footer.app-tab-bar {
@@ -5377,6 +5380,15 @@ body.ui-english .lang-guj {
 
 body.ui-english .lang-eng {
     display: revert !important;
+}
+
+/* Facts and word sheets follow the reading language, not the menu language */
+body.ui-english #facts-modal-overlay .lang-guj {
+    display: revert !important;
+}
+
+body.ui-english #facts-modal-overlay .lang-eng {
+    display: none !important;
 }
 
 body:not(.ui-english) #settings-ui-auto,
@@ -6910,3 +6922,64 @@ body.ui-english #settings-ui-eng {
     color: #A5252C;
     box-shadow: var(--glass-rim), 0 1px 4px rgba(60, 35, 0, 0.12);
 }
+
+/* ===========================================================
+   Amber glass bars (1.7): warm golden glass with cream icons and labels, and a ringed
+   glass lens for search
+   =========================================================== */
+#footer.app-tab-bar,
+.reading-footer {
+    background: linear-gradient(180deg, rgba(222, 150, 40, 0.5) 0%, rgba(176, 100, 12, 0.58) 100%);
+    box-shadow: var(--glass-rim), inset 0 -10px 20px rgba(120, 60, 0, 0.18), 0 10px 28px rgba(80, 40, 0, 0.3);
+}
+
+#footer .footer-tab,
+.reading-footer .nav-btn,
+.reading-footer .reading-progress {
+    color: #FFF4DC;
+}
+
+#footer .footer-tab-icon,
+#footer .footer-tab-label {
+    color: #FFF4DC;
+    text-shadow: 0 1px 3px rgba(90, 40, 0, 0.45);
+}
+
+#footer .footer-tab.active {
+    background: rgba(255, 245, 220, 0.18);
+}
+
+.reading-footer .nav-btn {
+    background: rgba(255, 245, 220, 0.18);
+    text-shadow: 0 1px 3px rgba(90, 40, 0, 0.45);
+}
+
+.reading-footer .reading-progress {
+    color: #2C1D18;
+}
+
+.tab-bar-rim-edge {
+    stroke: rgba(90, 45, 0, 0.25);
+}
+
+/* Search lens: a round glass disc with a bright inner ring and a soft outer halo */
+.footer-search-btn {
+    width: 46px;
+    height: 46px;
+    margin-top: 0;
+    color: #FFF4DC;
+    font-size: 1.3rem;
+    text-shadow: 0 1px 4px rgba(90, 40, 0, 0.5);
+    background: radial-gradient(circle at 50% 40%, rgba(255, 236, 190, 0.38), rgba(200, 120, 20, 0.25) 70%);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 240, 205, 0.8),
+        inset 0 0 12px rgba(255, 230, 170, 0.45),
+        0 0 0 3.5px rgba(255, 220, 150, 0.22),
+        0 0 0 4.5px rgba(255, 238, 200, 0.55),
+        0 0 18px rgba(255, 200, 90, 0.45);
+}
+
+.footer-search-btn:active {
+    background: radial-gradient(circle at 50% 40%, rgba(255, 236, 190, 0.55), rgba(200, 120, 20, 0.3) 70%);
+}
+
