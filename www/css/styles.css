@@ -9455,3 +9455,22 @@ html.dark .audio-player-container.state-bar .ap-ctl-main {
     }
 }
 
+
+/* iOS web app: lift the floating bars off the bottom and in from the sides a little, so the rounded
+   ends don't hug the screen corners (the phone's corners are rounder than most Androids') */
+@supports (-webkit-touch-callout: none) {
+    :root {
+        --bar-bottom: max(14px, calc(var(--safe-bottom) * 0.62));
+        --bar-side: 18px;
+    }
+
+    #footer.app-tab-bar,
+    html.dark #footer.app-tab-bar,
+    .reading-footer,
+    .ap-dock,
+    .audio-player-container.state-bar,
+    html.dark .audio-player-container.state-bar {
+        left: var(--bar-side);
+        right: var(--bar-side);
+    }
+}

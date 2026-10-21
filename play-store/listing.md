@@ -69,8 +69,8 @@ Jay Swaminarayan.
 |---|---|---|
 | App icon | 512 × 512 PNG | Ready: `play-store/icon-512.png` |
 | Feature graphic | 1024 × 500 PNG/JPEG | Not made yet |
-| Phone screenshots | 2–8, 1080 × 1920 (9:16) | Ready: 8 framed in `play-store/screenshots-framed/` (temple backdrops), or 8 plain in `play-store/screenshots/`; upload in filename order |
-| 7-inch and 10-inch tablet screenshots | 1080 × 1920 (9:16) | Ready: 6 in `play-store/screenshots-tablet/` (Timeless Wisdom template); use the same set for both slots |
+| Phone screenshots | 2–8, 1080 × 1920 (9:16) | Ready: 8 in `play-store/screenshots-1.8/phone/` (gold phone housing); upload in filename order |
+| 7-inch and 10-inch tablet screenshots | 1080 × 1920 (9:16) | Ready: 6 in `play-store/screenshots-1.8/tablet/` (gold tablet housing); use the same set for both slots |
 
 Screenshot order: Gujarati home, reading with audio, Partharo, glossary meaning, historical facts, English reading, dark theme, Your Journey. The Journey shot uses sample progress (96 of 262 read).
 
