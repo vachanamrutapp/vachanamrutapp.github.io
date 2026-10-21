@@ -893,6 +893,17 @@ audioPlayer.addEventListener('ended', () => {
     }
 });
 
+// Entrance animation for the audio bars: only transform and opacity animate, and the heavy glass
+// filter is swapped for plain blur while it runs (.enter), so it stays smooth on phones
+function playEntrance(el, kind) {
+    if (!el) return;
+    el.classList.remove('enter', 'enter-fab', 'enter-bar');
+    void el.offsetWidth;
+    el.classList.add('enter', kind === 'state-fab' ? 'enter-fab' : 'enter-bar');
+    clearTimeout(el._enterTimer);
+    el._enterTimer = setTimeout(() => el.classList.remove('enter', 'enter-fab', 'enter-bar'), 420);
+}
+
 // Setup scrubber events
 if (audioProgressBar) {
     let isMouseDown = false;
@@ -968,6 +979,7 @@ if (audioBtnClose) {
     audioBtnClose.addEventListener('click', () => {
         audioPlayerContainer.classList.remove('state-bar');
         audioPlayerContainer.classList.add('state-fab');
+        playEntrance(audioPlayerContainer, 'state-fab');
     });
 }
 
@@ -976,9 +988,10 @@ if (audioFabView) {
     audioFabView.addEventListener('click', () => {
         audioPlayerContainer.classList.remove('state-fab');
         audioPlayerContainer.classList.add('state-bar');
-        if (!isPlaying) {
-            toggleAudio();
-        }
+        playEntrance(audioPlayerContainer, 'state-bar');
+        // Start the audio just after the bar has slid in: starting it in the same frames (decoder, media
+        // notification, state updates) is what made the opening animation stutter
+        setTimeout(() => { if (!isPlaying) toggleAudio(); }, 260);
     });
 }
 
@@ -2273,13 +2286,8 @@ async function openFactsModal(vachanamrutId) {
         `;
     }
 
-    // Inherit current reading theme so colors stay consistent
+    // The sheets follow the app's Light / Dark, not the reading theme, so their colours are always consistent
     modal.classList.remove('theme-sepia', 'theme-dark');
-    const card = document.getElementById('vachanamrut-card');
-    if (card) {
-        if (card.classList.contains('theme-sepia')) modal.classList.add('theme-sepia');
-        else if (card.classList.contains('theme-dark')) modal.classList.add('theme-dark');
-    }
 
     body.innerHTML = '<div class="facts-empty">Loading…</div>';
     overlay.style.display = 'flex';
@@ -2358,13 +2366,8 @@ async function openWordMeaningModal(vachanamrutId, glossaryId) {
 
     modal.classList.add('word-mode');
 
-    // Inherit current reading theme so colors stay consistent
+    // The sheets follow the app's Light / Dark, not the reading theme, so their colours are always consistent
     modal.classList.remove('theme-sepia', 'theme-dark');
-    const card = document.getElementById('vachanamrut-card');
-    if (card) {
-        if (card.classList.contains('theme-sepia')) modal.classList.add('theme-sepia');
-        else if (card.classList.contains('theme-dark')) modal.classList.add('theme-dark');
-    }
 
     if (titleEl) {
         titleEl.innerHTML = `

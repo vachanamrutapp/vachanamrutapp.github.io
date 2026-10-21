@@ -4812,7 +4812,7 @@ mark.find-hit.current {
 
 /* Settings → Text Size: Large (nearly every size in this stylesheet is in rem, so it all scales) */
 html.text-large {
-    font-size: 118.75%;
+    font-size: 106.25%;
 }
 
 /* Two-option switch inside a Settings row (Language, Text Size) */
@@ -9473,4 +9473,863 @@ html.dark .audio-player-container.state-bar .ap-ctl-main {
         left: var(--bar-side);
         right: var(--bar-side);
     }
+}
+
+/* Audio docks (Audio page + reading page): a firmer tint and extra blur so text behind them never
+   competes with the controls — still glass, with the bent rim, but readable over heavy text */
+.ap-dock,
+.audio-player-container.state-bar {
+    background: linear-gradient(180deg, rgba(255, 249, 232, 0.9) 0%, rgba(255, 241, 208, 0.84) 100%);
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) blur(14px) brightness(1.04);
+}
+
+html.dark .ap-dock,
+html.dark .audio-player-container.state-bar {
+    background: linear-gradient(180deg, rgba(34, 34, 40, 0.88) 0%, rgba(10, 10, 12, 0.84) 100%);
+    -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    backdrop-filter: url(#glass-refract) blur(14px) brightness(0.8);
+}
+
+@supports (-webkit-touch-callout: none) {
+    .ap-dock,
+    .audio-player-container.state-bar {
+        backdrop-filter: blur(22px) saturate(1.5);
+    }
+}
+
+/* ===========================================================
+   First-run setup (1.8): full screen, Maharaj's illustration behind, a glass card on top that
+   explains what the Vachanamrut is, and the questions in a glass sheet at the bottom
+   =========================================================== */
+.setup-overlay.setup-fullscreen {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: calc(12px + var(--safe-top)) 14px calc(12px + var(--bar-bottom, 0px));
+    background: #E6A623;
+    background-image: none;
+    overflow: hidden;
+}
+
+.setup-art {
+    position: absolute;
+    inset: 0;
+    background: #E6A623 url('../images/setup-art.webp') center top / cover no-repeat;
+    z-index: 0;
+}
+
+.setup-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(60, 30, 0, 0.12) 0%, rgba(60, 30, 0, 0) 30%, rgba(60, 30, 0, 0) 55%, rgba(60, 30, 0, 0.35) 100%);
+}
+
+.setup-intro,
+.setup-sheet {
+    position: relative;
+    z-index: 1;
+}
+
+/* Top: what is the Vachanamrut */
+.setup-intro {
+    align-self: center;
+    width: 100%;
+    max-width: 520px;
+    padding: 14px 18px 16px;
+    border-radius: 26px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 250, 236, 0.8) 0%, rgba(255, 242, 212, 0.72) 100%);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    backdrop-filter: blur(20px) saturate(1.5);
+    box-shadow: var(--glass-rim), 0 10px 30px rgba(60, 30, 0, 0.22);
+    transition: padding 0.3s ease, max-width 0.3s ease, background 0.3s ease;
+}
+
+.setup-intro-logo {
+    display: block;
+    height: 40px;
+    width: auto;
+    margin: 0 auto 6px;
+}
+
+.setup-intro p {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: #3A2A1E;
+}
+
+.setup-intro .setup-intro-gu {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    color: #5A4636;
+}
+
+.setup-intro.compact {
+    max-width: 190px;
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.setup-intro.compact .setup-intro-logo {
+    height: 30px;
+    margin: 0 auto;
+}
+
+.setup-update .setup-intro {
+    display: none;
+}
+
+/* Bottom: the question */
+.setup-overlay.setup-fullscreen .setup-sheet {
+    align-self: center;
+    width: 100%;
+    max-width: 520px;
+    max-height: 64vh;
+    margin-top: auto;
+    padding: 12px 18px 18px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(255, 250, 236, 0.82) 0%, rgba(255, 241, 208, 0.76) 100%);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    backdrop-filter: blur(24px) saturate(1.6);
+    box-shadow: var(--glass-rim), 0 12px 36px rgba(60, 30, 0, 0.3);
+    animation: setup-rise 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes setup-rise {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.setup-qhead {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0 6px;
+}
+
+.setup-qhead .setup-bi-gu {
+    font-size: 0.86em;
+    font-weight: 400;
+}
+
+.setup-qicon {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #A5252C;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--glass-rim);
+}
+
+.setup-q {
+    margin: 0;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #A5252C;
+}
+
+.setup-why {
+    margin: 0 0 14px;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #5A4636;
+}
+
+.setup-bi-en,
+.setup-bi-gu {
+    display: block;
+}
+
+.setup-bi-gu {
+    margin-top: 1px;
+    font-size: 0.92em;
+    opacity: 0.85;
+}
+
+.setup-q2 {
+    margin: 16px 0 4px;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: #A5252C;
+}
+
+.setup-menus[hidden] {
+    display: none;
+}
+
+/* Choices: glass chips; the chosen one is filled */
+.setup-overlay.setup-fullscreen .setup-choice-btn,
+.setup-overlay.setup-fullscreen .setup-option,
+.setup-overlay.setup-fullscreen .setup-preview,
+.setup-overlay.setup-fullscreen .setup-secondary {
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    box-shadow: var(--glass-rim);
+}
+
+.setup-overlay.setup-fullscreen .setup-choice-btn.active {
+    background: linear-gradient(180deg, #B83034, #96202A);
+    color: #FFF3D0;
+    box-shadow: 0 4px 12px rgba(120, 30, 20, 0.3);
+}
+
+.setup-overlay.setup-fullscreen .setup-next,
+.setup-overlay.setup-fullscreen .setup-primary {
+    background: linear-gradient(180deg, #B83034, #96202A);
+    color: #FFF3D0;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(120, 30, 20, 0.3);
+}
+
+.setup-overlay.setup-fullscreen .setup-top {
+    min-height: 22px;
+    margin-bottom: 2px;
+}
+
+.setup-overlay.setup-fullscreen .setup-dots span {
+    background: rgba(165, 37, 44, 0.25);
+}
+
+.setup-overlay.setup-fullscreen .setup-dots span.active {
+    background: #A5252C;
+}
+
+/* Dark: the same layout in dark glass */
+html.dark .setup-overlay.setup-fullscreen {
+    background: #000;
+}
+
+html.dark .setup-art::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.25) 35%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+html.dark .setup-intro,
+html.dark .setup-overlay.setup-fullscreen .setup-sheet {
+    background: linear-gradient(180deg, rgba(34, 34, 40, 0.84) 0%, rgba(12, 12, 14, 0.8) 100%);
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.22), inset -1px -1px 0 rgba(255, 255, 255, 0.08), 0 12px 36px rgba(0, 0, 0, 0.55);
+}
+
+html.dark .setup-intro p,
+html.dark .setup-why {
+    color: #D8D8DC;
+}
+
+html.dark .setup-intro .setup-intro-gu {
+    color: #B8B8BE;
+}
+
+html.dark .setup-q,
+html.dark .setup-q2 {
+    color: #FFFFFF;
+}
+
+html.dark .setup-qicon {
+    background: #2A2A2E;
+    color: #FFFFFF;
+    box-shadow: none;
+}
+
+html.dark .setup-overlay.setup-fullscreen .setup-choice-btn,
+html.dark .setup-overlay.setup-fullscreen .setup-option,
+html.dark .setup-overlay.setup-fullscreen .setup-preview,
+html.dark .setup-overlay.setup-fullscreen .setup-secondary {
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: none;
+    color: #FFFFFF;
+}
+
+html.dark .setup-overlay.setup-fullscreen .setup-choice-btn.active {
+    background: #FFFFFF;
+    color: #000000;
+    box-shadow: none;
+}
+
+html.dark .setup-overlay.setup-fullscreen .setup-next,
+html.dark .setup-overlay.setup-fullscreen .setup-primary {
+    background: #FFFFFF;
+    color: #000000;
+    box-shadow: none;
+}
+
+html.dark .setup-overlay.setup-fullscreen .setup-dots span {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+html.dark .setup-overlay.setup-fullscreen .setup-dots span.active {
+    background: #FFFFFF;
+}
+
+html.dark .setup-intro-logo {
+    filter: brightness(1.5) saturate(1.1);
+}
+
+@media (max-height: 640px) {
+    .setup-intro p { font-size: 0.8rem; }
+    .setup-intro .setup-intro-gu { display: none; }
+}
+
+/* Compact rows so even the reminders card fits without scrolling */
+.setup-overlay.setup-fullscreen .setup-option {
+    margin: 0 0 8px;
+    padding: 9px 12px;
+    gap: 10px;
+}
+
+.setup-overlay.setup-fullscreen .setup-option .reminder-time {
+    width: 96px;
+    padding: 5px 4px;
+    font-size: 0.78rem;
+}
+
+.setup-overlay.setup-fullscreen .setup-option-text small {
+    font-size: 0.72rem;
+    line-height: 1.3;
+}
+
+.setup-overlay.setup-fullscreen .setup-fine {
+    margin: 2px 0 8px;
+    font-size: 0.74rem;
+}
+
+.setup-overlay.setup-fullscreen .setup-why {
+    margin-bottom: 10px;
+}
+
+.setup-overlay.setup-fullscreen .setup-next {
+    margin-top: 6px;
+}
+
+.setup-overlay.setup-fullscreen .setup-sheet {
+    max-height: 70vh;
+}
+
+/* keep the status bar readable over the illustration */
+.setup-art::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--safe-top) + 28px);
+    background: linear-gradient(180deg, rgba(255, 244, 214, 0.85) 0%, rgba(255, 244, 214, 0) 100%);
+    z-index: 1;
+}
+
+html.dark .setup-art::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ---- Setup, round 2: plain logo on top; the "What is the Vachanamrut?" card; clean art ---- */
+.setup-intro,
+.setup-intro.compact,
+html.dark .setup-intro {
+    max-width: none;
+    width: auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.setup-intro-logo {
+    height: 48px;
+    margin: 0 auto;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 2px 8px rgba(255, 244, 214, 0.9));
+}
+
+html.dark .setup-intro-logo {
+    filter: brightness(1.5) saturate(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+}
+
+.setup-about-q {
+    margin: 6px 2px 8px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #A5252C;
+}
+
+.setup-about-q .setup-bi-gu {
+    font-size: 0.82em;
+    font-weight: 400;
+}
+
+.setup-about {
+    margin: 0 2px 8px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #3A2A1E;
+    text-align: left;
+}
+
+.setup-about-gu {
+    font-size: 0.88rem;
+    color: #5A4636;
+}
+
+html.dark .setup-about-q {
+    color: #FFFFFF;
+}
+
+html.dark .setup-about {
+    color: #E4E4E8;
+}
+
+html.dark .setup-about-gu {
+    color: #B8B8BE;
+}
+
+@media (max-height: 700px) {
+    .setup-about-gu { display: none; }
+}
+
+.setup-art::before {
+    height: calc(var(--safe-top) + 110px);
+    background: linear-gradient(180deg, rgba(255, 246, 220, 0.94) 0%, rgba(255, 246, 220, 0.78) 45%, rgba(255, 246, 220, 0) 100%);
+}
+
+html.dark .setup-art::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 45%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ===========================================================
+   Text sizes (1.8): Default 15px, Large 17px (a gentle step) — every size is rem-based. The bars
+   and tab labels are fixed so they never spill, whatever the text size or the phone width.
+   =========================================================== */
+/* Narrow phones scale the text down smoothly (360px wide: 14.4px, 320px: 13px), so rows and bars
+   keep their layout instead of wrapping */
+html {
+    font-size: clamp(13px, 4vw, 15px);
+}
+
+html.text-large {
+    font-size: clamp(14.5px, 4.54vw, 17px);
+}
+
+#footer .footer-tab-label {
+    font-size: 11px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.settings-page-card .setting-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-seg-btn {
+    padding: 6px 9px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 360px) {
+    .settings-seg-btn {
+        padding: 5px 7px;
+    }
+}
+
+/* ---- Reading toolbar: one "Aa" button opens text size + theme ---- */
+.reader-toolbar {
+    justify-content: center;
+}
+
+.reader-toolbar .reader-actions {
+    margin: 0 auto;
+}
+
+.aa-glyph {
+    font-family: 'Poppins', 'Noto Sans Gujarati', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.reader-pop {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 14px 4px !important;
+}
+
+.reader-sizes {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(120, 90, 60, 0.12);
+}
+
+.reader-size-btn {
+    width: 40px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #A5252C;
+    font-size: 0.85rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.reader-size-btn:active {
+    transform: scale(0.92);
+}
+
+.reader-pop .font-size-display {
+    min-width: 52px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2C1D18;
+    font-variant-numeric: tabular-nums;
+}
+
+.reader-swatches {
+    display: flex;
+    gap: 14px;
+}
+
+html.dark .reader-pop {
+    background: #1E1E21;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+}
+
+html.dark .reader-pop::before {
+    background: #1E1E21;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .reader-sizes {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .reader-size-btn {
+    background: #2A2A2E;
+    color: #FFFFFF;
+}
+
+html.dark .reader-pop .font-size-display {
+    color: #FFFFFF;
+}
+
+
+html.dark .reader-pop .theme-btn {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28);
+}
+
+html.dark .reader-pop .theme-btn.active {
+    box-shadow: 0 0 0 2px #FFFFFF;
+}
+
+html.dark .reader-pop .theme-btn::after {
+    color: #E4E4E8;
+}
+
+/* Text-size / theme pop-up: its own solid surface, independent of the reading theme (golden, sepia
+   or dark), and a caret in exactly the same colour so it joins the card without a visible diamond */
+.reader-pop {
+    --pop-bg: #FFF3D2;
+    background: var(--pop-bg) !important;
+    border: none !important;
+    box-shadow: 0 14px 30px rgba(60, 35, 0, 0.3);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.reader-pop::before {
+    background: var(--pop-bg) !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+html.dark .reader-pop {
+    --pop-bg: #1E1E21;
+}
+
+#vachanamrut-card .reader-pop .font-size-display {
+    color: #2C1D18;
+}
+
+#vachanamrut-card .reader-pop .reader-size-btn {
+    background: rgba(255, 255, 255, 0.75);
+    color: #A5252C;
+}
+
+#vachanamrut-card .reader-pop .theme-btn::after {
+    color: #5A4636;
+}
+
+html.dark #vachanamrut-card .reader-pop .font-size-display {
+    color: #FFFFFF;
+}
+
+html.dark #vachanamrut-card .reader-pop .reader-size-btn {
+    background: #2A2A2E;
+    color: #FFFFFF;
+}
+
+html.dark #vachanamrut-card .reader-pop .theme-btn::after {
+    color: #E4E4E8;
+}
+
+/* ===========================================================
+   Smooth audio bars: no layout transition (it re-laid-out the glass every frame). The bar and the
+   floating button come in with a transform + opacity animation only, on their own layers, with the
+   expensive glass filter swapped for a plain blur while they move.
+   =========================================================== */
+.audio-player-container,
+.ap-dock {
+    transition: none !important;
+    will-change: transform, opacity;
+    contain: layout style;
+}
+
+.audio-player-container.enter-bar,
+.ap-dock:not([hidden]) {
+    animation: dock-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.audio-player-container.enter-fab .audio-fab-view {
+    animation: fab-in 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+@keyframes dock-in {
+    from { opacity: 0; transform: translate3d(0, 26px, 0) scale(0.95); }
+    to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes fab-in {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.audio-player-container.enter,
+.ap-dock.enter {
+    -webkit-backdrop-filter: blur(14px) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .audio-player-container.enter-bar,
+    .ap-dock:not([hidden]),
+    .audio-player-container.enter-fab .audio-fab-view {
+        animation: none;
+    }
+}
+
+
+/* ===========================================================
+   UX pass (1.8): setup icon in the top row opposite the back button, a hazier play button, and the reading
+   toolbar as five evenly spaced glass buttons (note, bookmark, Aa, facts, find)
+   =========================================================== */
+.setup-card {
+    position: relative;
+}
+
+.setup-back-spacer .setup-qicon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+    background: rgba(165, 37, 44, 0.08);
+    box-shadow: none;
+}
+
+html.dark .setup-back-spacer .setup-qicon {
+    background: #2A2A2E;
+}
+
+/* Play button: the same glass as the bottom bar (tint, blur and rim).
+   The blur lives on the (transformed) container, like the docks; the inner button is just the icon. */
+.audio-player-container.state-fab {
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 100%);
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    backdrop-filter: blur(14px) saturate(1.5);
+    box-shadow: var(--glass-rim), 0 10px 26px rgba(60, 35, 0, 0.2);
+}
+
+.audio-player-container.state-fab.is-playing {
+    background: linear-gradient(180deg, rgba(255, 225, 222, 0.22) 0%, rgba(200, 70, 70, 0.1) 100%);
+}
+
+.audio-player-container.state-fab .audio-fab-view,
+.audio-player-container.state-fab .audio-fab-view:hover,
+.audio-player-container.state-fab.is-playing .audio-fab-view {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+html.dark .audio-player-container.state-fab,
+html.dark .audio-player-container.state-fab.is-playing {
+    background: linear-gradient(180deg, rgba(34, 34, 40, 0.88) 0%, rgba(10, 10, 12, 0.84) 100%);
+    -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    backdrop-filter: blur(22px) saturate(1.3);
+}
+
+/* Reading toolbar */
+.reader-toolbar {
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.reader-toolbar .reader-actions {
+    width: 100%;
+    margin: 0;
+    gap: 0;
+    justify-content: space-evenly;
+}
+
+#vachanamrut-card .reader-actions .facts-pill,
+#vachanamrut-card .reader-actions .bookmark-pill {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    color: #A5252C;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.28) 100%);
+    -webkit-backdrop-filter: blur(12px) saturate(1.5);
+    backdrop-filter: blur(12px) saturate(1.5);
+    box-shadow: var(--glass-rim), 0 4px 12px rgba(60, 35, 0, 0.16);
+}
+
+#vachanamrut-card .reader-actions .facts-pill:hover,
+#vachanamrut-card .reader-actions .bookmark-pill:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.4) 100%);
+    transform: none;
+}
+
+#vachanamrut-card .reader-actions .facts-pill:active,
+#vachanamrut-card .reader-actions .bookmark-pill:active {
+    transform: scale(0.94);
+}
+
+#vachanamrut-card .reader-actions .bookmark-pill.active {
+    color: #FFFFFF;
+    background: linear-gradient(180deg, rgba(200, 60, 68, 0.9) 0%, rgba(150, 28, 36, 0.92) 100%);
+}
+
+#vachanamrut-card .reader-actions .aa-glyph {
+    font-size: 1.05rem;
+}
+
+#vachanamrut-card.theme-sepia .reader-actions .facts-pill,
+#vachanamrut-card.theme-sepia .reader-actions .bookmark-pill {
+    color: #6E3F1B;
+    background: linear-gradient(180deg, rgba(255, 252, 240, 0.7) 0%, rgba(255, 244, 218, 0.36) 100%);
+}
+
+#vachanamrut-card.theme-sepia .reader-actions .bookmark-pill.active {
+    color: #FFFFFF;
+    background: linear-gradient(180deg, rgba(150, 96, 52, 0.92) 0%, rgba(110, 63, 27, 0.94) 100%);
+}
+
+html.dark #vachanamrut-card .reader-actions .facts-pill,
+html.dark #vachanamrut-card .reader-actions .bookmark-pill,
+#vachanamrut-card.theme-dark .reader-actions .facts-pill,
+#vachanamrut-card.theme-dark .reader-actions .bookmark-pill {
+    color: #FFFFFF !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 100%) !important;
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.28), inset -1px -1px 0 rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+html.dark #vachanamrut-card .reader-actions .bookmark-pill.active,
+#vachanamrut-card.theme-dark .reader-actions .bookmark-pill.active {
+    color: #000000 !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E6E6EA 100%) !important;
+}
+
+/* ===========================================================
+   Softer glass (light mode): less white wash and a gentler specular rim, so the bars and glass
+   buttons read as natural frosted glass; reading buttons a little smaller
+   =========================================================== */
+html:not(.dark) {
+    --glass-rim:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.45),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 0 10px rgba(255, 255, 255, 0.06),
+        0 0 0 0.5px rgba(60, 35, 0, 0.12);
+}
+
+html:not(.dark) .footer-pill,
+html:not(.dark) .footer-search-btn,
+html:not(.dark) .reading-footer {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 100%);
+    box-shadow: var(--glass-rim), 0 10px 26px rgba(60, 35, 0, 0.2);
+}
+
+html:not(.dark) .footer-search-btn:active {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+html:not(.dark) .tab-bar-drop {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+html:not(.dark) .reading-footer .nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#vachanamrut-card .reader-actions .facts-pill,
+#vachanamrut-card .reader-actions .bookmark-pill {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+}
+
+#vachanamrut-card .reader-actions .aa-glyph {
+    font-size: 0.95rem;
+}
+
+html:not(.dark) #vachanamrut-card .reader-actions .facts-pill,
+html:not(.dark) #vachanamrut-card .reader-actions .bookmark-pill {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.14) 100%);
+}
+
+html:not(.dark) #vachanamrut-card .reader-actions .bookmark-pill.active {
+    background: linear-gradient(180deg, rgba(200, 60, 68, 0.9) 0%, rgba(150, 28, 36, 0.92) 100%);
+}
+
+html:not(.dark) #vachanamrut-card.theme-sepia .reader-actions .facts-pill,
+html:not(.dark) #vachanamrut-card.theme-sepia .reader-actions .bookmark-pill {
+    background: linear-gradient(180deg, rgba(255, 252, 240, 0.45) 0%, rgba(255, 244, 218, 0.2) 100%);
+}
+
+html:not(.dark) #vachanamrut-card.theme-sepia .reader-actions .bookmark-pill.active {
+    background: linear-gradient(180deg, rgba(150, 96, 52, 0.92) 0%, rgba(110, 63, 27, 0.94) 100%);
+}
+
+/* Header Guj/EN switcher, a little smaller */
+.header-lang-switch {
+    right: 14px;
+    padding: 2px;
+    gap: 1px;
+}
+
+.header-lang-switch .lang-btn {
+    padding: 3px 7px;
+    font-size: 0.62rem;
 }

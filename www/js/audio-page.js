@@ -170,7 +170,14 @@
     function renderDock() {
         const dock = $('ap-dock');
         const visible = !!current && !onReadingScreen && (screenId === 'audio-screen' || playing);
+        const appearing = visible && dock.hidden;
         dock.hidden = !visible;
+        if (appearing) {
+            // swap the glass filter for plain blur while the entrance animation runs (see styles.css)
+            dock.classList.add('enter');
+            clearTimeout(dock._enterTimer);
+            dock._enterTimer = setTimeout(() => dock.classList.remove('enter'), 420);
+        }
         document.body.classList.toggle('ap-dock-on', visible);
         dock.classList.toggle('playing', playing);
         if (!current) return;
@@ -219,13 +226,15 @@
             playing ? audio.pause() : audio.play().catch(() => {});
             return;
         }
+        const dockWasHidden = $('ap-dock').hidden;
         // The reading page's own player must not play at the same time
         if (typeof audioPlayer !== 'undefined') { audioPlayer.pause(); isPlaying = false; updateAudioBarUI(); }
         current = tr;
         localStorage.setItem('apLast', String(tr.id));
         syncRows();
         updateMediaSession();
-        if (await setSource(tr.file)) audio.play().catch(() => {});
+        // let the dock finish sliding in before the audio starts (see the reading page's player)
+        if (await setSource(tr.file)) setTimeout(() => { if (current === tr) audio.play().catch(() => {}); }, dockWasHidden ? 240 : 0);
     }
 
     function togglePlay() {

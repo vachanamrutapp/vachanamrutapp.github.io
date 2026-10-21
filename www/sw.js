@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.93.0';
+const CACHE_NAME = '1.100.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -30,6 +30,7 @@ const APP_SHELL = [
     './shikshapatri/assets/data.json',
     './images/harikrishna-maharaj-bg.webp',
     './images/home-bg-dark.webp',
+    './images/setup-art.webp',
     './shikshapatri/assets/images/navbar-image.webp',
     './css/fonts.css',
     './css/fontawesome.css',

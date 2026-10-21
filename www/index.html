@@ -98,7 +98,7 @@
     <link rel="preload" as="image" href="images/yellow-bg.webp">
     <link rel="stylesheet" href="css/fonts.css?v=1">
     <link rel="stylesheet" href="css/fontawesome.css?v=1">
-    <link rel="stylesheet" href="css/styles.css?v=103">
+    <link rel="stylesheet" href="css/styles.css?v=123">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -198,32 +198,35 @@
                 <h3 id="vachanamrut-title"></h3>
                 <div id="vachanamrut-video"></div>
                 <div class="reader-toolbar">
-                    <div class="font-controls">
-                        <button id="font-dec-btn" class="toolbar-btn" title="Decrease Font Size"><i class="fas fa-minus"></i> A</button>
-                        <span id="font-size-display" class="font-size-display">100%</span>
-                        <button id="font-inc-btn" class="toolbar-btn" title="Increase Font Size"><i class="fas fa-plus"></i> A</button>
-                    </div>
-                    <div class="theme-controls theme-popover" id="theme-popover" role="menu" aria-label="Reading theme">
-                        <button class="theme-btn theme-default active" data-theme="default" data-label-en="Golden" data-label-gu="સોનેરી" title="Golden theme"></button>
-                        <button class="theme-btn theme-sepia" data-theme="sepia" data-label-en="Sepia" data-label-gu="સેપિયા" title="Sepia theme"></button>
-                        <button class="theme-btn theme-dark" data-theme="dark" data-label-en="Dark" data-label-gu="ડાર્ક" title="Dark theme"></button>
+                    <!-- Text size + reading theme in one pop-up, opened by the "Aa" button -->
+                    <div class="theme-popover reader-pop" id="theme-popover" role="menu" aria-label="Text size and reading theme">
+                        <div class="reader-sizes">
+                            <button id="font-dec-btn" class="reader-size-btn" title="Decrease Font Size" aria-label="Smaller text"><i class="fas fa-minus"></i></button>
+                            <span id="font-size-display" class="font-size-display">100%</span>
+                            <button id="font-inc-btn" class="reader-size-btn" title="Increase Font Size" aria-label="Larger text"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="reader-swatches">
+                            <button class="theme-btn theme-default active" data-theme="default" data-label-en="Golden" data-label-gu="સોનેરી" title="Golden theme"></button>
+                            <button class="theme-btn theme-sepia" data-theme="sepia" data-label-en="Sepia" data-label-gu="સેપિયા" title="Sepia theme"></button>
+                            <button class="theme-btn theme-dark" data-theme="dark" data-label-en="Dark" data-label-gu="ડાર્ક" title="Dark theme"></button>
+                        </div>
                     </div>
                     <div class="reader-actions">
-                        <button type="button" id="theme-toggle-btn" class="facts-pill theme-toggle-btn" title="Reading theme" aria-label="Reading theme" aria-haspopup="true">
-                            <i class="fas fa-palette"></i>
+                        <button type="button" class="facts-pill note-open-btn" title="My note on this Vachanamrut" aria-label="My note on this Vachanamrut">
+                            <i class="fas fa-sticky-note"></i>
                         </button>
                         <button id="bookmark-pill-btn" class="bookmark-pill" title="Bookmark Vachanamrut">
                             <i class="far fa-bookmark"></i>
                             <span id="bookmark-pill-text">Bookmark</span>
+                        </button>
+                        <button type="button" id="theme-toggle-btn" class="facts-pill theme-toggle-btn" title="Text size and theme" aria-label="Text size and theme" aria-haspopup="true">
+                            <span class="aa-glyph">Aa</span>
                         </button>
                         <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
                             <i class="fas fa-info-circle"></i>
                         </button>
                         <button type="button" class="facts-pill find-open-btn" title="Find in this Vachanamrut" aria-label="Find in this Vachanamrut">
                             <i class="fas fa-search"></i>
-                        </button>
-                        <button type="button" class="facts-pill note-open-btn" title="My note on this Vachanamrut" aria-label="My note on this Vachanamrut">
-                            <i class="fas fa-sticky-note"></i>
                         </button>
                     </div>
                 </div>
@@ -927,14 +930,14 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=57"></script>
+    <script src="js/app.js?v=61"></script>
     <script src="js/shikshapatri.js?v=5"></script>
     <script src="js/search.js?v=8"></script>
     <script src="js/annotations.js?v=5"></script>
     <script src="js/background-audio.js?v=2"></script>
-    <script src="js/audio-page.js?v=13"></script>
+    <script src="js/audio-page.js?v=15"></script>
     <script src="js/reminders.js?v=8"></script>
-    <script src="js/onboarding.js?v=9"></script>
+    <script src="js/onboarding.js?v=17"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {

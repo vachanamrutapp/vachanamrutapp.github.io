@@ -44,17 +44,23 @@
     const ACTIVITY_KEYS = ['vach_read_ids', 'vach_activity_dates', 'favourites', 'bookmarkedVachanamrutId', 'sp_read_ids', 'annotations', 'appTheme', 'vach_scroll'];
     const isExistingUser = () => ACTIVITY_KEYS.some(k => localStorage.getItem(k) !== null);
 
+    // Every card is a question with its reason: a heading, then one line on why we ask
+    const head = (icon, q, why) => `
+            <div class="setup-qhead"><span class="setup-qicon"><i class="fas ${icon}"></i></span><h2 class="setup-q">${q}</h2></div>
+            <p class="setup-why">${why}</p>`;
+    // Before a language is chosen both languages are shown (g() would show only the current one)
+    const both = (en, gu) => `<span class="setup-bi-en">${en}</span><span class="setup-bi-gu">${gu}</span>`;
+
     const reminderCard = isNew => `
         <div class="setup-card" data-step="reminders">
-            <div class="setup-icon"><i class="fas fa-bell"></i></div>
-            <h2 class="setup-title">${isNew ? g('નવું: દૈનિક રિમાઇન્ડર', 'New: daily reminders') : g('હળવું દૈનિક રિમાઇન્ડર', 'A gentle daily reminder')}</h2>
-            <p class="setup-text">${g('ક્યારે યાદ અપાવીએ? જ્યાંથી છોડ્યું ત્યાંથી આગળનું વાંચન બતાવીશું.', 'When should we remind you? We\'ll suggest what to read next, from where you left off.')}</p>
+            ${head('fa-bell',
+                isNew ? g('નવું: દૈનિક રિમાઇન્ડર', 'New: daily reminders') : g('શું રોજ યાદ અપાવીએ?', 'Would you like a daily reminder?'),
+                g('દરરોજ થોડી મિનિટ વાંચવાની ટેવ પડે છે. જ્યાંથી છોડ્યું ત્યાંથી આગળ શું વાંચવું તે અમે જણાવીશું.', 'A few minutes every day builds the habit. We\'ll tell you what to read next, from where you left off.'))}
             <label class="setup-option">
                 <input type="checkbox" id="setup-morning" checked>
                 <span class="setup-option-icon icon-orange"><i class="fas fa-sun"></i></span>
                 <span class="setup-option-text">
                     <b>${g('સવારે', 'Morning')}</b>
-                    <small>${g('આગળનું વચનામૃત + શિક્ષાપત્રી શ્લોક', 'Next Vachanamrut + a Shikshapatri shloka')}</small>
                 </span>
                 <input type="time" id="setup-morning-time" class="reminder-time" value="07:00">
             </label>
@@ -63,7 +69,6 @@
                 <span class="setup-option-icon icon-indigo"><i class="fas fa-moon"></i></span>
                 <span class="setup-option-text">
                     <b>${g('સાંજે', 'Evening')}</b>
-                    <small>${g('આગળનું વચનામૃત', 'Next Vachanamrut')}</small>
                 </span>
                 <input type="time" id="setup-evening-time" class="reminder-time" value="20:00">
             </label>
@@ -71,30 +76,36 @@
         </div>`;
 
     const STEPS = {
+        about: () => `
+            <div class="setup-card" data-step="about">
+                <div class="setup-about-q">${both('What is the Vachanamrut?', 'વચનામૃત શું છે?')}</div>
+                <p class="setup-about">The Vachanamrut is the sacred collection of 262 discourses of Bhagwan Swaminarayan, spoken between 1819 and 1829 and recorded by his saints. In them he explains devotion, dharma, knowledge and detachment, in simple, lived examples.</p>
+                <p class="setup-about setup-about-gu">વચનામૃત એ ભગવાન સ્વામિનારાયણના ૨૬૨ ઉપદેશોનો પવિત્ર સંગ્રહ છે, જે ઈ.સ. ૧૮૧૯ થી ૧૮૨૯ દરમિયાન કહેવાયા અને તેમના સંતોએ નોંધ્યા. તેમાં ભક્તિ, ધર્મ, જ્ઞાન અને વૈરાગ્ય સરળ ઉદાહરણોથી સમજાવ્યા છે.</p>
+            </div>`,
         welcome: () => `
             <div class="setup-card" data-step="welcome">
-                <img class="setup-logo" src="images/app-logo.png" alt="">
-                <h2 class="setup-title">${g('જય સ્વામિનારાયણ', 'Jay Swaminarayan')}</h2>
-                <p class="setup-text">${g('વચનામૃત અને શિક્ષાપત્રી, એક જ એપમાં — વાંચો, સાંભળો, શોધો અને નોંધ કરો.', 'The Vachanamrut and the Shikshapatri in one app: read, listen, search and take notes.')}</p>
-                <div class="setup-label">App language · એપની ભાષા</div>
+                ${head('fa-language',
+                    both('Which language do you read in?', 'તમે કઈ ભાષામાં વાંચો છો?'),
+                    both('The Vachanamrut will appear in this language. You can switch anytime at the top.', 'વચનામૃત આ ભાષામાં દેખાશે. ઉપરથી ક્યારેય બદલી શકો.'))}
                 <div class="setup-choice">
-                    <button type="button" class="setup-choice-btn" data-applang="english">English</button>
-                    <button type="button" class="setup-choice-btn" data-applang="gujarati">ગુજરાતી</button>
+                    <button type="button" class="setup-choice-btn" data-readlang="gujarati">ગુજરાતી</button>
+                    <button type="button" class="setup-choice-btn" data-readlang="english">English</button>
                 </div>
-                <label class="setup-check" id="setup-read-english-row" hidden>
-                    <input type="checkbox" id="setup-read-english" checked>
-                    <span>
-                        <b>Also read the scriptures in English</b>
-                        <small>Untick to read the original Gujarati text with English menus.</small>
-                    </span>
-                </label>
+            </div>`,
+        menus: () => `
+            <div class="setup-card" data-step="menus">
+                ${head('fa-sliders-h', g('એપના બટન કઈ ભાષામાં?', 'Which language for the app\'s buttons?'),
+                    g('તમે ગુજરાતી વાંચો છો. બટન અને મેનુ અંગ્રેજીમાં રાખવા હોય તો રાખી શકો.', 'You\'re reading Gujarati. Buttons and menus can stay in English if you prefer.'))}
+                <div class="setup-choice">
+                    <button type="button" class="setup-choice-btn" data-menus="auto">ગુજરાતી</button>
+                    <button type="button" class="setup-choice-btn" data-menus="english">English</button>
+                </div>
             </div>`,
         reminders: () => reminderCard(false),
         textsize: () => `
             <div class="setup-card" data-step="textsize">
-                <div class="setup-icon"><i class="fas fa-text-height"></i></div>
-                <h2 class="setup-title">${g('આરામથી વાંચો', 'Read comfortably')}</h2>
-                <p class="setup-text">${g('અક્ષરનું કદ પસંદ કરો. મોટા અક્ષર આખી એપમાં લાગુ પડશે.', 'Choose a text size. Large makes everything in the app bigger.')}</p>
+                ${head('fa-text-height', g('અક્ષર કેટલા મોટા જોઈએ?', 'How large should the text be?'),
+                    g('લાંબા ઉપદેશો આરામથી વંચાય તે માટે. મોટા અક્ષર આખી એપમાં લાગુ પડશે.', 'Comfortable reading matters for long discourses. Large makes the whole app bigger.'))}
                 <div class="setup-choice">
                     <button type="button" class="setup-choice-btn" data-size="default">${g('સામાન્ય', 'Default')}</button>
                     <button type="button" class="setup-choice-btn" data-size="large">${g('મોટા', 'Large')}</button>
@@ -103,9 +114,8 @@
             </div>`,
         appearance: () => `
             <div class="setup-card" data-step="appearance">
-                <div class="setup-icon"><i class="fas fa-circle-half-stroke"></i></div>
-                <h2 class="setup-title">${g('દેખાવ', 'Appearance')}</h2>
-                <p class="setup-text">${g('ઓટો તમારા ફોનના લાઇટ કે ડાર્ક મોડને અનુસરે છે. સેટિંગ્સમાં ક્યારેય બદલી શકો.', 'Auto follows your phone\'s light or dark mode. You can change this anytime in Settings.')}</p>
+                ${head('fa-circle-half-stroke', g('લાઇટ કે ડાર્ક?', 'Light or dark?'),
+                    g('રાત્રે ડાર્ક આંખોને આરામ આપે છે. ઓટો તમારા ફોનના સેટિંગને અનુસરે છે.', 'Dark is easier on the eyes at night. Auto follows your phone\'s setting.'))}
                 <div class="setup-choice setup-choice-3">
                     <button type="button" class="setup-choice-btn" data-appearance="system"><i class="fas fa-circle-half-stroke"></i> ${g('ઓટો', 'Auto')}</button>
                     <button type="button" class="setup-choice-btn" data-appearance="light"><i class="fas fa-sun"></i> ${g('લાઇટ', 'Light')}</button>
@@ -114,27 +124,28 @@
             </div>`,
         done: () => `
             <div class="setup-card" data-step="done">
-                <div class="setup-icon"><i class="fas fa-check"></i></div>
-                <h2 class="setup-title">${g('બધું તૈયાર છે', 'You\'re all set')}</h2>
-                <p class="setup-text">${g('ક્યાંથી શરૂ કરવું છે?', 'Where would you like to begin?')}</p>
-                <button type="button" class="setup-primary" data-start="vachanamrut"><i class="fas fa-book-open"></i> ${g('વચનામૃત: ગઢડા પ્રથમ ૧', 'Vachanamrut: Gadhada I-1')}</button>
-                <button type="button" class="setup-secondary" data-start="shikshapatri"><i class="fas fa-scroll"></i> ${g('શિક્ષાપત્રી ખોલો', 'Open the Shikshapatri')}</button>
-                <button type="button" class="setup-link" data-start="home">${g('હોમ પર જાઓ', 'Go to home')}</button>
+                ${head('fa-check', g('બધું તૈયાર છે', 'You\'re all set'),
+                    g('નીચેના મેનુથી વચનામૃત અને શિક્ષાપત્રી વચ્ચે બદલી શકો છો, અને ઓડિયો, નોંધ તથા સેટિંગ્સ ખોલી શકો છો.', 'Use the menu at the bottom to switch between Vachanamrut and Shikshapatri, and to open Audio, Notes and Settings.'))}
+                <button type="button" class="setup-primary" data-start="home"><i class="fas fa-home"></i> ${g('હોમ પર જાઓ', 'Go to home')}</button>
             </div>`,
     };
+
+    // The logo stays on top (no housing); what the Vachanamrut is lives on the first card
+    const LOGO = '<img class="setup-intro-logo" src="images/logo-vachanamrut.png" alt="Vachanamrut">';
 
     let overlay = null;
     let steps = [];
     let index = 0;
-    let appLang = 'gujarati';
+    let readLang = 'gujarati';
+    let updateFlow = false;
+    // The "menus" question only makes sense when reading Gujarati
+    const stepList = () => updateFlow ? ['reminders'] : ['about', 'welcome', ...(readLang === 'gujarati' ? ['menus'] : []), 'reminders', 'textsize', 'appearance', 'done'];
+    let menusEnglish = false;
 
-    // App language English + "read in English" ticked → everything English.
-    // App language English, unticked → Gujarati text with English menus. Gujarati → all Gujarati.
+    // Reading language decides the text; menus follow it, except Gujarati text can keep English menus
     function applyLanguage() {
-        const readEnglish = appLang === 'english' && $('setup-read-english').checked;
-        localStorage.setItem('uiLanguage', appLang === 'english' && !readEnglish ? 'english' : 'auto');
-        const reading = readEnglish ? 'english' : 'gujarati';
-        if (currentLanguage !== reading) $(reading === 'english' ? 'lang-btn-eng' : 'lang-btn-guj').click();
+        localStorage.setItem('uiLanguage', readLang === 'gujarati' && menusEnglish ? 'english' : 'auto');
+        if (currentLanguage !== readLang) $(readLang === 'english' ? 'lang-btn-eng' : 'lang-btn-guj').click();
         else applyUiLanguage();
         setTimeout(() => { applyUiLanguage(); markChoices(); }, 60);
     }
@@ -161,18 +172,25 @@
     }
 
     function render() {
+        steps = stepList();
         const step = steps[index];
         const prev = window.Reminders ? Reminders.prefs() : null;
         const last = index === steps.length - 1;
         overlay.querySelector('.setup-body').innerHTML = STEPS[step]();
+        // The card's icon sits in the top row, opposite the back button
+        const corner = overlay.querySelector('.setup-back-spacer');
+        corner.innerHTML = '';
+        const qicon = overlay.querySelector('.setup-body .setup-qicon');
+        if (qicon) corner.appendChild(qicon);
         overlay.querySelector('.setup-dots').innerHTML = steps.length > 1
             ? steps.map((_, i) => `<span class="${i === index ? 'active' : ''}"></span>`).join('') : '';
         const next = overlay.querySelector('.setup-next');
         next.style.display = step === 'done' ? 'none' : '';
-        next.innerHTML = last ? g('પૂરું', 'Done') : g('આગળ', 'Next');
+        next.innerHTML = last ? g('પૂરું', 'Done') : (step === 'about' ? 'Begin · શરૂ કરો' : (step === 'welcome' ? 'Next · આગળ' : g('આગળ', 'Next')));
         overlay.querySelector('.setup-back').style.visibility = index > 0 ? 'visible' : 'hidden';
+        const intro = overlay.querySelector('.setup-intro');
+        if (intro && !overlay.querySelector('.setup-intro-logo')) intro.innerHTML = LOGO;
         // Coming back to a card shows what was chosen there
-        if (step === 'welcome' && appLang === 'english') $('setup-read-english').checked = currentLanguage === 'english';
         if (step === 'reminders' && prev && localStorage.getItem('reminderMorning') !== null) {
             $('setup-morning').checked = prev.morning;
             $('setup-evening').checked = prev.evening;
@@ -183,9 +201,8 @@
     }
 
     function markChoices() {
-        overlay.querySelectorAll('[data-applang]').forEach(b => b.classList.toggle('active', b.dataset.applang === appLang));
-        const row = $('setup-read-english-row');
-        if (row) row.hidden = appLang !== 'english';
+        overlay.querySelectorAll('[data-readlang]').forEach(b => b.classList.toggle('active', b.dataset.readlang === readLang));
+        overlay.querySelectorAll('[data-menus]').forEach(b => b.classList.toggle('active', (b.dataset.menus === 'english') === menusEnglish));
         const large = document.documentElement.classList.contains('text-large');
         overlay.querySelectorAll('[data-size]').forEach(b => b.classList.toggle('active', (b.dataset.size === 'large') === large));
         const look = window.Appearance ? Appearance.get() : 'light';
@@ -193,37 +210,47 @@
     }
 
     async function next() {
+        steps = stepList();
         if (steps[index] === 'reminders') await saveReminderChoices();
         if (index < steps.length - 1) { index++; render(); }
         else finish();
     }
 
     function show(isUpdate) {
-        steps = isUpdate ? ['reminders'] : ['welcome', 'reminders', 'textsize', 'appearance', 'done'];
+        updateFlow = isUpdate;
+        steps = stepList();
         index = 0;
         overlay = document.createElement('div');
-        overlay.className = 'setup-overlay setup-fullscreen';
+        overlay.className = 'setup-overlay setup-fullscreen' + (isUpdate ? ' setup-update' : '');
+        readLang = currentLanguage === 'english' ? 'english' : 'gujarati';
+        menusEnglish = localStorage.getItem('uiLanguage') === 'english';
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
         overlay.innerHTML = `
+            <div class="setup-art" aria-hidden="true"></div>
+            <div class="setup-intro"></div>
             <div class="setup-sheet">
                 <div class="setup-top"><button type="button" class="setup-back" aria-label="Back"><i class="fas fa-arrow-left"></i></button><div class="setup-dots"></div><span class="setup-back-spacer"></span></div>
                 <div class="setup-body"></div>
                 <button type="button" class="setup-next"></button>
             </div>`;
         document.body.appendChild(overlay);
+        window.addEventListener('appearance-change', () => { if (overlay.isConnected) markChoices(); });
         if (isUpdate) STEPS.reminders = () => reminderCard(true);
         render();
 
         overlay.querySelector('.setup-next').addEventListener('click', next);
         overlay.querySelector('.setup-back').addEventListener('click', back);
-        overlay.addEventListener('change', e => {
-            if (e.target.id === 'setup-read-english') applyLanguage();
-        });
         overlay.addEventListener('click', e => {
-            const lang = e.target.closest('[data-applang]');
+            const lang = e.target.closest('[data-readlang]');
             if (lang) {
-                appLang = lang.dataset.applang;
+                readLang = lang.dataset.readlang;
+                applyLanguage();
+                return;
+            }
+            const menus = e.target.closest('[data-menus]');
+            if (menus) {
+                menusEnglish = menus.dataset.menus === 'english';
                 applyLanguage();
                 return;
             }
