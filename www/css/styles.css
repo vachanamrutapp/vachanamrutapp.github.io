@@ -45,6 +45,14 @@
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* iOS (WebKit only): newer iOS fades content under the status bar, so the header starts a
+   little lower there to keep its title and buttons clear of the fade */
+@supports (-webkit-touch-callout: none) {
+    :root {
+        --safe-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    }
+}
+
 body {
     font-family: 'Noto Sans Gujarati', 'Roboto', -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
     background-color: #E6A623;
