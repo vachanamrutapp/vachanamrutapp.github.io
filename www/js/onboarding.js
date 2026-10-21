@@ -189,7 +189,7 @@
         const large = document.documentElement.classList.contains('text-large');
         overlay.querySelectorAll('[data-size]').forEach(b => b.classList.toggle('active', (b.dataset.size === 'large') === large));
         const look = window.Appearance ? Appearance.get() : 'light';
-        overlay.querySelectorAll('[data-appearance]').forEach(b => b.classList.toggle('active', b.dataset.appearance === look));
+        overlay.querySelectorAll('.setup-choice-btn[data-appearance]').forEach(b => b.classList.toggle('active', b.dataset.appearance === look));
     }
 
     async function next() {
@@ -233,7 +233,7 @@
                 markChoices();
                 return;
             }
-            const look = e.target.closest('[data-appearance]');
+            const look = e.target.closest('.setup-choice-btn[data-appearance]'); // not <html data-appearance>
             if (look) {
                 if (window.Appearance) Appearance.set(look.dataset.appearance);
                 markChoices();
