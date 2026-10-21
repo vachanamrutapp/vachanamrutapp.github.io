@@ -6801,11 +6801,11 @@ body.ui-english #settings-ui-eng {
 }
 
 .facts-modal.glass-card:not(.theme-dark):not(.theme-sepia) {
-    background: linear-gradient(180deg, rgba(255, 252, 240, 0.62), rgba(255, 244, 214, 0.55));
+    background: #FCEFC6; /* a solid sheet; only the cards and buttons on it are glass */
     border: none;
-    -webkit-backdrop-filter: blur(26px) saturate(1.5);
-    backdrop-filter: blur(26px) saturate(1.5);
-    box-shadow: var(--glass-rim), 0 -10px 40px rgba(40, 20, 0, 0.25);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 0 -10px 40px rgba(40, 20, 0, 0.25);
 }
 
 /* Grab handle */
@@ -6824,10 +6824,22 @@ body.ui-english #settings-ui-eng {
     border-bottom-color: rgba(165, 37, 44, 0.12);
 }
 
-.facts-modal-close {
-    background: rgba(255, 255, 255, 0.45);
+/* Glass components on the sheet: a light sheen with the glass rim */
+.facts-modal-close,
+.fact-row,
+.facts-xref,
+.facts-questioner-chip,
+.facts-glossary-card,
+.word-meaning-pill,
+.word-meaning-box,
+.word-meaning-view-all-btn {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.3));
     border: none;
-    box-shadow: var(--glass-rim);
+    box-shadow: var(--glass-rim), 0 2px 8px rgba(110, 60, 0, 0.06);
+}
+
+.facts-xref {
+    background: linear-gradient(180deg, rgba(255, 236, 170, 0.7), rgba(247, 200, 68, 0.28));
 }
 
 .facts-modal-body {
