@@ -3106,10 +3106,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const w = tabBar.offsetWidth, h = tabBar.offsetHeight;
             if (!w) return;
             const dome = parseFloat(getComputedStyle(tabBar).paddingTop) || 0;
-            const r = (h - dome) / 2, cx = w / 2, base = 46;
+            // Dome: a true circular arc (radius R, top at y=0) joined to the bar's top edge by
+            // short curves that meet the circle tangentially at y = dome - 6.
+            const r = (h - dome) / 2, cx = w / 2, R = 28, base = 40;
+            const py = dome - 6, px = Math.sqrt(R * R - (R - py) ** 2);
+            const qx = px + (dome - py) * (R - py) / px; // tangent at the join, carried down to the bar
             const d = `M ${r} ${dome} L ${cx - base} ${dome} `
-                + `C ${cx - base * 0.5} ${dome} ${cx - 33} 0 ${cx} 0 `
-                + `C ${cx + 33} 0 ${cx + base * 0.5} ${dome} ${cx + base} ${dome} `
+                + `Q ${cx - qx} ${dome} ${cx - px} ${py} `
+                + `A ${R} ${R} 0 0 1 ${cx + px} ${py} `
+                + `Q ${cx + qx} ${dome} ${cx + base} ${dome} `
                 + `L ${w - r} ${dome} A ${r} ${r} 0 0 1 ${w - r} ${h} L ${r} ${h} A ${r} ${r} 0 0 1 ${r} ${dome} Z`;
             tabBar.style.clipPath = `path('${d}')`;
             tabBarRim.setAttribute('viewBox', `0 0 ${w} ${h}`);
