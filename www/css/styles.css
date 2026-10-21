@@ -7659,3 +7659,295 @@ html.dark .setup-icon {
 html.dark .setup-logo {
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
+
+/* ===========================================================
+   Dark, refined: solid layered surfaces instead of glass. One hairline edge everywhere
+   (no specular rims or glows), three surface levels, and frosted (not refracting) bars.
+     page      #000 (home keeps the night-sky image)
+     surface   #161618   cards, sheets, groups
+     raised    #222225   controls on cards: chips, segments, buttons, inputs
+   =========================================================== */
+html.dark {
+    --glass-rim: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    --d-surface: rgba(22, 22, 26, 0.8); /* lets the blurred night sky tint through */
+    --d-surface-2: #161618;
+    --d-raised: #222225;
+    --d-selected: #3A3A3E;
+    --d-line: rgba(255, 255, 255, 0.07);
+}
+
+/* Cards and sheets: one solid surface, hairline edge, soft shadow */
+html.dark .chapter-tile,
+html.dark .vachanamrut-tile,
+html.dark .sloka-card,
+html.dark .section-header-card,
+html.dark .fav-card,
+html.dark .search-card,
+html.dark #sloka-content,
+html.dark .glass-card.journey-page-card,
+html.dark #vachanamrut-card.glass-card,
+html.dark .chapter-tile:hover,
+html.dark .vachanamrut-tile:hover,
+html.dark .sloka-card:hover {
+    background: var(--d-surface);
+    border: 1px solid var(--d-line);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+html.dark .chapter-tile::before,
+html.dark .sloka-card::before {
+    display: none;
+}
+
+/* Groups inside a page card sit one level up */
+html.dark .settings-page-card .settings-group,
+html.dark #journey-screen .journey-progress-card,
+html.dark #journey-screen .journey-streak-card,
+html.dark #journey-screen .journey-chip,
+html.dark #journey-screen .journey-milestones,
+html.dark #journey-screen .journey-map-cell,
+html.dark #journey-screen .journey-reset-link,
+html.dark #journey-screen .fav-card,
+html.dark #journey-screen .my-note,
+html.dark .search-card .search-result,
+html.dark .search-glossary-card,
+html.dark .fact-row,
+html.dark .facts-xref,
+html.dark .facts-glossary-card,
+html.dark .word-meaning-box,
+html.dark .setup-option,
+html.dark .setup-preview {
+    background: var(--d-raised);
+    border: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+html.dark .glass-card.journey-page-card {
+    background: rgba(12, 12, 13, 0.92);
+}
+
+/* Segmented controls and pills: a raised track, the chosen option a lighter chip */
+html.dark .hub-tabs,
+html.dark .settings-page-card .settings-segmented,
+html.dark .search-header .search-scope,
+html.dark .header-lang-switch {
+    background: var(--d-raised);
+    border: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+html.dark .hub-tab.active,
+html.dark .search-header .search-scope-btn.active,
+html.dark .header-lang-switch .lang-btn.active,
+html.dark[data-appearance] body.gujarati #settings-lang-guj,
+html.dark[data-appearance] body.english #settings-lang-eng,
+html.dark:not(.text-large) #settings-text-default,
+html.dark.text-large #settings-text-large,
+html.dark body:not(.ui-english) #settings-ui-auto,
+html.dark body.ui-english #settings-ui-eng,
+html.dark[data-appearance="system"] #settings-appearance-system,
+html.dark[data-appearance="dark"] #settings-appearance-dark,
+html.dark .setup-choice-btn.active {
+    background: var(--d-selected);
+    color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .header-lang-switch .lang-btn.active {
+    color: #FF6B72;
+}
+
+/* Small buttons and inputs */
+html.dark #back-btn,
+html.dark .toolbar-btn,
+html.dark .facts-pill,
+html.dark .font-size-display,
+html.dark .sp-bookmark-btn,
+html.dark .facts-modal-close,
+html.dark .word-meaning-pill,
+html.dark .word-meaning-view-all-btn,
+html.dark .facts-questioner-chip,
+html.dark .search-chip,
+html.dark .search-header .search-input-wrap,
+html.dark .note-sheet-text,
+html.dark .note-sheet-btn:not(.primary),
+html.dark .reminder-time,
+html.dark .setup-choice-btn,
+html.dark .setup-secondary,
+html.dark .chapter-count,
+html.dark .section-count {
+    background: var(--d-raised);
+    border: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+html.dark .settings-page-card .settings-group .reminder-time,
+html.dark .fact-row .facts-questioner-chip {
+    background: var(--d-selected);
+}
+
+/* Sheets */
+html.dark .facts-modal.glass-card:not(.theme-sepia),
+html.dark .note-sheet,
+html.dark .setup-sheet {
+    background: #161618;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6);
+}
+
+html.dark .facts-modal::before {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Header and floating bars: frosted near-black, no refraction or rims */
+html.dark header#header,
+html.dark body > header,
+html.dark .search-header {
+    background: #000000;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+html.dark #footer.app-tab-bar,
+html.dark .reading-footer,
+html.dark .find-bar,
+html.dark .audio-player-container.state-bar,
+html.dark .audio-fab-view {
+    background: rgba(22, 22, 24, 0.86);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    backdrop-filter: blur(20px) saturate(1.3);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+html.dark .tab-bar-rim-light {
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 1;
+}
+
+html.dark .tab-bar-rim-edge {
+    stroke: none;
+}
+
+html.dark .footer-search-btn,
+html.dark .reading-footer .nav-btn,
+html.dark .audio-player-container .audio-bar-btn,
+html.dark .audio-player-container .audio-bar-btn.play-btn {
+    background: var(--d-raised);
+    box-shadow: none;
+}
+
+html.dark .audio-player-container .audio-bar-btn.play-btn {
+    background: var(--d-selected);
+}
+
+html.dark .tab-bar-drop {
+    background: var(--d-raised);
+    box-shadow: none;
+}
+
+html.dark .footer-search-btn.ripple::after {
+    animation-name: lens-ripple-dark;
+}
+
+@keyframes lens-ripple-dark {
+    0% { opacity: 0.9; box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35); }
+    100% { opacity: 0; box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+}
+
+/* Separators and secondary text */
+html.dark .settings-page-card .settings-group > * + .setting-item::before {
+    background-color: var(--d-line);
+}
+
+html.dark .facts-modal.glass-card .facts-modal-header {
+    background: transparent;
+    border-bottom: 1px solid var(--d-line);
+}
+
+/* Big background numbers: quieter */
+html.dark .chapter-tile::after,
+html.dark .vachanamrut-tile::after,
+html.dark .sloka-card::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 10%, rgba(255, 255, 255, 0.01) 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+html.dark .settings-page-card .settings-group .settings-segmented {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark app: the reading card's dark theme uses white accents instead of gold */
+html.dark #vachanamrut-card.theme-dark h3,
+html.dark #vachanamrut-card.theme-dark .v-number,
+html.dark #vachanamrut-card.theme-dark .v-title-text,
+html.dark #vachanamrut-card.theme-dark .icon-btn,
+html.dark #vachanamrut-card.theme-dark #vachanamrut-footer-text,
+html.dark #vachanamrut-card.theme-dark .toolbar-btn,
+html.dark #vachanamrut-card.theme-dark .bookmark-pill {
+    color: #FFFFFF !important;
+}
+
+html.dark #vachanamrut-card.theme-dark #vachanamrut-text {
+    color: #E8E8EA;
+}
+
+html.dark #vachanamrut-card.theme-dark #vachanamrut-setting {
+    background: var(--d-raised);
+    border-left-color: rgba(255, 255, 255, 0.3);
+    color: #C7C7CC;
+}
+
+html.dark #vachanamrut-card.theme-dark .font-controls,
+html.dark #vachanamrut-card.theme-dark .theme-controls,
+html.dark #vachanamrut-card.theme-dark .bookmark-pill {
+    background: var(--d-raised);
+    border-color: transparent;
+}
+
+html.dark #vachanamrut-card.theme-dark .bookmark-pill.active {
+    background: #FFFFFF;
+    color: #000000 !important;
+}
+
+html.dark #vachanamrut-card.theme-dark .glossary-word-link {
+    border-bottom-color: rgba(255, 255, 255, 0.45);
+}
+
+/* Muted text in dark: neutral grey instead of the light theme's purple */
+html.dark .facts-modal-subtitle,
+html.dark .fact-label,
+html.dark .fact-value .fact-secondary,
+html.dark .author-dates,
+html.dark .about-vachanamrut-source,
+html.dark .facts-xref-delta,
+html.dark .facts-empty,
+html.dark .facts-glossary-meaning,
+html.dark .word-meaning-secondary-term,
+html.dark .journey-ring-sub,
+html.dark .journey-ring-date,
+html.dark .search-hint,
+html.dark .search-status {
+    color: var(--color-text-muted) !important;
+}
+
+html.dark .facts-glossary-meaning {
+    color: #C7C7CC !important;
+}
+
+/* Facts / word sheet header in the dark app: white, not the reading theme's gold */
+html.dark .facts-modal .facts-modal-title,
+html.dark .facts-modal .facts-modal-close {
+    color: #FFFFFF;
+}
+
+html.dark .facts-modal .facts-modal-close {
+    background: var(--d-raised);
+    border-color: transparent;
+}
