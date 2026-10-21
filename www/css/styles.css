@@ -4332,7 +4332,8 @@ body.facts-modal-open {
     border: none;
     background: transparent;
     color: #A5252C;
-    font-size: 1.25rem;
+    font-size: 1.6rem;
+    margin-top: -12px; /* centre on the dome's circle rather than the whole bar */
     display: flex;
     align-items: center;
     justify-content: center;
