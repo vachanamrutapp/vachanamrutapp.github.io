@@ -7171,17 +7171,17 @@ html.dark .footer-search-btn,
 html.dark .reading-footer .nav-btn,
 html.dark .audio-fab-view,
 html.dark .audio-player-container .audio-bar-btn {
-    color: var(--d-gold);
+    color: #FFFFFF;
     text-shadow: none;
 }
 
 html.dark .footer-search-btn {
     background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.16), rgba(20, 20, 22, 0.3) 70%);
     box-shadow:
-        inset 0 0 0 2px rgba(229, 72, 77, 0.55),
-        0 0 0 3.5px rgba(229, 72, 77, 0.12),
-        0 0 0 4.5px rgba(229, 72, 77, 0.35),
-        0 0 16px rgba(229, 72, 77, 0.25);
+        inset 0 0 0 2px rgba(255, 255, 255, 0.55),
+        0 0 0 3.5px rgba(255, 255, 255, 0.1),
+        0 0 0 4.5px rgba(255, 255, 255, 0.3),
+        0 0 16px rgba(255, 255, 255, 0.15);
 }
 
 html.dark .tab-bar-rim-light {
@@ -7209,7 +7209,7 @@ html.dark .audio-player-container .audio-title {
 }
 
 html.dark .audio-fab-progress-circle {
-    stroke: var(--d-gold);
+    stroke: #FFFFFF;
 }
 
 /* Sheets */
