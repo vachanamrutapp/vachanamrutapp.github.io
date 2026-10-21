@@ -16,7 +16,7 @@
     /* Button navigation (inset > 32px) must be cleared fully; a gesture handle can sit close */
     --nav-buttons: max(0px, min(var(--safe-bottom), calc((var(--safe-bottom) - 32px) * 100)));
     /* Bottom edge of the floating bars: low over the gesture handle, just above 3-button navigation */
-    --bar-bottom: max(10px, calc(var(--safe-bottom) * 0.8), calc(var(--nav-buttons) + 6px));
+    --bar-bottom: max(6px, calc(var(--safe-bottom) * 0.55), calc(var(--nav-buttons) + 6px));
 
 
     /* Shikshapatri-aligned palette */
