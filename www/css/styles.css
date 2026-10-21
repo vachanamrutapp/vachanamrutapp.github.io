@@ -6924,7 +6924,7 @@ body.ui-english #settings-ui-eng {
 }
 
 /* ===========================================================
-   Amber glass bars (1.7): warm golden glass with cream icons and labels, and a ringed
+   Amber glass bars (1.7): warm golden glass with red icons and labels, and a ringed
    glass lens for search
    =========================================================== */
 #footer.app-tab-bar,
@@ -6936,13 +6936,13 @@ body.ui-english #settings-ui-eng {
 #footer .footer-tab,
 .reading-footer .nav-btn,
 .reading-footer .reading-progress {
-    color: #FFF4DC;
+    color: #A5252C;
 }
 
 #footer .footer-tab-icon,
 #footer .footer-tab-label {
-    color: #FFF4DC;
-    text-shadow: 0 1px 3px rgba(90, 40, 0, 0.45);
+    color: #A5252C;
+    text-shadow: 0 1px 2px rgba(255, 240, 200, 0.45);
 }
 
 #footer .footer-tab.active {
@@ -6951,7 +6951,7 @@ body.ui-english #settings-ui-eng {
 
 .reading-footer .nav-btn {
     background: rgba(255, 245, 220, 0.18);
-    text-shadow: 0 1px 3px rgba(90, 40, 0, 0.45);
+    text-shadow: 0 1px 2px rgba(255, 240, 200, 0.45);
 }
 
 .reading-footer .reading-progress {
@@ -6967,9 +6967,9 @@ body.ui-english #settings-ui-eng {
     width: 46px;
     height: 46px;
     margin-top: 0;
-    color: #FFF4DC;
+    color: #A5252C;
     font-size: 1.3rem;
-    text-shadow: 0 1px 4px rgba(90, 40, 0, 0.5);
+    text-shadow: 0 1px 2px rgba(255, 240, 200, 0.45);
     background: radial-gradient(circle at 50% 40%, rgba(255, 236, 190, 0.38), rgba(200, 120, 20, 0.25) 70%);
     box-shadow:
         inset 0 0 0 2px rgba(255, 240, 205, 0.8),
