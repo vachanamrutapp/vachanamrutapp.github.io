@@ -2848,7 +2848,17 @@ function updateScriptureChrome(screenId) {
         logo.src = logoSrc;
         logo.alt = inShikshapatri ? 'Shikshapatri' : 'Vachanamrut';
     }
-    document.getElementById('footer-switch-icon').className = `fas ${inShikshapatri ? 'fa-book-open' : 'fa-scroll'} footer-tab-icon`;
+    // The switch's icon flips over when it changes scripture
+    const switchIcon = document.getElementById('footer-switch-icon');
+    const switchIconClass = `fas ${inShikshapatri ? 'fa-book-open' : 'fa-scroll'} footer-tab-icon`;
+    if (switchIcon.className.replace(' flip', '') !== switchIconClass) {
+        switchIcon.className = switchIconClass;
+        if (window.appReady) {
+            void switchIcon.offsetWidth;
+            switchIcon.classList.add('flip');
+            switchIcon.addEventListener('animationend', () => switchIcon.classList.remove('flip'), { once: true });
+        }
+    }
     document.getElementById('footer-switch-label-guj').textContent = inShikshapatri ? 'વચનામૃત' : 'શિક્ષાપત્રી';
     document.getElementById('footer-switch-label-eng').textContent = inShikshapatri ? 'Vachanamrut' : 'Shikshapatri';
     footerSwitchBtn.setAttribute('aria-label', inShikshapatri ? 'Switch to Vachanamrut' : 'Switch to Shikshapatri');
@@ -3105,29 +3115,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     window.addEventListener('appearance-change', applyTheme);
 
-    // Bottom tab bar: one glass outline — a pill whose top edge rises into a dome around the
-    // search button. Clip the bar to it and draw the rim along it whenever the bar resizes.
+    // Bottom tab bar: a glass pill. Clip the bar to it and draw its rim whenever the bar resizes.
     const tabBar = document.getElementById('footer');
     const tabBarRim = tabBar && tabBar.querySelector('.tab-bar-rim');
     if (tabBar && tabBarRim && window.ResizeObserver) {
         const shapeTabBar = () => {
             const w = tabBar.offsetWidth, h = tabBar.offsetHeight;
             if (!w) return;
-            const dome = parseFloat(getComputedStyle(tabBar).paddingTop) || 0;
-            // Dome: a true circular arc (radius R, top at y=0) joined to the bar's top edge by
-            // short curves that meet the circle tangentially at y = dome - 6.
-            const r = (h - dome) / 2, cx = w / 2, R = 28, base = 40;
-            const py = dome - 6, px = Math.sqrt(R * R - (R - py) ** 2);
-            const qx = px + (dome - py) * (R - py) / px; // tangent at the join, carried down to the bar
-            const d = `M ${r} ${dome} L ${cx - base} ${dome} `
-                + `Q ${cx - qx} ${dome} ${cx - px} ${py} `
-                + `A ${R} ${R} 0 0 1 ${cx + px} ${py} `
-                + `Q ${cx + qx} ${dome} ${cx + base} ${dome} `
-                + `L ${w - r} ${dome} A ${r} ${r} 0 0 1 ${w - r} ${h} L ${r} ${h} A ${r} ${r} 0 0 1 ${r} ${dome} Z`;
+            const r = h / 2;
+            const d = `M ${r} 0 L ${w - r} 0 A ${r} ${r} 0 0 1 ${w - r} ${h} L ${r} ${h} A ${r} ${r} 0 0 1 ${r} 0 Z`;
             tabBar.style.clipPath = `path('${d}')`;
             tabBarRim.setAttribute('viewBox', `0 0 ${w} ${h}`);
             tabBarRim.querySelectorAll('path').forEach(path => path.setAttribute('d', d));
+            settleDrop();
         };
+
+        // Glass droplet: slides under a tab while it's touched, then rests under the active tab
+        // (Settings / Journey) or fades out where it is
+        const drop = tabBar.querySelector('.tab-bar-drop');
+        let pressing = false, settleTimer;
+        const placeDrop = (btn, visible) => {
+            if (!drop) return;
+            if (btn) {
+                const b = btn.getBoundingClientRect(), f = tabBar.getBoundingClientRect();
+                drop.style.width = `${b.width}px`;
+                drop.style.transform = `translateX(${b.left - f.left}px)`;
+            }
+            drop.classList.toggle('show', !!btn && visible);
+        };
+        function settleDrop() {
+            if (!pressing) placeDrop(tabBar.querySelector('.footer-tab.active'), true);
+        }
+        tabBar.querySelectorAll('.footer-tab').forEach(btn => {
+            btn.addEventListener('pointerdown', () => {
+                pressing = true;
+                clearTimeout(settleTimer);
+                placeDrop(btn, true);
+            });
+            new MutationObserver(settleDrop).observe(btn, { attributes: true, attributeFilter: ['class'] });
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(type => tabBar.addEventListener(type, () => {
+            if (!pressing) return;
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(() => { pressing = false; settleDrop(); }, 260);
+        }));
+
+        // Search lens: a soft ripple that fills the dome on tap
+        const searchLens = document.getElementById('footer-search-btn');
+        searchLens.addEventListener('pointerdown', () => {
+            searchLens.classList.remove('ripple');
+            void searchLens.offsetWidth;
+            searchLens.classList.add('ripple');
+        });
+        searchLens.addEventListener('animationend', () => searchLens.classList.remove('ripple'));
+
         new ResizeObserver(shapeTabBar).observe(tabBar);
         shapeTabBar();
     }
