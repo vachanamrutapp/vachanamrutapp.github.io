@@ -4883,9 +4883,9 @@ html.text-large #settings-text-large {
     box-shadow: 0 14px 36px rgba(110, 50, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* Over the bottom bar (Partharo list): clear the raised search button */
+/* Over the bottom bar (Partharo list): clear the tab bar's dome */
 .audio-player-container.state-bar.no-footer {
-    bottom: calc(64px + var(--bar-bottom));
+    bottom: calc(80px + var(--bar-bottom));
 }
 
 .audio-bar-head {
@@ -6657,3 +6657,241 @@ body.ui-english #settings-ui-eng {
     }
 }
 
+/* ===========================================================
+   Audio in glass — the floating play button and the player bar use the same liquid glass as
+   the bottom bars; the player bar is one slim block: title · controls · minimise, then seek.
+   =========================================================== */
+.audio-fab-view,
+.audio-player-container.state-bar {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.24));
+    border: none;
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) brightness(1.06);
+    box-shadow: var(--glass-rim), 0 8px 24px rgba(50, 30, 0, 0.2);
+}
+
+.audio-fab-view {
+    color: #A5252C;
+}
+
+.audio-fab-view:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+}
+
+/* Playing: the same glass with a faint red tint, a red progress ring and a soft red pulse */
+.audio-player-container.state-fab.is-playing .audio-fab-view {
+    background: linear-gradient(180deg, rgba(255, 235, 235, 0.5), rgba(165, 37, 44, 0.14));
+}
+
+.audio-fab-progress-circle {
+    stroke: #A5252C;
+}
+
+.audio-player-container.state-bar {
+    padding: 8px 10px 6px 16px;
+    border-radius: 24px;
+}
+
+.audio-player-container.state-bar .audio-bar-view {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+        "text controls close"
+        "scrub scrub scrub";
+    align-items: center;
+    column-gap: 8px;
+}
+
+.audio-player-container .audio-bar-head {
+    display: contents;
+}
+
+.audio-player-container .audio-bar-head-text {
+    grid-area: text;
+}
+
+.audio-player-container .audio-title {
+    font-size: 0.92rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.audio-player-container .audio-timer {
+    font-size: 0.7rem;
+}
+
+.audio-player-container .audio-bar-controls-row {
+    grid-area: controls;
+    padding: 0;
+}
+
+.audio-player-container .audio-bar-controls {
+    gap: 6px;
+}
+
+.audio-player-container .audio-scrubber-layout {
+    grid-area: scrub;
+    padding: 2px 4px 0 0;
+}
+
+.audio-player-container .audio-bar-btn,
+.audio-player-container .audio-bar-btn.close-btn,
+.audio-player-container .audio-bar-btn.play-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.88rem;
+    color: #A5252C;
+    background: rgba(255, 255, 255, 0.38);
+    border: none;
+    box-shadow: var(--glass-rim);
+}
+
+.audio-player-container .audio-bar-btn.close-btn {
+    grid-area: close;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+}
+
+.audio-player-container .audio-bar-btn.play-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.05rem;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* ===========================================================
+   Facts (i) and word-meaning sheets: a glass drawer that slides up from the bottom over the
+   reading slider, leaving room at the top.
+   =========================================================== */
+.facts-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+    background: rgba(44, 29, 24, 0.35);
+}
+
+.facts-modal,
+.facts-modal.word-mode {
+    max-width: 640px;
+    height: auto;
+    max-height: calc(100vh - var(--safe-top) - 72px);
+    border-radius: 26px 26px 0 0;
+    animation: drawer-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Full facts sheet keeps a steady height so its tabs don't jump */
+.facts-modal:not(.word-mode) {
+    height: calc(100vh - var(--safe-top) - 72px);
+    max-height: 760px;
+}
+
+.facts-modal-overlay.closing .facts-modal {
+    animation: drawer-down 0.2s ease-in forwards;
+}
+
+@keyframes drawer-up {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+}
+
+@keyframes drawer-down {
+    from { transform: translateY(0); }
+    to   { transform: translateY(100%); }
+}
+
+.facts-modal.glass-card:not(.theme-dark):not(.theme-sepia) {
+    background: linear-gradient(180deg, rgba(255, 252, 240, 0.62), rgba(255, 244, 214, 0.55));
+    border: none;
+    -webkit-backdrop-filter: blur(26px) saturate(1.5);
+    backdrop-filter: blur(26px) saturate(1.5);
+    box-shadow: var(--glass-rim), 0 -10px 40px rgba(40, 20, 0, 0.25);
+}
+
+/* Grab handle */
+.facts-modal::before {
+    content: '';
+    flex-shrink: 0;
+    width: 40px;
+    height: 5px;
+    margin: 8px auto 0;
+    border-radius: 999px;
+    background: rgba(120, 90, 60, 0.35);
+}
+
+.facts-modal.glass-card:not(.theme-dark):not(.theme-sepia) .facts-modal-header {
+    background: transparent;
+    border-bottom-color: rgba(165, 37, 44, 0.12);
+}
+
+.facts-modal-close {
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    box-shadow: var(--glass-rim);
+}
+
+.facts-modal-body {
+    padding-bottom: calc(20px + var(--safe-bottom));
+}
+
+@media (max-width: 600px) {
+    .facts-modal,
+    .facts-modal.word-mode {
+        border-radius: 24px 24px 0 0;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+    .audio-fab-view,
+    .audio-player-container.state-bar {
+        backdrop-filter: blur(14px) saturate(1.5);
+    }
+}
+
+
+/* Header controls in glass: a round glass back button and a glass ગુજ / EN switch whose
+   selected option is a brighter drop of glass, matching the other glass segmented controls */
+#back-btn {
+    left: 14px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    background: rgba(255, 255, 255, 0.28);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    backdrop-filter: blur(12px) saturate(1.4);
+    box-shadow: var(--glass-rim);
+}
+
+#back-btn:hover {
+    transform: none;
+    color: #A5252C;
+    box-shadow: var(--glass-rim);
+}
+
+#back-btn:active {
+    transform: scale(0.94);
+}
+
+.header-lang-switch {
+    border: none;
+    border-radius: 999px;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.22);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    backdrop-filter: blur(12px) saturate(1.4);
+    box-shadow: var(--glass-rim);
+}
+
+.header-lang-switch .lang-btn {
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+}
+
+.header-lang-switch .lang-btn.active {
+    background: rgba(255, 255, 255, 0.65);
+    color: #A5252C;
+    box-shadow: var(--glass-rim), 0 1px 4px rgba(60, 35, 0, 0.12);
+}
