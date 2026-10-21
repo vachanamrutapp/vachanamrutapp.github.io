@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.61.0';
+const CACHE_NAME = '1.63.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -25,8 +25,8 @@ const APP_SHELL = [
     './shikshapatri/index.html',
     './shikshapatri/assets/data/shikshapatri.db',
     './shikshapatri/assets/data.json',
-    './shikshapatri/assets/images/harikrishna-maharaj-bg.png',
-    './shikshapatri/assets/images/navbar-image.png',
+    './images/harikrishna-maharaj-bg.webp',
+    './shikshapatri/assets/images/navbar-image.webp',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap'
 ];
@@ -59,20 +59,20 @@ const EXTRA_IMAGES = [
     './images/Partharo/swaminarayan-aarti.webp',
     './images/Partharo/khagolbhugol.webp',
     './images/512.png',
-    './images/facts/sun.png',
-    './images/facts/moon.png',
-    './images/facts/day.png',
-    './images/facts/spring-season.png',
-    './images/facts/rainy-season.png',
-    './images/facts/fall-season.png',
-    './images/facts/winter-season.png',
-    './images/facts/summer-season.png',
-    './images/facts/calendar.png',
-    './images/facts/festival.png',
-    './images/facts/shikshapatri.png',
-    './images/facts/acharya-gadi.png',
-    './images/facts/star-bye.png',
-    './images/facts/shakotsav.png',
+    './images/facts/sun.webp',
+    './images/facts/moon.webp',
+    './images/facts/day.webp',
+    './images/facts/spring-season.webp',
+    './images/facts/rainy-season.webp',
+    './images/facts/fall-season.webp',
+    './images/facts/winter-season.webp',
+    './images/facts/summer-season.webp',
+    './images/facts/calendar.webp',
+    './images/facts/festival.webp',
+    './images/facts/shikshapatri.webp',
+    './images/facts/acharya-gadi.webp',
+    './images/facts/star-bye.webp',
+    './images/facts/shakotsav.webp',
     './images/facts/authors/SwaminarayanBhagwaan.webp',
     './images/facts/authors/muktanandSwami.webp',
     './images/facts/authors/gopalanandSwami.webp',
@@ -83,7 +83,7 @@ const EXTRA_IMAGES = [
 // Shikshapatri illustrations (Shikshapatri is part of this app now)
 const SHIKSHAPATRI_IMAGES = [];
 for (let i = 1; i <= 212; i++) {
-    SHIKSHAPATRI_IMAGES.push(`./shikshapatri/assets/pictorial/${i}.png`);
+    SHIKSHAPATRI_IMAGES.push(`./shikshapatri/assets/pictorial/${i}.webp`);
 }
 
 const FULL_PAYLOAD = [...AUDIO_FILES, ...EXTRA_IMAGES, ...SHIKSHAPATRI_IMAGES];

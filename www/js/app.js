@@ -2459,7 +2459,7 @@ function renderFactsModalBody(facts) {
         utsavRow = factRow(
             { en: 'Festival', gu: 'ઉત્સવ' },
             { en: e.utsav_en || '—', gu: e.utsav_gu || '—' },
-            { img: 'images/facts/festival.png' }
+            { img: 'images/facts/festival.webp' }
         );
     }
 
@@ -2526,24 +2526,24 @@ function renderFactIcon(icon) {
 // Map season → decorative season image (or winter season for Hemant/Shishir).
 function seasonIconFor(season_en) {
     const map = {
-        'Vasant':  'images/facts/spring-season.png',
-        'Grishma': 'images/facts/summer-season.png',
-        'Varsha':  'images/facts/rainy-season.png',
-        'Sharad':  'images/facts/fall-season.png',
-        'Hemant':  'images/facts/winter-season.png',
-        'Shishir': 'images/facts/winter-season.png',
+        'Vasant':  'images/facts/spring-season.webp',
+        'Grishma': 'images/facts/summer-season.webp',
+        'Varsha':  'images/facts/rainy-season.webp',
+        'Sharad':  'images/facts/fall-season.webp',
+        'Hemant':  'images/facts/winter-season.webp',
+        'Shishir': 'images/facts/winter-season.webp',
     };
     return map[season_en] || null;
 }
 
 // Map time of day → sun/moon/day. Returns null for unspecified so the FA fallback kicks in.
 function timeOfDayIconFor(tod_en) {
-    if (!tod_en || tod_en.toLowerCase() === 'unspecified') return 'images/facts/calendar.png';
+    if (!tod_en || tod_en.toLowerCase() === 'unspecified') return 'images/facts/calendar.webp';
     const t = tod_en.toLowerCase();
-    if (t.includes('night')) return 'images/facts/moon.png';
-    if (t.includes('morning') || t.includes('sunrise')) return 'images/facts/day.png';
-    if (t.includes('afternoon') || t.includes('evening') || t.includes('noon')) return 'images/facts/sun.png';
-    return 'images/facts/calendar.png';
+    if (t.includes('night')) return 'images/facts/moon.webp';
+    if (t.includes('morning') || t.includes('sunrise')) return 'images/facts/day.webp';
+    if (t.includes('afternoon') || t.includes('evening') || t.includes('noon')) return 'images/facts/sun.webp';
+    return 'images/facts/calendar.webp';
 }
 
 const XREF_EMOJI = {
@@ -2560,21 +2560,21 @@ const XREF_EMOJI = {
 // Photos of the six mandirs Bhagwan Swaminarayan personally consecrated, shown
 // instead of the generic emoji when a cross-reference points at one of them.
 const MANDIR_IMAGES = {
-    'Ahmedabad': 'images/facts/mandirs/amdavad-mandir.png',
-    'Bhuj':      'images/facts/mandirs/bhuj-mandir.png',
-    'Vadtāl':    'images/facts/mandirs/vadtal-mandir.jpg',
-    'Dholerā':   'images/facts/mandirs/dholera-mandir.png',
-    'Junāgadh':  'images/facts/mandirs/junagadh-mandir.png',
-    'Gadhadā':   'images/facts/mandirs/gadhada-mandir.jpg',
+    'Ahmedabad': 'images/facts/mandirs/amdavad-mandir.webp',
+    'Bhuj':      'images/facts/mandirs/bhuj-mandir.webp',
+    'Vadtāl':    'images/facts/mandirs/vadtal-mandir.webp',
+    'Dholerā':   'images/facts/mandirs/dholera-mandir.webp',
+    'Junāgadh':  'images/facts/mandirs/junagadh-mandir.webp',
+    'Gadhadā':   'images/facts/mandirs/gadhada-mandir.webp',
 };
 
 // Dedicated artwork for the other life-event xref types, shown instead of
 // the generic emoji.
 const XREF_IMAGES = {
-    scripture: 'images/facts/shikshapatri.png',
-    gadi:      'images/facts/acharya-gadi.png',
-    departure: 'images/facts/star-bye.png',
-    festival:  'images/facts/shakotsav.png',
+    scripture: 'images/facts/shikshapatri.webp',
+    gadi:      'images/facts/acharya-gadi.webp',
+    departure: 'images/facts/star-bye.webp',
+    festival:  'images/facts/shakotsav.webp',
 };
 
 function renderXref(x, activeEvent = null) {
@@ -2841,7 +2841,7 @@ function setupMenu() {
 function updateScriptureChrome(screenId) {
     const inShikshapatri = currentScripture === 'shikshapatri';
     const logo = document.getElementById('navbar-logo');
-    const logoSrc = inShikshapatri ? 'shikshapatri/assets/images/navbar-image.png?v=2' : 'images/logo-vachanamrut.png';
+    const logoSrc = inShikshapatri ? 'shikshapatri/assets/images/navbar-image.webp?v=2' : 'images/logo-vachanamrut.png';
     if (!logo.src.endsWith(logoSrc)) {
         logo.src = logoSrc;
         logo.alt = inShikshapatri ? 'Shikshapatri' : 'Vachanamrut';

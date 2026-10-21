@@ -180,7 +180,7 @@
 
         $('sloka-title-badge').textContent = `श्लोक ${toDevanagari(id)}`;
         const img = $('sloka-image');
-        img.src = `${BASE}pictorial/${id}.png`;
+        img.src = `${BASE}pictorial/${id}.webp`;
         img.alt = `Pictorial illustration for Sloka ${id}`;
 
         $('sloka-sanskrit').innerHTML = cleanSanskritVerse(currentSloka.sanskrit).replace(/\n/g, '<br>');

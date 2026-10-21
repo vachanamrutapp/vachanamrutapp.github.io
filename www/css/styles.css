@@ -56,7 +56,7 @@
 body {
     font-family: 'Noto Sans Gujarati', 'Roboto', -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
     background-color: #E6A623;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('../images/harikrishna-maharaj-bg.png');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('../images/harikrishna-maharaj-bg.webp');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -4410,7 +4410,7 @@ body.search-open {
     z-index: 10020;
     flex-direction: column;
     background-color: #E6A623;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url('../images/harikrishna-maharaj-bg.png');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url('../images/harikrishna-maharaj-bg.webp');
     background-size: cover;
     background-position: center;
     padding-top: var(--safe-top);
@@ -6503,7 +6503,7 @@ body.ui-english #settings-ui-eng {
     align-items: center;
     padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
     background-color: #E6A623;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)), url('../images/harikrishna-maharaj-bg.png');
+    background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)), url('../images/harikrishna-maharaj-bg.webp');
     background-size: cover;
     background-position: center;
     animation: none;
