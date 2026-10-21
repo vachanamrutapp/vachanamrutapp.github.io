@@ -319,14 +319,14 @@
         else upsert(ann);
         closeSheet();
         rerender();
-        if ($('journey-screen').classList.contains('active')) renderMyNotes();
+        if ($('notes-screen').classList.contains('active')) renderMyNotes();
     });
     $('note-sheet-delete').addEventListener('click', () => {
         if (!editing) return;
         remove(editing.id);
         closeSheet();
         rerender();
-        if ($('journey-screen').classList.contains('active')) renderMyNotes();
+        if ($('notes-screen').classList.contains('active')) renderMyNotes();
     });
     $('note-sheet-cancel').addEventListener('click', closeSheet);
     overlay.addEventListener('click', e => { if (e.target === overlay) closeSheet(); });
@@ -420,7 +420,7 @@
                 setTimeout(() => URL.revokeObjectURL(a.href), 2000);
             }
             localStorage.setItem('lastBackupAt', Date.now());
-            if ($('journey-screen').classList.contains('active')) renderMyNotes();
+            if ($('notes-screen').classList.contains('active')) renderMyNotes();
         } catch (err) {
             if (!/cancel/i.test(String(err && err.message))) {
                 console.error('Backup export failed:', err);

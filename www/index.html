@@ -96,24 +96,16 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=85">
+    <link rel="stylesheet" href="css/fonts.css?v=1">
+    <link rel="stylesheet" href="css/fontawesome.css?v=1">
+    <link rel="stylesheet" href="css/styles.css?v=87">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
-        media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
+    <!-- Fonts and icons are bundled (no network needed) -->
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/NotoSansGujarati-gujarati.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fa-solid-900.woff2" crossorigin>
 </head>
 
 <body>
@@ -551,6 +543,26 @@
             </div>
         </div>
 
+        <!-- Notes & Highlights screen (js/annotations.js) -->
+        <div id="notes-screen" class="screen">
+            <div class="glass-card journey-page-card settings-page-card notes-page-card">
+                <div class="notes-head">
+                    <h2 class="notes-title"><span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span><span class="lang-eng">Notes &amp; Highlights</span></h2>
+                    <span id="my-notes-count" class="my-notes-count">0</span>
+                </div>
+                <div class="my-notes-filters">
+                    <button type="button" class="search-chip" data-notes-filter="all"><span class="lang-guj">બધું</span><span class="lang-eng">All</span></button>
+                    <button type="button" class="search-chip" data-notes-filter="notes"><span class="lang-guj">ફક્ત નોંધ</span><span class="lang-eng">Notes only</span></button>
+                </div>
+                <button type="button" id="notes-backup-nudge" class="notes-backup-nudge" style="display: none;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span class="lang-guj">તમારી નોંધ ફક્ત આ ફોનમાં છે. બેકઅપ લો.</span>
+                    <span class="lang-eng">Your notes live only on this phone. Back them up.</span>
+                </button>
+                <div id="my-notes-list" class="my-notes-list"></div>
+            </div>
+        </div>
+
         <!-- Journey Screen -->
         <div id="journey-screen" class="screen">
             <div class="glass-card journey-page-card settings-page-card">
@@ -637,22 +649,6 @@
                     <span class="lang-guj">કોઈ ફેવરિટ નથી.</span>
                     <span class="lang-eng">No favourites yet.</span>
                 </div>
-
-                <!-- My Notes & Highlights (js/annotations.js) -->
-                <div class="settings-section-title"><span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span>
-                    <span class="lang-eng">My Notes &amp; Highlights</span>
-                    <span id="my-notes-count" class="my-notes-count">0</span>
-                </div>
-                <div class="my-notes-filters">
-                    <button type="button" class="search-chip" data-notes-filter="all"><span class="lang-guj">બધું</span><span class="lang-eng">All</span></button>
-                    <button type="button" class="search-chip" data-notes-filter="notes"><span class="lang-guj">ફક્ત નોંધ</span><span class="lang-eng">Notes only</span></button>
-                </div>
-                <button type="button" id="notes-backup-nudge" class="notes-backup-nudge" style="display: none;">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span class="lang-guj">તમારી નોંધ ફક્ત આ ફોનમાં છે. બેકઅપ લો.</span>
-                    <span class="lang-eng">Your notes live only on this phone. Back them up.</span>
-                </button>
-                <div id="my-notes-list" class="my-notes-list"></div>
 
                 <div class="journey-reset-row">
                     <button id="journey-reset-btn" class="journey-reset-link"><i class="fas fa-undo"></i> Reset progress</button>
@@ -744,33 +740,27 @@
         </filter>
     </svg>
     <footer id="footer" class="app-tab-bar">
-        <!-- Rim of the bar's glass outline (pill with a dome for search); shaped in app.js -->
-        <svg class="tab-bar-rim" aria-hidden="true" focusable="false" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="tab-bar-rim-light" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
-                    <stop offset="0.55" stop-color="#fff" stop-opacity="0.3"/>
-                    <stop offset="1" stop-color="#fff" stop-opacity="0.55"/>
-                </linearGradient>
-            </defs>
-            <path class="tab-bar-rim-light"/>
-            <path class="tab-bar-rim-edge"/>
-        </svg>
-        <!-- Glass droplet that slides under the touched / active tab (app.js) -->
-        <span class="tab-bar-drop" aria-hidden="true"></span>
-        <button id="footer-switch-btn" class="footer-tab" type="button">
-            <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
-            <span id="footer-switch-label-guj" class="footer-tab-label lang-guj">શિક્ષાપત્રી</span>
-            <span id="footer-switch-label-eng" class="footer-tab-label lang-eng">Shikshapatri</span>
-        </button>
-        <div class="footer-search-slot">
-            <button id="footer-search-btn" class="footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search"></i></button>
-        </div>
-        <button id="footer-settings-btn" class="footer-tab" type="button" aria-label="Settings" title="Settings">
-            <i class="fas fa-cog footer-tab-icon"></i>
-            <span class="footer-tab-label lang-guj">સેટિંગ્સ</span>
-            <span class="footer-tab-label lang-eng">Settings</span>
-        </button>
+        <!-- Two pieces of glass: the pill (scripture switch · notes · settings) and the search circle -->
+        <nav class="footer-pill" aria-label="Main">
+            <!-- Glass droplet that slides under the touched / active tab (app.js) -->
+            <span class="tab-bar-drop" aria-hidden="true"></span>
+            <button id="footer-switch-btn" class="footer-tab" type="button">
+                <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
+                <span id="footer-switch-label-guj" class="footer-tab-label lang-guj">શિક્ષાપત્રી</span>
+                <span id="footer-switch-label-eng" class="footer-tab-label lang-eng">Shikshapatri</span>
+            </button>
+            <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Notes" title="Notes">
+                <i class="fas fa-sticky-note footer-tab-icon"></i>
+                <span class="footer-tab-label lang-guj">નોંધ</span>
+                <span class="footer-tab-label lang-eng">Notes</span>
+            </button>
+            <button id="footer-settings-btn" class="footer-tab" type="button" aria-label="Settings" title="Settings">
+                <i class="fas fa-cog footer-tab-icon"></i>
+                <span class="footer-tab-label lang-guj">સેટિંગ્સ</span>
+                <span class="footer-tab-label lang-eng">Settings</span>
+            </button>
+        </nav>
+        <button id="footer-search-btn" class="footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search"></i></button>
     </footer>
     <!-- Sticky Navigation Footer -->
     <div id="reading-footer" class="reading-footer" style="display: none;">
@@ -879,10 +869,10 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=50"></script>
+    <script src="js/app.js?v=51"></script>
     <script src="js/shikshapatri.js?v=5"></script>
     <script src="js/search.js?v=8"></script>
-    <script src="js/annotations.js?v=4"></script>
+    <script src="js/annotations.js?v=5"></script>
     <script src="js/reminders.js?v=8"></script>
     <script src="js/onboarding.js?v=9"></script>
     <script>

@@ -278,6 +278,7 @@ const footerSwitchBtn = document.getElementById('footer-switch-btn');
 let currentScripture = 'vachanamrut';
 const lastPlace = { vachanamrut: null, shikshapatri: null };
 const footerSettingsBtn = document.getElementById('footer-settings-btn');
+const footerNotesBtn = document.getElementById('footer-notes-btn');
 const readingFooter = document.getElementById('reading-footer');
 const navPrevBtn = document.getElementById('nav-prev-btn');
 const navNextBtn = document.getElementById('nav-next-btn');
@@ -1917,7 +1918,6 @@ function renderJourneyPage() {
 
     // Render favourites inline
     renderFavourites();
-    if (window.Annotations) Annotations.renderMyNotes();
 }
 
 // Journey: Shikshapatri progress card and its map row (groups of 20 shlokas)
@@ -2691,6 +2691,14 @@ function setupMenu() {
         });
     }
 
+    // Footer Notes tab: your notes and highlights; tap again to go back where you were
+    if (footerNotesBtn) {
+        footerNotesBtn.addEventListener('click', () => {
+            if (document.getElementById('notes-screen').classList.contains('active')) returnToScripture();
+            else showScreen('notes-screen');
+        });
+    }
+
     // Footer Settings tab click
     if (footerSettingsBtn) {
         footerSettingsBtn.addEventListener('click', () => {
@@ -2940,6 +2948,7 @@ function showScreen(screenId, pushState = true) {
     if (footerSettingsBtn) {
         footerSettingsBtn.classList.toggle('active', screenId === 'settings-screen' || screenId === 'journey-screen');
     }
+    if (footerNotesBtn) footerNotesBtn.classList.toggle('active', screenId === 'notes-screen');
 
     // Toggle footer and navbar buttons visibility
     if (screenId === 'home-screen') {
@@ -2959,7 +2968,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'flex';
         if (fabBtn) fabBtn.style.display = 'none';
-    } else if (screenId === 'settings-screen' || screenId === 'journey-screen') {
+    } else if (screenId === 'settings-screen' || screenId === 'journey-screen' || screenId === 'notes-screen') {
         footer.style.display = 'flex';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -2967,6 +2976,7 @@ function showScreen(screenId, pushState = true) {
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
+        if (screenId === 'notes-screen' && window.Annotations) Annotations.renderMyNotes();
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
         footer.style.display = isList ? 'flex' : 'none';
@@ -3039,8 +3049,8 @@ function setupNavigation() {
             // From section detail → go back to home
             showScreen('home-screen');
             currentSection = null;
-        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active')) {
-            returnToScripture(); // Settings and Journey are tabs of one place
+        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active') || document.getElementById('notes-screen').classList.contains('active')) {
+            returnToScripture(); // Settings, Journey and Notes are tabs of one place
         } else if (document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
             showScreen('home-screen'); // Shikshapatri list → Vachanamrut home
         } else if (window.Shikshapatri) {
@@ -3076,7 +3086,7 @@ function setupNavigation() {
 function loadFontAwesome() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+    link.href = 'css/fontawesome.css'; // bundled, works offline
     document.head.appendChild(link);
 }
 
@@ -3115,38 +3125,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     window.addEventListener('appearance-change', applyTheme);
 
-    // Bottom tab bar: a glass pill. Clip the bar to it and draw its rim whenever the bar resizes.
+    // Bottom bar: a glass pill of tabs plus a separate glass search circle.
+    // The droplet slides under the touched tab, then rests under the active one.
     const tabBar = document.getElementById('footer');
-    const tabBarRim = tabBar && tabBar.querySelector('.tab-bar-rim');
-    if (tabBar && tabBarRim && window.ResizeObserver) {
-        const shapeTabBar = () => {
-            const w = tabBar.offsetWidth, h = tabBar.offsetHeight;
-            if (!w) return;
-            const r = h / 2;
-            const d = `M ${r} 0 L ${w - r} 0 A ${r} ${r} 0 0 1 ${w - r} ${h} L ${r} ${h} A ${r} ${r} 0 0 1 ${r} 0 Z`;
-            tabBar.style.clipPath = `path('${d}')`;
-            tabBarRim.setAttribute('viewBox', `0 0 ${w} ${h}`);
-            tabBarRim.querySelectorAll('path').forEach(path => path.setAttribute('d', d));
-            settleDrop();
-        };
-
-        // Glass droplet: slides under a tab while it's touched, then rests under the active tab
-        // (Settings / Journey) or fades out where it is
-        const drop = tabBar.querySelector('.tab-bar-drop');
+    const pill = tabBar && tabBar.querySelector('.footer-pill');
+    if (pill) {
+        const drop = pill.querySelector('.tab-bar-drop');
         let pressing = false, settleTimer;
         const placeDrop = (btn, visible) => {
             if (!drop) return;
             if (btn) {
-                const b = btn.getBoundingClientRect(), f = tabBar.getBoundingClientRect();
-                drop.style.width = `${b.width}px`;
-                drop.style.transform = `translateX(${b.left - f.left}px)`;
+                const b = btn.getBoundingClientRect(), f = pill.getBoundingClientRect();
+                if (b.width) {
+                    drop.style.width = `${b.width}px`;
+                    drop.style.transform = `translateX(${b.left - f.left - (parseFloat(getComputedStyle(pill).borderLeftWidth) || 0)}px)`;
+                }
             }
             drop.classList.toggle('show', !!btn && visible);
         };
-        function settleDrop() {
-            if (!pressing) placeDrop(tabBar.querySelector('.footer-tab.active'), true);
-        }
-        tabBar.querySelectorAll('.footer-tab').forEach(btn => {
+        const settleDrop = () => {
+            if (!pressing) placeDrop(pill.querySelector('.footer-tab.active'), true);
+        };
+        pill.querySelectorAll('.footer-tab').forEach(btn => {
             btn.addEventListener('pointerdown', () => {
                 pressing = true;
                 clearTimeout(settleTimer);
@@ -3154,13 +3154,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             new MutationObserver(settleDrop).observe(btn, { attributes: true, attributeFilter: ['class'] });
         });
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach(type => tabBar.addEventListener(type, () => {
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(type => pill.addEventListener(type, () => {
             if (!pressing) return;
             clearTimeout(settleTimer);
             settleTimer = setTimeout(() => { pressing = false; settleDrop(); }, 260);
         }));
+        if (window.ResizeObserver) new ResizeObserver(settleDrop).observe(pill);
+        settleDrop();
 
-        // Search lens: a soft ripple that fills the dome on tap
+        // Search circle: a soft ripple on tap
         const searchLens = document.getElementById('footer-search-btn');
         searchLens.addEventListener('pointerdown', () => {
             searchLens.classList.remove('ripple');
@@ -3168,9 +3170,6 @@ document.addEventListener('DOMContentLoaded', () => {
             searchLens.classList.add('ripple');
         });
         searchLens.addEventListener('animationend', () => searchLens.classList.remove('ripple'));
-
-        new ResizeObserver(shapeTabBar).observe(tabBar);
-        shapeTabBar();
     }
 
     // Reader sliders (Vachanamrut and Shikshapatri): show the "n / total" pill above the thumb
@@ -3289,6 +3288,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else if (activeScreenId === 'journey-screen') {
                     renderJourneyPage();
+                } else if (activeScreenId === 'notes-screen' && window.Annotations) {
+                    Annotations.renderMyNotes();
                 }
             } catch (error) {
                 console.error('Dynamic language switch error:', error);
@@ -3417,6 +3418,9 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
             titleString = `Your Reading Journey | Vachanamrut`;
             descString = `Track your Vachanamrut reading progress, daily streaks, milestones, and saved favorite Vachanamruts.`;
         }
+    } else if (screenId === 'notes-screen') {
+        titleString = isGuj ? 'મારી નોંધ | વચનામૃત' : 'My Notes | Vachanamrut';
+        descString = isGuj ? 'તમારી હાઇલાઇટ અને નોંધ એક જગ્યાએ.' : 'Your highlights and notes in one place.';
     } else if (screenId === 'settings-screen') {
         if (isGuj) {
             titleString = `સેટિંગ્સ | વચનામૃત`;

@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.80.0';
+const CACHE_NAME = '1.82.0';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -29,8 +29,17 @@ const APP_SHELL = [
     './images/harikrishna-maharaj-bg.webp',
     './images/home-bg-dark.webp',
     './shikshapatri/assets/images/navbar-image.webp',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap'
+    './css/fonts.css',
+    './css/fontawesome.css',
+    './assets/fonts/NotoSansGujarati-gujarati.woff2',
+    './assets/fonts/NotoSansGujarati-latin.woff2',
+    './assets/fonts/NotoSansGujarati-latin-ext.woff2',
+    './assets/fonts/Poppins-latin-400.woff2',
+    './assets/fonts/Poppins-latin-500.woff2',
+    './assets/fonts/Poppins-latin-600.woff2',
+    './assets/fonts/Poppins-latin-700.woff2',
+    './assets/fonts/fa-solid-900.woff2',
+    './assets/fonts/fa-regular-400.woff2'
 ];
 
 // ---- Full offline payload (cached in background after activation) ----------
