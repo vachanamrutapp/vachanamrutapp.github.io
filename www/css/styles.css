@@ -7980,3 +7980,25 @@ html.dark .setup-check small {
     padding: 0 6px 0 16px;
 }
 
+
+/* Dark: Shikshapatri commentary (bhashya) */
+html.dark .bhashya-header {
+    background: var(--d-raised);
+    border-bottom: none;
+    border-radius: 10px;
+}
+
+html.dark .bhashya-title,
+html.dark .bhashya-header .toggle-icon {
+    color: #FFFFFF;
+}
+
+html.dark .bhashya-paragraph {
+    color: #E8E8EA;
+}
+
+html.dark .bhashya-shlok {
+    background: var(--d-raised);
+    border-left-color: #F0555C;
+    color: #FF8A8F;
+}
