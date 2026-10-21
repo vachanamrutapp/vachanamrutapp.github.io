@@ -7442,3 +7442,120 @@ html.dark .search-snippet {
     background: rgba(255, 255, 255, 0.06) !important;
     border-left-color: rgba(229, 72, 77, 0.6) !important;
 }
+
+/* ---- Dark: Journey ---- */
+html.dark #journey-screen .journey-progress-card,
+html.dark #journey-screen .journey-map-cell,
+html.dark #journey-screen .journey-streak-card,
+html.dark #journey-screen .journey-chip,
+html.dark #journey-screen .journey-milestones,
+html.dark #journey-screen .journey-reset-link,
+html.dark #journey-screen .fav-card,
+html.dark #journey-screen .my-note {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--glass-rim);
+}
+
+html.dark #journey-screen,
+html.dark #journey-screen .lang-guj,
+html.dark #journey-screen .lang-eng,
+html.dark #journey-screen b,
+html.dark #journey-screen .journey-progress-pct,
+html.dark #journey-screen .journey-map-num,
+html.dark #journey-screen .journey-milestone-name,
+html.dark #journey-screen [id^="journey-page-"],
+html.dark #journey-screen [id^="sp-journey-"] {
+    color: #FFFFFF;
+}
+
+html.dark #journey-screen .journey-reset-link {
+    color: #FF8A8F;
+}
+
+html.dark #journey-screen .journey-map-cell.complete,
+html.dark #journey-screen .journey-map-cell.started {
+    border-color: rgba(229, 72, 77, 0.5);
+}
+
+/* ---- Dark: reading toolbar, glossary words, highlight bar, note sheet ---- */
+html.dark .toolbar-btn,
+html.dark .facts-pill,
+html.dark .font-size-display {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+}
+
+html.dark .glossary-word-link {
+    color: inherit;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+
+html.dark .hl-toolbar {
+    background: rgba(28, 28, 30, 0.92);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark .hl-toolbar,
+html.dark .hl-toolbar .lang-guj,
+html.dark .hl-toolbar .lang-eng,
+html.dark .hl-toolbar button {
+    color: #FFFFFF;
+}
+
+html.dark .note-sheet-title,
+html.dark .note-sheet .lang-guj,
+html.dark .note-sheet .lang-eng {
+    color: #FFFFFF;
+}
+
+html.dark .note-sheet-text,
+html.dark .note-sheet-btn:not(.primary) {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+}
+
+/* ---- Dark: first-run setup ---- */
+html.dark .setup-overlay,
+html.dark .setup-overlay.setup-fullscreen {
+    background: #000000;
+}
+
+html.dark .setup-label,
+html.dark .setup-option-text,
+html.dark .setup-option-text b,
+html.dark .setup-check,
+html.dark .setup-dots span.active,
+html.dark .setup-back,
+html.dark .setup-link {
+    color: #FFFFFF;
+}
+
+html.dark .setup-option-text small,
+html.dark .setup-fine {
+    color: var(--color-text-muted);
+}
+
+html.dark .setup-preview,
+html.dark .setup-secondary,
+html.dark .setup-option {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+html.dark .setup-option:has(input[type="checkbox"]:checked) {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+html.dark .setup-icon {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+html.dark .setup-logo {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
