@@ -6774,8 +6774,10 @@ body.ui-english #settings-ui-eng {
 .facts-modal,
 .facts-modal.word-mode {
     max-width: 640px;
+    margin: 0; /* .glass-card adds a bottom margin, which left a gap under the sheet */
     height: auto;
     max-height: calc(100vh - var(--safe-top) - 72px);
+    max-height: calc(100dvh - var(--safe-top) - 72px);
     border-radius: 26px 26px 0 0;
     animation: drawer-up 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -6783,6 +6785,7 @@ body.ui-english #settings-ui-eng {
 /* Full facts sheet keeps a steady height so its tabs don't jump */
 .facts-modal:not(.word-mode) {
     height: calc(100vh - var(--safe-top) - 72px);
+    height: calc(100dvh - var(--safe-top) - 72px);
     max-height: 760px;
 }
 
