@@ -1270,8 +1270,8 @@ function renderSections() {
             }
         }
 
+        tile.dataset.num = currentLanguage === 'english' ? index + 1 : toGujaratiDigits(index + 1);
         tile.innerHTML = `
-            <span class="chapter-number">${index + 1}</span>
             <div class="chapter-header">
                 <h3 class="chapter-name">${sectionName}</h3>
                 <span class="chapter-count">${countLabel}</span>
@@ -1385,8 +1385,8 @@ function renderSectionVachanamruts(section, container) {
                     ${position ? `<span class="vachanamrut-tile-resume"><i class="fas fa-play-circle"></i> ${isEn ? `${Math.round(position * 100)}% read` : `${toGujaratiDigits(Math.round(position * 100))}% વાંચ્યું`}</span>` : ''}
                 </div>`;
 
+        tile.dataset.num = currentLanguage === 'english' ? index + 1 : toGujaratiDigits(index + 1);
         tile.innerHTML = `
-            <span class="vachanamrut-tile-number">${index + 1}</span>
             <div class="vachanamrut-tile-content">
                 <div class="vachanamrut-tile-name">${cleanNumber}</div>
                 <div class="vachanamrut-tile-title">${title}</div>
@@ -3097,6 +3097,29 @@ async function displayAppVersion() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Reader sliders (Vachanamrut and Shikshapatri): show the "n / total" pill above the thumb
+    // only while dragging.
+    document.querySelectorAll('.reading-footer .nav-slider').forEach(slider => {
+        const footer = slider.closest('.reading-footer');
+        let hideTimer, dragging = false;
+        const show = () => {
+            const min = Number(slider.min) || 0, max = Number(slider.max) || 0;
+            const pos = max > min ? (Number(slider.value) - min) / (max - min) : 0.5;
+            footer.style.setProperty('--pos', pos);
+            clearTimeout(hideTimer);
+            footer.classList.add('scrubbing');
+        };
+        const hide = () => {
+            dragging = false;
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(() => footer.classList.remove('scrubbing'), 700);
+        };
+        slider.addEventListener('pointerdown', () => { dragging = true; show(); });
+        // Only a finger on the slider shows it, not the app moving the slider itself
+        slider.addEventListener('input', e => { if (dragging && e.isTrusted) show(); });
+        ['pointerup', 'pointercancel', 'change', 'blur'].forEach(type => slider.addEventListener(type, () => { if (dragging) hide(); }));
+    });
+
     loadFontAwesome();
     init();
     displayAppVersion();

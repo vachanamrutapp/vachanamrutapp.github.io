@@ -10,6 +10,14 @@
     /* Safe-area inset for notch/status-bar (needs viewport-fit=cover) */
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+    /* The floating bottom bars sit this far up, clear of the gesture handle (~16-24px) or
+       3-button navigation (~48px); things stacked above them add it too. */
+    --nav-bar: var(--safe-bottom);
+    /* Button navigation (inset > 32px) must be cleared fully; a gesture handle can sit close */
+    --nav-buttons: max(0px, min(var(--safe-bottom), calc((var(--safe-bottom) - 32px) * 100)));
+    /* Bottom edge of the floating bars: low over the gesture handle, just above 3-button navigation */
+    --bar-bottom: max(10px, calc(var(--safe-bottom) * 0.8), calc(var(--nav-buttons) + 6px));
+
 
     /* Shikshapatri-aligned palette */
     --bg-primary: #E6A623;          /* Golden Yellow */
@@ -157,7 +165,7 @@ body > header {
 
 main {
     flex: 1;
-    padding: calc(82px + var(--safe-top)) 16px 110px 16px;
+    padding: calc(82px + var(--safe-top)) 16px calc(110px + var(--nav-bar)) 16px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 1200px;
@@ -218,7 +226,8 @@ main {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 6px 25px rgba(139, 90, 43, 0.15);
     position: relative;
-    overflow: visible;
+    overflow: hidden;
+    isolation: isolate;
     min-height: 130px;
     display: flex;
     flex-direction: column;
@@ -246,25 +255,32 @@ main {
     transform: translateY(-2px);
 }
 
-/* Number circle on left edge */
-.chapter-number {
+/* Big faded number in the background of each glass panel (set as data-num on the tile) */
+.chapter-tile::after,
+.vachanamrut-tile::after,
+.sloka-card::after {
+    content: attr(data-num);
     position: absolute;
-    top: 16px;
-    left: 14px;
-    background: linear-gradient(135deg, #FFB300, #FF8F00);
-    color: #2C1D18;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    right: 12px;
+    bottom: -0.2em;
+    z-index: -1; /* behind the text, above the glass (the backdrop-filter makes the tile its own stacking context) */
+    font-family: 'Poppins', 'Noto Sans Gujarati', sans-serif;
     font-weight: 700;
-    font-size: 1.05rem;
-    box-shadow: 0 3px 12px rgba(255, 179, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    padding-top: 2px;
-    /* Visual centering */
+    font-size: 4.4rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(180deg, rgba(165, 37, 44, 0.38) 10%, rgba(165, 37, 44, 0.04) 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+
+.chapter-tile:hover::after,
+.vachanamrut-tile:hover::after,
+.sloka-card:hover::after {
+    transform: translateY(-4px);
 }
 
 /* Header row with title and count */
@@ -273,7 +289,6 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    margin-left: 44px;
     padding-top: 5px;
     min-height: 36px;
 }
@@ -390,6 +405,9 @@ main {
     display: flex;
     align-items: center;
     gap: 16px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 }
 
 .vachanamrut-tile:hover {
@@ -403,23 +421,11 @@ main {
     transform: translateX(2px);
 }
 
-.vachanamrut-tile-number {
-    background: linear-gradient(135deg, #FFB300, #FF8F00);
-    color: #2C1D18;
-    min-width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    /* Circular */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    box-shadow: 0 3px 10px rgba(255, 143, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    flex-shrink: 0;
-    padding-top: 2px;
-    /* Visual centering */
+
+/* Smaller background number on the list rows */
+.vachanamrut-tile::after {
+    font-size: 3.4rem;
+    bottom: -0.2em;
 }
 
 .vachanamrut-tile-content {
@@ -835,7 +841,7 @@ main {
     }
 
     main {
-        padding: calc(74px + var(--safe-top)) 12px 110px 12px;
+        padding: calc(74px + var(--safe-top)) 12px calc(110px + var(--nav-bar)) 12px;
     }
 
     #sections-list {
@@ -877,7 +883,7 @@ main {
     }
 
     main {
-        padding: calc(70px + var(--safe-top)) 10px 110px 10px;
+        padding: calc(70px + var(--safe-top)) 10px calc(110px + var(--nav-bar)) 10px;
     }
 
     .section-card {
@@ -931,8 +937,8 @@ footer,
     display: flex;
     align-items: stretch;
     justify-content: space-around;
-    /* Only a sliver of the home-indicator inset, so tabs sit at the very bottom */
-    padding: 0 0 calc(env(safe-area-inset-bottom, 0px) * 0.25) 0;
+    /* Keep the tabs clear of the gesture handle or navigation buttons */
+    padding: 0 0 var(--nav-bar) 0;
     margin: 0;
     box-shadow: 0 -3px 18px rgba(0, 0, 0, 0.12);
     z-index: 10000; /* Match header z-index */
@@ -1021,7 +1027,7 @@ footer,
 /* Floating Action Button - Settings / Menu (legacy support) */
 .fab-btn {
     position: fixed;
-    bottom: 102px;
+    bottom: calc(74px + var(--bar-bottom));
     right: 14px;
     width: 52px;
     height: 52px;
@@ -1051,7 +1057,7 @@ footer,
 /* Standalone Floating Action Button - Shikshapatri (positioned right above bottom tab bar) */
 .fab-shikshapatri-btn {
     position: fixed;
-    bottom: calc(58px + env(safe-area-inset-bottom, 0px) * 0.25);
+    bottom: calc(58px + var(--bar-bottom));
     right: 14px;
     width: 50px;
     height: 50px;
@@ -1081,7 +1087,7 @@ footer,
 /* Expandable FAB Menu */
 .fab-menu {
     position: fixed;
-    bottom: 164px;
+    bottom: calc(136px + var(--bar-bottom));
     right: 14px;
     display: flex;
     flex-direction: column;
@@ -1833,7 +1839,7 @@ body.gujarati .chapter-description {
 /* FAB State Styling */
 .audio-player-container.state-fab {
     right: 16px;
-    bottom: 82px; /* Positioned above reading-footer */
+    bottom: calc(58px + var(--bar-bottom)); /* Positioned above reading-footer */
     width: 54px;
     height: 54px;
 }
@@ -1912,7 +1918,7 @@ body.gujarati .chapter-description {
 .audio-player-container.state-bar {
     left: 16px;
     right: 16px;
-    bottom: 82px;
+    bottom: calc(58px + var(--bar-bottom));
     background: rgba(255, 238, 185, 0.95); /* Opaque warm golden glass */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -1927,7 +1933,7 @@ body.gujarati .chapter-description {
 /* No reading footer, but the bottom tab bar is showing (Partharo list) — sit just above it, like .fab-shikshapatri-btn */
 .audio-player-container.state-fab.no-footer,
 .audio-player-container.state-bar.no-footer {
-    bottom: calc(58px + env(safe-area-inset-bottom, 0px) * 0.25);
+    bottom: calc(58px + var(--bar-bottom));
 }
 
 /* Toggle visibility based on state */
@@ -2403,7 +2409,7 @@ body.gujarati .chapter-description {
 /* Toast Notification System */
 .toast-container {
     position: fixed;
-    bottom: 90px; /* Positioned above footer/reading footer */
+    bottom: calc(60px + var(--bar-bottom)); /* Positioned above footer/reading footer */
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     z-index: 2000;
@@ -3645,12 +3651,6 @@ body.facts-modal-open {
         grid-template-columns: 1fr;
         gap: 14px;
     }
-    .sloka-number-bubble {
-        width: 35px;
-        height: 35px;
-        min-width: 35px;
-        font-size: 0.88rem;
-    }
 }
 
 /* Sloka Card — Liquid Gold Glass Style matching Vachanamrut Chapter Tiles */
@@ -3668,6 +3668,7 @@ body.facts-modal-open {
     box-shadow: 0 6px 25px rgba(139, 90, 43, 0.12);
     position: relative;
     overflow: hidden;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
 }
@@ -3701,31 +3702,6 @@ body.facts-modal-open {
     width: 100%;
 }
 
-.sloka-number-bubble {
-    background: linear-gradient(135deg, #FFB300, #FF8F00);
-    color: #7A181E;
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.96rem;
-    line-height: 1;
-    letter-spacing: -0.2px;
-    font-family: 'Poppins', -apple-system, sans-serif;
-    box-shadow: 0 3px 10px rgba(255, 179, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.75);
-    flex-shrink: 0;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
-}
-
-.sloka-card:hover .sloka-number-bubble {
-    transform: scale(1.08);
-    box-shadow: 0 4px 14px rgba(255, 179, 0, 0.55);
-}
 
 .sloka-content-preview {
     flex: 1;
@@ -3763,12 +3739,6 @@ body.facts-modal-open {
     position: relative;
 }
 
-.sloka-card.bookmarked .sloka-number-bubble {
-    background: linear-gradient(135deg, #A5252C, #6A1016) !important;
-    color: #FFD54F !important;
-    border-color: rgba(255, 213, 79, 0.8) !important;
-    box-shadow: 0 3px 12px rgba(165, 37, 44, 0.45) !important;
-}
 
 .sloka-card-bookmark {
     color: #A5252C;
@@ -4234,37 +4204,141 @@ body.facts-modal-open {
     overflow: visible;
 }
 
+/* Floating liquid-glass bars (bottom tabs, reading and Shikshapatri sliders), in the style of
+   Instagram / iOS: a nearly clear pill that bends and blurs what is behind it near its edges,
+   with bright specular rims. The lens (SVG #glass-refract in index.html) works in Chromium
+   (Android WebView); Safari gets a plain frosted blur. */
+#footer.app-tab-bar,
+.reading-footer {
+    left: 14px;
+    right: 14px;
+    width: auto;
+    bottom: var(--bar-bottom);
+    height: 48px;
+    align-items: center;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.1));
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    backdrop-filter: url(#glass-refract) brightness(1.06);
+    box-shadow: var(--glass-rim), 0 8px 26px rgba(50, 30, 0, 0.18);
+}
+
+@supports (-webkit-touch-callout: none) {
+    /* iOS Safari: no SVG backdrop filters */
+    #footer.app-tab-bar,
+    .reading-footer {
+        backdrop-filter: blur(14px) saturate(1.5);
+    }
+}
+
+:root {
+    /* Specular rim of liquid glass: light on the top-left edge, a fainter one bottom-right,
+       a soft inner glow, and a hairline dark edge so it holds against light backgrounds */
+    --glass-rim:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.85),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 0 14px rgba(255, 255, 255, 0.22),
+        0 0 0 0.5px rgba(60, 35, 0, 0.12);
+}
+
+#footer.app-tab-bar {
+    padding: 0 4px;
+}
+
+/* Reader sliders: one slim row — arrow, slider, arrow. The "n / total" pill shows above the
+   thumb only while the slider is being dragged (.scrubbing, set in app.js). */
+.reading-footer {
+    padding: 0 5px;
+    gap: 12px;
+}
+
+/* Glass buttons inside the bars: brighter drops of glass with the same rim */
+.reading-footer .nav-btn,
+.footer-search-btn,
+#footer .footer-tab.active {
+    background: rgba(255, 255, 255, 0.38);
+    border: none;
+    box-shadow: var(--glass-rim);
+}
+
+.reading-footer .nav-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+}
+
+.reading-footer .slider-wrapper {
+    position: relative;
+    gap: 0;
+}
+
+.reading-footer .reading-progress {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    left: calc(var(--pos, 0.5) * (100% - 16px) + 8px);
+    transform: translate(-50%, 6px);
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 14px rgba(60, 35, 0, 0.18);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.reading-footer.scrubbing .reading-progress {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+#footer .footer-tab {
+    height: 40px;
+    gap: 1px;
+    border-radius: 999px;
+}
+
+#footer .footer-tab-icon {
+    font-size: 1.05rem;
+}
+
+#footer .footer-tab.active::before {
+    display: none;
+}
+
 .footer-tab:first-child::after {
     display: none;
 }
 
 .footer-search-slot {
-    flex: 0 0 84px;
+    flex: 0 0 60px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .footer-search-btn {
-    width: 60px;
-    height: 60px;
-    margin-top: -26px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 4px solid #E6A623;
-    background: #A5252C;
-    color: #FFE08A;
-    font-size: 1.35rem;
+    color: #A5252C;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 16px rgba(120, 30, 20, 0.35);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition: transform 0.15s ease;
 }
 
 .footer-search-btn:active {
-    transform: scale(0.94);
+    transform: scale(0.95);
 }
 
 /* Find-in-page on a shloka: top-left of the card, mirroring the bookmark */
@@ -4552,16 +4626,12 @@ mark.find-hit.current {
     color: #fff;
 }
 
-/* Read shlokas get a small tick on their number (Journey progress) */
-.sloka-number-bubble {
-    position: relative;
-}
-
+/* Read shlokas get a small tick in the card header (Journey progress) */
 .sloka-read-tick {
-    position: absolute;
-    right: -4px;
-    bottom: -4px;
+    margin-left: auto;
+    margin-top: 2px;
     width: 16px;
+    min-width: 16px;
     height: 16px;
     border-radius: 50%;
     background: #2E7D32;
@@ -4751,7 +4821,7 @@ html.text-large #settings-text-large {
 .audio-player-container.state-bar {
     left: 12px;
     right: 12px;
-    bottom: 84px;
+    bottom: calc(58px + var(--bar-bottom));
     max-width: 560px;
     margin: 0 auto;
     padding: 12px 14px 12px;
@@ -4765,7 +4835,7 @@ html.text-large #settings-text-large {
 
 /* Over the bottom bar (Partharo list): clear the raised search button */
 .audio-player-container.state-bar.no-footer {
-    bottom: calc(96px + env(safe-area-inset-bottom, 0px) * 0.25);
+    bottom: calc(64px + var(--bar-bottom));
 }
 
 .audio-bar-head {

@@ -122,6 +122,7 @@
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             card.dataset.slokaId = sloka.id;
+            card.dataset.num = currentLang === 'english' ? sloka.id : toGujaratiDigitsSafe(sloka.id);
             const translation = translationOf(sloka);
             card.setAttribute('aria-label', `Sloka ${sloka.id}${bookmarked === sloka.id ? ' (bookmarked)' : ''}: ${translation.substring(0, 60)}...`);
             card.onclick = () => showSloka(sloka.id);
@@ -130,11 +131,11 @@
             };
             card.innerHTML = `
                 <div class="sloka-header">
-                    <div class="sloka-number-bubble" aria-hidden="true">${sloka.id}${read.has(sloka.id) ? '<span class="sloka-read-tick"><i class="fas fa-check"></i></span>' : ''}</div>
                     <div class="sloka-content-preview">
                         <div class="sloka-sanskrit-preview">${cleanSanskritVerse(sloka.sanskrit).replace(/\n/g, '<br>')}</div>
                         <div class="sloka-translation-preview"></div>
                     </div>
+                    ${read.has(sloka.id) ? '<span class="sloka-read-tick" aria-hidden="true"><i class="fas fa-check"></i></span>' : ''}
                     ${bookmarked === sloka.id ? '<div class="sloka-card-bookmark" title="Bookmarked Sloka"><i class="fas fa-bookmark" aria-hidden="true"></i></div>' : ''}
                 </div>`;
             card.querySelector('.sloka-translation-preview').textContent = translation;

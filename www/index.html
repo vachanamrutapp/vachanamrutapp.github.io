@@ -96,7 +96,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preload" as="image" href="images/logo-vachanamrut.png">
     <link rel="preload" as="image" href="images/yellow-bg.webp">
-    <link rel="stylesheet" href="css/styles.css?v=50">
+    <link rel="stylesheet" href="css/styles.css?v=51">
     <meta name="theme-color" content="#E6A623">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -723,6 +723,16 @@
             </div>
         </div>
     </main>
+    <!-- Liquid-glass lens for the floating bars (backdrop-filter: url(#glass-refract), Chromium/Android).
+         The map bends the backdrop near the edges (red = x, green = y; mid-grey = no shift). -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <filter id="glass-refract" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feImage href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><linearGradient id='r'><stop offset='0' stop-color='%23000'/><stop offset='.07' stop-color='%23800000'/><stop offset='.93' stop-color='%23800000'/><stop offset='1' stop-color='%23f00'/></linearGradient><linearGradient id='g' x2='0' y2='1'><stop offset='0' stop-color='%23000'/><stop offset='.3' stop-color='%23008000'/><stop offset='.7' stop-color='%23008000'/><stop offset='1' stop-color='%230f0'/></linearGradient></defs><rect width='100' height='100' fill='url(%23r)'/><rect width='100' height='100' fill='url(%23g)' style='mix-blend-mode:screen'/></svg>" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map"/>
+            <feDisplacementMap in="SourceGraphic" in2="map" scale="36" xChannelSelector="R" yChannelSelector="G" result="bent"/>
+            <feGaussianBlur in="bent" stdDeviation="5" result="soft"/>
+            <feColorMatrix in="soft" type="saturate" values="1.35"/>
+        </filter>
+    </svg>
     <footer id="footer" class="app-tab-bar">
         <button id="footer-switch-btn" class="footer-tab" type="button">
             <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
@@ -846,8 +856,8 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=42"></script>
-    <script src="js/shikshapatri.js?v=3"></script>
+    <script src="js/app.js?v=43"></script>
+    <script src="js/shikshapatri.js?v=4"></script>
     <script src="js/search.js?v=7"></script>
     <script src="js/annotations.js?v=4"></script>
     <script src="js/reminders.js?v=7"></script>
