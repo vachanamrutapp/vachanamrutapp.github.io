@@ -6997,8 +6997,8 @@ html.dark {
     --d-surface: rgba(14, 14, 16, 0.78);
     --d-surface-2: rgba(30, 30, 32, 0.82);
     --d-line: rgba(255, 255, 255, 0.09);
-    --d-gold: #F0555C; /* accent: red */
-    --d-red: #F0555C;
+    --d-gold: #FFFFFF; /* text accents: white (only the header stays red, to match the logo) */
+    --d-red: #FFFFFF;
     --glass-rim:
         inset 1px 1.5px 0 rgba(255, 255, 255, 0.28),
         inset -1px -1px 0 rgba(255, 255, 255, 0.1),
@@ -7058,7 +7058,7 @@ html.dark .my-note {
 
 html.dark .chapter-tile::before,
 html.dark .sloka-card::before {
-    background: radial-gradient(circle at top right, rgba(229, 72, 77, 0.12), transparent 70%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.12), transparent 70%);
 }
 
 /* Big background numbers */
@@ -7104,7 +7104,7 @@ html.dark .bhashya-body {
 
 html.dark .chapter-count,
 html.dark .section-count {
-    background: rgba(229, 72, 77, 0.14);
+    background: rgba(255, 255, 255, 0.14);
     color: var(--d-gold);
 }
 
@@ -7139,7 +7139,7 @@ html.dark:not(.text-large) #settings-text-default,
 html.dark.text-large #settings-text-large,
 html.dark body:not(.ui-english) #settings-ui-auto,
 html.dark body.ui-english #settings-ui-eng {
-    background: rgba(229, 72, 77, 0.2);
+    background: rgba(255, 255, 255, 0.2);
     color: #FFFFFF;
 }
 
@@ -7237,7 +7237,7 @@ html.dark .word-meaning-view-all-btn {
 }
 
 html.dark .facts-xref {
-    background: rgba(229, 72, 77, 0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 html.dark .facts-modal-close,
@@ -7255,7 +7255,7 @@ html.dark .setup-option {
 }
 
 html.dark .setup-choice-btn.active {
-    background: rgba(229, 72, 77, 0.22);
+    background: rgba(255, 255, 255, 0.22);
     color: #FFFFFF;
 }
 
@@ -7285,7 +7285,7 @@ html[data-appearance="dark"] #settings-appearance-dark {
 
 html.dark[data-appearance="system"] #settings-appearance-system,
 html.dark[data-appearance="dark"] #settings-appearance-dark {
-    background: rgba(229, 72, 77, 0.2);
+    background: rgba(255, 255, 255, 0.2);
     color: #FFFFFF;
 }
 
@@ -7308,8 +7308,8 @@ html.dark .bhashya-card {
 }
 
 html.dark #sloka-sanskrit {
-    background: rgba(229, 72, 77, 0.06);
-    border-color: rgba(229, 72, 77, 0.35);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 html.dark #sloka-translation {
@@ -7340,4 +7340,105 @@ html.dark .reminder-time {
     color: var(--color-text-main);
     background: rgba(255, 255, 255, 0.08);
     color-scheme: dark;
+}
+
+/* Dark header: red controls to match the logo */
+html.dark #back-btn,
+html.dark .header-lang-switch .lang-btn {
+    color: #F0555C;
+}
+
+html.dark .header-lang-switch .lang-btn.active {
+    background: rgba(229, 72, 77, 0.22);
+    color: #FF8A8F;
+}
+
+/* Remaining red text and icons inside panels and sheets turn white */
+html.dark main [style*="color"],
+html.dark .sloka-image-title,
+html.dark #sloka-title-badge,
+html.dark .facts-modal-title i,
+html.dark .facts-section-title i,
+html.dark .journey-section-title i,
+html.dark .vachanamrut-tile-resume,
+html.dark .vachanamrut-tile-read,
+html.dark .vachanamrut-tile-bookmark,
+html.dark .sloka-card-bookmark,
+html.dark .bookmark-pill,
+html.dark .facts-pill,
+html.dark .v-number,
+html.dark .v-title-text,
+html.dark #vachanamrut-card h3,
+html.dark .settings-row-chevron,
+html.dark .journey-ring-pct,
+html.dark .journey-streak-count,
+html.dark .journey-continue-target,
+html.dark .word-meaning-alt-label,
+html.dark .find-bar .search-icon-btn,
+html.dark .search-header .search-icon-btn {
+    color: #FFFFFF !important;
+}
+
+
+html.dark .search-overlay {
+    background-color: #000000;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)), url('../images/home-bg-dark.webp');
+}
+
+html.dark .search-hint,
+html.dark .search-empty-title,
+html.dark .search-empty-icon,
+html.dark .search-card,
+html.dark .search-result,
+html.dark .chapter-progress-pct {
+    color: var(--color-text-main);
+}
+
+html.dark #app-loading-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+html.dark .loading-text {
+    color: #FFFFFF;
+}
+
+html.dark .loading-spinner {
+    border-color: rgba(255, 255, 255, 0.12);
+    border-top-color: #FFFFFF;
+}
+
+/* Search results in dark */
+html.dark .search-card .search-result,
+html.dark .search-glossary-card,
+html.dark .search-chip {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--glass-rim);
+}
+
+html.dark .search-result-name,
+html.dark .search-result-title,
+html.dark .search-snippet,
+html.dark .search-glossary-word,
+html.dark .search-glossary-meaning,
+html.dark .search-chip,
+html.dark .search-count,
+html.dark .search-status {
+    color: #FFFFFF !important;
+}
+
+html.dark .search-glossary-count,
+html.dark .search-result-head small {
+    color: var(--color-text-muted) !important;
+}
+
+html.dark .search-snippet mark,
+html.dark mark.find-hit {
+    background: rgba(229, 72, 77, 0.45);
+    color: #FFFFFF;
+}
+
+html.dark .search-snippet {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-left-color: rgba(229, 72, 77, 0.6) !important;
 }
