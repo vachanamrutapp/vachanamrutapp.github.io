@@ -2107,6 +2107,7 @@ function setupFactsModal() {
         openFactsModal(activeVachanamrutId);
     });
     closeBtn.addEventListener('click', closeFactsModal);
+    setupSheetSwipeToClose(overlay);
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) closeFactsModal();
     });
@@ -2144,6 +2145,78 @@ function setupFactsModal() {
             }
         });
     }
+}
+
+// Drag the facts / word-meaning sheet down to close it. A drag that starts on the header or
+// handle always moves the sheet; one that starts in the body moves it only when the body is
+// scrolled to the top (otherwise it scrolls the text as usual). Release past ~110px, or with a
+// quick flick, to close; otherwise it springs back.
+function setupSheetSwipeToClose(overlay) {
+    const sheet = document.getElementById('facts-modal');
+    const body = document.getElementById('facts-modal-body');
+    if (!sheet || !body) return;
+    let startY = 0, startT = 0, dy = 0, tracking = false, dragging = false, fromHeader = false;
+
+    sheet.addEventListener('touchstart', e => {
+        if (e.touches.length !== 1) return;
+        tracking = true;
+        dragging = false;
+        dy = 0;
+        startY = e.touches[0].clientY;
+        startT = Date.now();
+        fromHeader = !body.contains(e.target);
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', e => {
+        if (!tracking) return;
+        const delta = e.touches[0].clientY - startY;
+        if (!dragging) {
+            if (delta > 6 && (fromHeader || body.scrollTop <= 0)) {
+                dragging = true;
+                sheet.style.animation = 'none';
+                sheet.style.transition = 'none';
+            } else if (delta < -6 || (!fromHeader && body.scrollTop > 0)) {
+                tracking = false; // a normal scroll
+                return;
+            } else {
+                return;
+            }
+        }
+        dy = Math.max(0, delta);
+        sheet.style.transform = `translateY(${dy}px)`;
+        overlay.style.background = `rgba(44, 29, 24, ${Math.max(0, 0.35 - dy / 900)})`;
+        e.preventDefault(); // keep the page behind from scrolling
+    }, { passive: false });
+
+    const end = () => {
+        if (!tracking) return;
+        tracking = false;
+        if (!dragging) return;
+        dragging = false;
+        const fast = dy / Math.max(1, Date.now() - startT) > 0.6;
+        sheet.style.transition = 'transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)';
+        if (dy > 110 || (fast && dy > 30)) {
+            sheet.style.transform = 'translateY(100%)';
+            overlay.style.background = 'rgba(44, 29, 24, 0)';
+            setTimeout(() => {
+                closeFactsModal();
+                resetSheetDrag(sheet, overlay);
+            }, 200);
+        } else {
+            sheet.style.transform = 'translateY(0)';
+            overlay.style.background = '';
+            setTimeout(() => resetSheetDrag(sheet, overlay), 240);
+        }
+    };
+    sheet.addEventListener('touchend', end);
+    sheet.addEventListener('touchcancel', end);
+}
+
+function resetSheetDrag(sheet, overlay) {
+    sheet.style.transform = '';
+    sheet.style.transition = '';
+    sheet.style.animation = '';
+    overlay.style.background = '';
 }
 
 async function openFactsModal(vachanamrutId) {

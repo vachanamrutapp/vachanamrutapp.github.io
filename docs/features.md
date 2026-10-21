@@ -10,7 +10,7 @@ Living tracker. Status: ✅ shipped · 🚧 in progress · 📋 planned · 💡 
 | 1.4–1.5 | One app (scripture switch, shared Settings), search in English letters + Gujarati with jump-to ("Gadhada 1 18"), highlights, notes, backup and restore |
 | 1.6 | Glass look: floating bottom bar, audio player and play button, bottom-sheet Facts and word meanings, 4 reminders fixes, app size 87 → 30 MB (WebP images) |
 | 1.7 | Dark mode (Light default; Auto follows the phone; set in setup and Settings), rounded search bar, facts follow reading language, notification permission re-prompt |
-| 1.8 | ✅ Crisper type (lighter headings and tile titles; fonts and icons now **bundled**, so they work offline). ✅ Two-piece bottom bar: tabs pill (scripture switch · **Notes** · Settings) + standalone search circle, 64px thick. ✅ **Notes & Highlights** is its own page (moved out of Journey) |
+| 1.8 | ✅ Crisper type (lighter headings and tile titles; fonts and icons now **bundled**, so they work offline). ✅ Two-piece bottom bar: tabs pill (scripture switch · **Notes** · Settings) + standalone search circle, 64px thick. ✅ **Notes & Highlights** is its own page (moved out of Journey). ✅ Clear-glass light bar with red icons and thin labels; dark bar is dark-tinted glass. ✅ Facts / word sheets redesigned (solid, grouped lists, larger text) and **swipe down to close**. ✅ Audio credit line (Sadguru Shree Gyanjivandasji Swami · Kundaldham) |
 
 ## Next UX work
 - [ ] 📋 Check 1.8 bar on iPhone Safari/PWA (glass refraction there is blur-only)

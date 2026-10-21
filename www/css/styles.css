@@ -8219,8 +8219,8 @@ html.dark .my-notes-filters .search-chip.active {
 }
 
 /* ===========================================================
-   Clear glass bars, light mode (1.8): no amber tint — a frosted, neutral glass with white
-   icons and labels (a soft shadow keeps them legible on the gold page)
+   Clear glass bars, light mode (1.8): no amber tint — a frosted, neutral glass with red
+   icons and thin labels
    =========================================================== */
 html:not(.dark) .footer-pill,
 html:not(.dark) .footer-search-btn,
@@ -8238,8 +8238,14 @@ html:not(.dark) #footer .footer-tab-icon,
 html:not(.dark) #footer .footer-tab-label,
 html:not(.dark) .footer-search-btn,
 html:not(.dark) .reading-footer .nav-btn {
-    color: #FFFFFF;
-    text-shadow: 0 1px 3px rgba(80, 40, 0, 0.55);
+    color: #A5252C;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+
+/* Thin, crisp labels on the bars */
+html:not(.dark) #footer .footer-tab-label {
+    font-weight: 400;
+    letter-spacing: 0.15px;
 }
 
 html:not(.dark) .tab-bar-drop {
@@ -8249,3 +8255,349 @@ html:not(.dark) .tab-bar-drop {
 html:not(.dark) .reading-footer .nav-btn {
     background: rgba(255, 255, 255, 0.2);
 }
+
+/* ===========================================================
+   Facts & word-meaning sheet, redesigned (1.8): a solid sheet with each section as one grouped
+   list (hairline dividers, no per-row cards, glass or shadows) and larger, easier text.
+   =========================================================== */
+.facts-modal {
+    --f-sheet: #FFF6DC;
+    --f-group: #FFFDF4;
+    --f-line: rgba(80, 50, 20, 0.1);
+    --f-text: #2A1B12;
+    --f-muted: #6E5E50;
+    --f-accent: #A5252C;
+}
+
+html.dark .facts-modal {
+    --f-sheet: #161618;
+    --f-group: #232326;
+    --f-line: rgba(255, 255, 255, 0.08);
+    --f-text: #FFFFFF;
+    --f-muted: #A8A8AE;
+    --f-accent: #FFFFFF;
+}
+
+.facts-modal.glass-card:not(.theme-sepia):not(.theme-dark),
+html.dark .facts-modal.glass-card,
+.facts-modal.glass-card.theme-dark {
+    background: var(--f-sheet);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.facts-modal .facts-modal-header,
+html.dark .facts-modal.glass-card .facts-modal-header {
+    padding: 8px 20px 12px;
+    background: transparent;
+    border-bottom: none;
+}
+
+.facts-modal .facts-modal-title,
+html.dark .facts-modal .facts-modal-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--f-text);
+}
+
+.facts-modal .facts-modal-title i {
+    color: var(--f-accent);
+    font-size: 1.1rem;
+}
+
+.facts-modal .facts-modal-subtitle {
+    font-size: 1rem;
+    color: var(--f-muted);
+}
+
+.facts-modal .facts-modal-close,
+html.dark .facts-modal .facts-modal-close {
+    width: 36px;
+    height: 36px;
+    background: var(--f-group);
+    border: none;
+    box-shadow: none;
+    color: var(--f-muted);
+}
+
+.facts-modal .facts-modal-body,
+html.dark .facts-modal .facts-modal-body {
+    padding: 2px 16px calc(24px + var(--safe-bottom));
+}
+
+.facts-modal .facts-section {
+    margin-bottom: 26px;
+}
+
+.facts-modal .facts-section-title,
+html.dark .facts-modal .facts-section-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--f-muted);
+    margin: 0 6px 8px;
+}
+
+.facts-modal .facts-section-title i {
+    color: var(--f-muted);
+}
+
+/* Each section is one grouped surface */
+.facts-modal .facts-grid,
+.facts-modal .facts-xref-list,
+.facts-modal .facts-glossary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--f-group);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.facts-modal .fact-row,
+.facts-modal .facts-xref,
+.facts-modal .facts-glossary-card,
+html.dark .facts-modal .fact-row,
+html.dark .facts-modal .facts-xref,
+html.dark .facts-modal .facts-glossary-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    padding: 14px 16px;
+}
+
+.facts-modal .fact-row + .fact-row,
+.facts-modal .facts-xref + .facts-xref,
+.facts-modal .facts-glossary-card + .facts-glossary-card {
+    border-top: 1px solid var(--f-line);
+}
+
+/* Key facts */
+.facts-modal .fact-row-with-icon {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.facts-modal .fact-icon-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+}
+
+.facts-modal .fact-label,
+html.dark .facts-modal .fact-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--f-muted) !important;
+}
+
+.facts-modal .fact-value,
+html.dark .facts-modal .fact-value {
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--f-text);
+}
+
+.facts-modal .fact-value .fact-secondary,
+html.dark .facts-modal .fact-value .fact-secondary {
+    display: block;
+    margin-top: 1px;
+    font-size: 0.98rem;
+    font-weight: 400;
+    color: var(--f-muted) !important;
+}
+
+/* Around this time */
+.facts-modal .facts-xref {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.facts-modal .facts-xref-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
+.facts-modal .facts-xref-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.facts-modal .facts-xref-text strong,
+html.dark .facts-modal .facts-xref-text strong {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--f-text);
+}
+
+.facts-modal .facts-xref-delta,
+html.dark .facts-modal .facts-xref-delta {
+    font-size: 0.98rem;
+    color: var(--f-muted) !important;
+}
+
+/* Glossary */
+.facts-modal .facts-glossary-header,
+html.dark .facts-modal .facts-glossary-header {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--f-accent);
+    margin-bottom: 3px;
+}
+
+.facts-modal .facts-glossary-meaning,
+html.dark .facts-modal .facts-glossary-meaning {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--f-text) !important;
+}
+
+/* Word meaning (a single word, opened by tapping it in the text) */
+.facts-modal .word-meaning-card-single {
+    gap: 14px;
+}
+
+.facts-modal .word-meaning-hero,
+html.dark .facts-modal .word-meaning-hero {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 4px 6px 0;
+}
+
+.facts-modal .word-meaning-primary-term,
+html.dark .facts-modal .word-meaning-primary-term {
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: var(--f-accent);
+}
+
+.facts-modal .word-meaning-secondary-term,
+html.dark .facts-modal .word-meaning-secondary-term {
+    font-size: 1.05rem;
+    color: var(--f-muted) !important;
+}
+
+.facts-modal .word-meaning-box,
+.facts-modal .word-meaning-alt-box,
+html.dark .facts-modal .word-meaning-box,
+html.dark .facts-modal .word-meaning-alt-box {
+    background: var(--f-group);
+    border: none;
+    box-shadow: none;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.facts-modal .word-meaning-content,
+.facts-modal .word-meaning-alt-content,
+html.dark .facts-modal .word-meaning-content,
+html.dark .facts-modal .word-meaning-alt-content {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--f-text);
+}
+
+.facts-modal .word-meaning-alt-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--f-muted) !important;
+}
+
+.facts-modal .word-meaning-pill,
+html.dark .facts-modal .word-meaning-pill {
+    background: var(--f-group);
+    border: none;
+    box-shadow: none;
+    font-size: 0.9rem;
+    color: var(--f-muted);
+}
+
+.facts-modal .word-meaning-view-all-btn,
+html.dark .facts-modal .word-meaning-view-all-btn {
+    background: var(--f-group);
+    border: none;
+    box-shadow: none;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: var(--f-accent);
+}
+
+/* ===========================================================
+   Dark glass bars (1.8): the same liquid glass as light mode, tinted dark — translucent so the
+   page shows through, bent and blurred at the edges, with a soft light rim
+   =========================================================== */
+html.dark .footer-pill,
+html.dark .footer-search-btn,
+html.dark .reading-footer {
+    background: linear-gradient(180deg, rgba(40, 40, 46, 0.42) 0%, rgba(6, 6, 8, 0.52) 100%);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: url(#glass-refract) brightness(0.78);
+    box-shadow:
+        inset 1px 1.5px 0 rgba(255, 255, 255, 0.3),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 14px rgba(255, 255, 255, 0.05),
+        0 0 0 0.5px rgba(0, 0, 0, 0.6),
+        0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+@supports (-webkit-touch-callout: none) {
+    html.dark .footer-pill,
+    html.dark .footer-search-btn,
+    html.dark .reading-footer {
+        backdrop-filter: blur(16px) saturate(1.3) brightness(0.8);
+    }
+}
+
+html.dark .footer-search-btn:active {
+    background: linear-gradient(180deg, rgba(70, 70, 78, 0.5) 0%, rgba(14, 14, 18, 0.6) 100%);
+}
+
+html.dark .tab-bar-drop {
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.22), inset -1px -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+html.dark .reading-footer .nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Audio credit under the progress bar of the expanded player */
+.audio-player-container.state-bar .audio-bar-view {
+    grid-template-areas:
+        "text controls close"
+        "scrub scrub scrub"
+        "credit credit credit";
+}
+
+.audio-credit {
+    grid-area: credit;
+    margin: 3px 2px 1px;
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: #6E5E50;
+    text-align: center;
+}
+
+html.dark .audio-credit {
+    color: var(--color-text-muted);
+}
+
+/* the sheet is dragged from its header; keep scroll gestures in the body */
+.facts-modal-header,
+.facts-modal::before {
+    touch-action: none;
+}
+
