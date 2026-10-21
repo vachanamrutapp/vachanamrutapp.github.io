@@ -47,3 +47,4 @@ Living tracker. Status: ✅ shipped · 🚧 in progress · 📋 planned · 💡 
 | 1.7 | 8 | 2026-10-20 | dark mode, glass bar |
 | 1.8 | 9 | 2026-10-21 | type, split bar, Notes page, redesigned facts, Audio page (waves dock), background audio, web/PWA download-all |
 | 1.9 | 10 | 2026-10-21 | portrait lock, new setup flow, glass reading buttons, softer glass, smaller language switch |
+| 1.10 | 11 | 2026-10-21 | cleaned Loya location image (no border) |
