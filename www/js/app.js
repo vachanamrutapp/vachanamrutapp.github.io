@@ -408,7 +408,11 @@ let isDraggingScrubber = false;
 function showVachanamrut(vachanamrut, pushState = true) {
     // Ensure ID is a number
     const safeId = parseInt(vachanamrut.id);
-    if (pushState && document.getElementById('vachanamrut-detail-screen').classList.contains('active') && (activeVachanamrutId !== safeId || window.pendingSearchReturn)) recordCurrentPage();
+    const alreadyReading = document.getElementById('vachanamrut-detail-screen').classList.contains('active');
+    const returningFromSearch = Boolean(window.pendingSearchReturn);
+    // A different reading in the same reader is not a previous screen. Preserve
+    // the search return point when a search result opens another reading.
+    if (pushState && alreadyReading && returningFromSearch) recordCurrentPage();
     activeVachanamrutId = safeId;
 
 
@@ -417,7 +421,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
         // Clean URL: remove index.html if present
         const cleanPath = window.location.pathname.replace('index.html', '');
         const newUrl = `${cleanPath}?id=${safeId}&lang=${currentLanguage}`;
-        window.history.pushState({ vachanamrutId: safeId }, '', newUrl);
+        window.history[alreadyReading && !returningFromSearch ? 'replaceState' : 'pushState']({ vachanamrutId: safeId }, '', newUrl);
     }
 
     // Clean number and title

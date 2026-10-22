@@ -245,7 +245,9 @@
 
     async function showSloka(id, pushState = true) {
         await ensureLoaded();
-        if (pushState && isDetailActive() && currentSloka && (currentSloka.id !== id || window.pendingSearchReturn)) recordCurrentPage();
+        const alreadyReading = isDetailActive();
+        const returningFromSearch = Boolean(window.pendingSearchReturn);
+        if (pushState && alreadyReading && returningFromSearch) recordCurrentPage();
         if (!renderSloka(id)) return;
         showScreen('shikshapatri-detail-screen', false);
         // Counts toward Journey once it's been on screen for 5 seconds
@@ -254,7 +256,7 @@
             if (isDetailActive() && currentSloka && currentSloka.id === id) markShlokaAsRead(id);
         }, 5000);
         document.title = `શ્લોક ${id} | શિક્ષાપત્રી — vachanamrut.in`;
-        if (pushState) window.history.pushState({ slokaId: id }, '', `${window.location.pathname}?s=shikshapatri&id=${id}`);
+        if (pushState) window.history[alreadyReading && !returningFromSearch ? 'replaceState' : 'pushState']({ slokaId: id }, '', `${window.location.pathname}?s=shikshapatri&id=${id}`);
     }
 
     // ---- Bookmark ---------------------------------------------------------------
