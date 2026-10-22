@@ -10677,3 +10677,196 @@ html:not(.dark) #vachanamrut-card.theme-sepia .reader-actions .bookmark-pill.act
         max-width: calc(100% - 32px);
     }
 }
+
+/* Keep the light navigation glass the same colour over every scripture card. */
+html:not(.dark) #footer .footer-pill,
+html:not(.dark) #footer .footer-switch-btn {
+    background: linear-gradient(180deg, rgba(241, 185, 79, .87), rgba(211, 138, 38, .89));
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    backdrop-filter: blur(16px) saturate(1.15);
+}
+
+/* Search text and placeholder need their own contrast; WebView otherwise dims them. */
+html:not(.dark) .search-header .search-input-wrap {
+    background: rgba(255, 249, 233, .96);
+}
+html:not(.dark) #search-input,
+html:not(.dark) #find-input {
+    color: #2C1D18;
+    -webkit-text-fill-color: #2C1D18;
+    opacity: 1;
+}
+html:not(.dark) #search-input::placeholder,
+html:not(.dark) #find-input::placeholder {
+    color: #684939;
+    opacity: 1;
+}
+
+/* Dark reading controls use white type and neutral surfaces throughout. */
+html.dark .bhashya-header,
+html.dark .bhashya-header:hover {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 0;
+}
+html.dark .nav-slider {
+    background: rgba(255, 255, 255, .32);
+    accent-color: #FFFFFF;
+}
+html.dark .nav-slider::-webkit-slider-thumb {
+    background: #FFFFFF;
+    border-color: #1B1B1D;
+}
+html.dark .nav-slider::-moz-range-thumb {
+    background: #FFFFFF;
+    border-color: #1B1B1D;
+}
+html.dark .reading-footer .reading-progress {
+    background: #F3F3F3;
+    border-color: #FFFFFF;
+    color: #111111;
+}
+html.dark .reading-footer .nav-btn,
+html.dark .sp-bookmark-btn,
+html.dark .sp-find-btn,
+html.dark .bhashya-header,
+html.dark .bhashya-title,
+html.dark .bhashya-header .toggle-icon {
+    color: #FFFFFF;
+}
+
+/* Study Time, note sheets and search have one black-and-white control palette. */
+html.dark #notes-screen .notes-title,
+html.dark #notes-screen .nididhyas-intro-row h3,
+html.dark #notes-screen .nididhyas-group-heading,
+html.dark .nididhyas-sheet h2,
+html.dark .nididhyas-create-form label,
+html.dark .nididhyas-option small,
+html.dark .nididhyas-remove,
+html.dark .note-sheet-delete,
+html.dark #notes-screen .saved-empty i {
+    color: #FFFFFF;
+}
+html.dark #notes-screen .my-note,
+html.dark #notes-screen .my-note[class*="hl-edge-"] {
+    border-left-color: rgba(255, 255, 255, .38);
+}
+html.dark #notes-screen .saved-tab-count,
+html.dark #notes-screen .nididhyas-group-heading small,
+html.dark .my-notes-count {
+    background: rgba(255, 255, 255, .14);
+    color: #FFFFFF;
+}
+html.dark #notes-screen .saved-tab.active .saved-tab-count {
+    background: rgba(0, 0, 0, .12);
+    color: #111111;
+}
+html.dark #notes-screen .saved-scope-btn.active,
+html.dark #notes-screen .saved-tab.active,
+html.dark #notes-screen .my-notes-filters .search-chip.active,
+html.dark .search-header .search-scope-btn.active,
+html.dark .ap-chips .search-chip.active {
+    background: #F3F3F3;
+    color: #111111;
+    box-shadow: none;
+}
+html.dark .nididhyas-new-btn,
+html.dark .nididhyas-organize,
+html.dark .nididhyas-option,
+html.dark .nididhyas-close,
+html.dark .nididhyas-create-row button,
+html.dark .nididhyas-save,
+html.dark .note-sheet-btn,
+html.dark .note-sheet-btn.primary,
+html.dark .note-sheet-delete,
+html.dark #notes-screen .notes-backup-nudge {
+    background: #2A2A2D;
+    border-color: rgba(255, 255, 255, .2);
+    color: #FFFFFF;
+    box-shadow: none;
+}
+html.dark .nididhyas-option:has(input:checked),
+html.dark .nididhyas-save,
+html.dark .note-sheet-btn.primary {
+    background: #F3F3F3;
+    color: #111111;
+}
+html.dark .nididhyas-option:has(input:checked) small { color: #111111; }
+html.dark .nididhyas-option:has(input:checked) input { accent-color: #111111; }
+html.dark .nididhyas-option input,
+html.dark .nididhyas-create-row input,
+html.dark .note-sheet-text {
+    accent-color: #FFFFFF;
+    color: #FFFFFF;
+}
+html.dark .nididhyas-create-row input,
+html.dark .note-sheet-text {
+    background: #222225;
+    border-color: rgba(255, 255, 255, .2);
+}
+html.dark .note-sheet-quote {
+    border-left-color: rgba(255, 255, 255, .5);
+}
+html.dark .search-chip,
+html.dark .search-header .search-scope-btn,
+html.dark .search-input-wrap > i,
+html.dark .search-header .search-icon-btn {
+    color: #FFFFFF;
+}
+html.dark .search-empty-icon {
+    background: #29292C;
+    color: #FFFFFF;
+}
+html.dark .sloka-image-header {
+    background: #1D1D20;
+    border-bottom-color: rgba(255, 255, 255, .14);
+}
+html.dark .sloka-read-tick {
+    background: #F3F3F3;
+    border-color: #222225;
+    color: #111111;
+}
+html.dark .sloka-card.bookmarked {
+    background: #1B1B1E !important;
+    border-color: rgba(255, 255, 255, .35) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .45) !important;
+}
+html.dark .sp-bookmark-btn.bookmarked,
+html.dark .sp-bookmark-chip {
+    background: #F3F3F3;
+    border-color: #F3F3F3;
+    color: #111111;
+}
+
+/* Secondary pages use the sheet colour as the page itself. Keep the artwork on
+   scripture home and reading screens, where it has room to breathe. */
+body:has(:is(#section-detail-screen, #shikshapatri-list-screen, #settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+    background-color: #E6A623;
+    background-image: linear-gradient(160deg, #F4BD4E 0%, #E6A623 60%, #D99425 100%);
+}
+html.dark body:has(:is(#section-detail-screen, #shikshapatri-list-screen, #settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+    background-color: #0D0D10;
+    background-image: none;
+}
+:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen) > .glass-card.journey-page-card,
+#notes-screen > .glass-card.saved-page-card,
+html.dark :is(#settings-screen, #journey-screen, #audio-screen, #notes-screen) > .glass-card.journey-page-card {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 4px 0 32px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+html:not(.dark) .search-overlay {
+    background-color: #E6A623;
+    background-image: linear-gradient(160deg, #F4BD4E 0%, #E6A623 60%, #D99425 100%);
+}
+html.dark .search-overlay {
+    background-color: #0D0D10;
+    background-image: none;
+}

@@ -98,7 +98,7 @@
     <link rel="preload" as="image" href="images/yellow-bg.webp">
     <link rel="stylesheet" href="css/fonts.css?v=1">
     <link rel="stylesheet" href="css/fontawesome.css?v=1">
-    <link rel="stylesheet" href="css/styles.css?v=141">
+    <link rel="stylesheet" href="css/styles.css?v=145">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -609,8 +609,8 @@
             <div class="glass-card journey-page-card settings-page-card notes-page-card saved-page-card">
                 <div class="notes-head">
                     <div>
-                        <h2 class="notes-title"><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span></h2>
-                        <p class="saved-intro"><span class="lang-guj">બંને ગ્રંથોના નિદિધ્યાસ અને તમારી નોંધ એક જગ્યાએ.</span><span class="lang-eng">Nididhyas for both scriptures, with your notes in one place.</span></p>
+                        <h2 class="notes-title"><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span></h2>
+                        <p class="saved-intro"><span class="lang-guj">બંને ગ્રંથોના મનપસંદ પાઠ અને તમારી નોંધ એક જગ્યાએ.</span><span class="lang-eng">Favourite readings and notes from both scriptures in one place.</span></p>
                     </div>
                 </div>
                 <div class="saved-scripture-scope" role="tablist" aria-label="Scripture">
@@ -618,12 +618,12 @@
                     <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-saved-scripture="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
                 </div>
                 <div class="saved-tabs" role="tablist" aria-label="Saved content">
-                    <button id="saved-favourites-tab" type="button" class="saved-tab active" role="tab" aria-selected="true" aria-controls="saved-favourites-panel" data-saved-tab="favourites"><i class="fas fa-layer-group"></i><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span><span id="saved-favourites-count" class="saved-tab-count">0</span></button>
+                    <button id="saved-favourites-tab" type="button" class="saved-tab active" role="tab" aria-selected="true" aria-controls="saved-favourites-panel" data-saved-tab="favourites"><i class="far fa-lightbulb"></i><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span><span id="saved-favourites-count" class="saved-tab-count">0</span></button>
                     <button id="saved-annotations-tab" type="button" class="saved-tab" role="tab" aria-selected="false" aria-controls="saved-annotations-panel" data-saved-tab="annotations" tabindex="-1"><i class="fas fa-highlighter"></i><span class="lang-guj">નોંધ અને હાઇલાઇટ</span><span class="lang-eng">Notes &amp; Highlights</span><span id="my-notes-count" class="saved-tab-count">0</span></button>
                 </div>
                 <section id="saved-favourites-panel" class="saved-panel" role="tabpanel" aria-labelledby="saved-favourites-tab">
                     <div class="nididhyas-intro-row">
-                        <div><h3><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span></h3><p><span class="lang-guj">મનન માટે મનપસંદ પાઠોને વિષય પ્રમાણે ગોઠવો.</span><span class="lang-eng">Keep favourite readings together by theme for reflection.</span></p></div>
+                        <div><h3><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span></h3><p><span class="lang-guj">મનન માટે મનપસંદ પાઠોને વિષય પ્રમાણે ગોઠવો.</span><span class="lang-eng">Keep favourite readings together by theme for reflection.</span></p></div>
                         <button id="nididhyas-new-group" type="button" class="nididhyas-new-btn"><i class="fas fa-plus"></i><span class="lang-guj">નવો વિષય</span><span class="lang-eng">New group</span></button>
                     </div>
                     <div id="favourites-list"></div>
@@ -747,7 +747,7 @@
                         <button type="button" class="sp-bookmark-btn sp-find-btn find-open-btn" aria-label="Find in this shloka"><i class="fas fa-search"></i></button>
                         <span id="sloka-title-badge" class="sloka-image-title">श्लोक १</span>
                         <div class="sp-reader-actions">
-                            <button id="sp-favourite-btn" class="sp-bookmark-btn" type="button" aria-label="Save this shloka to Nididhyas" aria-pressed="false"><i class="far fa-heart"></i></button>
+                            <button id="sp-favourite-btn" class="sp-bookmark-btn" type="button" aria-label="Save this shloka to Study Time" aria-pressed="false"><i class="far fa-heart"></i></button>
                             <button id="sp-bookmark-btn" class="sp-bookmark-btn" type="button" aria-label="Bookmark this sloka" aria-pressed="false"><i class="far fa-bookmark"></i></button>
                         </div>
                     </div>
@@ -822,8 +822,8 @@
                 <i class="fas fa-headphones footer-tab-icon"></i>
             </button>
             <button id="footer-search-btn" class="footer-tab footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search footer-tab-icon"></i></button>
-            <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Nididhyas" title="Nididhyas">
-                <i class="fas fa-layer-group footer-tab-icon"></i>
+            <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Study Time" title="Study Time">
+                <i class="far fa-lightbulb footer-tab-icon"></i>
             </button>
             <button id="footer-settings-btn" class="footer-tab" type="button" aria-label="Settings" title="Settings">
                 <i class="fas fa-cog footer-tab-icon"></i>
@@ -838,7 +838,7 @@
         <section class="nididhyas-sheet" role="dialog" aria-modal="true" aria-labelledby="nididhyas-title">
             <div class="nididhyas-handle" aria-hidden="true"></div>
             <button id="nididhyas-close" class="nididhyas-close" type="button" aria-label="Close"><i class="fas fa-times"></i></button>
-            <h2 id="nididhyas-title"><span class="lang-guj">નિદિધ્યાસમાં સાચવો</span><span class="lang-eng">Save to Nididhyas</span></h2>
+            <h2 id="nididhyas-title"><span class="lang-guj">અભ્યાસ સમયમાં સાચવો</span><span class="lang-eng">Save to Study Time</span></h2>
             <p id="nididhyas-subtitle" class="nididhyas-subtitle"></p>
             <div id="nididhyas-options" class="nididhyas-options"></div>
             <form id="nididhyas-create-form" class="nididhyas-create-form">
@@ -955,7 +955,7 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=73"></script>
+    <script src="js/app.js?v=74"></script>
     <script src="js/shikshapatri.js?v=8"></script>
     <script src="js/search.js?v=9"></script>
     <script src="js/annotations.js?v=7"></script>
