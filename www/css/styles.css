@@ -10481,13 +10481,6 @@ html.dark #notes-screen .my-note-text { color: #FFFFFF; }
     transform: scale(0.86);
 }
 
-/* Keep section-list rows entirely above the floating menu. The list remains
-   scrollable, with a small gap so Gujarati headings cannot show through glass. */
-#main-content:has(> #section-detail-screen.active) {
-    margin-bottom: calc(var(--bar-h) + var(--bar-bottom) + 10px);
-    padding-bottom: 18px;
-}
-
 /* A centered panel with a separate scripture portrait at the outer edge. */
 #footer.app-tab-bar,
 html.dark #footer.app-tab-bar {
@@ -10839,13 +10832,13 @@ html.dark .sp-bookmark-chip {
     color: #111111;
 }
 
-/* Secondary pages use the sheet colour as the page itself. Keep the artwork on
-   scripture home and reading screens, where it has room to breathe. */
-body:has(:is(#section-detail-screen, #shikshapatri-list-screen, #settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+/* Utility pages use the sheet colour as the page itself. Scripture homes,
+   lists, and reading screens keep the illustrated background. */
+body:has(:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
     background-color: #E6A623;
     background-image: linear-gradient(160deg, #F4BD4E 0%, #E6A623 60%, #D99425 100%);
 }
-html.dark body:has(:is(#section-detail-screen, #shikshapatri-list-screen, #settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+html.dark body:has(:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
     background-color: #0D0D10;
     background-image: none;
 }
