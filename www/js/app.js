@@ -12,6 +12,35 @@ function applyUiLanguage() {
     document.body.classList.toggle('ui-english', currentLanguage !== 'english' && localStorage.getItem('uiLanguage') === 'english');
 }
 let favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+const NIDIDHYAS_THEMES = [
+    { id: 'upasana', en: 'Upasana', gu: 'ઉપાસના', match: /up[aā]san|worship|god's form|form of god|supremacy of god|ઉપાસના|ભગવાનનું સ્વરૂપ|ભગવાનના સ્વરૂપ/iu },
+    { id: 'bhakti', en: 'Bhakti', gu: 'ભક્તિ', match: /bhakti|devotion|devotee|love for god|ભક્તિ|ભક્ત|પ્રીતિ/iu },
+    { id: 'atma', en: 'Atma', gu: 'આત્મા', match: /[aā]tm|soul|brahmar[uū]p|આત્મા|બ્રહ્મરૂપ/iu },
+    { id: 'dharma', en: 'Dharma', gu: 'ધર્મ', match: /dharma|duty|vow|niyam|ધર્મ|નિયમ/iu },
+    { id: 'vairagya', en: 'Vairagya', gu: 'વૈરાગ્ય', match: /vair[aā]g|detachment|renunciat|વૈરાગ્ય|ત્યાગ/iu },
+    { id: 'sant', en: 'Sant', gu: 'સંત', match: /sant|s[aā]dhu|saint|સંત|સાધુ/iu },
+    { id: 'sadhana', en: 'Sadhana', gu: 'સાધના', match: /meditat|mind|practice|s[aā]dhan|ધ્યાન|મન|સાધના/iu },
+    { id: 'manan', en: 'Manan', gu: 'મનન', match: null }
+];
+const readNididhyas = (key, fallback) => {
+    try { const value = JSON.parse(localStorage.getItem(key)); return value && typeof value === 'object' ? value : fallback; }
+    catch (error) { return fallback; }
+};
+let nididhyasGroups = readNididhyas('nididhyasGroups', []);
+let favouriteGroups = readNididhyas('favouriteGroups', {});
+if (!Array.isArray(nididhyasGroups)) nididhyasGroups = [];
+if (Array.isArray(favouriteGroups)) favouriteGroups = {};
+let shikshapatriFavourites = readNididhyas('shikshapatriFavourites', []);
+let shikshapatriNididhyasGroups = readNididhyas('shikshapatriNididhyasGroups', []);
+let shikshapatriFavouriteGroups = readNididhyas('shikshapatriFavouriteGroups', {});
+if (!Array.isArray(shikshapatriFavourites)) shikshapatriFavourites = [];
+if (!Array.isArray(shikshapatriNididhyasGroups)) shikshapatriNididhyasGroups = [];
+if (Array.isArray(shikshapatriFavouriteGroups)) shikshapatriFavouriteGroups = {};
+let savedScripture = 'vachanamrut';
+let nididhyasCurrentScripture = 'vachanamrut';
+let nididhyasCurrentId = null;
+let nididhyasSelected = new Set();
+let nididhyasDrafts = [];
 let sections = [];
 let currentSection = null;
 let bookmarkedVachanamrutId = localStorage.getItem('bookmarkedVachanamrutId');
@@ -52,6 +81,72 @@ let currentAudioId = -1;
 let appTheme = localStorage.getItem('appTheme') || 'default';
 let appFontSizePercent = parseInt(localStorage.getItem('appFontSizePercent')) || 100;
 let activeVachanamrutId = -1;
+const pageHistory = [];
+let restoringPage = false;
+
+function recordCurrentPage() {
+    if (restoringPage) return;
+    const active = document.querySelector('.screen.active');
+    if (!active) return;
+    const snapshot = { screenId: active.id, scrollTop: document.getElementById('main-content').scrollTop };
+    if (active.id === 'section-detail-screen') snapshot.sectionIndex = Number(active.dataset.sectionIndex);
+    if (active.id === 'vachanamrut-detail-screen') snapshot.vachanamrutId = activeVachanamrutId;
+    if (active.id === 'shikshapatri-detail-screen') snapshot.slokaId = Number(document.getElementById('sloka-slider').value);
+    if (active.id === 'notes-screen') {
+        snapshot.savedTab = document.querySelector('[data-saved-tab].active')?.dataset.savedTab || 'favourites';
+        snapshot.savedScripture = savedScripture;
+    }
+    if (window.pendingSearchReturn) {
+        snapshot.search = window.pendingSearchReturn;
+        window.pendingSearchReturn = null;
+    }
+    pageHistory.push(snapshot);
+    if (pageHistory.length > 100) pageHistory.shift();
+}
+
+async function goBackToPreviousPage() {
+    if (restoringPage) return;
+    const previous = pageHistory.pop();
+    if (!previous) {
+        if (!document.getElementById('home-screen').classList.contains('active')) showScreen('home-screen', false);
+        return;
+    }
+    restoringPage = true;
+    try {
+        const { screenId } = previous;
+        if (screenId === 'section-detail-screen' && sections[previous.sectionIndex]) {
+            showSectionDetail(previous.sectionIndex);
+        } else if (screenId === 'vachanamrut-detail-screen' && previous.vachanamrutId > 0) {
+            openVachanamrutById(previous.vachanamrutId, false);
+        } else if (screenId === 'shikshapatri-detail-screen' && previous.slokaId > 0) {
+            await Shikshapatri.showSloka(previous.slokaId, false);
+        } else if (screenId === 'shikshapatri-list-screen') {
+            await Shikshapatri.showList(false);
+        } else {
+            showScreen(screenId, false);
+            if (screenId === 'notes-screen') {
+                setSavedScripture(previous.savedScripture || 'vachanamrut');
+                setSavedTab(previous.savedTab || 'favourites');
+            }
+        }
+        const path = window.location.pathname;
+        if (screenId === 'vachanamrut-detail-screen') {
+            history.replaceState({ vachanamrutId: previous.vachanamrutId }, '', `${path}?id=${previous.vachanamrutId}&lang=${currentLanguage}`);
+        } else if (screenId === 'shikshapatri-detail-screen') {
+            history.replaceState({ slokaId: previous.slokaId }, '', `${path}?s=shikshapatri&id=${previous.slokaId}`);
+        } else if (screenId === 'shikshapatri-list-screen') {
+            history.replaceState({ shikshapatri: true }, '', `${path}?s=shikshapatri`);
+        } else {
+            history.replaceState({ screenId }, '', path);
+        }
+        const restoreScroll = () => document.getElementById('main-content').scrollTo(0, previous.scrollTop || 0);
+        if (screenId === 'shikshapatri-list-screen') setTimeout(restoreScroll, 140);
+        else requestAnimationFrame(restoreScroll);
+        if (previous.search && window.SearchUI) SearchUI.open(previous.search.scope);
+    } finally {
+        restoringPage = false;
+    }
+}
 let glossaryHighlightEnabled = localStorage.getItem('glossaryHighlightEnabled') !== 'false'; // Default true
 const vachanamrutGlossaryCache = new Map();
 
@@ -235,6 +330,7 @@ function saveReadingPosition(id, fraction) {
 
 let restoringPosition = false;
 function restoreReadingPosition(id) {
+    if (restoringPage) return;
     if (window.skipResumeOnce) { // opened from a search result: that jumps to the matched words instead
         window.skipResumeOnce = false;
         return;
@@ -278,6 +374,7 @@ let bookmarkBtn = document.getElementById('bookmark-pill-btn');
 const fabBtn = document.getElementById('fab-btn');
 const footer = document.getElementById('footer');
 const footerSwitchBtn = document.getElementById('footer-switch-btn');
+const footerHomeBtn = document.getElementById('footer-home-btn');
 // Which scripture the reader is in, and the last screen in each (for the bottom-bar switch and Settings)
 let currentScripture = 'vachanamrut';
 const lastPlace = { vachanamrut: null, shikshapatri: null };
@@ -311,6 +408,7 @@ let isDraggingScrubber = false;
 function showVachanamrut(vachanamrut, pushState = true) {
     // Ensure ID is a number
     const safeId = parseInt(vachanamrut.id);
+    if (pushState && document.getElementById('vachanamrut-detail-screen').classList.contains('active') && (activeVachanamrutId !== safeId || window.pendingSearchReturn)) recordCurrentPage();
     activeVachanamrutId = safeId;
 
 
@@ -347,9 +445,7 @@ function showVachanamrut(vachanamrut, pushState = true) {
     `;
 
     // Setup heart button
-    document.getElementById('heart-btn').addEventListener('click', () => {
-        toggleFavourite(safeId);
-    });
+    document.getElementById('heart-btn').addEventListener('click', () => openNididhyasPanel(safeId));
 
     // Facts pill only applies to the 262 main Vachanamruts — Partharos and
     // Khagol-Bhugol have no `timeline_events` row.
@@ -1096,6 +1192,7 @@ async function init() {
 
         // Setup Menu
         setupMenu();
+        setupNididhyasPanel();
 
         // Setup Vachanamrut Facts Modal
         setupFactsModal();
@@ -1345,10 +1442,13 @@ function renderSections() {
 
 // Show section detail screen with vachanamrut list
 function showSectionDetail(sectionIndex) {
+    const visibleSection = document.getElementById('section-detail-screen');
+    if (visibleSection.classList.contains('active') && Number(visibleSection.dataset.sectionIndex) !== sectionIndex) recordCurrentPage();
     currentSection = sections[sectionIndex];
 
     // Get section screen elements
     const sectionDetailScreen = document.getElementById('section-detail-screen');
+    sectionDetailScreen.dataset.sectionIndex = String(sectionIndex);
     const sectionTitle = document.getElementById('section-title');
     const sectionDescription = document.getElementById('section-description');
     const sectionImage = document.getElementById('section-image');
@@ -1512,31 +1612,173 @@ function toggleBookmark(id) {
     renderSections(); // Re-render to update indicators
 }
 
-// Toggle Favourite
-function toggleFavourite(id) {
-    const index = favourites.indexOf(id);
-    let isAdded = false;
-    if (index === -1) {
-        favourites.push(id);
-        isAdded = true;
-    } else {
-        favourites.splice(index, 1);
-    }
-    localStorage.setItem('favourites', JSON.stringify(favourites));
-
-    // Update UI
-    const btn = document.getElementById('heart-btn');
-    if (btn) {
-        const isFav = favourites.includes(id);
-        btn.innerHTML = `<i class="${isFav ? 'fas' : 'far'} fa-heart"></i>`;
-    }
-    
-    if (isAdded) {
-        showToast('Added to Favourites / ફેવરિટમાં સેવ કર્યો!', 'fas fa-heart');
-    } else {
-        showToast('Removed from Favourites / ફેવરિટમાંથી હટાવ્યો', 'fas fa-heart');
-    }
+function nididhyasName(group) {
+    return uiEnglish() ? (group.en || group.name) : (group.gu || group.name);
 }
+
+function suggestedNididhyas(id, scripture = 'vachanamrut') {
+    // Use the English title even when the reader is in Gujarati, so the same
+    // Vachanamrut receives the same suggestion in both languages.
+    let title = '';
+    if (scripture === 'shikshapatri') {
+        const sloka = window.Shikshapatri?.getSloka(id);
+        title = sloka?.english || sloka?.gujarati || '';
+    } else if (db) {
+        const stmt = db.prepare("SELECT title FROM scriptures WHERE id = :id AND language = 'english' LIMIT 1");
+        stmt.bind({ ':id': id });
+        if (stmt.step()) title = stmt.getAsObject().title || '';
+        stmt.free();
+    }
+    if (!title && scripture === 'vachanamrut') title = vachanamrutData.find(v => v.id === id)?.title || '';
+    return NIDIDHYAS_THEMES.find(theme => theme.match && theme.match.test(title)) || NIDIDHYAS_THEMES.at(-1);
+}
+
+function allNididhyasGroups(scripture = 'vachanamrut') {
+    const source = scripture === 'shikshapatri' ? shikshapatriNididhyasGroups : nididhyasGroups;
+    const custom = Array.isArray(source) ? source.filter(g => g && g.id && g.name) : [];
+    return [...NIDIDHYAS_THEMES, ...custom];
+}
+
+function closeNididhyasPanel() {
+    const overlay = document.getElementById('nididhyas-overlay');
+    overlay.hidden = true;
+    document.body.classList.remove('nididhyas-open');
+    document.getElementById('nididhyas-group-name').value = '';
+    nididhyasDrafts = [];
+}
+
+function renderNididhyasOptions() {
+    const options = document.getElementById('nididhyas-options');
+    options.replaceChildren();
+    const suggested = nididhyasCurrentId === null ? null : suggestedNididhyas(nididhyasCurrentId, nididhyasCurrentScripture);
+    const groups = allNididhyasGroups(nididhyasCurrentScripture).concat(nididhyasDrafts);
+    if (suggested) groups.sort((a, b) => (b.id === suggested.id) - (a.id === suggested.id));
+    groups.forEach(group => {
+        const label = document.createElement('label');
+        label.className = 'nididhyas-option';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.value = group.id;
+        input.checked = nididhyasSelected.has(group.id);
+        input.addEventListener('change', () => {
+            if (input.checked) nididhyasSelected.add(group.id);
+            else nididhyasSelected.delete(group.id);
+        });
+        const name = document.createElement('span');
+        name.textContent = nididhyasName(group);
+        label.append(input, name);
+        if (suggested && group.id === suggested.id) {
+            const badge = document.createElement('small');
+            badge.textContent = uiEnglish() ? 'Suggested' : 'સૂચિત';
+            label.appendChild(badge);
+        }
+        options.appendChild(label);
+    });
+}
+
+function openNididhyasPanel(id = null, scripture = id === null ? savedScripture : 'vachanamrut') {
+    nididhyasCurrentId = id;
+    nididhyasCurrentScripture = scripture;
+    nididhyasDrafts = [];
+    const items = scripture === 'shikshapatri' ? shikshapatriFavourites : favourites;
+    const assignments = scripture === 'shikshapatri' ? shikshapatriFavouriteGroups : favouriteGroups;
+    const saved = id !== null && items.includes(id);
+    nididhyasSelected = new Set(saved ? (assignments[id] || []) : []);
+    if (!saved && id !== null) nididhyasSelected.add(suggestedNididhyas(id, scripture).id);
+    const v = id === null || scripture !== 'vachanamrut' ? null : vachanamrutData.find(item => item.id === id);
+    document.getElementById('nididhyas-subtitle').textContent = scripture === 'shikshapatri' && id !== null
+        ? `${uiEnglish() ? 'Shloka' : 'શ્લોક'} ${uiEnglish() ? id : toGujaratiDigits(id)} · ${(window.Shikshapatri?.getSloka(id)?.[uiEnglish() ? 'english' : 'gujarati'] || '').slice(0, 110)}`
+        : v ? `${v.vachanamrut.replace(/\n/g, ' ').trim()} · ${(v.title || '').replace(/\n/g, ' ').trim()}`
+        : (uiEnglish() ? 'Create a group for future favourites.' : 'આગામી મનપસંદ પાઠ માટે વિષય બનાવો.');
+    document.getElementById('nididhyas-remove').hidden = !saved;
+    document.getElementById('nididhyas-save').hidden = id === null;
+    document.getElementById('nididhyas-options').hidden = id === null;
+    renderNididhyasOptions();
+    document.getElementById('nididhyas-overlay').hidden = false;
+    document.body.classList.add('nididhyas-open');
+    document.getElementById('nididhyas-close').focus();
+}
+
+function saveNididhyas() {
+    const id = nididhyasCurrentId;
+    if (id === null) { closeNididhyasPanel(); return; }
+    const isShik = nididhyasCurrentScripture === 'shikshapatri';
+    const items = isShik ? shikshapatriFavourites : favourites;
+    const assignments = isShik ? shikshapatriFavouriteGroups : favouriteGroups;
+    const groups = isShik ? shikshapatriNididhyasGroups : nididhyasGroups;
+    const wasSaved = items.includes(id);
+    if (!wasSaved) items.push(id);
+    assignments[id] = [...nididhyasSelected];
+    groups.push(...nididhyasDrafts);
+    localStorage.setItem(isShik ? 'shikshapatriFavourites' : 'favourites', JSON.stringify(items));
+    localStorage.setItem(isShik ? 'shikshapatriFavouriteGroups' : 'favouriteGroups', JSON.stringify(assignments));
+    localStorage.setItem(isShik ? 'shikshapatriNididhyasGroups' : 'nididhyasGroups', JSON.stringify(groups));
+    const btn = document.getElementById('heart-btn');
+    if (!isShik && btn) btn.innerHTML = '<i class="fas fa-heart"></i>';
+    if (isShik) window.Shikshapatri?.updateFavouriteButton();
+    closeNididhyasPanel();
+    showToast(wasSaved ? (uiEnglish() ? 'Nididhyas updated' : 'નિદિધ્યાસ બદલાયો') : (uiEnglish() ? 'Saved to favourites' : 'મનપસંદમાં સાચવ્યું'), 'fas fa-heart');
+    if (document.getElementById('notes-screen').classList.contains('active')) renderSavedPage();
+}
+
+function removeFavourite(id) {
+    const isShik = nididhyasCurrentScripture === 'shikshapatri';
+    if (isShik) shikshapatriFavourites = shikshapatriFavourites.filter(savedId => savedId !== id);
+    else favourites = favourites.filter(savedId => savedId !== id);
+    const assignments = isShik ? shikshapatriFavouriteGroups : favouriteGroups;
+    delete assignments[id];
+    localStorage.setItem(isShik ? 'shikshapatriFavourites' : 'favourites', JSON.stringify(isShik ? shikshapatriFavourites : favourites));
+    localStorage.setItem(isShik ? 'shikshapatriFavouriteGroups' : 'favouriteGroups', JSON.stringify(assignments));
+    const btn = document.getElementById('heart-btn');
+    if (!isShik && btn && activeVachanamrutId === id) btn.innerHTML = '<i class="far fa-heart"></i>';
+    if (isShik) window.Shikshapatri?.updateFavouriteButton();
+    closeNididhyasPanel();
+    if (document.getElementById('notes-screen').classList.contains('active')) renderSavedPage();
+    showToast(uiEnglish() ? 'Removed from favourites' : 'મનપસંદમાંથી દૂર કર્યું', 'far fa-heart');
+}
+
+function setupNididhyasPanel() {
+    document.getElementById('nididhyas-new-group').addEventListener('click', () => openNididhyasPanel());
+    document.getElementById('nididhyas-close').addEventListener('click', closeNididhyasPanel);
+    document.querySelector('[data-nididhyas-close]').addEventListener('click', closeNididhyasPanel);
+    document.getElementById('nididhyas-save').addEventListener('click', saveNididhyas);
+    document.getElementById('nididhyas-remove').addEventListener('click', () => removeFavourite(nididhyasCurrentId));
+    document.getElementById('nididhyas-create-form').addEventListener('submit', event => {
+        event.preventDefault();
+        const input = document.getElementById('nididhyas-group-name');
+        const name = input.value.trim().replace(/\s+/g, ' ');
+        if (!name) { input.focus(); return; }
+        const existing = allNididhyasGroups(nididhyasCurrentScripture).concat(nididhyasDrafts).find(group =>
+            [group.name, group.en, group.gu].some(label => label && label.toLocaleLowerCase() === name.toLocaleLowerCase()));
+        if (existing) {
+            if (nididhyasCurrentId !== null) nididhyasSelected.add(existing.id);
+        } else {
+            const group = { id: `custom-${crypto.randomUUID()}`, name };
+            if (nididhyasCurrentId === null) {
+                const isShik = nididhyasCurrentScripture === 'shikshapatri';
+                const groups = isShik ? shikshapatriNididhyasGroups : nididhyasGroups;
+                groups.push(group);
+                localStorage.setItem(isShik ? 'shikshapatriNididhyasGroups' : 'nididhyasGroups', JSON.stringify(groups));
+                renderSavedPage();
+                showToast(uiEnglish() ? 'Nididhyas group created' : 'નિદિધ્યાસનો વિષય બનાવ્યો', 'fas fa-layer-group');
+                closeNididhyasPanel();
+                return;
+            }
+            nididhyasDrafts.push(group);
+            nididhyasSelected.add(group.id);
+        }
+        input.value = '';
+        renderNididhyasOptions();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !document.getElementById('nididhyas-overlay').hidden) closeNididhyasPanel();
+    });
+}
+
+window.Nididhyas = {
+    openShikshapatri: id => openNididhyasPanel(id, 'shikshapatri'),
+    hasShikshapatri: id => shikshapatriFavourites.includes(id),
+};
 
 // Update bookmark button icon
 function updateBookmarkButtonState(currentId) {
@@ -1965,9 +2207,6 @@ function renderJourneyPage() {
             </div>
         `).join('');
     }
-
-    // Render favourites inline
-    renderFavourites();
 }
 
 // Journey: Shikshapatri progress card and its map row (groups of 20 shlokas)
@@ -2751,6 +2990,41 @@ function scrollToBookmark() {
     }
 }
 
+// Saved screen: favourites and annotations share one bottom-tab destination.
+function setSavedTab(tab) {
+    if (savedScripture === 'shikshapatri' && tab === 'annotations') tab = 'favourites';
+    document.querySelectorAll('[data-saved-tab]').forEach(button => {
+        const active = button.dataset.savedTab === tab;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+    });
+    document.getElementById('saved-favourites-panel').hidden = tab !== 'favourites';
+    document.getElementById('saved-annotations-panel').hidden = tab !== 'annotations';
+}
+
+function setSavedScripture(scripture) {
+    savedScripture = scripture === 'shikshapatri' ? 'shikshapatri' : 'vachanamrut';
+    document.querySelectorAll('[data-saved-scripture]').forEach(button => {
+        const active = button.dataset.savedScripture === savedScripture;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', String(active));
+    });
+    document.getElementById('saved-annotations-tab').hidden = savedScripture === 'shikshapatri';
+    if (savedScripture === 'shikshapatri') setSavedTab('favourites');
+    renderSavedPage();
+    if (savedScripture === 'shikshapatri' && !window.Shikshapatri?.count) {
+        window.Shikshapatri?.ensureLoaded().then(() => {
+            if (savedScripture === 'shikshapatri') renderFavourites();
+        });
+    }
+}
+
+function renderSavedPage() {
+    renderFavourites();
+    if (window.Annotations) Annotations.renderMyNotes();
+}
+
 // Render Favourites List
 function renderFavourites() {
     const list = document.getElementById('favourites-list');
@@ -2759,35 +3033,72 @@ function renderFavourites() {
     if (!list) return;
 
     list.innerHTML = '';
+    const isShik = savedScripture === 'shikshapatri';
+    const items = isShik ? shikshapatriFavourites : favourites;
+    const customGroups = isShik ? shikshapatriNididhyasGroups : nididhyasGroups;
+    const assignments = isShik ? shikshapatriFavouriteGroups : favouriteGroups;
+    const count = document.getElementById('saved-favourites-count');
+    if (count) count.textContent = uiEnglish() ? items.length : toGujaratiDigits(items.length);
 
-    if (favourites.length === 0) {
-        if (msg) msg.style.display = 'block';
-        return;
-    }
+    if (msg) msg.hidden = items.length !== 0 || customGroups.length !== 0;
 
-    if (msg) msg.style.display = 'none';
+    const makeCard = id => {
+        const vachanamrut = isShik ? null : vachanamrutData.find(v => v.id === id);
+        const sloka = isShik ? window.Shikshapatri?.getSloka(id) : null;
+        if (!vachanamrut && !sloka) return null;
+        const row = document.createElement('div');
+        row.className = 'nididhyas-favourite-row';
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'fav-card';
+        const number = document.createElement('div');
+        number.className = 'fav-number';
+        number.textContent = isShik ? `${uiEnglish() ? 'Shloka' : 'શ્લોક'} ${uiEnglish() ? id : toGujaratiDigits(id)}` : vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
+        const title = document.createElement('div');
+        title.className = 'fav-title';
+        title.textContent = (isShik ? sloka[uiEnglish() ? 'english' : 'gujarati'] : vachanamrut.title || '').replace(/\n/g, ' ').trim();
+        card.append(number, title);
+        card.addEventListener('click', () => isShik ? window.Shikshapatri.showSloka(id) : openVachanamrutById(id));
+        const organize = document.createElement('button');
+        organize.type = 'button';
+        organize.className = 'nididhyas-organize';
+        organize.setAttribute('aria-label', uiEnglish() ? 'Change Nididhyas groups' : 'નિદિધ્યાસના વિષય બદલો');
+        organize.innerHTML = '<i class="fas fa-layer-group"></i>';
+        organize.addEventListener('click', () => openNididhyasPanel(id, savedScripture));
+        row.append(card, organize);
+        return row;
+    };
 
-    favourites.forEach(id => {
-        const vachanamrut = vachanamrutData.find(v => v.id === id);
-        if (vachanamrut) {
-            const card = document.createElement('div');
-            card.className = 'fav-card';
-
-            const cleanNumber = vachanamrut.vachanamrut.replace(/\n/g, ' ').trim();
-            const cleanTitle = vachanamrut.title ? vachanamrut.title.replace(/\n/g, ' ').trim() : '';
-
-            card.innerHTML = `
-                <div class="fav-number">${cleanNumber}</div>
-                <div class="fav-title">${cleanTitle}</div>
-            `;
-
-            card.addEventListener('click', () => {
-                showVachanamrut(vachanamrut);
-            });
-
-            list.appendChild(card);
+    const groups = allNididhyasGroups(savedScripture).filter(group =>
+        group.name || items.some(id => (assignments[id] || []).includes(group.id)));
+    const ungrouped = items.filter(id => !(assignments[id] || []).length);
+    const makeGroup = (name, ids) => {
+        const section = document.createElement('section');
+        section.className = 'nididhyas-group';
+        const heading = document.createElement('h4');
+        heading.className = 'nididhyas-group-heading';
+        const label = document.createElement('span');
+        label.textContent = name;
+        const count = document.createElement('small');
+        count.textContent = uiEnglish() ? ids.length : toGujaratiDigits(ids.length);
+        heading.append(label, count);
+        section.appendChild(heading);
+        if (ids.length) ids.map(makeCard).filter(Boolean).forEach(card => section.appendChild(card));
+        else {
+            const empty = document.createElement('p');
+            empty.className = 'nididhyas-group-empty';
+            empty.textContent = isShik
+                ? (uiEnglish() ? 'No Shikshapatri shlokas here yet.' : 'હજુ અહીં કોઈ શિક્ષાપત્રી શ્લોક નથી.')
+                : (uiEnglish() ? 'No Vachanamruts here yet.' : 'હજુ અહીં કોઈ વચનામૃત નથી.');
+            section.appendChild(empty);
         }
+        list.appendChild(section);
+    };
+    groups.forEach(group => {
+        const ids = items.filter(id => (assignments[id] || []).includes(group.id));
+        if (ids.length || group.name) makeGroup(nididhyasName(group), ids);
     });
+    if (ungrouped.length) makeGroup(uiEnglish() ? 'Ungrouped' : 'વિષય વગર', ungrouped);
 }
 
 // Setup Menu Logic
@@ -2797,12 +3108,18 @@ function setupMenu() {
     const fabJourney = document.getElementById('fab-journey');
     let isMenuOpen = false;
 
-    // Bottom bar: jump to the other scripture, back where you left it
+    // Bottom bar: open the other scripture at its home screen.
     if (footerSwitchBtn) {
         footerSwitchBtn.addEventListener('click', () => {
-            returnToScripture(currentScripture === 'vachanamrut' ? 'shikshapatri' : 'vachanamrut');
+            if (currentScripture === 'vachanamrut') Shikshapatri.showList(true, null, false);
+            else showScreen('home-screen');
         });
     }
+
+    footerHomeBtn.addEventListener('click', () => {
+        if (currentScripture === 'shikshapatri') Shikshapatri.showList(true, null, false);
+        else showScreen('home-screen');
+    });
 
     // Footer Audio tab: the audio library; tap again to go back where you were
     if (footerAudioBtn) {
@@ -2812,13 +3129,29 @@ function setupMenu() {
         });
     }
 
-    // Footer Notes tab: your notes and highlights; tap again to go back where you were
+    // Footer Saved tab: favourites, notes and highlights; tap again to go back.
     if (footerNotesBtn) {
         footerNotesBtn.addEventListener('click', () => {
             if (document.getElementById('notes-screen').classList.contains('active')) returnToScripture();
             else showScreen('notes-screen');
         });
     }
+
+    document.querySelectorAll('[data-saved-scripture]').forEach(button => {
+        button.addEventListener('click', () => setSavedScripture(button.dataset.savedScripture));
+    });
+    document.querySelectorAll('[data-saved-tab]').forEach(button => {
+        button.addEventListener('click', () => setSavedTab(button.dataset.savedTab));
+        button.addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            if (savedScripture === 'shikshapatri') return;
+            const next = event.key === 'Home' ? 'favourites' : event.key === 'End' ? 'annotations'
+                : button.dataset.savedTab === 'favourites' ? 'annotations' : 'favourites';
+            setSavedTab(next);
+            document.querySelector(`[data-saved-tab="${next}"]`).focus();
+        });
+    });
 
     // Footer Settings tab click
     if (footerSettingsBtn) {
@@ -2907,14 +3240,12 @@ function setupMenu() {
     document.getElementById('settings-text-default').addEventListener('click', () => setTextSize('default'));
     document.getElementById('settings-text-large').addEventListener('click', () => setTextSize('large'));
 
-    // Favourites chip inside Journey page
+    // The Journey count opens the favourites on Saved.
     const journeyFavouritesChip = document.getElementById('journey-favourites-chip');
     if (journeyFavouritesChip) {
         journeyFavouritesChip.addEventListener('click', () => {
-            const favTitle = document.getElementById('journey-favourites-title');
-            if (favTitle) {
-                favTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            setSavedTab('favourites');
+            showScreen('notes-screen');
         });
     }
 
@@ -2978,20 +3309,12 @@ function updateScriptureChrome(screenId) {
         logo.src = logoSrc;
         logo.alt = inShikshapatri ? 'Shikshapatri' : 'Vachanamrut';
     }
-    // The switch's icon flips over when it changes scripture
-    const switchIcon = document.getElementById('footer-switch-icon');
-    const switchIconClass = `fas ${inShikshapatri ? 'fa-book-open' : 'fa-scroll'} footer-tab-icon`;
-    if (switchIcon.className.replace(' flip', '') !== switchIconClass) {
-        switchIcon.className = switchIconClass;
-        if (window.appReady) {
-            void switchIcon.offsetWidth;
-            switchIcon.classList.add('flip');
-            switchIcon.addEventListener('animationend', () => switchIcon.classList.remove('flip'), { once: true });
-        }
-    }
-    document.getElementById('footer-switch-label-guj').textContent = inShikshapatri ? 'વચનામૃત' : 'શિક્ષાપત્રી';
-    document.getElementById('footer-switch-label-eng').textContent = inShikshapatri ? 'Vachanamrut' : 'Shikshapatri';
-    footerSwitchBtn.setAttribute('aria-label', inShikshapatri ? 'Switch to Vachanamrut' : 'Switch to Shikshapatri');
+    const switchTarget = inShikshapatri ? 'Vachanamrut' : 'Shikshapatri';
+    document.getElementById('footer-switch-image').src = `images/switch-${switchTarget.toLowerCase()}.webp`;
+    footerSwitchBtn.setAttribute('aria-label', `Switch to ${switchTarget}`);
+    footerSwitchBtn.title = `Switch to ${switchTarget}`;
+    footerHomeBtn.setAttribute('aria-label', `${inShikshapatri ? 'Shikshapatri' : 'Vachanamrut'} home`);
+    footer.classList.toggle('shikshapatri-mode', inShikshapatri);
     document.getElementById('sloka-navigation').style.display = screenId === 'shikshapatri-detail-screen' ? 'flex' : 'none';
     document.body.classList.toggle('in-shikshapatri', inShikshapatri);
     if (window.SearchUI) SearchUI.closeFind();
@@ -2999,7 +3322,7 @@ function updateScriptureChrome(screenId) {
 }
 
 // Open a Vachanamrut with its own section as context (search results, switching back)
-function openVachanamrutById(id) {
+function openVachanamrutById(id, pushState = true) {
     const vachanamrut = vachanamrutData.find(v => v.id === id);
     if (!vachanamrut) return false;
     const section = sections.find(s => s.vachanamruts.some(v => v.id === id));
@@ -3007,7 +3330,7 @@ function openVachanamrutById(id) {
         currentSection = section;
         currentSectionVachanamruts = section.vachanamruts;
     }
-    showVachanamrut(vachanamrut);
+    showVachanamrut(vachanamrut, pushState);
     return true;
 }
 
@@ -3027,6 +3350,10 @@ function returnToScripture(scripture = currentScripture) {
 }
 
 function showScreen(screenId, pushState = true) {
+    const previousScreen = document.querySelector('.screen.active');
+    if (previousScreen && previousScreen.id !== screenId) recordCurrentPage();
+    // A new screen starts with the navigation at its normal size.
+    document.querySelectorAll('#footer, .reading-footer').forEach(bar => bar.classList.remove('scrolling'));
     // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
@@ -3072,6 +3399,7 @@ function showScreen(screenId, pushState = true) {
     }
     if (footerNotesBtn) footerNotesBtn.classList.toggle('active', screenId === 'notes-screen');
     if (footerAudioBtn) footerAudioBtn.classList.toggle('active', screenId === 'audio-screen');
+    footerHomeBtn.classList.toggle('active', screenId === 'home-screen' || screenId === 'section-detail-screen' || screenId === 'shikshapatri-list-screen');
 
     // Toggle footer and navbar buttons visibility
     if (screenId === 'home-screen') {
@@ -3099,12 +3427,12 @@ function showScreen(screenId, pushState = true) {
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
-        if (screenId === 'notes-screen' && window.Annotations) Annotations.renderMyNotes();
+        if (screenId === 'notes-screen') setSavedScripture(currentScripture);
         if (screenId === 'audio-screen' && window.AudioPage) AudioPage.show();
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
         footer.style.display = isList ? 'flex' : 'none';
-        backBtn.style.display = 'block'; // shloka → list; list → Vachanamrut home
+        backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
         if (fabBtn) fabBtn.style.display = 'none';
     } else {
@@ -3154,34 +3482,7 @@ function showScreen(screenId, pushState = true) {
 
 // Setup navigation
 function setupNavigation() {
-    const sectionDetailScreen = document.getElementById('section-detail-screen');
-
-    backBtn.addEventListener('click', () => {
-        if (vachanamrutDetailScreen.classList.contains('active')) {
-            // From vachanamrut detail → go back to section detail (if we have a current section)
-            if (currentSection) {
-                // Find section index
-                const sectionIndex = sections.findIndex(s => s.name_gu === currentSection.name_gu);
-                if (sectionIndex !== -1) {
-                    showSectionDetail(sectionIndex);
-                } else {
-                    showScreen('home-screen');
-                }
-            } else {
-                showScreen('home-screen');
-            }
-        } else if (sectionDetailScreen && sectionDetailScreen.classList.contains('active')) {
-            // From section detail → go back to home
-            showScreen('home-screen');
-            currentSection = null;
-        } else if (settingsScreen.classList.contains('active') || document.getElementById('journey-screen').classList.contains('active') || document.getElementById('notes-screen').classList.contains('active') || document.getElementById('audio-screen').classList.contains('active')) {
-            returnToScripture(); // Settings, Journey, Notes and Audio are tabs of one place
-        } else if (document.getElementById('shikshapatri-list-screen').classList.contains('active')) {
-            showScreen('home-screen'); // Shikshapatri list → Vachanamrut home
-        } else if (window.Shikshapatri) {
-            Shikshapatri.back(); // shloka → list
-        }
-    });
+    backBtn.addEventListener('click', () => { goBackToPreviousPage(); });
 
     // Initially hide back button
     backBtn.style.display = 'none';
@@ -3192,6 +3493,8 @@ function setupNavigation() {
         AppPlugin.addListener('backButton', () => {
             if (window.Onboarding && Onboarding.handleBack()) {
                 // skipped a setup step
+            } else if (!document.getElementById('nididhyas-overlay').hidden) {
+                closeNididhyasPanel();
             } else if (window.Annotations && Annotations.handleBack()) {
                 // closed the note sheet or highlight toolbar
             } else if (window.SearchUI && SearchUI.handleBack()) {
@@ -3244,13 +3547,29 @@ async function displayAppVersion() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Keep the floating navigation compact while the content is moving.
+    const scrollContent = document.getElementById('main-content');
+    const scrollBars = document.querySelectorAll('#footer, .reading-footer');
+    let scrollSettleTimer;
+    let lastScrollTop = scrollContent.scrollTop;
+    scrollContent.addEventListener('scroll', () => {
+        const nextScrollTop = scrollContent.scrollTop;
+        if (nextScrollTop === lastScrollTop) return;
+        lastScrollTop = nextScrollTop;
+        scrollBars.forEach(bar => {
+            if (bar.style.display !== 'none') bar.classList.add('scrolling');
+        });
+        clearTimeout(scrollSettleTimer);
+        scrollSettleTimer = setTimeout(() => scrollBars.forEach(bar => bar.classList.remove('scrolling')), 180);
+    }, { passive: true });
+
     // Settings → Appearance (Auto follows the phone)
     document.querySelectorAll('[id^="settings-appearance-"]').forEach(btn => {
         btn.addEventListener('click', () => window.Appearance && Appearance.set(btn.dataset.appearance));
     });
     window.addEventListener('appearance-change', applyTheme);
 
-    // Bottom bar: a glass pill of tabs plus a separate glass search circle.
+    // Bottom bar: one glass pill that fits its visible actions.
     // The droplet slides under the touched tab, then rests under the active one.
     const tabBar = document.getElementById('footer');
     const pill = tabBar && tabBar.querySelector('.footer-pill');
@@ -3413,8 +3732,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else if (activeScreenId === 'journey-screen') {
                     renderJourneyPage();
-                } else if (activeScreenId === 'notes-screen' && window.Annotations) {
-                    Annotations.renderMyNotes();
+                } else if (activeScreenId === 'notes-screen') {
+                    renderSavedPage();
                 } else if (activeScreenId === 'audio-screen' && window.AudioPage) {
                     AudioPage.show();
                 }
@@ -3551,8 +3870,8 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
         titleString = isGuj ? 'ઓડિયો | વચનામૃત' : 'Audio | Vachanamrut';
         descString = isGuj ? 'બધા વચનામૃત ઓડિયો સ્વરૂપે સાંભળો.' : 'Listen to every Vachanamrut as audio.';
     } else if (screenId === 'notes-screen') {
-        titleString = isGuj ? 'મારી નોંધ | વચનામૃત' : 'My Notes | Vachanamrut';
-        descString = isGuj ? 'તમારી હાઇલાઇટ અને નોંધ એક જગ્યાએ.' : 'Your highlights and notes in one place.';
+        titleString = isGuj ? 'નિદિધ્યાસ | વચનામૃત અને શિક્ષાપત્રી' : 'Nididhyas | Vachanamrut and Shikshapatri';
+        descString = isGuj ? 'બંને ગ્રંથોના નિદિધ્યાસ અને તમારી નોંધ એક જગ્યાએ.' : 'Nididhyas for both scriptures and your notes in one place.';
     } else if (screenId === 'settings-screen') {
         if (isGuj) {
             titleString = `સેટિંગ્સ | વચનામૃત`;

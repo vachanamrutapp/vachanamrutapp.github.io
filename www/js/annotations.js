@@ -393,7 +393,7 @@
     $('notes-backup-nudge').addEventListener('click', () => exportBackup());
 
     // ---- Backup & restore -------------------------------------------------------------------
-    const LIST_KEYS = ['vach_read_ids', 'sp_read_ids', 'vach_activity_dates', 'favourites', 'searchRecent'];
+    const LIST_KEYS = ['vach_read_ids', 'sp_read_ids', 'vach_activity_dates', 'favourites', 'shikshapatriFavourites', 'searchRecent'];
     const LATEST_KEYS = ['vach_last_read', 'sp_last_read'];
     const PLAIN_KEYS = ['bookmarkedVachanamrutId', 'shikshapatri-bookmark', 'vach_scroll', 'appLanguage', 'appTheme',
         'appFontSizePercent', 'appTextSize', 'glossaryHighlightEnabled', 'showProgressTracking', 'audioEnabled', 'uiLanguage',
@@ -401,7 +401,7 @@
 
     async function exportBackup() {
         const data = {};
-        for (const k of [STORE, 'vach_read_counts', ...LIST_KEYS, ...LATEST_KEYS, ...PLAIN_KEYS]) {
+        for (const k of [STORE, 'vach_read_counts', 'nididhyasGroups', 'favouriteGroups', 'shikshapatriNididhyasGroups', 'shikshapatriFavouriteGroups', ...LIST_KEYS, ...LATEST_KEYS, ...PLAIN_KEYS]) {
             const v = localStorage.getItem(k);
             if (v !== null) data[k] = v;
         }
@@ -452,6 +452,16 @@
             if (d[k] === undefined) continue;
             const merged = [...new Set([...(parse(localStorage.getItem(k), []) || []), ...(parse(d[k], []) || [])])];
             localStorage.setItem(k, JSON.stringify(merged));
+        }
+        for (const [groupKey, assignmentKey] of [['nididhyasGroups', 'favouriteGroups'], ['shikshapatriNididhyasGroups', 'shikshapatriFavouriteGroups']]) {
+            const groups = new Map((parse(localStorage.getItem(groupKey), []) || []).map(g => [g.id, g]));
+            for (const g of parse(d[groupKey], []) || []) if (g && g.id && g.name) groups.set(g.id, g);
+            localStorage.setItem(groupKey, JSON.stringify([...groups.values()]));
+            const assignments = parse(localStorage.getItem(assignmentKey), {}) || {};
+            for (const [id, groupIds] of Object.entries(parse(d[assignmentKey], {}) || {})) {
+                if (Array.isArray(groupIds)) assignments[id] = [...new Set([...(assignments[id] || []), ...groupIds])];
+            }
+            localStorage.setItem(assignmentKey, JSON.stringify(assignments));
         }
         const counts = parse(localStorage.getItem('vach_read_counts'), {}) || {};
         for (const [id, n] of Object.entries(parse(d.vach_read_counts, {}) || {})) counts[id] = Math.max(counts[id] || 0, n);

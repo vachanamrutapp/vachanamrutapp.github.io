@@ -160,7 +160,7 @@
         setTimeout(() => el.classList.remove('bookmark-highlight'), 1600);
     }
 
-    async function showList(pushState = true, scrollToId = null) {
+    async function showList(pushState = true, scrollToId = null, resumePosition = true) {
         await ensureLoaded();
         clearTimeout(readTimer);
         currentSloka = null;
@@ -168,7 +168,7 @@
         showScreen('shikshapatri-list-screen', false);
         document.title = 'શિક્ષાપત્રી | Shikshapatri — vachanamrut.in';
         if (pushState) window.history.pushState({ shikshapatri: true }, '', `${window.location.pathname}?s=shikshapatri`);
-        const target = scrollToId || lastViewedId || bookmarkedId();
+        const target = scrollToId || (resumePosition ? lastViewedId || bookmarkedId() : null);
         if (target) setTimeout(() => scrollToSloka(target, false), 60);
     }
 
@@ -196,6 +196,7 @@
         $('prev-sloka-btn').disabled = id === 1;
         $('next-sloka-btn').disabled = id === slokas.length;
         updateBookmarkPill();
+        updateFavouriteButton();
         renderBhashya();
         return true;
     }
@@ -244,6 +245,7 @@
 
     async function showSloka(id, pushState = true) {
         await ensureLoaded();
+        if (pushState && isDetailActive() && currentSloka && (currentSloka.id !== id || window.pendingSearchReturn)) recordCurrentPage();
         if (!renderSloka(id)) return;
         showScreen('shikshapatri-detail-screen', false);
         // Counts toward Journey once it's been on screen for 5 seconds
@@ -271,6 +273,13 @@
         btn.querySelector('i').className = on ? 'fas fa-bookmark' : 'far fa-bookmark';
     }
 
+    function updateFavouriteButton() {
+        const on = !!currentSloka && !!window.Nididhyas?.hasShikshapatri(currentSloka.id);
+        const btn = $('sp-favourite-btn');
+        btn.setAttribute('aria-pressed', String(on));
+        btn.querySelector('i').className = on ? 'fas fa-heart' : 'far fa-heart';
+    }
+
     // ---- Controls ---------------------------------------------------------------
     let controlsReady = false;
     function setupControls() {
@@ -280,6 +289,7 @@
         $('next-sloka-btn').onclick = () => currentSloka && currentSloka.id < slokas.length && showSloka(currentSloka.id + 1);
         $('sloka-slider').oninput = e => showSloka(parseInt(e.target.value));
         $('sp-bookmark-btn').onclick = toggleBookmark;
+        $('sp-favourite-btn').onclick = () => currentSloka && window.Nididhyas?.openShikshapatri(currentSloka.id);
         $('sp-bookmark-chip').onclick = () => {
             const id = bookmarkedId();
             if (id) showSloka(id);
@@ -323,6 +333,6 @@
         ensureLoaded, getSearchDocs, showList, showSloka, resume, back, onAppLanguageChange, setBhashyaOpen,
         get count() { return slokas.length; },
         bookmarkedId,
-        getSloka: id => slokas.find(s => s.id === id),
+        getSloka: id => slokas.find(s => s.id === id), updateFavouriteButton,
     };
 })();

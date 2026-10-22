@@ -338,6 +338,7 @@
 
     function openResult(kind, id, keys) {
         addRecent(lastQuery);
+        window.pendingSearchReturn = { scope };
         close();
         // Land on the matched words (not for "Go to" jumps, which have no matched keys)
         const after = () => keys.length && setTimeout(() => openFind(lastQuery, keys), 350);
@@ -345,6 +346,8 @@
             Shikshapatri.showSloka(id).then(after);
         } else if ((window.skipResumeOnce = keys.length > 0, openVachanamrutById(id))) {
             after();
+        } else {
+            window.pendingSearchReturn = null;
         }
     }
 

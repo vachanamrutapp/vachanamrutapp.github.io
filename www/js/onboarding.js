@@ -41,7 +41,7 @@
     }
 
     // ---- First-run setup -------------------------------------------------------------------
-    const ACTIVITY_KEYS = ['vach_read_ids', 'vach_activity_dates', 'favourites', 'bookmarkedVachanamrutId', 'sp_read_ids', 'annotations', 'appTheme', 'vach_scroll'];
+    const ACTIVITY_KEYS = ['vach_read_ids', 'vach_activity_dates', 'favourites', 'shikshapatriFavourites', 'bookmarkedVachanamrutId', 'sp_read_ids', 'annotations', 'appTheme', 'vach_scroll'];
     const isExistingUser = () => ACTIVITY_KEYS.some(k => localStorage.getItem(k) !== null);
 
     // Every card is a question with its reason: a heading, then one line on why we ask
@@ -125,7 +125,7 @@
         done: () => `
             <div class="setup-card" data-step="done">
                 ${head('fa-check', g('બધું તૈયાર છે', 'You\'re all set'),
-                    g('નીચેના મેનુથી વચનામૃત અને શિક્ષાપત્રી વચ્ચે બદલી શકો છો, અને ઓડિયો, નોંધ તથા સેટિંગ્સ ખોલી શકો છો.', 'Use the menu at the bottom to switch between Vachanamrut and Shikshapatri, and to open Audio, Notes and Settings.'))}
+                    g('નીચેના મેનુથી વચનામૃત અને શિક્ષાપત્રી વચ્ચે બદલી શકો છો, અને ઓડિયો, સાચવેલું તથા સેટિંગ્સ ખોલી શકો છો.', 'Use the menu at the bottom to switch between Vachanamrut and Shikshapatri, and to open Audio, Saved and Settings.'))}
                 <button type="button" class="setup-primary" data-start="home"><i class="fas fa-home"></i> ${g('હોમ પર જાઓ', 'Go to home')}</button>
             </div>`,
     };

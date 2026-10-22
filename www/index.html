@@ -98,7 +98,7 @@
     <link rel="preload" as="image" href="images/yellow-bg.webp">
     <link rel="stylesheet" href="css/fonts.css?v=1">
     <link rel="stylesheet" href="css/fontawesome.css?v=1">
-    <link rel="stylesheet" href="css/styles.css?v=124">
+    <link rel="stylesheet" href="css/styles.css?v=141">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -550,7 +550,7 @@
         <div id="audio-screen" class="screen">
             <div class="glass-card journey-page-card settings-page-card audio-page-card">
                 <div class="notes-head">
-                    <h2 class="notes-title"><span class="lang-guj">ઓડિયો</span><span class="lang-eng">Audio</span></h2>
+                    <h2 class="notes-title"><span class="lang-guj">વચનામૃત ઓડિયો</span><span class="lang-eng">Vachanamrut Audio</span></h2>
                     <span id="ap-count" class="my-notes-count">0</span>
                 </div>
                 <div class="audio-credit ap-credit">
@@ -604,23 +604,47 @@
             </div>
         </div>
 
-        <!-- Notes & Highlights screen (js/annotations.js) -->
+        <!-- Saved Vachanamruts, notes and highlights -->
         <div id="notes-screen" class="screen">
-            <div class="glass-card journey-page-card settings-page-card notes-page-card">
+            <div class="glass-card journey-page-card settings-page-card notes-page-card saved-page-card">
                 <div class="notes-head">
-                    <h2 class="notes-title"><span class="lang-guj">મારી નોંધ અને હાઇલાઇટ</span><span class="lang-eng">Notes &amp; Highlights</span></h2>
-                    <span id="my-notes-count" class="my-notes-count">0</span>
+                    <div>
+                        <h2 class="notes-title"><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span></h2>
+                        <p class="saved-intro"><span class="lang-guj">બંને ગ્રંથોના નિદિધ્યાસ અને તમારી નોંધ એક જગ્યાએ.</span><span class="lang-eng">Nididhyas for both scriptures, with your notes in one place.</span></p>
+                    </div>
                 </div>
-                <div class="my-notes-filters">
-                    <button type="button" class="search-chip" data-notes-filter="all"><span class="lang-guj">બધું</span><span class="lang-eng">All</span></button>
-                    <button type="button" class="search-chip" data-notes-filter="notes"><span class="lang-guj">ફક્ત નોંધ</span><span class="lang-eng">Notes only</span></button>
+                <div class="saved-scripture-scope" role="tablist" aria-label="Scripture">
+                    <button type="button" class="saved-scope-btn active" role="tab" aria-selected="true" data-saved-scripture="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
+                    <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-saved-scripture="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
                 </div>
-                <button type="button" id="notes-backup-nudge" class="notes-backup-nudge" style="display: none;">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span class="lang-guj">તમારી નોંધ ફક્ત આ ફોનમાં છે. બેકઅપ લો.</span>
-                    <span class="lang-eng">Your notes live only on this phone. Back them up.</span>
-                </button>
-                <div id="my-notes-list" class="my-notes-list"></div>
+                <div class="saved-tabs" role="tablist" aria-label="Saved content">
+                    <button id="saved-favourites-tab" type="button" class="saved-tab active" role="tab" aria-selected="true" aria-controls="saved-favourites-panel" data-saved-tab="favourites"><i class="fas fa-layer-group"></i><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span><span id="saved-favourites-count" class="saved-tab-count">0</span></button>
+                    <button id="saved-annotations-tab" type="button" class="saved-tab" role="tab" aria-selected="false" aria-controls="saved-annotations-panel" data-saved-tab="annotations" tabindex="-1"><i class="fas fa-highlighter"></i><span class="lang-guj">નોંધ અને હાઇલાઇટ</span><span class="lang-eng">Notes &amp; Highlights</span><span id="my-notes-count" class="saved-tab-count">0</span></button>
+                </div>
+                <section id="saved-favourites-panel" class="saved-panel" role="tabpanel" aria-labelledby="saved-favourites-tab">
+                    <div class="nididhyas-intro-row">
+                        <div><h3><span class="lang-guj">નિદિધ્યાસ</span><span class="lang-eng">Nididhyas</span></h3><p><span class="lang-guj">મનન માટે મનપસંદ પાઠોને વિષય પ્રમાણે ગોઠવો.</span><span class="lang-eng">Keep favourite readings together by theme for reflection.</span></p></div>
+                        <button id="nididhyas-new-group" type="button" class="nididhyas-new-btn"><i class="fas fa-plus"></i><span class="lang-guj">નવો વિષય</span><span class="lang-eng">New group</span></button>
+                    </div>
+                    <div id="favourites-list"></div>
+                    <div id="no-favourites-msg" class="saved-empty" hidden>
+                        <i class="far fa-heart"></i>
+                        <span class="lang-guj">હજુ કોઈ મનપસંદ પાઠ નથી. વાંચતી વખતે હૃદય પર ટૅપ કરીને અહીં સાચવો.</span>
+                        <span class="lang-eng">No favourites yet. Tap the heart while reading to save one here.</span>
+                    </div>
+                </section>
+                <section id="saved-annotations-panel" class="saved-panel" role="tabpanel" aria-labelledby="saved-annotations-tab" hidden>
+                    <div class="my-notes-filters">
+                        <button type="button" class="search-chip" data-notes-filter="all"><span class="lang-guj">બધું</span><span class="lang-eng">All</span></button>
+                        <button type="button" class="search-chip" data-notes-filter="notes"><span class="lang-guj">ફક્ત નોંધ</span><span class="lang-eng">Notes only</span></button>
+                    </div>
+                    <button type="button" id="notes-backup-nudge" class="notes-backup-nudge" style="display: none;">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span class="lang-guj">તમારી નોંધ ફક્ત આ ફોનમાં છે. બેકઅપ લો.</span>
+                        <span class="lang-eng">Your notes live only on this phone. Back them up.</span>
+                    </button>
+                    <div id="my-notes-list" class="my-notes-list"></div>
+                </section>
             </div>
         </div>
 
@@ -692,7 +716,7 @@
                 <!-- Stats chips -->
                 <div class="journey-chips">
                     <div class="journey-chip"><i class="fas fa-book-open"></i><span id="journey-page-sections"><b>0</b> sections completed</span></div>
-                    <button id="journey-favourites-chip" class="journey-chip journey-chip-link" type="button"><i class="fas fa-heart"></i><span id="journey-page-favs"><b>0</b> favourites</span><i class="fas fa-chevron-down"></i></button>
+                    <button id="journey-favourites-chip" class="journey-chip journey-chip-link" type="button"><i class="fas fa-heart"></i><span id="journey-page-favs"><b>0</b> favourites</span><i class="fas fa-chevron-right"></i></button>
                 </div>
 
                 <!-- Milestones -->
@@ -700,16 +724,6 @@
                     <span class="lang-eng">Milestones</span>
                 </div>
                 <div id="journey-milestones" class="journey-milestones"></div>
-
-                <!-- Favourites Section -->
-                <div class="settings-section-title" id="journey-favourites-title"><span class="lang-guj">મનપસંદ વચનામૃતો</span>
-                    <span class="lang-eng">Favorite Vachanamruts</span>
-                </div>
-                <div id="favourites-list"></div>
-                <div id="no-favourites-msg" style="display: none;">
-                    <span class="lang-guj">કોઈ ફેવરિટ નથી.</span>
-                    <span class="lang-eng">No favourites yet.</span>
-                </div>
 
                 <div class="journey-reset-row">
                     <button id="journey-reset-btn" class="journey-reset-link"><i class="fas fa-undo"></i> Reset progress</button>
@@ -732,7 +746,10 @@
                     <div class="sloka-image-header">
                         <button type="button" class="sp-bookmark-btn sp-find-btn find-open-btn" aria-label="Find in this shloka"><i class="fas fa-search"></i></button>
                         <span id="sloka-title-badge" class="sloka-image-title">श्लोक १</span>
-                        <button id="sp-bookmark-btn" class="sp-bookmark-btn" type="button" aria-label="Bookmark this sloka" aria-pressed="false"><i class="far fa-bookmark"></i></button>
+                        <div class="sp-reader-actions">
+                            <button id="sp-favourite-btn" class="sp-bookmark-btn" type="button" aria-label="Save this shloka to Nididhyas" aria-pressed="false"><i class="far fa-heart"></i></button>
+                            <button id="sp-bookmark-btn" class="sp-bookmark-btn" type="button" aria-label="Bookmark this sloka" aria-pressed="false"><i class="far fa-bookmark"></i></button>
+                        </div>
                     </div>
                     <div class="sloka-image-wrap">
                         <img id="sloka-image" src="" alt="Sloka illustration" loading="lazy">
@@ -796,33 +813,41 @@
         </filter>
     </svg>
     <footer id="footer" class="app-tab-bar">
-        <!-- Two pieces of glass: the pill (scripture switch · notes · settings) and the search circle -->
         <nav class="footer-pill" aria-label="Main">
-            <!-- Glass droplet that slides under the touched / active tab (app.js) -->
             <span class="tab-bar-drop" aria-hidden="true"></span>
-            <button id="footer-switch-btn" class="footer-tab" type="button">
-                <i id="footer-switch-icon" class="fas fa-scroll footer-tab-icon"></i>
-                <span id="footer-switch-label-guj" class="footer-tab-label lang-guj">શિક્ષાપત્રી</span>
-                <span id="footer-switch-label-eng" class="footer-tab-label lang-eng">Shikshapatri</span>
+            <button id="footer-home-btn" class="footer-tab" type="button" aria-label="Vachanamrut home" title="Home">
+                <i class="fas fa-home footer-tab-icon"></i>
             </button>
-            <button id="footer-audio-btn" class="footer-tab" type="button" aria-label="Audio" title="Audio">
+            <button id="footer-audio-btn" class="footer-tab" type="button" aria-label="Vachanamrut audio" title="Vachanamrut audio">
                 <i class="fas fa-headphones footer-tab-icon"></i>
-                <span class="footer-tab-label lang-guj">ઓડિયો</span>
-                <span class="footer-tab-label lang-eng">Audio</span>
             </button>
-            <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Notes" title="Notes">
-                <i class="fas fa-sticky-note footer-tab-icon"></i>
-                <span class="footer-tab-label lang-guj">નોંધ</span>
-                <span class="footer-tab-label lang-eng">Notes</span>
+            <button id="footer-search-btn" class="footer-tab footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search footer-tab-icon"></i></button>
+            <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Nididhyas" title="Nididhyas">
+                <i class="fas fa-layer-group footer-tab-icon"></i>
             </button>
             <button id="footer-settings-btn" class="footer-tab" type="button" aria-label="Settings" title="Settings">
                 <i class="fas fa-cog footer-tab-icon"></i>
-                <span class="footer-tab-label lang-guj">સેટિંગ્સ</span>
-                <span class="footer-tab-label lang-eng">Settings</span>
             </button>
         </nav>
-        <button id="footer-search-btn" class="footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search"></i></button>
+        <button id="footer-switch-btn" class="footer-switch-btn" type="button" aria-label="Switch to Shikshapatri" title="Switch to Shikshapatri">
+            <img id="footer-switch-image" src="images/switch-shikshapatri.webp" alt="" width="54" height="54">
+        </button>
     </footer>
+    <div id="nididhyas-overlay" class="nididhyas-overlay" hidden>
+        <div class="nididhyas-scrim" data-nididhyas-close></div>
+        <section class="nididhyas-sheet" role="dialog" aria-modal="true" aria-labelledby="nididhyas-title">
+            <div class="nididhyas-handle" aria-hidden="true"></div>
+            <button id="nididhyas-close" class="nididhyas-close" type="button" aria-label="Close"><i class="fas fa-times"></i></button>
+            <h2 id="nididhyas-title"><span class="lang-guj">નિદિધ્યાસમાં સાચવો</span><span class="lang-eng">Save to Nididhyas</span></h2>
+            <p id="nididhyas-subtitle" class="nididhyas-subtitle"></p>
+            <div id="nididhyas-options" class="nididhyas-options"></div>
+            <form id="nididhyas-create-form" class="nididhyas-create-form">
+                <label for="nididhyas-group-name"><span class="lang-guj">પોતાનો વિષય બનાવો</span><span class="lang-eng">Create your own group</span></label>
+                <div class="nididhyas-create-row"><input id="nididhyas-group-name" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Upasana"><button type="submit" aria-label="Add group"><i class="fas fa-plus"></i></button></div>
+            </form>
+            <div class="nididhyas-actions"><button id="nididhyas-remove" type="button" class="nididhyas-remove" hidden><span class="lang-guj">મનપસંદમાંથી દૂર કરો</span><span class="lang-eng">Remove favourite</span></button><button id="nididhyas-save" type="button" class="nididhyas-save"><span class="lang-guj">સાચવો</span><span class="lang-eng">Save</span></button></div>
+        </section>
+    </div>
     <!-- Sticky Navigation Footer -->
     <div id="reading-footer" class="reading-footer" style="display: none;">
         <button id="nav-prev-btn" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
@@ -930,14 +955,14 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=61"></script>
-    <script src="js/shikshapatri.js?v=5"></script>
-    <script src="js/search.js?v=8"></script>
-    <script src="js/annotations.js?v=5"></script>
+    <script src="js/app.js?v=73"></script>
+    <script src="js/shikshapatri.js?v=8"></script>
+    <script src="js/search.js?v=9"></script>
+    <script src="js/annotations.js?v=7"></script>
     <script src="js/background-audio.js?v=2"></script>
     <script src="js/audio-page.js?v=15"></script>
     <script src="js/reminders.js?v=8"></script>
-    <script src="js/onboarding.js?v=17"></script>
+    <script src="js/onboarding.js?v=19"></script>
     <script>
         // Register service worker (web/PWA only — the native shells already ship the files)
         if ('serviceWorker' in navigator && !isNativeApp) {
