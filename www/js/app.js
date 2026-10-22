@@ -37,6 +37,7 @@ if (!Array.isArray(shikshapatriFavourites)) shikshapatriFavourites = [];
 if (!Array.isArray(shikshapatriNididhyasGroups)) shikshapatriNididhyasGroups = [];
 if (Array.isArray(shikshapatriFavouriteGroups)) shikshapatriFavouriteGroups = {};
 let savedScripture = 'vachanamrut';
+let favouriteFilter = 'all'; // Study Time topic pill that is selected ('all', a group id or '__none')
 let nididhyasCurrentScripture = 'vachanamrut';
 let nididhyasCurrentId = null;
 let nididhyasSelected = new Set();
@@ -1616,6 +1617,8 @@ function toggleBookmark(id) {
     renderSections(); // Re-render to update indicators
 }
 
+const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
 function nididhyasName(group) {
     return uiEnglish() ? (group.en || group.name) : (group.gu || group.name);
 }
@@ -1743,6 +1746,12 @@ function removeFavourite(id) {
 
 function setupNididhyasPanel() {
     document.getElementById('nididhyas-new-group').addEventListener('click', () => openNididhyasPanel());
+    document.getElementById('favourites-chips').addEventListener('click', event => {
+        const chip = event.target.closest('[data-fav-filter]');
+        if (!chip) return;
+        favouriteFilter = chip.dataset.favFilter;
+        renderFavourites();
+    });
     document.getElementById('nididhyas-close').addEventListener('click', closeNididhyasPanel);
     document.querySelector('[data-nididhyas-close]').addEventListener('click', closeNididhyasPanel);
     document.getElementById('nididhyas-save').addEventListener('click', saveNididhyas);
@@ -3076,6 +3085,23 @@ function renderFavourites() {
     const groups = allNididhyasGroups(savedScripture).filter(group =>
         group.name || items.some(id => (assignments[id] || []).includes(group.id)));
     const ungrouped = items.filter(id => !(assignments[id] || []).length);
+    // One entry per topic (and "Ungrouped"), shown both as pills and as sections
+    const entries = groups
+        .map(group => ({ key: group.id, label: nididhyasName(group), ids: items.filter(id => (assignments[id] || []).includes(group.id)) }))
+        .filter(entry => entry.ids.length || groups.find(group => group.id === entry.key).name);
+    if (ungrouped.length) entries.push({ key: '__none', label: uiEnglish() ? 'Ungrouped' : 'વિષય વગર', ids: ungrouped });
+    if (favouriteFilter !== 'all' && !entries.some(entry => entry.key === favouriteFilter)) favouriteFilter = 'all';
+
+    // Topic pills, like the Audio page's filters (only worth showing with two or more topics)
+    const chips = document.getElementById('favourites-chips');
+    if (chips) {
+        const num = n => uiEnglish() ? n : toGujaratiDigits(n);
+        chips.hidden = entries.length < 2;
+        chips.innerHTML = [{ key: 'all', label: uiEnglish() ? 'All' : 'બધા', ids: items }, ...entries].map(entry =>
+            `<button type="button" class="search-chip${entry.key === favouriteFilter ? ' active' : ''}" data-fav-filter="${entry.key}" role="tab" aria-selected="${entry.key === favouriteFilter}">${escapeHtml(entry.label)} <small>${num(entry.ids.length)}</small></button>`
+        ).join('');
+    }
+
     const makeGroup = (name, ids) => {
         const section = document.createElement('section');
         section.className = 'nididhyas-group';
@@ -3098,11 +3124,8 @@ function renderFavourites() {
         }
         list.appendChild(section);
     };
-    groups.forEach(group => {
-        const ids = items.filter(id => (assignments[id] || []).includes(group.id));
-        if (ids.length || group.name) makeGroup(nididhyasName(group), ids);
-    });
-    if (ungrouped.length) makeGroup(uiEnglish() ? 'Ungrouped' : 'વિષય વગર', ungrouped);
+    entries.filter(entry => favouriteFilter === 'all' || entry.key === favouriteFilter)
+        .forEach(entry => makeGroup(entry.label, entry.ids));
 }
 
 // Setup Menu Logic

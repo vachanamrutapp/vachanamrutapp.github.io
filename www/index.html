@@ -98,7 +98,7 @@
     <link rel="preload" as="image" href="images/yellow-bg.webp">
     <link rel="stylesheet" href="css/fonts.css?v=1">
     <link rel="stylesheet" href="css/fontawesome.css?v=1">
-    <link rel="stylesheet" href="css/styles.css?v=147">
+    <link rel="stylesheet" href="css/styles.css?v=150">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -612,10 +612,10 @@
                         <h2 class="notes-title"><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span></h2>
                         <p class="saved-intro"><span class="lang-guj">બંને ગ્રંથોના મનપસંદ પાઠ અને તમારી નોંધ એક જગ્યાએ.</span><span class="lang-eng">Favourite readings and notes from both scriptures in one place.</span></p>
                     </div>
-                </div>
-                <div class="saved-scripture-scope" role="tablist" aria-label="Scripture">
-                    <button type="button" class="saved-scope-btn active" role="tab" aria-selected="true" data-saved-scripture="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
-                    <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-saved-scripture="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
+                    <div class="saved-scripture-scope" role="tablist" aria-label="Scripture">
+                        <button type="button" class="saved-scope-btn active" role="tab" aria-selected="true" data-saved-scripture="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
+                        <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-saved-scripture="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
+                    </div>
                 </div>
                 <div class="saved-tabs" role="tablist" aria-label="Saved content">
                     <button id="saved-favourites-tab" type="button" class="saved-tab active" role="tab" aria-selected="true" aria-controls="saved-favourites-panel" data-saved-tab="favourites"><i class="far fa-lightbulb"></i><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span><span id="saved-favourites-count" class="saved-tab-count">0</span></button>
@@ -623,8 +623,8 @@
                 </div>
                 <section id="saved-favourites-panel" class="saved-panel" role="tabpanel" aria-labelledby="saved-favourites-tab">
                     <div class="nididhyas-intro-row">
-                        <div><h3><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span></h3><p><span class="lang-guj">મનન માટે મનપસંદ પાઠોને વિષય પ્રમાણે ગોઠવો.</span><span class="lang-eng">Keep favourite readings together by theme for reflection.</span></p></div>
-                        <button id="nididhyas-new-group" type="button" class="nididhyas-new-btn"><i class="fas fa-plus"></i><span class="lang-guj">નવો વિષય</span><span class="lang-eng">New group</span></button>
+                        <div id="favourites-chips" class="ap-chips fav-chips" role="tablist" hidden></div>
+                        <button id="nididhyas-new-group" type="button" class="nididhyas-new-btn"><i class="fas fa-plus"></i><span class="lang-guj">નવો વિષય</span><span class="lang-eng">New topic</span></button>
                     </div>
                     <div id="favourites-list"></div>
                     <div id="no-favourites-msg" class="saved-empty" hidden>
@@ -955,7 +955,7 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=75"></script>
+    <script src="js/app.js?v=77"></script>
     <script src="js/shikshapatri.js?v=9"></script>
     <script src="js/search.js?v=9"></script>
     <script src="js/annotations.js?v=7"></script>

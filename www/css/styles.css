@@ -10863,3 +10863,142 @@ html.dark .search-overlay {
     background-color: #0D0D10;
     background-image: none;
 }
+
+/* ===========================================================
+   Pills (1.12.3): the selected pill on the Audio page is clear in light mode too, Study Time
+   filters by topic with the same pills, and the "save to topic" sheet picks topics as pills
+   =========================================================== */
+.ap-chips .search-chip {
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ap-chips .search-chip.active {
+    background: #A5252C;
+    border-color: #A5252C;
+    color: #FFE08A;
+    box-shadow: 0 2px 8px rgba(165, 37, 44, 0.28);
+}
+
+.ap-chips .search-chip small {
+    margin-left: 2px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.12);
+    font-size: 0.72rem;
+}
+
+.ap-chips .search-chip.active small {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.fav-chips[hidden] {
+    display: none;
+}
+
+html.dark .ap-chips .search-chip.active small {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.nididhyas-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nididhyas-option {
+    position: relative;
+    min-height: 0;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    user-select: none;
+}
+
+.nididhyas-option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    pointer-events: none;
+}
+
+.nididhyas-option span {
+    flex: none;
+}
+
+.nididhyas-option:has(input:checked) {
+    background: #A5252C;
+    border-color: #A5252C;
+    color: #FFE08A;
+}
+
+.nididhyas-option:has(input:checked)::before {
+    content: '\2713';
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.nididhyas-option:has(input:checked) small {
+    color: #FFE08A;
+}
+
+.nididhyas-option:has(input:focus-visible) {
+    outline: 2px solid #A5252C;
+    outline-offset: 2px;
+}
+
+/* ===========================================================
+   Study Time header (1.12.3): three controls, three shapes. A small switch picks the scripture,
+   one segmented bar picks Study Time or Notes, and pills filter Study Time by topic.
+   =========================================================== */
+#notes-screen .notes-head {
+    align-items: flex-start;
+}
+
+#notes-screen .notes-head > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.notes-head .saved-scripture-scope {
+    flex: none;
+    margin: 4px 0 0;
+    padding: 3px;
+    gap: 2px;
+    border-radius: 999px;
+    border: none;
+}
+
+.notes-head .saved-scope-btn {
+    flex: none;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+}
+
+#notes-screen .nididhyas-intro-row {
+    align-items: center;
+    margin: 0 0 14px;
+}
+
+#notes-screen .nididhyas-intro-row .fav-chips {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 2px 2px 4px;
+}
+
+#notes-screen .nididhyas-intro-row .nididhyas-new-btn {
+    margin-left: auto;
+    padding: 8px 12px;
+    border-radius: 999px;
+}
+
+/* Shikshapatri has no highlights tab, so a one-button tab bar would only be noise */
+.saved-tabs:has(#saved-annotations-tab[hidden]) {
+    display: none;
+}
