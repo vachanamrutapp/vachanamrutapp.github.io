@@ -1,7 +1,7 @@
 // Study Time: pick a section (pills), pick a Vachanamrut (dropdown), then read its summary.
 // The summary flips to a 10-question quiz (shuffled each time, progress saved) and back.
-// Data: stored in assets/data/vachanamrut.db (tables study_summaries and study_quizzes). A Vachanamrut
-// without data shows "coming soon" instead.
+// Data: stored in assets/data/vachanamrut.db (tables study_summaries and study_quizzes for the Vachanamruts,
+// shikshapatri_study_* for the six Shikshapatri sections). Anything without data shows "coming soon".
 (function () {
     const $ = id => document.getElementById(id);
     const en = () => uiEnglish();                                         // language of buttons and labels
@@ -12,18 +12,30 @@
 
     // ---- Data ---------------------------------------------------------------------------------
     const cache = {};
-    async function loadStudyData(lang) {
-        if (cache[lang]) return cache[lang];
+    async function loadStudyData(lang, sp) {
+        const ck = (sp ? 'sp:' : '') + lang;
+        if (cache[ck]) return cache[ck];
         const summaries = {};
         const quizzes = {};
+        const meta = {};
+        const T = sp ? { s: 'shikshapatri_study_summaries', q: 'shikshapatri_study_quizzes', id: 'section_id' }
+            : { s: 'study_summaries', q: 'study_quizzes', id: 'vachanamrut_id' };
         try {
             if (typeof initSql === 'function') await initSql();
             if (db) {
-                const sStmt = db.prepare("SELECT vachanamrut_id, key_line, summary, themes FROM study_summaries WHERE language = :lang");
+                if (sp) {
+                    const mStmt = db.prepare("SELECT section_id, start_shloka, end_shloka, shloka_range, pill_gu, pill_en, title_gu, title_en FROM shikshapatri_study_sections ORDER BY section_id");
+                    while (mStmt.step()) {
+                        const r = mStmt.getAsObject();
+                        meta[r.section_id] = { id: r.section_id, start: r.start_shloka, end: r.end_shloka, range: r.shloka_range, pill: lang === 'en' ? r.pill_en : r.pill_gu, title: lang === 'en' ? r.title_en : r.title_gu };
+                    }
+                    mStmt.free();
+                }
+                const sStmt = db.prepare(`SELECT ${T.id} AS vid, key_line, summary, themes FROM ${T.s} WHERE language = :lang`);
                 sStmt.bind({ ":lang": lang });
                 while (sStmt.step()) {
                     const row = sStmt.getAsObject();
-                    summaries[row.vachanamrut_id] = {
+                    summaries[row.vid] = {
                         key: row.key_line,
                         summary: JSON.parse(row.summary),
                         themes: JSON.parse(row.themes)
@@ -31,12 +43,12 @@
                 }
                 sStmt.free();
 
-                const qStmt = db.prepare("SELECT vachanamrut_id, question, options, answer_index, why FROM study_quizzes WHERE language = :lang ORDER BY vachanamrut_id, question_order");
+                const qStmt = db.prepare(`SELECT ${T.id} AS vid, question, options, answer_index, why FROM ${T.q} WHERE language = :lang ORDER BY ${T.id}, question_order`);
                 qStmt.bind({ ":lang": lang });
                 while (qStmt.step()) {
                     const row = qStmt.getAsObject();
-                    if (!quizzes[row.vachanamrut_id]) quizzes[row.vachanamrut_id] = [];
-                    quizzes[row.vachanamrut_id].push({
+                    if (!quizzes[row.vid]) quizzes[row.vid] = [];
+                    quizzes[row.vid].push({
                         q: row.question,
                         o: JSON.parse(row.options),
                         a: row.answer_index,
@@ -49,8 +61,8 @@
             console.error('Loading study data from SQLite failed:', e);
         }
 
-        cache[lang] = { summaries, quizzes };
-        return cache[lang];
+        cache[ck] = { summaries, quizzes, meta };
+        return cache[ck];
     }
     const bestAll = () => { try { return JSON.parse(localStorage.getItem('quizBest')) || {}; } catch (e) { return {}; } };
     function saveBest(id, score) {
@@ -63,8 +75,8 @@
     // ---- State --------------------------------------------------------------------------------
     // sec: index into studySections(); vid: Vachanamrut number; quiz: { id, order[], i, answers[], items[] }
     const saved = (() => { try { return JSON.parse(localStorage.getItem('studySel')) || {}; } catch (e) { return {}; } })();
-    const st = { scripture: 'vachanamrut', mode: 'summary', sec: null, vid: saved.vid || null, open: false, aa: false, quiz: null, prompt: null, ready: false };
-    const persist = () => { try { localStorage.setItem('studySel', JSON.stringify({ vid: st.vid })); } catch (e) { /* ignore */ } };
+    const st = { scripture: 'vachanamrut', mode: 'summary', sec: null, spSec: saved.sp || 1, vid: saved.vid || null, open: false, aa: false, quiz: null, prompt: null, ready: false };
+    const persist = () => { try { localStorage.setItem('studySel', JSON.stringify({ vid: st.vid, sp: st.spSec })); } catch (e) { /* ignore */ } };
 
     // Quiz progress is kept per Vachanamrut: the shuffled order, the question reached and the answers.
     // Questions are stored by their position in the authored list, so progress survives a language switch.
@@ -75,6 +87,13 @@
         else if (st.quiz) delete all[st.quiz.id];
         try { localStorage.setItem('quizProgress', JSON.stringify(all)); } catch (e) { /* ignore */ }
     }
+    // The item being studied: a Vachanamrut, or one of the six Shikshapatri sections. Their progress and
+    // best scores live under separate keys ('sp1'..'sp6') so the two never collide.
+    const isSP = () => st.scripture === 'shikshapatri';
+    let spMeta = {};
+    const keyOf = v => (v.sp ? 'sp' + v.id : v.id);
+    const curV = () => (isSP() ? { id: st.spSec, sp: true } : (st.vid ? findVachanamrut(st.vid) : null));
+    const curKey = () => { const v = curV(); return v ? keyOf(v) : null; };
     const shuffled = n => {
         const a = Array.from({ length: n }, (_, i) => i);
         for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -110,13 +129,8 @@
             b.classList.toggle('active', on);
             b.setAttribute('aria-selected', String(on));
         });
-        const showPickers = st.scripture === 'vachanamrut';
-        $('study-sections').hidden = !showPickers;
-        if (!showPickers) {
-            $('study-picker').hidden = true;
-            host.innerHTML = `<div class="study-soon"><i class="fas fa-hourglass-half"></i><p>${t('શિક્ષાપત્રીનો સારાંશ અને ક્વિઝ ટૂંક સમયમાં આવશે.', 'Summaries and quizzes for the Shikshapatri are coming soon.')}</p></div>`;
-            return;
-        }
+        if (isSP()) return renderSP(host);
+        $('study-sections').hidden = false;
         const secs = studySections();
         if (!secs.length) { host.innerHTML = ''; return; }
         const lang = dataLang();
@@ -140,6 +154,34 @@
         const chip = row.querySelector('.active');
         if (chip) row.scrollLeft = chip.offsetLeft - row.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2;
         renderPicker(secs, summaries, quizzes);
+        renderHost(summaries, quizzes);
+        pinSticky();
+    }
+
+    // Shikshapatri: six section pills, a fixed heading with the shloka range, then the same summary and quiz
+    async function renderSP(host) {
+        const lang = dataLang();
+        const { summaries, quizzes, meta } = await loadStudyData(lang, true);
+        if (dataLang() !== lang || !isSP()) return;
+        spMeta = meta;
+        const ids = Object.keys(meta).map(Number);
+        if (!ids.length) { host.innerHTML = `<div class="study-soon"><i class="fas fa-hourglass-half"></i><p>${t('શિક્ષાપત્રીનો સારાંશ અને ક્વિઝ ટૂંક સમયમાં આવશે.', 'Summaries and quizzes for the Shikshapatri are coming soon.')}</p></div>`; return; }
+        if (!meta[st.spSec]) st.spSec = ids[0];
+        const row = $('study-sections');
+        row.hidden = false;
+        row.innerHTML = ids.map(id =>
+            `<button type="button" class="search-chip${id === st.spSec ? ' active' : ''}" data-study-sp="${id}" role="tab" aria-selected="${id === st.spSec}">${esc(meta[id].pill)}</button>`).join('');
+        const chip = row.querySelector('.active');
+        if (chip) row.scrollLeft = chip.offsetLeft - row.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2;
+        const m = meta[st.spSec];
+        const picker = $('study-picker');
+        picker.hidden = false;
+        $('study-picker-list').hidden = true;
+        const head = $('study-picker-head');
+        head.hidden = false;
+        head.classList.remove('open');
+        head.setAttribute('aria-expanded', 'false');
+        head.innerHTML = `<span class="study-pick-num">${t('શ્લોક', 'Shloka')} ${esc(num(m.start))}–${esc(num(m.end))}</span><span class="study-pick-title">${esc(m.title)}</span>`;
         renderHost(summaries, quizzes);
         pinSticky();
     }
@@ -200,17 +242,19 @@
         pop.style.setProperty('--caret-x', `${a.left + a.width / 2 - box.left - popLeft}px`);
     }
 
-    const readButton = v => `<button type="button" class="quiz-secondary study-read" data-study-act="read" data-vid="${v.id}"><i class="fas fa-book-open"></i> ${t('આ વચનામૃત વાંચો', 'Read this Vachanamrut')}</button>`;
+    const readButton = v => (v.sp
+        ? `<button type="button" class="quiz-secondary study-read" data-study-act="read" data-sp="1" data-vid="${(spMeta[v.id] || { start: 1 }).start}"><i class="fas fa-book-open"></i> ${t('આ શ્લોકો વાંચો', 'Read these shlokas')}</button>`
+        : `<button type="button" class="quiz-secondary study-read" data-study-act="read" data-vid="${v.id}"><i class="fas fa-book-open"></i> ${t('આ વચનામૃત વાંચો', 'Read this Vachanamrut')}</button>`);
 
     function soonHtml(v) {
         return `<div class="study-soon"><i class="fas fa-hourglass-half"></i>
-            <p>${t('આ વચનામૃતનો સારાંશ અને ક્વિઝ ટૂંક સમયમાં આવશે.', 'The summary and quiz for this Vachanamrut are coming soon.')}</p>
+            <p>${t('સારાંશ અને ક્વિઝ ટૂંક સમયમાં આવશે.', 'The summary and quiz are coming soon.')}</p>
             ${readButton(v)}</div>`;
     }
 
     function renderHost(summaries, quizzes) {
         const host = $('study-host');
-        const v = st.vid ? findVachanamrut(st.vid) : null;
+        const v = curV();
         if (!v) { host.innerHTML = `<p class="study-hint">${t('ઉપરથી વચનામૃત પસંદ કરો.', 'Choose a Vachanamrut above.')}</p>`; return; }
         const item = summaries[v.id];
         const items = quizzes[v.id] || [];
@@ -218,7 +262,7 @@
             if (!item) { host.innerHTML = soonHtml(v); return; }
             const themes = (item.themes || []).map(id => NIDIDHYAS_THEMES.find(th => th.id === id)).filter(Boolean)
                 .map(th => `<span class="study-theme">${esc(nididhyasName(th))}</span>`).join('');
-            const resume = !!progressAll()[v.id];
+            const resume = !!progressAll()[keyOf(v)];
             // Text size and reading theme are the same two settings as on the reading page
             const effective = appTheme === 'default' && window.Appearance && Appearance.isDark() ? 'dark' : appTheme;
             const swatch = (name, gu, e) => `<button type="button" class="theme-btn theme-${name}${appTheme === name ? ' active' : ''}" data-study-theme="${name}" data-label="${t(gu, e)}" title="${t(gu, e)}"></button>`;
@@ -262,13 +306,13 @@
 
     // Offer to resume when this quiz was left part-way; otherwise start a freshly shuffled one
     function openQuiz(total) {
-        const p = progressAll()[st.vid];
+        const p = progressAll()[curKey()];
         if (p && p.answers && p.answers.length && p.order.length === total && p.i < total) { st.prompt = p; st.quiz = null; }
         else startFresh(total);
     }
     function startFresh(total) {
         st.prompt = null;
-        st.quiz = { id: st.vid, order: shuffled(total), i: 0, answers: [] };
+        st.quiz = { id: curKey(), order: shuffled(total), i: 0, answers: [] };
         saveProgress();
     }
 
@@ -287,7 +331,7 @@
                     </div>
                 </div>`;
         }
-        if (!st.quiz || st.quiz.id !== v.id || st.quiz.order.length !== total) startFresh(total);
+        if (!st.quiz || st.quiz.id !== keyOf(v) || st.quiz.order.length !== total) startFresh(total);
         const q = st.quiz, finished = q.i >= total;
         q.items = q.order.map(k => items[k]);
         return `
@@ -316,8 +360,8 @@
         const score = q.items.reduce((n, item, i) => n + (q.answers[i] === item.a ? 1 : 0), 0);
         const best = saveBest(q.id, score);
         const message = score === total ? t('પૂરેપૂરા ગુણ! જય સ્વામિનારાયણ!', 'Perfect score. Jay Swaminarayan!')
-            : score >= 8 ? t('ઉત્તમ! તમે શ્રીજીમહારાજનો સંદેશ સારી રીતે સમજ્યા છો.', "Excellent. You have understood Maharaj's message well.")
-            : score >= 6 ? t('સારું. એકવાર ફરી વાંચી ફરી પ્રયત્ન કરો.', 'Good. Read it once more and try again.')
+            : score / total >= 0.8 ? t('ઉત્તમ! તમે શ્રીજીમહારાજનો સંદેશ સારી રીતે સમજ્યા છો.', "Excellent. You have understood Maharaj's message well.")
+            : score / total >= 0.6 ? t('સારું. એકવાર ફરી વાંચી ફરી પ્રયત્ન કરો.', 'Good. Read it once more and try again.')
             : t('આ વચનામૃત ફરી ધ્યાનથી વાંચી ફરી પ્રયત્ન કરો.', 'Read this Vachanamrut again with attention, then try once more.');
         const missed = q.items.filter((item, i) => q.answers[i] !== item.a);
         const review = missed.length ? `<div class="quiz-review"><h4>${t('ફરી જુઓ', 'Review')}</h4>${missed.map(item =>
@@ -329,7 +373,7 @@
                 <p class="quiz-best">${t('શ્રેષ્ઠ', 'Best')}: ${num(best)} / ${num(total)}</p>
                 <div class="study-actions two">
                     <button type="button" class="quiz-next" data-study-act="restart"><i class="fas fa-rotate-right"></i> ${t('ફરી ક્વિઝ આપો', 'Quiz again')}</button>
-                    ${readButton({ id: q.id })}
+                    ${readButton(curV() || { id: q.id })}
                 </div>
             </div>${review}`;
     }
@@ -363,7 +407,14 @@
             }
             if (st.aa && !e.target.closest('.study-pop') && !e.target.closest('[data-study-act="aa"]')) { st.aa = false; render(); }
             const scripture = e.target.closest('[data-study-scripture]');
-            if (scripture) { st.scripture = scripture.dataset.studyScripture; render(); return; }
+            if (scripture) {
+                const next = scripture.dataset.studyScripture;
+                if (next !== st.scripture) { st.scripture = next; st.open = false; st.quiz = null; st.prompt = null; st.mode = 'summary'; st.aa = false; }
+                render();
+                return;
+            }
+            const spPill = e.target.closest('[data-study-sp]');
+            if (spPill) { st.spSec = Number(spPill.dataset.studySp); st.quiz = null; st.prompt = null; st.mode = 'summary'; st.aa = false; persist(); render(); return; }
 
             const sec = e.target.closest('[data-study-sec]');
             if (sec) {
@@ -373,7 +424,7 @@
                 render();
                 return;
             }
-            if (e.target.closest('#study-picker-head')) { st.open = !st.open; render(); return; }
+            if (e.target.closest('#study-picker-head') && !isSP()) { st.open = !st.open; render(); return; }
             const pick = e.target.closest('[data-study-vid]');
             if (pick) { st.vid = Number(pick.dataset.studyVid); st.open = false; st.quiz = null; st.prompt = null; st.mode = 'summary'; persist(); render(); return; }
 
@@ -389,12 +440,16 @@
             const act = e.target.closest('[data-study-act]');
             if (!act) return;
             const what = act.dataset.studyAct;
-            if (what === 'read') { openVachanamrutById(Number(act.dataset.vid)); return; }
+            if (what === 'read') {
+                if (act.dataset.sp) Shikshapatri.showSloka(Number(act.dataset.vid));
+                else openVachanamrutById(Number(act.dataset.vid));
+                return;
+            }
             if (what === 'aa') { st.aa = !st.aa; render(); return; }
-            const total = (((await loadStudyData(dataLang())).quizzes)[st.vid] || []).length;
+            const total = (((await loadStudyData(dataLang(), isSP())).quizzes)[isSP() ? st.spSec : st.vid] || []).length;
             if (what === 'quiz') { st.mode = 'quiz'; openQuiz(total); }
             else if (what === 'summary') { st.mode = 'summary'; } // progress is already saved
-            else if (what === 'continue') { const p = st.prompt; st.quiz = { id: st.vid, order: p.order, i: p.i, answers: p.answers }; st.prompt = null; }
+            else if (what === 'continue') { const p = st.prompt; st.quiz = { id: curKey(), order: p.order, i: p.i, answers: p.answers }; st.prompt = null; }
             else if (what === 'restart') { startFresh(total); }
             else if (what === 'next') { st.quiz.i += 1; saveProgress(); }
             else if (what === 'prev') { st.quiz.i = Math.max(0, st.quiz.i - 1); saveProgress(); }

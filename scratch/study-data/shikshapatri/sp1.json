@@ -1,0 +1,381 @@
+{
+  "id": 1,
+  "range": "1–48",
+  "pill": {
+    "gu": "સામાન્ય સદાચાર",
+    "en": "General Conduct"
+  },
+  "title": {
+    "gu": "મંગલાચરણ અને સામાન્ય સદાચાર",
+    "en": "Invocation & Universal Moral Code"
+  },
+  "themes": [
+    "dharma",
+    "sadhana"
+  ],
+  "en": {
+    "key": "One should strictly observe scriptural moral conduct, practice non-violence toward all beings, and devotedly worship Bhagwan Shri Krishna while abandoning all vices.",
+    "summary": [
+      "Bhagwan Swaminarayan begins this sacred epistle by meditating upon Shri Krishna Bhagwan, resplendent with Radhikaji and Lakshmiji in Vrindavan. From the holy town of Vadtal, He addresses this benevolent code of conduct to all disciples, including the Acharyas, brahmacharis, householders, women, and sadhus. He emphasizes that the scripture is composed for the eternal spiritual welfare of all souls. Those who faithfully observe scriptural moral conduct attain immense peace and happiness in this life and the next, whereas willful transgression yields deep sorrow.",
+      "Shriji Maharaj establishes non-violence as the foremost virtue, prohibiting harm to any creature, even minute insects or animals traditionally used in sacrificial rites. He firmly forbids suicide under all circumstances, warning devotees never to end their lives in anger, distress, or places of pilgrimage. Devotees must never consume meat, intoxicating liquors, or harmful narcotics, even in times of extreme emergency. Furthermore, He strictly bans adultery, gambling, theft even for pious causes, and the utter falsehood of bearing false witness or abusive speech.",
+      "To preserve spiritual purity, Maharaj directs devotees to shun unrighteous company, including deceitful alchemists, hypocrites, and those who pursue sense pleasures under the pretext of devotion. Devotees should consume only filtered water and milk, practice mindful environmental cleanliness, and refuse food cooked by illicit sources. When traveling, one should respectfully bow before sacred shrines like Shivalayas without sectarian bias. Respect must always be accorded to gurus, learned scholars, and virtuous elders, visiting them with humble offerings and never praising oneself.",
+      "Maharaj proclaims that devotion to God must never be divorced from dharma, nor abandoned due to the mockery of worldly critics. Disciples are instructed to wear the sacred double-stranded kanthi and bear the holy urdhva-pundra tilak-chandlo as a badge of spiritual surrender. He highlights the essential non-difference of Narayan and Shiva, who are both revealed as Supreme Brahman in the Vedas. Disciples must remain steadfast in their prescribed duties and never seek recourse in emergency allowances during ordinary, minor hardships."
+    ]
+  },
+  "gu": {
+    "key": "શાસ્ત્રોક્ત સદાચાર અને અહિંસાદિક ધર્મનું દૃઢપણે પાલન કરવું, સર્વ વ્યસનોનો ત્યાગ કરવો અને નિષ્કામ ભાવે શ્રીકૃષ્ણ ભગવાનની ભક્તિનું સેવન કરવું.",
+    "summary": [
+      "શ્રીજીમહારાજે મંગલાચરણમાં વૃંદાવનવિહારી રાધા-લક્ષ્મીસહિત શ્રીકૃષ્ણ ભગવાનનું ધ્યાન ધરીને સર્વ આશ્રિતોના કલ્યાણ અર્થે વડતાલથી આ શિક્ષાપત્રીનું નિરૂપણ કર્યું છે. તેમણે ધર્મવંશી આચાર્યો, નૈષ્ઠિક બ્રહ્મચારીઓ, ગૃહસ્થ હરિભક્તો, સાંખ્યયોગી બહેનો તથા મુક્તાનંદ સ્વામી આદિક સર્વે સાધુઓને સંબોધીને આ હિતકારી આજ્ઞાઓ ઉચ્ચારી છે. સત્શાસ્ત્ર પ્રતિપાદિત અહિંસા આદિક સદાચારનું પાલન કરનાર મનુષ્ય આ લોક અને પરલોકમાં પરમ સુખને પામે છે. જ્યારે મનસ્વીપણે વર્તીને સદાચારનું ઉલ્લંઘન કરનાર કુબુદ્ધિવાળા જીવો નિશ્ચય મોટા કષ્ટ અને સંકટને વહોરે છે.",
+      "શ્રીજીમહારાજ સર્વપ્રથમ અહિંસાને પરમ ધર્મ ગણાવીને સૂક્ષ્મ જીવજંતુથી માંડીને પશુ-પક્ષી કે મનુષ્યમાત્રની હિંસાનો સર્વથા નિષેધ કરે છે. દેવ કે પિતૃના યજ્ઞના બહાને પણ જીવહિંસા ન કરવી અને ક્રોધ કે મૂંઝવણમાં આવીને ક્યારેય આત્મહત્યા ન કરવી. કોઈ પણ કાળમાં માંસ, મદ્ય કે ભાંગ-ગાંજા જેવા કેફી પદાર્થોનું સેવન નૈવેદ્ય કે ઔષધિના રૂપમાં પણ ન કરવું. આ ઉપરાંત ચોરી, વ્યભિચાર, જુગાર, ખોટો આળ ચડાવવો કે કોઈને અપશબ્દો કહેવા જેવા અસદાચારનો સદંતર ત્યાગ કરવાનો દૃઢ આદેશ આપ્યો છે.",
+      "જીવનમાં નિર્મળતા જાળવવા મહારાજ ગાળેલા જળ તથા દૂધનો ઉપયોગ કરવાનો અને પવિત્ર સ્થળોએ સ્વચ્છતા રાખવાનો ઉપદેશ આપે છે. જ્ઞાન કે ભક્તિના ઓઠા હેઠળ વિષયો ભોગવનારા કપટીઓ, ચોર અને દુર્વ્યસનીઓનો સંગ ક્યારેય ન કરવો. માર્ગમાં આવતા શિવાલયાદિક દેવમંદિરોને આદરપૂર્વક વંદન કરવા અને વેદ, સાધુ, તીર્થ કે પતિવ્રતા સ્ત્રીઓની નિંદા ન કરવી. ગુરુ, રાજા અને વિદ્વાનોનું હંમેશાં સન્માન કરવું અને તેમના દર્શને જતી વખતે ક્યારેય ખાલી હાથે ન જવું.",
+      "મહારાજે સ્પષ્ટ કર્યું છે કે શ્રીકૃષ્ણ ભગવાનની ભક્તિ સદાય ધર્મ સહિત જ કરવી અને લોકોની નિંદાના ભયથી ભક્તિનો ક્યારેય ત્યાગ ન કરવો. સત્સંગીઓએ કંઠમાં બેવડી તુલસીની માળા અને ભાલમાં ગોપીચંદનનું ઊર્ધ્વપુંડ્ર તિલક-ચાંદલો ધારણ કરીને પોતાની વૈષ્ણવી છાપ જાળવવી. નારાયણ અને શિવજી બંને વેદપ્રતિપાદિત બ્રહ્મસ્વરૂપ હોવાથી તેમની વચ્ચે અભેદભાવ સમજવો. સર્વ હરિભક્તોએ પોતાના વર્ણાશ્રમના ધર્મો પાળવા અને સામાન્ય મુશ્કેલીઓમાં આપદ્ધર્મનો આશરો ન લેવો."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 0,
+      "en": {
+        "q": "According to the scripture, what is the consequence of following moral conduct?",
+        "correct": "Attainment of happiness in both worlds",
+        "wrong": [
+          "Gaining political power and fame",
+          "Accumulation of enormous worldly wealth",
+          "Complete freedom from physical sickness"
+        ],
+        "why": "The scripture states that those observing righteous conduct attain great happiness here and hereafter."
+      },
+      "gu": {
+        "q": "સદાચારનું પાલન કરનાર મનુષ્યને શાસ્ત્ર અનુસાર શું ફળ મળે છે?",
+        "correct": "આ લોક અને પરલોકમાં સુખ",
+        "wrong": [
+          "રાજ્ય અને સંપત્તિની પ્રાપ્તિ",
+          "સર્વ રોગોથી કાયમી મુક્તિ",
+          "સામાજિક પ્રતિષ્ઠા અને યશ"
+        ],
+        "why": "શાસ્ત્રમાં કહ્યું છે કે સદાચાર પાળનાર મનુષ્ય આ લોક અને પરલોકમાં મહાસુખ પામે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Why is animal sacrifice prohibited even during sacred yajnas?",
+        "correct": "Non-violence is the highest dharma",
+        "wrong": [
+          "Animals are difficult to obtain",
+          "Rituals become too costly",
+          "Sacrifices require rare herbs"
+        ],
+        "why": "Scriptures declare that non-violence is the highest dharma above all ritual sacrifices."
+      },
+      "gu": {
+        "q": "યજ્ઞમાં પણ પશુબલિ આપવાની શા માટે મનાઈ કરવામાં આવી છે?",
+        "correct": "અહિંસા એ જ પરમ ધર્મ છે",
+        "wrong": [
+          "પશુઓની પ્રાપ્તિ મુશ્કેલ છે",
+          "યજ્ઞનો ખર્ચ વધી જાય છે",
+          "કેવળ ઔષધિઓથી યજ્ઞ થાય છે"
+        ],
+        "why": "સર્વ શાસ્ત્રોમાં અહિંસાને જ સૌથી મોટો ધર્મ કહ્યો છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Under what circumstance does the scripture permit committing suicide?",
+        "correct": "Suicide is never permitted anywhere",
+        "wrong": [
+          "In times of deep grief",
+          "During severe social humiliation",
+          "At holy pilgrimage places"
+        ],
+        "why": "The scripture forbids suicide under all circumstances, even at sacred pilgrimage sites or in extreme distress."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર કયા સંજોગોમાં આત્મહત્યા કરવાની છૂટ છે?",
+        "correct": "કોઈ પણ સંજોગોમાં ક્યારેય નહિ",
+        "wrong": [
+          "તીર્થક્ષેત્રમાં પ્રાણ ત્યાગવા",
+          "અતિશય દુઃખ અને ક્રોધમાં",
+          "અપયશ કે મૂંઝવણ થાય ત્યારે"
+        ],
+        "why": "તીર્થમાં પણ કે ક્રોધ તથા મૂંઝવણથી પણ આત્મહત્યા કરવાની સ્પષ્ટ મનાઈ છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How should a devotee treat meat or intoxicants offered as holy sacrificial remnants?",
+        "correct": "Always reject and abstain completely",
+        "wrong": [
+          "Accept them as holy prasad",
+          "Consume only a tiny fraction",
+          "Take them during severe illness"
+        ],
+        "why": "The scripture explicitly forbids meat and intoxicants even if they are sacrificial remnants or offered to deities."
+      },
+      "gu": {
+        "q": "યજ્ઞશેષ કે દેવનૈવેદ્ય તરીકે મળેલા માંસ કે મદ્ય પ્રત્યે કેવો વ્યવહાર કરવો?",
+        "correct": "સર્વથા ત્યાગ કરવો",
+        "wrong": [
+          "પવિત્ર પ્રસાદ ગણી સ્વીકાર કરવો",
+          "અતિ અલ્પ માત્રામાં ગ્રહણ કરવું",
+          "ગંભીર રોગ હોય ત્યારે જ લેવું"
+        ],
+        "why": "યજ્ઞનું શેષ હોય કે દેવનું નૈવેદ્ય હોય તો પણ માંસ અને મદ્યનો સદંતર નિષેધ છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Is taking an object without the owner's permission allowed for performing religious duties?",
+        "correct": "It is strictly forbidden at all times",
+        "wrong": [
+          "Allowed only for building temples",
+          "Permitted if performing urgent yajna",
+          "Allowed when taking mere flowers"
+        ],
+        "why": "Stealing is prohibited even for righteous causes, and nothing owned should be taken without consent."
+      },
+      "gu": {
+        "q": "ધર્મકાર્ય માટે પણ કોઈની વસ્તુ તેની પરવાનગી વિના લેવી યોગ્ય છે?",
+        "correct": "કોઈ પણ સંજોગોમાં તે સર્વથા વર્જ્ય છે",
+        "wrong": [
+          "મંદિર નિર્માણ માટે લઈ શકાય",
+          "ઉત્સવ કે પૂજા હોય ત્યારે છૂટ છે",
+          "પુષ્પ કે કાષ્ઠ લેવામાં દોષ નથી"
+        ],
+        "why": "ધર્મ કરવાને અર્થે પણ ચોરીનું કર્મ ક્યારેય ન કરવું અને માલિકની આજ્ઞા વિના કશું ન લેવું."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Where is accepting prasad exempted from the general restrictions of caste and cook?",
+        "correct": "In the sacred realm of Jagannathpuri",
+        "wrong": [
+          "At any riverside pilgrim shrine",
+          "In any grand royal temple",
+          "During major seasonal festivals"
+        ],
+        "why": "The prasad of Lord Jagannath in Jagannathpuri incurs no fault even when general rules of acceptable touch apply."
+      },
+      "gu": {
+        "q": "વર્ણ અને પાક સંબંધી નિયમોમાં કયા પવિત્ર ધામના પ્રસાદ માટે વિશેષ છૂટ છે?",
+        "correct": "જગન્નાથપુરીના જગન્નાથજીના પ્રસાદમાં",
+        "wrong": [
+          "ગંગા કિનારાના સર્વ તીર્થોમાં",
+          "કોઈ પણ પ્રાચીન રાજમંદિરમાં",
+          "મોટા વાર્ષિક ઉત્સવોના ભોજનમાં"
+        ],
+        "why": "શાસ્ત્રમાં સ્પષ્ટતા છે કે જગન્નાથપુરીમાં જગન્નાથજીનો પ્રસાદ લેવામાં કોઈ દોષ નથી."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "According to the scripture, what kind of truthful statement should one never speak?",
+        "correct": "Truth that harms oneself or others",
+        "wrong": [
+          "Truth regarding spiritual wisdom",
+          "Truth spoken before a king",
+          "Truth that praises virtuous deeds"
+        ],
+        "why": "One should never speak a truth that inflicts injury or ruin upon oneself or another soul."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર કેવું સત્ય વચન પણ ક્યારેય ન બોલવું?",
+        "correct": "પોતાનો કે પારકો દ્રોહ થાય તેવું",
+        "wrong": [
+          "રાજા કે ન્યાયાધીશ સમક્ષ બોલાતું",
+          "આધ્યાત્મિક જ્ઞાન સંબંધી હોય તેવું",
+          "અન્યના સદ્ગુણોની પ્રશંસા કરતું"
+        ],
+        "why": "જે સત્ય વચન બોલવાથી પોતાનો કે અન્ય કોઈનો દ્રોહ થાય તે સત્ય પણ ન બોલવું."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How does the scripture regard the divine status of Narayan and Shiva?",
+        "correct": "They are fundamentally one Supreme Brahman",
+        "wrong": [
+          "They represent opposing cosmic forces",
+          "Shiva is inferior to demigods",
+          "Narayan belongs to another creation"
+        ],
+        "why": "The Vedas describe both Narayan and Shiva as manifestations of the one Supreme Brahman."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર નારાયણ અને શિવજી વચ્ચે કેવો સંબંધ સમજવો?",
+        "correct": "બંને તત્ત્વતઃ એક જ બ્રહ્મરૂપ છે",
+        "wrong": [
+          "બંને પરસ્પર વિરોધી શક્તિઓ છે",
+          "શિવજી અન્ય દેવો કરતાં ઊતરતા છે",
+          "નારાયણ અન્ય સૃષ્ટિના કર્તા છે"
+        ],
+        "why": "વેદોમાં નારાયણ અને શિવજી બંનેનું બ્રહ્મરૂપે એકાત્મપણું પ્રતિપાદન કરવામાં આવ્યું છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "From whom should a devotee never listen to spiritual discourses?",
+        "correct": "One whose speech damages faith and dharma",
+        "wrong": [
+          "An ascetic living in deep forests",
+          "A scholar who quotes the scriptures",
+          "A teacher from a distant region"
+        ],
+        "why": "One should never hear spiritual discourses from those whose words weaken one's devotion or adherence to dharma."
+      },
+      "gu": {
+        "q": "કોના મુખેથી ભગવાનની કથાવાર્તા ક્યારેય ન સાંભળવી?",
+        "correct": "જેનાથી ભક્તિ અને ધર્મમાંથી પડાય",
+        "wrong": [
+          "વનમાં રહેતા તપસ્વી સાધુ પાસેથી",
+          "શાસ્ત્રનું જ્ઞાન આપતા પંડિત પાસેથી",
+          "દૂરના દેશમાંથી આવેલા આચાર્ય પાસેથી"
+        ],
+        "why": "જેના વચન સાંભળવાથી ભગવાનની ભક્તિ અને પોતાના ધર્મમાંથી પડી જવાય તેના મુખે કથા ન સાંભળવી."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Why does the scripture mandate filtering water and milk before drinking?",
+        "correct": "To prevent consuming minute organisms",
+        "wrong": [
+          "To improve taste and visual appeal",
+          "To preserve the liquid longer",
+          "To fulfill ancient ritual customs"
+        ],
+        "why": "Drinking unfiltered liquids risks inadvertently killing and consuming living micro-organisms."
+      },
+      "gu": {
+        "q": "પાણી અને દૂધ ગાળીને જ પીવાની આજ્ઞા શા માટે આપવામાં આવી છે?",
+        "correct": "સૂક્ષ્મ જીવોની રક્ષા અને શુદ્ધિ અર્થે",
+        "wrong": [
+          "સ્વાદ અને સુગંધ વધારવા માટે",
+          "લાંબા સમય સુધી સાચવી રાખવા",
+          "કેવળ પરંપરાગત રીત રિવાજ માટે"
+        ],
+        "why": "ગાળ્યા વગરના જળ અને દૂધમાં રહેલા અસંખ્ય ઝીણા જીવોની હિંસા ન થાય તે માટે ગાળવું અનિવાર્ય છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Which medicine is strictly prohibited according to the scripture?",
+        "correct": "Medicine containing alcohol or meat",
+        "wrong": [
+          "Medicine made from forest tree bark",
+          "Herbal mixtures prepared with ginger",
+          "Traditional powders taken with milk"
+        ],
+        "why": "Medicine containing liquor or meat, or prescribed by an unknown doctor, is never to be consumed."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર કયું ઔષધ લેવાની સ્પષ્ટ મનાઈ છે?",
+        "correct": "મદ્ય કે માંસયુક્ત ઔષધ",
+        "wrong": [
+          "વનસ્પતિનાં મૂળિયાંમાંથી બનેલી દવા",
+          "સૂંઠ અને હળદરનું આયુર્વેદિક ચૂર્ણ",
+          "દૂધ સાથે લેવાતી દેશી ફાકી"
+        ],
+        "why": "દારૂ તથા માંસથી યુક્ત હોય અથવા અજાણ્યા વૈદ્યે આપેલું હોય તેવું ઔષધ ક્યારેય ન ખાવું."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Where does the scripture prohibit spitting or relieving oneself?",
+        "correct": "Public paths, fields, gardens, and temples",
+        "wrong": [
+          "Only inside modern private washrooms",
+          "Isolated barren wastelands far away",
+          "Dedicated disposal grounds behind houses"
+        ],
+        "why": "Custom and scriptures forbid polluting paths, cultivated fields, gardens, water banks, and temple premises."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર ક્યાં મળમૂત્ર કરવાની કે થૂંકવાની સખત મનાઈ છે?",
+        "correct": "માર્ગ, ખેતર, બગીચા અને દેવાલયમાં",
+        "wrong": [
+          "ઘરમાં બનાવેલા શૌચાલયની અંદર",
+          "વસ્તીથી દૂર આવેલા નિર્જન પ્રદેશમાં",
+          "કચરાના નિકાલ માટેના ખાડામાં"
+        ],
+        "why": "માર્ગ, વાવેલું ખેતર, વૃક્ષની છાયા, જળાશયના આરા અને દેવાલય જેવા સ્થળોને અશુદ્ધ ન કરવા."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "According to the scripture, which action should be performed immediately?",
+        "correct": "Any virtuous deed concerning dharma",
+        "wrong": [
+          "Any financial investment in business",
+          "Retaliation against an insulting opponent",
+          "Hastily purchasing properties or assets"
+        ],
+        "why": "The scripture instructs that actions related to dharma must be performed immediately without delay."
+      },
+      "gu": {
+        "q": "શાસ્ત્ર અનુસાર કયું કાર્ય વિચાર્યા વિના તત્કાળ કરી લેવું જોઈએ?",
+        "correct": "ધર્મ સંબંધી ઉત્તમ સત્કાર્ય",
+        "wrong": [
+          "વેપારમાં નાણાંનું મોટું રોકાણ",
+          "અપમાન કરનારનો તુરંત બદલો લેવો",
+          "વિચાર્યા વિના સંપત્તિની ખરીદી કરવી"
+        ],
+        "why": "સામાન્ય કાર્યો વિચારપૂર્વક કરવાં પરંતુ ધર્મ સંબંધી કાર્યોમાં જરાય વિલંબ કર્યા વિના તત્કાળ કરવાં."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How should one approach a guru, deity, or king for darshan?",
+        "correct": "Never visit them empty-handed",
+        "wrong": [
+          "With loud declarations of achievements",
+          "Wearing expensive luxurious royal attire",
+          "Accompanied by prominent political leaders"
+        ],
+        "why": "Disciples are instructed never to go empty-handed when going for darshan of a guru, deity, or king."
+      },
+      "gu": {
+        "q": "ગુરુ, દેવ કે રાજાના દર્શને જતી વખતે કેવો વિવેક રાખવો?",
+        "correct": "ક્યારેય ખાલી હાથે ન જવું",
+        "wrong": [
+          "પોતાના વખાણ મુખેથી કરવા",
+          "કિંમતી વસ્ત્રાલંકારોનું પ્રદર્શન કરવું",
+          "વિશ્વાસઘાતથી લાભ મેળવવાનો પ્રયાસ કરવો"
+        ],
+        "why": "ગુરુ, દેવ અને રાજા એ ત્રણના દર્શને જતી વખતે ક્યારેય ઠાલે હાથે ન જવાનો શાસ્ત્રનો નિયમ છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What does the scripture instruct regarding devotion and public criticism?",
+        "correct": "Never abandon devotion fearing public scorn",
+        "wrong": [
+          "Suspend devotion until critics approve",
+          "Practice devotion secretly without dharma",
+          "Abandon moral rules during criticisms"
+        ],
+        "why": "Devotion to Shri Krishna should never be abandoned out of fear of criticism from worldly individuals."
+      },
+      "gu": {
+        "q": "અજ્ઞાની લોકોની નિંદાના ભય સામે ભક્તિ વિશે શું આજ્ઞા આપી છે?",
+        "correct": "લોકોના ભયથી સેવાનો ત્યાગ ન કરવો",
+        "wrong": [
+          "લોકમત શાંત થાય ત્યાં સુધી અટકવું",
+          "ધર્મ વિના કેવળ ગુપ્ત ભક્તિ કરવી",
+          "લોકો રાજી થાય તેવો વેશ લેવો"
+        ],
+        "why": "અજ્ઞાની મનુષ્યોની નિંદાના ભયથી શ્રીકૃષ્ણ ભગવાનની ભક્તિ કે સેવાનો ક્યારેય ત્યાગ ન કરવો."
+      }
+    }
+  ]
+}
