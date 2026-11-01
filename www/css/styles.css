@@ -11937,11 +11937,11 @@ html:not(.dark) #footer .footer-switch-btn {
 }
 
 .study-key {
-    font-size: calc(1.05rem * var(--study-scale, 1));
+    font-size: calc(1.05rem * 1.2 * var(--study-scale, 1));
 }
 
 .study-text {
-    font-size: calc(0.98rem * var(--study-scale, 1));
+    font-size: calc(0.98rem * 1.2 * var(--study-scale, 1));
 }
 
 .study-pop {
@@ -12032,4 +12032,38 @@ html.dark .study-sticky {
 .study-sticky {
     margin-left: 0;
     margin-right: 0;
+}
+
+/* Two buttons side by side: Begin quiz / Quiz again, and Read this Vachanamrut */
+.study-actions.two {
+    flex-direction: row;
+    gap: 10px;
+}
+
+.study-actions.two > button {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 0.88rem;
+    line-height: 1.25;
+}
+
+.quiz-next-row.two {
+    display: flex;
+    gap: 10px;
+}
+
+.quiz-next-row.two .quiz-prev {
+    flex: 0 0 auto;
+}
+
+.quiz-next-row.two .quiz-next {
+    flex: 1 1 0;
+    width: auto;
+}
+
+.quiz-next-row .quiz-prev:only-child {
+    width: auto;
 }

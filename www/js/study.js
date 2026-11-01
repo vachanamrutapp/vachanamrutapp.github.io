@@ -245,12 +245,15 @@
                     ${[].concat(item.summary).map(p => `<p class="study-text">${esc(p)}</p>`).join('')}
                     ${themes ? `<div class="study-themes">${themes}</div>` : ''}
                 </section>
-                <div class="study-actions">${readButton(v)}</div>`;
+                <div class="study-actions two">
+                    ${items.length ? `<button type="button" class="quiz-next study-begin" data-study-act="quiz"><i class="fas fa-play"></i> ${resume ? t('ક્વિઝ ચાલુ રાખો', 'Resume quiz') : t('ક્વિઝ શરૂ કરો', 'Begin quiz')}</button>` : ''}
+                    ${readButton(v)}
+                </div>`;
             aimCaret();
             return;
         }
         if (!items.length) { host.innerHTML = soonHtml(v); return; }
-        host.innerHTML = quizHtml(v, items) + `<div class="study-actions">${readButton(v)}</div>`;
+        host.innerHTML = quizHtml(v, items);
     }
 
     // ---- Quiz ---------------------------------------------------------------------------------
@@ -302,7 +305,9 @@
             const why = answered && k === item.a ? `<span class="quiz-opt-why">${esc(item.why)}</span>` : '';
             return `<button type="button" class="quiz-opt${cls}" data-k="${k}"${answered ? ' disabled' : ''}><span class="quiz-letter">${letters()[k]}</span><span class="quiz-opt-text">${esc(text)}${why}</span></button>`;
         }).join('');
-        const next = answered ? `<div class="quiz-next-row"><button type="button" class="quiz-next" data-study-act="next">${last ? t('પરિણામ જુઓ', 'See result') : t('આગળ', 'Next')} <i class="fas fa-arrow-right"></i></button></div>` : '';
+        const prev = q.i > 0 ? `<button type="button" class="quiz-secondary quiz-prev" data-study-act="prev"><i class="fas fa-arrow-left"></i> ${t('પાછળ', 'Back')}</button>` : '';
+        const forward = answered ? `<button type="button" class="quiz-next" data-study-act="next">${last ? t('પરિણામ જુઓ', 'See result') : t('આગળ', 'Next')} <i class="fas fa-arrow-right"></i></button>` : '';
+        const next = prev || forward ? `<div class="quiz-next-row${prev && forward ? ' two' : ''}">${prev}${forward}</div>` : '';
         return `<h3 class="quiz-q">${esc(item.q)}</h3><div class="quiz-options">${opts}</div>${next}`;
     }
 
@@ -322,8 +327,9 @@
                 <div class="quiz-score"><b>${num(score)}</b><span>/ ${num(total)}</span></div>
                 <p class="quiz-message">${message}</p>
                 <p class="quiz-best">${t('શ્રેષ્ઠ', 'Best')}: ${num(best)} / ${num(total)}</p>
-                <div class="quiz-actions">
-                    <button type="button" class="quiz-next" data-study-act="restart"><i class="fas fa-rotate-right"></i> ${t('ફરી પ્રયત્ન કરો', 'Try again')}</button>
+                <div class="study-actions two">
+                    <button type="button" class="quiz-next" data-study-act="restart"><i class="fas fa-rotate-right"></i> ${t('ફરી ક્વિઝ આપો', 'Quiz again')}</button>
+                    ${readButton({ id: q.id })}
                 </div>
             </div>${review}`;
     }
@@ -391,6 +397,7 @@
             else if (what === 'continue') { const p = st.prompt; st.quiz = { id: st.vid, order: p.order, i: p.i, answers: p.answers }; st.prompt = null; }
             else if (what === 'restart') { startFresh(total); }
             else if (what === 'next') { st.quiz.i += 1; saveProgress(); }
+            else if (what === 'prev') { st.quiz.i = Math.max(0, st.quiz.i - 1); saveProgress(); }
             await render();
             if (what !== 'continue') document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
         });
