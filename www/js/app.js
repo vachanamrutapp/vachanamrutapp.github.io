@@ -37,7 +37,7 @@ if (!Array.isArray(shikshapatriFavourites)) shikshapatriFavourites = [];
 if (!Array.isArray(shikshapatriNididhyasGroups)) shikshapatriNididhyasGroups = [];
 if (Array.isArray(shikshapatriFavouriteGroups)) shikshapatriFavouriteGroups = {};
 let savedScripture = 'vachanamrut';
-let favouriteFilter = 'all'; // Study Time topic pill that is selected ('all', a group id or '__none')
+let favouriteFilter = 'all'; // Nididhyas topic pill that is selected ('all', a group id or '__none')
 let nididhyasCurrentScripture = 'vachanamrut';
 let nididhyasCurrentId = null;
 let nididhyasSelected = new Set();
@@ -1729,7 +1729,7 @@ function saveNididhyas() {
     if (!isShik && btn) btn.innerHTML = '<i class="fas fa-heart"></i>';
     if (isShik) window.Shikshapatri?.updateFavouriteButton();
     closeNididhyasPanel();
-    showToast(wasSaved ? (uiEnglish() ? 'Study Time updated' : 'અભ્યાસ સમય બદલાયો') : (uiEnglish() ? 'Saved to Study Time' : 'અભ્યાસ સમયમાં સાચવ્યું'), 'fas fa-heart');
+    showToast(wasSaved ? (uiEnglish() ? 'Nididhyas updated' : 'નિદિધ્યાસ બદલાયો') : (uiEnglish() ? 'Saved to Nididhyas' : 'નિદિધ્યાસમાં સાચવ્યું'), 'fas fa-heart');
     if (document.getElementById('saved-screen').classList.contains('active')) renderSavedPage();
 }
 
@@ -1778,7 +1778,7 @@ function setupNididhyasPanel() {
                 groups.push(group);
                 localStorage.setItem(isShik ? 'shikshapatriNididhyasGroups' : 'nididhyasGroups', JSON.stringify(groups));
                 renderSavedPage();
-                showToast(uiEnglish() ? 'Study Time group created' : 'અભ્યાસનો વિષય બનાવ્યો', 'far fa-lightbulb');
+                showToast(uiEnglish() ? 'Nididhyas group created' : 'અભ્યાસનો વિષય બનાવ્યો', 'far fa-lightbulb');
                 closeNididhyasPanel();
                 return;
             }
@@ -3081,7 +3081,7 @@ function renderFavourites() {
         const organize = document.createElement('button');
         organize.type = 'button';
         organize.className = 'nididhyas-organize';
-        organize.setAttribute('aria-label', uiEnglish() ? 'Change Study Time groups' : 'અભ્યાસના વિષય બદલો');
+        organize.setAttribute('aria-label', uiEnglish() ? 'Change Nididhyas groups' : 'અભ્યાસના વિષય બદલો');
         organize.innerHTML = '<i class="fas fa-layer-group"></i>';
         organize.addEventListener('click', () => openNididhyasPanel(id, savedScripture));
         row.append(card, organize);
@@ -3917,7 +3917,7 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
         titleString = isGuj ? 'ઓડિયો | વચનામૃત' : 'Audio | Vachanamrut';
         descString = isGuj ? 'બધા વચનામૃત ઓડિયો સ્વરૂપે સાંભળો.' : 'Listen to every Vachanamrut as audio.';
     } else if (screenId === 'notes-screen') {
-        titleString = isGuj ? 'અભ્યાસ સમય | વચનામૃત' : 'Study Time | Vachanamrut';
+        titleString = isGuj ? 'નિદિધ્યાસ | વચનામૃત' : 'Nididhyas | Vachanamrut';
         descString = isGuj ? 'દરેક વચનામૃતનો સારાંશ વાંચો અને ક્વિઝ આપો.' : 'Read the summary of each Vachanamrut and take its quiz.';
     } else if (screenId === 'saved-screen') {
         titleString = isGuj ? 'મનપસંદ અને નોંધ | વચનામૃત અને શિક્ષાપત્રી' : 'Favourites & Notes | Vachanamrut and Shikshapatri';

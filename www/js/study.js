@@ -1,4 +1,4 @@
-// Study Time: pick a section (pills), pick a Vachanamrut (dropdown), then read its summary.
+// Nididhyas: pick a section (pills), pick a Vachanamrut (dropdown), then read its summary.
 // The summary flips to a 10-question quiz (shuffled each time, progress saved) and back.
 // Data: stored in assets/data/vachanamrut.db (tables study_summaries and study_quizzes for the Vachanamruts,
 // shikshapatri_study_* for the six Shikshapatri sections). Anything without data shows "coming soon".
@@ -124,6 +124,9 @@
     async function render() {
         const host = $('study-host');
         if (!host) return;
+        const sp = st.scripture === 'shikshapatri';
+        if ($('study-tag-gu')) $('study-tag-gu').textContent = sp ? 'શિક્ષાપત્રીના દરેક વિભાગનો સારાંશ વાંચો અને ક્વિઝ આપો.' : 'દરેક વચનામૃતનો સારાંશ વાંચો અને ક્વિઝ આપો.';
+        if ($('study-tag-en')) $('study-tag-en').textContent = sp ? 'Read the summary of each Shikshapatri section and take its quiz.' : 'Read the summary of each Vachanamrut and take its quiz.';
         document.querySelectorAll('[data-study-scripture]').forEach(b => {
             const on = b.dataset.studyScripture === st.scripture;
             b.classList.toggle('active', on);

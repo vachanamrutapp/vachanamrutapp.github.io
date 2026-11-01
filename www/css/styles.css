@@ -10729,7 +10729,7 @@ html.dark .bhashya-header .toggle-icon {
     color: #FFFFFF;
 }
 
-/* Study Time, note sheets and search have one black-and-white control palette. */
+/* Nididhyas, note sheets and search have one black-and-white control palette. */
 html.dark :is(#notes-screen, #saved-screen) .notes-title,
 html.dark :is(#notes-screen, #saved-screen) .nididhyas-intro-row h3,
 html.dark :is(#notes-screen, #saved-screen) .nididhyas-group-heading,
@@ -10865,7 +10865,7 @@ html.dark .search-overlay {
 }
 
 /* ===========================================================
-   Pills (1.12.3): the selected pill on the Audio page is clear in light mode too, Study Time
+   Pills (1.12.3): the selected pill on the Audio page is clear in light mode too, Nididhyas
    filters by topic with the same pills, and the "save to topic" sheet picks topics as pills
    =========================================================== */
 .ap-chips .search-chip {
@@ -10952,8 +10952,8 @@ html.dark .ap-chips .search-chip.active small {
 }
 
 /* ===========================================================
-   Study Time header (1.12.3): three controls, three shapes. A small switch picks the scripture,
-   one segmented bar picks Study Time or Notes, and pills filter Study Time by topic.
+   Nididhyas header (1.12.3): three controls, three shapes. A small switch picks the scripture,
+   one segmented bar picks Nididhyas or Notes, and pills filter Nididhyas by topic.
    =========================================================== */
 :is(#notes-screen, #saved-screen) .notes-head {
     align-items: flex-start;
@@ -11407,7 +11407,7 @@ html.dark .quiz-next { background: #F3F3F3; color: #111111; box-shadow: none; }
 html.dark .quiz-secondary { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.25); color: #FFFFFF; }
 
 /* ===========================================================
-   Study Time: three tabs (Study / Favourites / Notes) and the Study tab itself
+   Nididhyas: three tabs (Study / Favourites / Notes) and the Study tab itself
    =========================================================== */
 .saved-tabs .saved-tab {
     padding: 10px 4px;
