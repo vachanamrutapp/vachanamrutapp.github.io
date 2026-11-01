@@ -525,6 +525,10 @@ function showVachanamrut(vachanamrut, pushState = true) {
         vachanamrutSetting.style.display = 'none';
     }
 
+    // The Study shortcut exists for the 262 Vachanamruts only
+    const studyBtn = document.getElementById('study-open-btn');
+    if (studyBtn) studyBtn.style.display = safeId >= 1 && safeId <= 262 ? '' : 'none';
+
     // Setup chapter-specific images for Partharo
     const partharoImages = {
         10001: 'images/Partharo/swaminarayan-birth.webp',
@@ -3465,7 +3469,7 @@ function showScreen(screenId, pushState = true) {
             renderJourneyPage();
         }
         if (screenId === 'saved-screen') setSavedScripture(currentScripture);
-        if (screenId === 'notes-screen' && window.Study) Study.render();
+        if (screenId === 'notes-screen' && window.Study) Study.open();
         if (screenId === 'audio-screen' && window.AudioPage) AudioPage.show();
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
@@ -3614,19 +3618,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pill) {
         const drop = pill.querySelector('.tab-bar-drop');
         let pressing = false, settleTimer;
+        // Position from layout metrics (offsetLeft/offsetWidth), not getBoundingClientRect: the bar
+        // shrinks to 86% while a page scrolls, and a rect measured mid-shrink put the droplet in the
+        // wrong place with nothing to correct it afterwards.
         const placeDrop = (btn, visible) => {
             if (!drop) return;
-            if (btn) {
-                const b = btn.getBoundingClientRect(), f = pill.getBoundingClientRect();
-                if (b.width) {
-                    drop.style.width = `${b.width}px`;
-                    drop.style.transform = `translateX(${b.left - f.left - (parseFloat(getComputedStyle(pill).borderLeftWidth) || 0)}px)`;
-                }
+            if (btn && btn.offsetWidth) {
+                drop.style.width = `${btn.offsetWidth}px`;
+                drop.style.transform = `translateX(${btn.offsetLeft}px)`;
             }
             drop.classList.toggle('show', !!btn && visible);
         };
         const settleDrop = () => {
-            if (!pressing) placeDrop(pill.querySelector('.footer-tab.active'), true);
+            if (!pressing) placeDrop(document.body.classList.contains('search-open') ? document.getElementById('footer-search-btn') : pill.querySelector('.footer-tab.active'), true);
         };
         pill.querySelectorAll('.footer-tab').forEach(btn => {
             btn.addEventListener('pointerdown', () => {
@@ -3636,12 +3640,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             new MutationObserver(settleDrop).observe(btn, { attributes: true, attributeFilter: ['class'] });
         });
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach(type => pill.addEventListener(type, () => {
+        ['pointerup', 'pointercancel', 'pointerleave', 'click', 'touchend', 'touchcancel'].forEach(type => pill.addEventListener(type, () => {
             if (!pressing) return;
             clearTimeout(settleTimer);
             settleTimer = setTimeout(() => { pressing = false; settleDrop(); }, 260);
         }));
         if (window.ResizeObserver) new ResizeObserver(settleDrop).observe(pill);
+        ['resize', 'orientationchange', 'pageshow'].forEach(type => window.addEventListener(type, () => { pressing = false; settleDrop(); }));
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) { pressing = false; settleDrop(); } });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(settleDrop);
         settleDrop();
 
         // Search circle: a soft ripple on tap

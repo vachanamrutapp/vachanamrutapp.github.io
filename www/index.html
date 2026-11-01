@@ -98,7 +98,7 @@
     <link rel="preload" as="image" href="images/yellow-bg.webp">
     <link rel="stylesheet" href="css/fonts.css?v=1">
     <link rel="stylesheet" href="css/fontawesome.css?v=1">
-    <link rel="stylesheet" href="css/styles.css?v=160">
+    <link rel="stylesheet" href="css/styles.css?v=170">
     <meta name="theme-color" content="#E6A623">
     <script src="js/appearance.js?v=2"></script>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -224,6 +224,9 @@
                         </button>
                         <button id="facts-pill-btn" class="facts-pill" title="Facts about this Vachanamrut" aria-label="Show facts">
                             <i class="fas fa-info-circle"></i>
+                        </button>
+                        <button type="button" id="study-open-btn" class="facts-pill study-open-btn" title="Study this Vachanamrut: summary and quiz" aria-label="Study this Vachanamrut: summary and quiz">
+                            <i class="far fa-lightbulb"></i>
                         </button>
                         <button type="button" class="facts-pill find-open-btn" title="Find in this Vachanamrut" aria-label="Find in this Vachanamrut">
                             <i class="fas fa-search"></i>
@@ -612,16 +615,18 @@
                         <h2 class="notes-title"><span class="lang-guj">અભ્યાસ સમય</span><span class="lang-eng">Study Time</span></h2>
                         <p class="saved-intro"><span class="lang-guj">દરેક વચનામૃતનો સારાંશ વાંચો અને ક્વિઝ આપો.</span><span class="lang-eng">Read the summary of each Vachanamrut and take its quiz.</span></p>
                     </div>
-                    <div class="saved-scripture-scope study-switch" role="tablist" aria-label="Summary or quiz">
-                        <button type="button" class="saved-scope-btn active" role="tab" aria-selected="true" data-study-mode="summary"><span class="lang-guj">સારાંશ</span><span class="lang-eng">Summary</span></button>
-                        <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-study-mode="quiz"><span class="lang-guj">ક્વિઝ</span><span class="lang-eng">Quiz</span></button>
+                    <div class="saved-scripture-scope study-switch" role="tablist" aria-label="Scripture">
+                        <button type="button" class="saved-scope-btn active" role="tab" aria-selected="true" data-study-scripture="vachanamrut"><span class="lang-guj">વચનામૃત</span><span class="lang-eng">Vachanamrut</span></button>
+                        <button type="button" class="saved-scope-btn" role="tab" aria-selected="false" data-study-scripture="shikshapatri"><span class="lang-guj">શિક્ષાપત્રી</span><span class="lang-eng">Shikshapatri</span></button>
                     </div>
                 </div>
                 <section id="saved-study-panel" class="saved-panel">
-                    <div id="study-sections" class="ap-chips study-sections" role="tablist" aria-label="Section"></div>
-                    <div id="study-picker" class="study-picker" hidden>
-                        <button type="button" id="study-picker-head" class="study-picker-head" aria-expanded="false"></button>
-                        <div id="study-picker-list" class="study-picker-list" hidden></div>
+                    <div class="study-sticky">
+                        <div id="study-sections" class="ap-chips study-sections" role="tablist" aria-label="Section"></div>
+                        <div id="study-picker" class="study-picker" hidden>
+                            <button type="button" id="study-picker-head" class="study-picker-head" aria-expanded="false"></button>
+                            <div id="study-picker-list" class="study-picker-list" hidden></div>
+                        </div>
                     </div>
                     <div id="study-host" class="study-host"></div>
                 </section>
@@ -843,10 +848,10 @@
             <button id="footer-home-btn" class="footer-tab" type="button" aria-label="Vachanamrut home" title="Home">
                 <i class="fas fa-home footer-tab-icon"></i>
             </button>
+            <button id="footer-search-btn" class="footer-tab footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search footer-tab-icon"></i></button>
             <button id="footer-audio-btn" class="footer-tab" type="button" aria-label="Vachanamrut audio" title="Vachanamrut audio">
                 <i class="fas fa-headphones footer-tab-icon"></i>
             </button>
-            <button id="footer-search-btn" class="footer-tab footer-search-btn" type="button" aria-label="Search" title="Search"><i class="fas fa-search footer-tab-icon"></i></button>
             <button id="footer-notes-btn" class="footer-tab" type="button" aria-label="Study Time" title="Study Time">
                 <i class="far fa-lightbulb footer-tab-icon"></i>
             </button>
@@ -983,13 +988,13 @@
 
     <script src="js/sql-wasm.js"></script>
     <script src="js/search-core.js?v=1"></script>
-    <script src="js/app.js?v=80"></script>
+    <script src="js/app.js?v=83"></script>
     <script src="js/shikshapatri.js?v=9"></script>
-    <script src="js/search.js?v=9"></script>
+    <script src="js/search.js?v=10"></script>
     <script src="js/annotations.js?v=7"></script>
     <script src="js/background-audio.js?v=2"></script>
     <script src="js/audio-page.js?v=15"></script>
-    <script src="js/study.js?v=8"></script>
+    <script src="js/study.js?v=15"></script>
     <script src="js/reminders.js?v=8"></script>
     <script src="js/onboarding.js?v=19"></script>
     <script>

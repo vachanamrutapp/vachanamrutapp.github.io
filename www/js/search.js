@@ -321,10 +321,14 @@
         run(input.value);
     }
 
+    // The bottom bar stays visible over the search page, with the Search tab selected
+    const searchTab = $('footer-search-btn');
+
     function open(startScope = currentScripture) {
         closeFind();
         startBuilding();
         overlay.style.display = 'flex';
+        searchTab.classList.add('active');
         document.body.classList.add('search-open');
         setScope(startScope);
         setTimeout(() => input.focus(), 50);
@@ -332,6 +336,7 @@
 
     function close() {
         overlay.style.display = 'none';
+        searchTab.classList.remove('active');
         document.body.classList.remove('search-open');
         input.blur();
     }
@@ -376,7 +381,10 @@
         const row = e.target.closest('.search-result');
         if (row) openResult(row.dataset.kind, parseInt(row.dataset.id), (row.dataset.keys || '').split(' ').filter(Boolean));
     });
-    $('footer-search-btn').addEventListener('click', () => open());
+    // Search tab toggles the page; any other tab closes it first and then goes where it normally goes
+    searchTab.addEventListener('click', () => (isOpen() ? close() : open()));
+    document.querySelectorAll('#footer .footer-tab:not(#footer-search-btn), #footer-switch-btn').forEach(btn =>
+        btn.addEventListener('click', () => { if (isOpen()) close(); }));
 
     // ---- Find in page -------------------------------------------------------------
     const findBar = $('find-bar');

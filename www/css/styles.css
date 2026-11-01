@@ -11754,3 +11754,269 @@ html.dark .study-pick-best {
 .study-text + .study-text {
     margin-top: 12px;
 }
+
+/* ---- Study: summary head with a Quiz button, quiz back button, resume prompt ---- */
+.study-head {
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.study-head-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.study-quiz-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #B7303A 0%, #8E1C26 100%);
+    color: #FFE8B4;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow: 0 4px 12px rgba(120, 20, 28, 0.28);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-quiz-chip:active {
+    transform: scale(0.96);
+}
+
+.quiz-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.study-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1.5px solid rgba(165, 37, 44, 0.28);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.quiz-resume-icon {
+    margin-bottom: 8px;
+    color: #A5252C;
+    font-size: 1.8rem;
+}
+
+.study-pick-best.going {
+    background: rgba(165, 37, 44, 0.12);
+    color: #A5252C;
+}
+
+.study-read {
+    width: 100%;
+}
+
+html.dark .study-quiz-chip { background: #F3F3F3; color: #111111; box-shadow: none; }
+html.dark .study-back { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.25); color: #FFFFFF; }
+html.dark .quiz-resume-icon { color: #FFD3A0; }
+html.dark .study-pick-best.going { background: rgba(255, 255, 255, 0.14); color: #FFD3A0; }
+
+.study-host .study-actions {
+    margin-top: 18px;
+}
+
+/* Quiz: the explanation sits inside the correct option; only a Next button follows */
+.quiz-opt-text {
+    display: block;
+}
+
+.quiz-opt-why {
+    display: block;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(46, 125, 50, 0.35);
+    color: #1B5E20;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.quiz-opt.correct:disabled,
+.quiz-opt.wrong:disabled {
+    color: #2C1D18;
+}
+
+.quiz-opt:disabled {
+    cursor: default;
+}
+
+.quiz-next-row {
+    margin-top: 16px;
+}
+
+.quiz-next-row .quiz-next {
+    width: 100%;
+}
+
+html.dark .quiz-opt-why { border-top-color: rgba(129, 199, 132, 0.4); color: #A5D6A7; }
+html.dark .quiz-opt.correct:disabled,
+html.dark .quiz-opt.wrong:disabled { color: #FFFFFF; }
+
+.quiz-next-row {
+    scroll-margin-bottom: 130px;
+}
+
+/* The switcher shows the other scripture's book, whole (not a zoomed portrait) */
+#footer .footer-switch-btn,
+html.dark #footer .footer-switch-btn,
+html:not(.dark) #footer .footer-switch-btn {
+    flex: 0 0 50px;
+    width: 50px;
+    height: 50px;
+    margin: 0 2px 0 4px;
+    overflow: visible;
+    border-radius: 14px;
+    background: transparent;
+    box-shadow: none;
+}
+
+#footer .footer-switch-btn img,
+#footer .footer-switch-btn:active img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: none;
+    filter: drop-shadow(0 3px 5px rgba(60, 25, 0, 0.45));
+}
+
+#footer .footer-switch-btn:active {
+    transform: scale(0.92);
+}
+
+/* ---- Summary: Aa button, text size and reading theme (same settings as the reading page) ---- */
+.study-summary {
+    position: relative;
+}
+
+.study-head-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.study-aa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.28) 100%);
+    box-shadow: var(--glass-rim), 0 3px 8px rgba(60, 35, 0, 0.16);
+    color: #A5252C;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-aa .aa-glyph {
+    font-size: 0.9rem;
+}
+
+.study-key {
+    font-size: calc(1.05rem * var(--study-scale, 1));
+}
+
+.study-text {
+    font-size: calc(0.98rem * var(--study-scale, 1));
+}
+
+.study-pop {
+    left: auto;
+    right: 0;
+    min-width: 190px;
+}
+
+.study-pop .font-size-display {
+    color: #2C1D18;
+}
+
+html .study-summary.study-t-default {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 244, 214, 0.5) 100%);
+    color: #3A2A1E;
+}
+
+html .study-summary.study-t-sepia {
+    background: rgba(244, 236, 216, 0.96);
+    color: #2D1E16;
+}
+
+html .study-summary.study-t-sepia .study-key,
+html .study-summary.study-t-sepia .study-head { color: #6E3F1B; }
+html .study-summary.study-t-sepia .study-theme { background: rgba(110, 63, 27, 0.12); color: #6E3F1B; }
+html .study-summary.study-t-sepia .study-aa { color: #6E3F1B; }
+
+html .study-summary.study-t-dark {
+    background: #1E1E21;
+    color: #E8E8EA;
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.14), 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+html .study-summary.study-t-dark .study-key { color: #FFD3A0; }
+html .study-summary.study-t-dark .study-head { color: #F7C844; }
+html .study-summary.study-t-dark .study-theme { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; }
+html .study-summary.study-t-dark .study-aa { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; box-shadow: none; }
+html .study-summary.study-t-dark .study-quiz-chip { background: #F3F3F3; color: #111111; box-shadow: none; }
+
+html.dark .study-pop .font-size-display { color: #FFFFFF; }
+
+/* Search page: the bottom bar stays on top of it, and results scroll clear of the bar */
+body.search-open #footer.app-tab-bar {
+    z-index: 10030;
+}
+
+body.search-open #footer .footer-tab.active:not(.footer-search-btn) {
+    color: inherit;
+}
+
+.search-overlay .search-body {
+    padding-bottom: calc(var(--bar-h) + var(--bar-bottom, 8px) + 28px);
+}
+
+/* Study: the section pills and the chosen Vachanamrut stay pinned under the header while you read
+   the summary or work through the quiz */
+.study-sticky {
+    position: sticky;
+    top: calc(var(--safe-top) + 58px);
+    z-index: 20;
+    margin: 0 -16px 10px;
+    padding: 6px 16px 4px;
+    background: linear-gradient(180deg, rgba(236, 172, 44, 0.97) 0%, rgba(236, 172, 44, 0.93) 85%, rgba(236, 172, 44, 0) 100%);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.study-sticky .study-sections {
+    margin-bottom: 4px;
+}
+
+.study-sticky .study-picker {
+    margin: 4px 0 6px;
+}
+
+html.dark .study-sticky {
+    background: linear-gradient(180deg, rgba(18, 18, 20, 0.97) 0%, rgba(18, 18, 20, 0.93) 85%, rgba(18, 18, 20, 0) 100%);
+}
