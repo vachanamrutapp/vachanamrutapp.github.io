@@ -181,6 +181,11 @@
         if (!sticky || !main || !header) return;
         const pad = parseFloat(getComputedStyle(main).paddingTop) || 0;
         sticky.style.top = `${Math.round(header.getBoundingClientRect().bottom - pad)}px`;
+        // Reach the card's edges exactly (its padding changes with screen size) so nothing spills sideways
+        const card = sticky.closest('.glass-card');
+        const inset = card ? parseFloat(getComputedStyle(card).paddingLeft) || 0 : 0;
+        sticky.style.marginLeft = sticky.style.marginRight = `${-inset}px`;
+        sticky.style.paddingLeft = sticky.style.paddingRight = `${inset}px`;
     }
     window.addEventListener('resize', pinSticky);
 

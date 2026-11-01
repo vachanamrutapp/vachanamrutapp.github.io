@@ -12020,3 +12020,16 @@ body.search-open #footer .footer-tab.active:not(.footer-search-btn) {
 html.dark .study-sticky {
     background: linear-gradient(180deg, rgba(18, 18, 20, 0.97) 0%, rgba(18, 18, 20, 0.93) 85%, rgba(18, 18, 20, 0) 100%);
 }
+
+/* The page only scrolls up and down: no sideways drift, and no pinch zoom (pill rows keep their own
+   horizontal scroll) */
+#main-content {
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+}
+
+.study-sticky {
+    margin-left: 0;
+    margin-right: 0;
+}
