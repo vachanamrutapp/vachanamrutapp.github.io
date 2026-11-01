@@ -1,0 +1,250 @@
+{
+ "id": 176,
+ "themes": ["bhakti", "atma"],
+ "en": {
+  "key": "One should transcend the three gunas to behave purely as the atma and offer love unto God that is brahmaswarup.",
+  "summary": [
+   "Shriji Maharaj opens a spiritual inquiry by asking whether a devotee who is gunatit and behaves purely as the atma maintains love for God. He characterizes such an enlightened devotee as entirely transcending the three gunas: free from sattvagun in the form of detachment, rajogun in the form of worldly desire, and tamogun in the form of passiveness. Completely free from mental distractions and thoughts, this nirgun devotee abides in a state of tranquil equanimity resembling deep sleep. Yet, even while established in this pure spiritual existence, the devotee continues to cherish heartfelt love for God.",
+   "Maharaj further elucidates that this pure love for God is sajati to the atma, meaning it shares the innate, homogeneous nature of the self rather than being alien or material. Citing the revered traditions of Madhvacharya, Nimbark, and Vallabhacharya, He affirms that love directed to God while abiding as the atma is defined by the great acharyas as brahmaswarup. Shriji Maharaj thus establishes the central principle that one who has transcended the three gunas and loves God with this pure spiritual devotion is truly brahmaswarup."
+  ]
+ },
+ "gu": {
+  "key": "ગુણાતીત થઈ કેવળ આત્મારૂપે વર્તવું અને ભગવાનને વિષે બ્રહ્મસ્વરૂપ પ્રીતિ રાખવી.",
+  "summary": [
+   "શ્રીજીમહારાજ સભામાં જિજ્ઞાસા પ્રગટ કરીને પ્રશ્ન પૂછે છે કે જે ભક્ત ગુણાતીત થઈને કેવળ સત્તારૂપે વર્તતો હોય તેને ભગવાનને વિષે પ્રીતિ હોય કે ન હોય. તેઓ ગુણોની સ્થિતિ સ્પષ્ટ કરતાં જણાવે છે કે તે ભક્તમાં વૈરાગ્યરૂપ સત્ત્વગુણ, વિષયમાં પ્રીતિરૂપ રજોગુણ અને મૂઢપણારૂપ તમોગુણ એ ત્રણેય ગુણોના ભાવ હોતા નથી. તે સર્વ સંકલ્પ અને ઉત્થાનથી રહિત થઈને શૂન્યસમતા ધારણ કરે છે અને સુષુપ્તિ જેવી નિર્વિકલ્પ અવસ્થામાં સત્તારૂપે રહે છે. આવા નિર્ગુણ ભક્તને પણ પરમેશ્વર પ્રત્યે સાચી પ્રીતિ અખંડ રહે છે.",
+   "આગળ વિચાર કરતાં શ્રીજીમહારાજ સમજાવે છે કે સત્તારૂપે રહેલા ભક્તની ભગવાન પ્રત્યેની પ્રીતિ આત્માને સજાતિ છે, વિજાતિ નથી. આત્મારૂપે વર્તીને કરવામાં આવતી આવી દિવ્ય ભક્તિને મધ્વાચાર્ય, નિંબાર્ક અને વલ્લભાચાર્ય જેવા મોટા આચાર્યોએ બ્રહ્મસ્વરૂપ કહી છે. તેથી મહારાજ પરમ સિદ્ધાંત સ્થાપિત કરે છે કે માયાના ત્રણેય ગુણોથી પર થઈને જે ભક્ત ભગવાનને વિષે અનન્ય સ્નેહ કરે છે, તે જ સાચેસાચ બ્રહ્મસ્વરૂપ છે."
+  ]
+ },
+ "quiz": [
+  {
+   "a": 1,
+   "en": {
+    "q": "According to this discourse, what form does sattvagun take?",
+    "correct": "In the form of detachment",
+    "wrong": [
+     "In the form of pride",
+     "In the form of inertia",
+     "In the form of desire"
+    ],
+    "why": "Maharaj explains that sattvagun manifests in the form of vairagya."
+   },
+   "gu": {
+    "q": "આ વચનામૃત અનુસાર સત્ત્વગુણ કયા રૂપે રહેલો છે?",
+    "correct": "વૈરાગ્યરૂપે રહે છે",
+    "wrong": [
+     "અભિમાનરૂપે રહે છે",
+     "આળસરૂપે રહે છે",
+     "વાસનારૂપે રહે છે"
+    ],
+    "why": "મહારાજ જણાવે છે કે વૈરાગ્યરૂપ જે સત્ત્વગુણ છે."
+   }
+  },
+  {
+   "a": 3,
+   "en": {
+    "q": "How does rajogun manifest according to Shriji Maharaj?",
+    "correct": "Love for worldly sense objects",
+    "wrong": [
+     "Anger towards other devotees",
+     "Slumber and deep delusion",
+     "Austerity and severe penance"
+    ],
+    "why": "Maharaj states that rajogun manifests in the form of affection for worldly objects."
+   },
+   "gu": {
+    "q": "શ્રીજીમહારાજના જણાવ્યા મુજબ રજોગુણનું સ્વરૂપ શું છે?",
+    "correct": "વિષયમાં પ્રીતિરૂપે રહે છે",
+    "wrong": [
+     "હરિભક્તો પર ક્રોધરૂપે",
+     "નિદ્રા અને ગાઢ મોહરૂપે",
+     "કઠિન વ્રત અને તપરૂપે"
+    ],
+    "why": "મહારાજ કહે છે કે વિષયમાં પ્રીતિરૂપ જે રજોગુણ છે."
+   }
+  },
+  {
+   "a": 0,
+   "en": {
+    "q": "What is the nature of tamogun as described by Maharaj?",
+    "correct": "A state of passiveness or stupor",
+    "wrong": [
+     "Intense attachment to family",
+     "Yearning for spiritual knowledge",
+     "Selfless service to devotees"
+    ],
+    "why": "Maharaj describes tamogun as taking the form of passiveness or delusion."
+   },
+   "gu": {
+    "q": "મહારાજના વર્ણન પ્રમાણે તમોગુણનું લક્ષણ શું છે?",
+    "correct": "મૂઢપણારૂપ ભાવ ધારણ કરવો",
+    "wrong": [
+     "કુટુંબમાં ગાઢ આસક્તિ રાખવી",
+     "આત્મજ્ઞાન મેળવવાની તીવ્ર ઇચ્છા",
+     "હરિભક્તોની નિઃસ્વાર્થ સેવા કરવી"
+    ],
+    "why": "મહારાજ જણાવે છે કે તમોગુણ મૂઢપણારૂપે રહે છે."
+   }
+  },
+  {
+   "a": 2,
+   "en": {
+    "q": "What state does a gunatit devotee absorbed in the atma experience?",
+    "correct": "Thought-free void-like equanimity",
+    "wrong": [
+     "Constant emotional turbulence",
+     "Continuous worldly planning",
+     "Intense fear of future misery"
+    ],
+    "why": "Maharaj explains that such a devotee harbors no thoughts, holds void-like equanimity, and experiences a deep sleep-like state."
+   },
+   "gu": {
+    "q": "ગુણાતીત થઈ સત્તારૂપે રહેલો ભક્ત કેવી અવસ્થા ધારણ કરે છે?",
+    "correct": "ઉત્થાન રહિત શૂન્યસમતા ધરે છે",
+    "wrong": [
+     "સતત વ્યાકુળતા અને ભય",
+     "સાંસારિક કાર્યોનું આયોજન",
+     "ભાવિ દુઃખોની તીવ્ર ચિંતા"
+    ],
+    "why": "મહારાજ કહે છે કે તે ભક્ત ઉત્થાને રહિત શૂન્યસમતા ધરી રહે ને સુષુપ્તિ જેવી અવસ્થા વર્તે છે."
+   }
+  },
+  {
+   "a": 3,
+   "en": {
+    "q": "Which physical state does the gunatit devotee's condition resemble?",
+    "correct": "The state of deep sleep",
+    "wrong": [
+     "The dream state of mind",
+     "The wakeful active state",
+     "The state of physical death"
+    ],
+    "why": "Maharaj states that the devotee who behaves as the atma experiences a deep sleep-like state."
+   },
+   "gu": {
+    "q": "કેવળ સત્તારૂપે રહેલા ભક્તની સ્થિતિ કઈ અવસ્થા જેવી વર્તે છે?",
+    "correct": "સુષુપ્તિ જેવી અવસ્થા",
+    "wrong": [
+     "સ્વપ્નની ચંચળ અવસ્થા",
+     "જાગ્રતની સ્થૂળ અવસ્થા",
+     "મૃત્યુ પછીની જડ અવસ્થા"
+    ],
+    "why": "મહારાજ કહે છે કે સત્તારૂપે રહેલા તે ભક્તને સુષુપ્તિ જેવી અવસ્થા વર્તે છે."
+   }
+  },
+  {
+   "a": 1,
+   "en": {
+    "q": "Does a nirgun devotee who behaves as the atma have love for God?",
+    "correct": "Yes, he definitely possesses love",
+    "wrong": [
+     "No, all love ceases completely",
+     "Only until the body perishes",
+     "Only if he engages in rituals"
+    ],
+    "why": "The discourse affirms that one who behaves as the atma does indeed possess love for God."
+   },
+   "gu": {
+    "q": "સત્તારૂપે વર્તતા નિર્ગુણ ભક્તને ભગવાનમાં પ્રીતિ હોય કે નહીં?",
+    "correct": "હા, તેને ભગવાનમાં પ્રીતિ હોય છે",
+    "wrong": [
+     "ના, સર્વ પ્રીતિ નષ્ટ થાય છે",
+     "માત્ર જ્યાં સુધી દેહ રહે ત્યાં સુધી",
+     "માત્ર બાહ્ય પૂજા કરે ત્યારે જ"
+    ],
+    "why": "વચનામૃતમાં સ્પષ્ટ ઉત્તર છે કે જે સત્તારૂપે વર્તે તેને ભગવાનને વિષે પ્રીતિ તો હોય."
+   }
+  },
+  {
+   "a": 0,
+   "en": {
+    "q": "How is the devotee's love for God related to the atma?",
+    "correct": "It is sajati to the atma",
+    "wrong": [
+     "It is vijati to the atma",
+     "It is caused by the senses",
+     "It is created by maya"
+    ],
+    "why": "The discourse affirms that the love developed while behaving as the atma is sajati, or homogeneous with the atma."
+   },
+   "gu": {
+    "q": "સત્તારૂપે રહેલા ભક્તની પ્રીતિ આત્માને કેવી હોય છે?",
+    "correct": "તે આત્માને સજાતિ છે",
+    "wrong": [
+     "તે આત્માને વિજાતિ છે",
+     "તે ઇન્દ્રિયોથી ઉત્પન્ન છે",
+     "તે માયાનું પરિણામ છે"
+    ],
+    "why": "વચનામૃતમાં કહ્યું છે કે એ પ્રીતિ તો આત્માને સજાતિ છે."
+   }
+  },
+  {
+   "a": 2,
+   "en": {
+    "q": "Which acharyas' principle does Shriji Maharaj cite regarding this love?",
+    "correct": "Madhvacharya, Nimbark, and Vallabhacharya",
+    "wrong": [
+     "Shankaracharya, Ramanuja, and Kumarila",
+     "Gautama, Kanada, and Patanjali",
+     "Kapilamuni, Dattatreya, and Narada"
+    ],
+    "why": "Maharaj notes that Madhvacharya, Nimbark, and Vallabhacharya described love while behaving as the atma as brahmaswarup."
+   },
+   "gu": {
+    "q": "શ્રીજીમહારાજે આ પ્રીતિ સંદર્ભે કયા આચાર્યોનો સિદ્ધાંત કહ્યો?",
+    "correct": "મધ્વાચાર્ય, નિંબાર્ક ને વલ્લભાચાર્ય",
+    "wrong": [
+     "શંકરાચાર્ય, રામાનુજ ને કુમારિલ",
+     "ગૌતમમુનિ, કણાદ ને પતંજલિ",
+     "કપિલમુનિ, દત્તાત્રેય ને નારદજી"
+    ],
+    "why": "મહારાજ જણાવે છે કે મધ્વાચાર્ય, નિંબાર્ક ને વલ્લભાચાર્ય એમણે આત્મારૂપે રહીને કરેલી પ્રીતિને બ્રહ્મસ્વરૂપ કહી છે."
+   }
+  },
+  {
+   "a": 1,
+   "en": {
+    "q": "How do the great acharyas describe love offered to God while behaving as the atma?",
+    "correct": "As brahmaswarup love",
+    "wrong": [
+     "As worldly affection",
+     "As temporary devotion",
+     "As mechanical worship"
+    ],
+    "why": "Maharaj explains that the great acharyas described love for God while behaving as the atma as brahmaswarup."
+   },
+   "gu": {
+    "q": "મોટા આચાર્યોએ આત્મારૂપે રહીને ભગવાનમાં કરેલી પ્રીતિને કેવી કહી છે?",
+    "correct": "બ્રહ્મસ્વરૂપ પ્રીતિ કહી છે",
+    "wrong": [
+     "સાંસારિક મોહરૂપ કહી છે",
+     "ક્ષણિક ભક્તિરૂપ કહી છે",
+     "કેવળ ક્રિયારૂપ કહી છે"
+    ],
+    "why": "મહારાજ કહે છે કે આત્મારૂપે રહીને જે ભગવાનને વિષે પ્રીતિ કરવી એ પ્રીતિને બ્રહ્મસ્વરૂપ કહી છે."
+   }
+  },
+  {
+   "a": 3,
+   "en": {
+    "q": "According to the great acharyas, who is truly brahmaswarup?",
+    "correct": "One loving God after becoming gunatit",
+    "wrong": [
+     "One performing severe physical austerities",
+     "One gaining mastery over worldly arts",
+     "One memorizing all sacred scriptures"
+    ],
+    "why": "Maharaj concludes that one who has love for God after becoming gunatit is truly brahmaswarup."
+   },
+   "gu": {
+    "q": "મોટા આચાર્યોના સિદ્ધાંત મુજબ સાચેસાચ બ્રહ્મસ્વરૂપ કોણ છે?",
+    "correct": "ગુણાતીત થઈને ભગવાનમાં પ્રીતિ કરનાર",
+    "wrong": [
+     "કેવળ કઠોર શારીરિક તપ કરનાર",
+     "સાંસારિક કળાઓમાં નિપુણ થનાર",
+     "શાસ્ત્રોને કેવળ કંઠસ્થ કરનાર"
+    ],
+    "why": "મહારાજ સિદ્ધાંત કહે છે કે ગુણાતીત થઈને જે ભગવાનને વિષે પ્રીતિ કરે છે એ જ બ્રહ્મસ્વરૂપ છે."
+   }
+  }
+ ]
+}
