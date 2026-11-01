@@ -18,5 +18,7 @@ scratch/__pycache__/
 *.jks
 keystore.properties
 
+output/
+
 # Built app bundles/APKs for upload — not source
 release/

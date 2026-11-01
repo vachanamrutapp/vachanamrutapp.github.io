@@ -10302,7 +10302,7 @@ html:not(.dark) .reading-footer .nav-btn {
 }
 
 /* Saved: a glass sheet containing separate favourites and annotations views. */
-#notes-screen .saved-page-card {
+:is(#notes-screen, #saved-screen) .saved-page-card {
     max-width: 640px;
     padding: 24px 18px 28px;
     background: rgba(255, 255, 255, 0.2);
@@ -10311,8 +10311,8 @@ html:not(.dark) .reading-footer .nav-btn {
     box-shadow: var(--glass-rim), 0 14px 34px rgba(60, 35, 0, 0.14);
 }
 
-#notes-screen .notes-head { margin: 0 4px 18px; }
-#notes-screen .notes-title { font-size: 1.65rem; }
+:is(#notes-screen, #saved-screen) .notes-head { margin: 0 4px 18px; }
+:is(#notes-screen, #saved-screen) .notes-title { font-size: 1.65rem; }
 .saved-intro {
     margin: 5px 0 0;
     color: #624c3a;
@@ -10368,13 +10368,13 @@ html:not(.dark) .reading-footer .nav-btn {
 .saved-panel[hidden],
 #no-favourites-msg[hidden] { display: none !important; }
 
-#notes-screen #favourites-list {
+:is(#notes-screen, #saved-screen) #favourites-list {
     gap: 12px;
     margin: 0;
 }
 
-#notes-screen .fav-card,
-#notes-screen .my-note {
+:is(#notes-screen, #saved-screen) .fav-card,
+:is(#notes-screen, #saved-screen) .my-note {
     width: 100%;
     text-align: left;
     background: rgba(255, 255, 255, 0.38);
@@ -10385,14 +10385,14 @@ html:not(.dark) .reading-footer .nav-btn {
     font-family: inherit;
 }
 
-#notes-screen .my-note { border-left: 4px solid #A5252C; }
-#notes-screen .my-note.hl-edge-yellow { border-left-color: #F2C500; }
-#notes-screen .my-note.hl-edge-saffron { border-left-color: #FF8A1F; }
-#notes-screen .my-note.hl-edge-green { border-left-color: #4CAF50; }
-#notes-screen .my-note.hl-edge-blue { border-left-color: #2E8BEA; }
+:is(#notes-screen, #saved-screen) .my-note { border-left: 4px solid #A5252C; }
+:is(#notes-screen, #saved-screen) .my-note.hl-edge-yellow { border-left-color: #F2C500; }
+:is(#notes-screen, #saved-screen) .my-note.hl-edge-saffron { border-left-color: #FF8A1F; }
+:is(#notes-screen, #saved-screen) .my-note.hl-edge-green { border-left-color: #4CAF50; }
+:is(#notes-screen, #saved-screen) .my-note.hl-edge-blue { border-left-color: #2E8BEA; }
 
-#notes-screen .fav-card:active,
-#notes-screen .my-note:active { transform: scale(0.98); }
+:is(#notes-screen, #saved-screen) .fav-card:active,
+:is(#notes-screen, #saved-screen) .my-note:active { transform: scale(0.98); }
 
 .nididhyas-intro-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin: 0 2px 16px; }
 .nididhyas-intro-row h3 { color: #A5252C; font-size: 1.1rem; font-weight: 600; }
@@ -10404,7 +10404,7 @@ html:not(.dark) .reading-footer .nav-btn {
 .nididhyas-group-heading small { padding: 1px 7px; border-radius: 99px; background: rgba(165,37,44,.1); font-size: .72rem; }
 .nididhyas-group-empty { color: #624c3a; font-size: .8rem; padding: 7px 4px; }
 .nididhyas-favourite-row { display: flex; align-items: stretch; gap: 8px; }
-#notes-screen .nididhyas-favourite-row .fav-card { flex: 1; min-width: 0; margin: 0; }
+:is(#notes-screen, #saved-screen) .nididhyas-favourite-row .fav-card { flex: 1; min-width: 0; margin: 0; }
 .nididhyas-organize { flex: none; width: 44px; border: 1px solid rgba(255,255,255,.54); border-radius: 16px; background: rgba(255,255,255,.38); color: #A5252C; box-shadow: var(--glass-rim); cursor: pointer; }
 
 .nididhyas-overlay[hidden], .nididhyas-options[hidden], .nididhyas-actions > [hidden] { display: none !important; }
@@ -10435,8 +10435,8 @@ html.dark .nididhyas-option, html.dark .nididhyas-new-btn, html.dark .nididhyas-
 html.dark .nididhyas-option:has(input:checked) { background: rgba(255,255,255,.18); }
 html.dark .nididhyas-create-form label { color: #FFD3A0; }
 
-#notes-screen .saved-empty,
-#notes-screen .my-notes-empty {
+:is(#notes-screen, #saved-screen) .saved-empty,
+:is(#notes-screen, #saved-screen) .my-notes-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10450,24 +10450,24 @@ html.dark .nididhyas-create-form label { color: #FFD3A0; }
     box-shadow: var(--glass-rim);
 }
 
-#notes-screen .saved-empty i { font-size: 1.5rem; color: #A5252C; }
+:is(#notes-screen, #saved-screen) .saved-empty i { font-size: 1.5rem; color: #A5252C; }
 
-html.dark #notes-screen .saved-page-card { background: rgba(25, 22, 29, 0.62); }
-html.dark #notes-screen .saved-intro,
-html.dark #notes-screen .saved-empty,
-html.dark #notes-screen .my-notes-empty { color: #E3DEE4; }
-html.dark #notes-screen .saved-tabs,
-html.dark #notes-screen .fav-card,
-html.dark #notes-screen .my-note,
-html.dark #notes-screen .saved-empty,
-html.dark #notes-screen .my-notes-empty { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.16); }
-html.dark #notes-screen .saved-tab { color: #E3DEE4; }
-html.dark #notes-screen .saved-tab.active { background: rgba(255, 255, 255, 0.17); color: #FFFFFF; }
-html.dark #notes-screen .fav-number,
-html.dark #notes-screen .fav-title,
-html.dark #notes-screen .my-note-head,
-html.dark #notes-screen .my-note-quote,
-html.dark #notes-screen .my-note-text { color: #FFFFFF; }
+html.dark :is(#notes-screen, #saved-screen) .saved-page-card { background: rgba(25, 22, 29, 0.62); }
+html.dark :is(#notes-screen, #saved-screen) .saved-intro,
+html.dark :is(#notes-screen, #saved-screen) .saved-empty,
+html.dark :is(#notes-screen, #saved-screen) .my-notes-empty { color: #E3DEE4; }
+html.dark :is(#notes-screen, #saved-screen) .saved-tabs,
+html.dark :is(#notes-screen, #saved-screen) .fav-card,
+html.dark :is(#notes-screen, #saved-screen) .my-note,
+html.dark :is(#notes-screen, #saved-screen) .saved-empty,
+html.dark :is(#notes-screen, #saved-screen) .my-notes-empty { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.16); }
+html.dark :is(#notes-screen, #saved-screen) .saved-tab { color: #E3DEE4; }
+html.dark :is(#notes-screen, #saved-screen) .saved-tab.active { background: rgba(255, 255, 255, 0.17); color: #FFFFFF; }
+html.dark :is(#notes-screen, #saved-screen) .fav-number,
+html.dark :is(#notes-screen, #saved-screen) .fav-title,
+html.dark :is(#notes-screen, #saved-screen) .my-note-head,
+html.dark :is(#notes-screen, #saved-screen) .my-note-quote,
+html.dark :is(#notes-screen, #saved-screen) .my-note-text { color: #FFFFFF; }
 
 /* The floating navigation makes room for content while a page scrolls. */
 #footer.app-tab-bar,
@@ -10502,7 +10502,7 @@ html.dark #footer.app-tab-bar {
     border-radius: 21px;
 }
 #footer .footer-tab {
-    --nav-item: min(52px, calc((100vw - 100px) / 5));
+    --nav-item: min(52px, calc((100vw - 108px) / 6));
     display: flex;
     flex: 0 0 var(--nav-item);
     width: var(--nav-item);
@@ -10730,34 +10730,34 @@ html.dark .bhashya-header .toggle-icon {
 }
 
 /* Study Time, note sheets and search have one black-and-white control palette. */
-html.dark #notes-screen .notes-title,
-html.dark #notes-screen .nididhyas-intro-row h3,
-html.dark #notes-screen .nididhyas-group-heading,
+html.dark :is(#notes-screen, #saved-screen) .notes-title,
+html.dark :is(#notes-screen, #saved-screen) .nididhyas-intro-row h3,
+html.dark :is(#notes-screen, #saved-screen) .nididhyas-group-heading,
 html.dark .nididhyas-sheet h2,
 html.dark .nididhyas-create-form label,
 html.dark .nididhyas-option small,
 html.dark .nididhyas-remove,
 html.dark .note-sheet-delete,
-html.dark #notes-screen .saved-empty i {
+html.dark :is(#notes-screen, #saved-screen) .saved-empty i {
     color: #FFFFFF;
 }
-html.dark #notes-screen .my-note,
-html.dark #notes-screen .my-note[class*="hl-edge-"] {
+html.dark :is(#notes-screen, #saved-screen) .my-note,
+html.dark :is(#notes-screen, #saved-screen) .my-note[class*="hl-edge-"] {
     border-left-color: rgba(255, 255, 255, .38);
 }
-html.dark #notes-screen .saved-tab-count,
-html.dark #notes-screen .nididhyas-group-heading small,
+html.dark :is(#notes-screen, #saved-screen) .saved-tab-count,
+html.dark :is(#notes-screen, #saved-screen) .nididhyas-group-heading small,
 html.dark .my-notes-count {
     background: rgba(255, 255, 255, .14);
     color: #FFFFFF;
 }
-html.dark #notes-screen .saved-tab.active .saved-tab-count {
+html.dark :is(#notes-screen, #saved-screen) .saved-tab.active .saved-tab-count {
     background: rgba(0, 0, 0, .12);
     color: #111111;
 }
-html.dark #notes-screen .saved-scope-btn.active,
-html.dark #notes-screen .saved-tab.active,
-html.dark #notes-screen .my-notes-filters .search-chip.active,
+html.dark :is(#notes-screen, #saved-screen) .saved-scope-btn.active,
+html.dark :is(#notes-screen, #saved-screen) .saved-tab.active,
+html.dark :is(#notes-screen, #saved-screen) .my-notes-filters .search-chip.active,
 html.dark .search-header .search-scope-btn.active,
 html.dark .ap-chips .search-chip.active {
     background: #F3F3F3;
@@ -10773,7 +10773,7 @@ html.dark .nididhyas-save,
 html.dark .note-sheet-btn,
 html.dark .note-sheet-btn.primary,
 html.dark .note-sheet-delete,
-html.dark #notes-screen .notes-backup-nudge {
+html.dark :is(#notes-screen, #saved-screen) .notes-backup-nudge {
     background: #2A2A2D;
     border-color: rgba(255, 255, 255, .2);
     color: #FFFFFF;
@@ -10834,17 +10834,17 @@ html.dark .sp-bookmark-chip {
 
 /* Utility pages use the sheet colour as the page itself. Scripture homes,
    lists, and reading screens keep the illustrated background. */
-body:has(:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+body:has(:is(#settings-screen, #journey-screen, #audio-screen, :is(#notes-screen, #saved-screen)).active) {
     background-color: #E6A623;
     background-image: linear-gradient(160deg, #F4BD4E 0%, #E6A623 60%, #D99425 100%);
 }
-html.dark body:has(:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen).active) {
+html.dark body:has(:is(#settings-screen, #journey-screen, #audio-screen, :is(#notes-screen, #saved-screen)).active) {
     background-color: #0D0D10;
     background-image: none;
 }
-:is(#settings-screen, #journey-screen, #audio-screen, #notes-screen) > .glass-card.journey-page-card,
-#notes-screen > .glass-card.saved-page-card,
-html.dark :is(#settings-screen, #journey-screen, #audio-screen, #notes-screen) > .glass-card.journey-page-card {
+:is(#settings-screen, #journey-screen, #audio-screen, :is(#notes-screen, #saved-screen)) > .glass-card.journey-page-card,
+:is(#notes-screen, #saved-screen) > .glass-card.saved-page-card,
+html.dark :is(#settings-screen, #journey-screen, #audio-screen, :is(#notes-screen, #saved-screen)) > .glass-card.journey-page-card {
     max-width: 640px;
     margin: 0 auto;
     padding: 4px 0 32px;
@@ -10955,11 +10955,11 @@ html.dark .ap-chips .search-chip.active small {
    Study Time header (1.12.3): three controls, three shapes. A small switch picks the scripture,
    one segmented bar picks Study Time or Notes, and pills filter Study Time by topic.
    =========================================================== */
-#notes-screen .notes-head {
+:is(#notes-screen, #saved-screen) .notes-head {
     align-items: flex-start;
 }
 
-#notes-screen .notes-head > div:first-child {
+:is(#notes-screen, #saved-screen) .notes-head > div:first-child {
     flex: 1;
     min-width: 0;
 }
@@ -10980,25 +10980,777 @@ html.dark .ap-chips .search-chip.active small {
     font-size: 0.74rem;
 }
 
-#notes-screen .nididhyas-intro-row {
+:is(#notes-screen, #saved-screen) .nididhyas-intro-row {
     align-items: center;
     margin: 0 0 14px;
 }
 
-#notes-screen .nididhyas-intro-row .fav-chips {
+:is(#notes-screen, #saved-screen) .nididhyas-intro-row .fav-chips {
     flex: 1;
     min-width: 0;
     margin: 0;
     padding: 2px 2px 4px;
 }
 
-#notes-screen .nididhyas-intro-row .nididhyas-new-btn {
+:is(#notes-screen, #saved-screen) .nididhyas-intro-row .nididhyas-new-btn {
     margin-left: auto;
     padding: 8px 12px;
     border-radius: 999px;
 }
 
-/* Shikshapatri has no highlights tab, so a one-button tab bar would only be noise */
-.saved-tabs:has(#saved-annotations-tab[hidden]) {
+
+/* ===========================================================
+   Study mode (pilot): the divine-message summary on a reading and its quiz
+   =========================================================== */
+.study-summary {
+    margin: 18px 0;
+    padding: 16px 18px 18px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 244, 214, 0.5) 100%);
+    box-shadow: var(--glass-rim), 0 6px 18px rgba(60, 35, 0, 0.1);
+    color: #3A2A1E;
+}
+
+.study-summary[hidden] {
     display: none;
+}
+
+.study-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #A5252C;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.study-key {
+    margin: 0 0 8px;
+    color: #762d2d;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.study-text {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.65;
+}
+
+.study-themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.study-theme {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.1);
+    color: #A5252C;
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+
+.study-quiz-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #B7303A 0%, #8E1C26 100%);
+    color: #FFE8B4;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(120, 20, 28, 0.3);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-quiz-btn span {
+    flex: 1;
+    text-align: left;
+}
+
+.study-quiz-btn small {
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 0.74rem;
+}
+
+.study-quiz-btn:active {
+    transform: scale(0.98);
+}
+
+.glass-card.theme-sepia .study-summary {
+    background: rgba(255, 252, 240, 0.6);
+    color: #4E3629;
+}
+
+.glass-card.theme-dark .study-summary,
+html.dark .study-summary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #E8E8EA;
+    box-shadow: inset 1px 1.5px 0 rgba(255, 255, 255, 0.18), 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card.theme-dark .study-key,
+html.dark .study-key {
+    color: #FFD3A0;
+}
+
+.glass-card.theme-dark .study-head,
+html.dark .study-head {
+    color: #F7C844;
+}
+
+.glass-card.theme-dark .study-theme,
+html.dark .study-theme {
+    background: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+}
+
+html.dark .study-quiz-btn {
+    background: #F3F3F3;
+    color: #111111;
+    box-shadow: none;
+}
+
+/* ---- Quiz screen ---- */
+.quiz-card {
+    padding: 18px 16px 22px;
+}
+
+.quiz-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quiz-title {
+    color: #A5252C;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.quiz-progress {
+    flex: none;
+    color: #624c3a;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.quiz-bar {
+    height: 6px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background: rgba(165, 37, 44, 0.14);
+    overflow: hidden;
+}
+
+.quiz-bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: #A5252C;
+    transition: width 0.3s ease;
+}
+
+.quiz-q {
+    margin: 0 0 16px;
+    color: #2C1D18;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quiz-opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid rgba(165, 37, 44, 0.2);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #2C1D18;
+    font-family: inherit;
+    font-size: 1.02rem;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.quiz-opt:not(:disabled):active {
+    transform: scale(0.99);
+}
+
+.quiz-letter {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(165, 37, 44, 0.1);
+    color: #A5252C;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.quiz-opt-text {
+    flex: 1;
+}
+
+.quiz-opt.correct {
+    border-color: #2E7D32;
+    background: rgba(76, 175, 80, 0.2);
+}
+
+.quiz-opt.correct .quiz-letter {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+.quiz-opt.wrong {
+    border-color: #C62828;
+    background: rgba(229, 57, 53, 0.16);
+}
+
+.quiz-opt.wrong .quiz-letter {
+    background: #C62828;
+    color: #FFFFFF;
+}
+
+.quiz-opt.dim {
+    opacity: 0.55;
+}
+
+.quiz-feedback {
+    margin-top: 16px;
+    padding: 14px 16px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.55);
+    border-left: 5px solid #2E7D32;
+}
+
+.quiz-feedback.no {
+    border-left-color: #C62828;
+}
+
+.quiz-verdict {
+    color: #2E7D32;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.quiz-feedback.no .quiz-verdict {
+    color: #B3261E;
+}
+
+.quiz-why {
+    margin: 6px 0 14px;
+    color: #4b2523;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.quiz-next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #B7303A 0%, #8E1C26 100%);
+    color: #FFE8B4;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 14px rgba(120, 20, 28, 0.28);
+}
+
+.quiz-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border: 1.5px solid rgba(165, 37, 44, 0.3);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    color: #A5252C;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.quiz-result {
+    padding: 8px 0 4px;
+    text-align: center;
+}
+
+.quiz-score {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    color: #A5252C;
+}
+
+.quiz-score b {
+    font-size: 3.4rem;
+    line-height: 1;
+}
+
+.quiz-score span {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.quiz-message {
+    margin: 12px 8px 4px;
+    color: #2C1D18;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.quiz-best {
+    margin: 0 0 18px;
+    color: #624c3a;
+    font-size: 0.85rem;
+}
+
+.quiz-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.quiz-review {
+    margin-top: 24px;
+}
+
+.quiz-review h4 {
+    margin: 0 0 10px;
+    color: #A5252C;
+    font-size: 0.95rem;
+}
+
+.quiz-review-item {
+    margin-bottom: 10px;
+    padding: 11px 13px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.quiz-review-q {
+    color: #2C1D18;
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
+.quiz-review-a {
+    margin-top: 5px;
+    color: #2E7D32;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+html.dark .quiz-title,
+html.dark .quiz-score,
+html.dark .quiz-review h4 { color: #FFD3A0; }
+html.dark .quiz-progress,
+html.dark .quiz-best { color: #C7C7CC; }
+html.dark .quiz-q,
+html.dark .quiz-message,
+html.dark .quiz-review-q { color: #FFFFFF; }
+html.dark .quiz-bar { background: rgba(255, 255, 255, 0.15); }
+html.dark .quiz-bar i { background: #F3F3F3; }
+html.dark .quiz-opt { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.18); color: #FFFFFF; }
+html.dark .quiz-letter { background: rgba(255, 255, 255, 0.15); color: #FFFFFF; }
+html.dark .quiz-opt.correct { border-color: #66BB6A; background: rgba(102, 187, 106, 0.22); }
+html.dark .quiz-opt.wrong { border-color: #EF5350; background: rgba(239, 83, 80, 0.2); }
+html.dark .quiz-feedback,
+html.dark .quiz-review-item { background: rgba(255, 255, 255, 0.08); }
+html.dark .quiz-verdict { color: #81C784; }
+html.dark .quiz-feedback.no .quiz-verdict { color: #EF9A9A; }
+html.dark .quiz-why { color: #E3DEE4; }
+html.dark .quiz-review-a { color: #81C784; }
+html.dark .quiz-next { background: #F3F3F3; color: #111111; box-shadow: none; }
+html.dark .quiz-secondary { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.25); color: #FFFFFF; }
+
+/* ===========================================================
+   Study Time: three tabs (Study / Favourites / Notes) and the Study tab itself
+   =========================================================== */
+.saved-tabs .saved-tab {
+    padding: 10px 4px;
+    gap: 5px;
+    font-size: 0.76rem;
+}
+
+.saved-tabs .saved-tab i {
+    font-size: 0.8rem;
+}
+
+.saved-tabs .saved-tab-count {
+    min-width: 18px;
+    padding: 1px 5px;
+    font-size: 0.68rem;
+}
+
+.study-mode {
+    display: inline-flex;
+    gap: 2px;
+    margin: 0 0 12px;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--glass-rim);
+}
+
+.study-mode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #762d2d;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-mode-btn.active {
+    background: #A5252C;
+    color: #FFE8B4;
+}
+
+.study-sections {
+    margin-bottom: 4px;
+}
+
+.study-picker {
+    margin: 4px 0 14px;
+}
+
+.study-picker[hidden] {
+    display: none;
+}
+
+.study-picker-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid rgba(165, 37, 44, 0.22);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.55);
+    color: #2C1D18;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-picker-head[hidden] {
+    display: none;
+}
+
+.study-picker-head > i {
+    margin-left: auto;
+    color: #A5252C;
+    transition: transform 0.2s ease;
+}
+
+.study-picker-head.open > i {
+    transform: rotate(180deg);
+}
+
+.study-pick-num {
+    flex: none;
+    color: #A5252C;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.study-pick-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.study-picker-head .study-pick-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.study-picker-list {
+    max-height: 300px;
+    margin-top: 8px;
+    padding: 6px;
+    overflow-y: auto;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: var(--glass-rim), 0 8px 22px rgba(60, 35, 0, 0.14);
+    -webkit-overflow-scrolling: touch;
+}
+
+.study-picker-list[hidden] {
+    display: none;
+}
+
+.study-pick {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: #2C1D18;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.study-pick + .study-pick {
+    border-top: 1px solid rgba(165, 37, 44, 0.08);
+}
+
+.study-pick.active {
+    background: rgba(165, 37, 44, 0.12);
+}
+
+.study-pick.soon {
+    opacity: 0.55;
+}
+
+.study-pick-best {
+    flex: none;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: rgba(46, 125, 50, 0.16);
+    color: #2E7D32;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.study-host .study-summary {
+    margin-top: 0;
+}
+
+.study-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.study-actions .quiz-secondary {
+    width: 100%;
+}
+
+.study-hint,
+.study-soon p {
+    color: #624c3a;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.study-soon {
+    padding: 22px 12px;
+    text-align: center;
+}
+
+.study-soon > i {
+    margin-bottom: 8px;
+    color: #A5252C;
+    font-size: 1.6rem;
+}
+
+html.dark .study-mode { background: rgba(255, 255, 255, 0.08); }
+html.dark .study-mode-btn { color: #E3DEE4; }
+html.dark .study-mode-btn.active { background: #F3F3F3; color: #111111; }
+html.dark .study-picker-head { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.18); color: #FFFFFF; }
+html.dark .study-picker-head > i,
+html.dark .study-pick-num { color: #FFD3A0; }
+html.dark .study-picker-list { background: rgba(30, 30, 33, 0.95); }
+html.dark .study-pick { color: #FFFFFF; }
+html.dark .study-pick + .study-pick { border-top-color: rgba(255, 255, 255, 0.08); }
+html.dark .study-pick.active { background: rgba(255, 255, 255, 0.14); }
+html.dark .study-hint,
+html.dark .study-soon p { color: #C7C7CC; }
+html.dark .study-soon > i { color: #FFD3A0; }
+
+.saved-scripture-scope[hidden] {
+    display: none;
+}
+
+/* ===========================================================
+   Bottom bar: one clear glass capsule. Tabs, a sliding lens for the active tab, and Maharaj's
+   portrait as a round "profile" button at the end that switches scripture.
+   =========================================================== */
+#footer.app-tab-bar,
+html.dark #footer.app-tab-bar {
+    gap: 0;
+}
+
+#footer .footer-pill,
+html.dark #footer .footer-pill,
+html:not(.dark) #footer .footer-pill {
+    align-items: center;
+    height: 64px;
+    padding: 6px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 100%);
+    -webkit-backdrop-filter: blur(9px) saturate(1.8);
+    backdrop-filter: url(#glass-refract) brightness(1.04);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.22),
+        inset 1px 0 0 rgba(255, 255, 255, 0.28),
+        inset -1px 0 0 rgba(255, 255, 255, 0.28),
+        0 0 0 0.5px rgba(60, 35, 0, 0.14),
+        0 12px 30px rgba(60, 35, 0, 0.24);
+}
+
+html.dark #footer .footer-pill {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(14, 14, 16, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+        inset 1px 0 0 rgba(255, 255, 255, 0.1),
+        inset -1px 0 0 rgba(255, 255, 255, 0.1),
+        0 0 0 0.5px rgba(0, 0, 0, 0.6),
+        0 12px 30px rgba(0, 0, 0, 0.55);
+}
+
+@supports (font: -apple-system-body) {
+    #footer .footer-pill,
+    html.dark #footer .footer-pill,
+    html:not(.dark) #footer .footer-pill {
+        backdrop-filter: blur(9px) saturate(1.8);
+    }
+}
+
+#footer .footer-tab {
+    --nav-item: min(54px, calc((100vw - 76px) / 6));
+    height: 52px;
+    border-radius: 999px;
+}
+
+#footer .tab-bar-drop,
+html.dark #footer .tab-bar-drop,
+html:not(.dark) #footer .tab-bar-drop {
+    top: 6px;
+    height: 52px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.14));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 4px rgba(60, 35, 0, 0.12);
+}
+
+html.dark #footer .tab-bar-drop {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+#footer .footer-switch-btn,
+html.dark #footer .footer-switch-btn,
+html:not(.dark) #footer .footer-switch-btn {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    margin: 0 3px 0 5px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #FFF6DC 0%, #F6CF7C 100%);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 3px 8px rgba(60, 35, 0, 0.28);
+    transition: transform 0.15s ease;
+}
+
+html.dark #footer .footer-switch-btn {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+#footer .footer-switch-btn:active {
+    transform: scale(0.92);
+}
+
+/* The portraits are full figures: zoom to the head and shoulders, like a profile picture */
+#footer .footer-switch-btn img {
+    width: 100%;
+    height: 100%;
+    filter: none;
+    transform: scale(1.85);
+    transform-origin: 47% 12%;
+    transition: none;
+}
+
+#footer .footer-switch-btn:active img {
+    transform: scale(1.85);
+}
+
+/* An older dark rule forces pill text white with !important: keep the selected pill readable */
+html.dark .ap-chips .search-chip.active {
+    color: #111111 !important;
+}
+
+html.dark .ap-chips .search-chip.active small {
+    color: #111111;
+}
+
+html.dark .ap-chips .search-chip small {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+html.dark .study-pick-best {
+    background: rgba(102, 187, 106, 0.2);
+    color: #A5D6A7;
+}
+
+.study-text + .study-text {
+    margin-top: 12px;
 }

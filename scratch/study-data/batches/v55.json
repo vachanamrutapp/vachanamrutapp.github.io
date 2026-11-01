@@ -1,0 +1,250 @@
+{
+  "id": 55,
+  "themes": ["dharma", "sant", "sadhana"],
+  "en": {
+    "key": "One should maintain firm resolve in worship and dharma by avoiding adverse influences and diligently serving the great Purush, never blaming God for one's own lapses.",
+    "summary": [
+      "Shriji Maharaj addresses why a spiritual aspirant fails to maintain a steady resolve in worship, remembrance of God, and religious vows. He explains that this instability is caused by the adverse influence of place, time, action, and company. Resoluteness itself exists in three levels—highest, intermediate, and lowest. If these four factors become extremely unfavorable, they can dismantle even the highest grade of resolve, leaving the lesser grades with little defense. However, if an aspirant preserves his steadfastness despite deeply adverse circumstances, it is due to the tremendous force of past good deeds and merits.",
+      "Conversely, Maharaj points out that if someone's mind becomes corrupt even amidst holy places, sacred times, noble activities, and virtuous company, it signifies the obstruction of grave past sins or the transgression of having offended a great devotee. The true remedy for such spiritual impairment is to serve the great Purush with vigilance, which burns all accumulated sins to ashes. In contrast, bad company multiplies sin and destroys even existing merit. Finally, Maharaj cautions that someone who willingly indulges in degrading vices and then blames God for failing to keep his mind steady is an utter fool."
+    ]
+  },
+  "gu": {
+    "key": "અશુભ દેશ, કાળ, ક્રિયા અને સંગથી પરહેજ રહી મોટાપુરુષની સાવધાન થઈ સેવા કરવી અને ભજન તથા વર્તમાનમાં દૃઢ રહેવું, પણ મનની અસ્થિરતા માટે ભગવાનનો વાંક ન કાઢવો.",
+    "summary": [
+      "શ્રીજીમહારાજ ભજન, સ્મરણ અને વર્તમાનમાં જીવનો એકસરખો દૃઢાવ કેમ રહેતો નથી તેનું કારણ સમજાવે છે. તેઓ જણાવે છે કે અશુભ દેશ, કાળ, ક્રિયા અને સંગના પ્રભાવથી આ દૃઢતા ટળી જાય છે. આ દૃઢાવ પણ ઉત્તમ, મધ્યમ અને કનિષ્ઠ એમ ત્રણ પ્રકારનો હોય છે. જો દેશ, કાળાદિક અતિ ભૂંડાં ભેળાં થાય તો તે ઉત્તમ દૃઢતાને પણ હચમચાવી નાખે છે. છતાં પણ જો અત્યંત પ્રતિકૂળ સંજોગો વચ્ચે પણ કોઈની દૃઢતા અચળ રહે, તો તેને પૂર્વજન્મનું ભારે બીજબળ અને પુણ્ય રહેલું છે તેમ જાણવું.",
+      "તેનાથી ઊલટું, જો દેશ, કાળ, ક્રિયા અને સંગ સર્વે પવિત્ર હોય છતાં કોઈની બુદ્ધિ મલિન થઈ જાય, તો તેને પૂર્વનું કોઈ મોટું પાપ અથવા ભગવાનના મોટા ભક્તનો થયેલો દ્રોહ નડે છે. આવાં પાપનું નિવારણ કરવા માટે મોટાપુરુષની સેવામાં ખબરદાર થઈને રહેવું, જેનાથી સર્વે પાપ બળીને ભસ્મ થઈ જાય છે. દુષ્ટનો સંગ કરવાથી પાપ વધે છે અને થોડુંઘણું પુણ્ય હોય તે પણ નષ્ટ થાય છે. અંતમાં મહારાજ સ્પષ્ટ કરે છે કે વિષયભોગમાં લપટાઈને પછી પોતાનું મન સ્થિર ન રહ્યું તેનો દોષ ભગવાન પર ઢોળનાર મનુષ્ય મહામૂર્ખ છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 1,
+      "en": {
+        "q": "What causes a person's resolve in worship and vows to waver?",
+        "correct": "Adverse places, times, actions and company",
+        "wrong": [
+          "Lack of high intellectual learning",
+          "Insufficient physical strength for fasting",
+          "Inability to perform difficult pilgrimages"
+        ],
+        "why": "Resoluteness does not remain steady due to the influence of adverse places, times, actions, and company."
+      },
+      "gu": {
+        "q": "ભજન-સ્મરણ અને વર્તમાનનો દૃઢાવ શાનાથી ટળી જાય છે?",
+        "correct": "અશુભ દેશ, કાળ, ક્રિયા અને સંગથી",
+        "wrong": [
+          "શાસ્ત્રોના ઊંડા અભ્યાસના અભાવથી",
+          "કઠિન ઉપવાસ કરવાની અશક્તિથી",
+          "દૂરનાં તીર્થોની યાત્રા ન કરવાથી"
+        ],
+        "why": "અશુભ એવાં જે દેશ, કાળ, ક્રિયા અને સંગ તેને યોગે કરીને દૃઢાવ રહેતો નથી."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What can dissolve even the highest grade of resoluteness?",
+        "correct": "Extremely adverse environmental factors",
+        "wrong": [
+          "A sudden loss of worldly possessions",
+          "Experiencing ordinary bodily illness",
+          "Simple weariness from daily chores"
+        ],
+        "why": "If places, times, actions, and company are extremely adverse, even the highest resolve is dissolved."
+      },
+      "gu": {
+        "q": "ઉત્તમ પ્રકારની દૃઢતાને પણ શું ટાળી નાખે છે?",
+        "correct": "અતિ ભૂંડા દેશ, કાળ, ક્રિયા અને સંગ",
+        "wrong": [
+          "સાંસારિક સંપત્તિનું અચાનક નુકસાન",
+          "શરીરની સામાન્ય બીમારી કે અસ્વસ્થતા",
+          "દૈનિક કાર્યોનો થાક કે કંટાળો"
+        ],
+        "why": "દેશ, કાળ, ક્રિયા અને સંગ જો અતિ ભૂંડાં થાય તો તે ઉત્તમ દૃઢતાને પણ ટાળી નાંખે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Why does someone's resolve remain unshaken despite extremely adverse conditions?",
+        "correct": "Immense past virtues and pious merits",
+        "wrong": [
+          "Unmatched physical stamina and vigor",
+          "Rigid stubbornness of one's temperament",
+          "Deep pride in intellectual scholarship"
+        ],
+        "why": "If resolve remains the same despite adverse conditions, one has powerful past seeds of merit and virtues."
+      },
+      "gu": {
+        "q": "અતિ પ્રતિકૂળ સંજોગો વચ્ચે પણ દૃઢતા અચળ રહે તેનું કારણ શું છે?",
+        "correct": "પૂર્વનું ભારે બીજબળ અને ભારે પુણ્ય",
+        "wrong": [
+          "ઉત્તમ શારીરિક બળ અને સહનશક્તિ",
+          "પોતાના સ્વભાવનો હઠીલો અહંકાર",
+          "શાસ્ત્રોના પાંડિત્યનું વિશેષ અભિમાન"
+        ],
+        "why": "દેશ, કાળ, ક્રિયા અને સંગ અતિ ભૂંડાં થાય ને દૃઢતા રહે તો પૂર્વનું ભારે બીજબળ અને પુણ્ય છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What causes an intellect to turn impure even in sacred environments?",
+        "correct": "Grave past sin or spiting a devotee",
+        "wrong": [
+          "Too much time spent in meditation",
+          "Excessively strict dietary disciplines",
+          "Listening to too many discourses"
+        ],
+        "why": "If one's intellect is polluted despite favorable conditions, a grave sin or spiting a great devotee is obstructing him."
+      },
+      "gu": {
+        "q": "ઉત્તમ વાતાવરણ હોવા છતાં અંતઃકરણ મલિન કેમ થઈ જાય છે?",
+        "correct": "મોટું પાપ કે સંતનો દ્રોહ નડવાથી",
+        "wrong": [
+          "ધ્યાનમાં વધારે સમય ગાળવાથી",
+          "આહારના અતિ કઠિન નિયમ રાખવાથી",
+          "સત્સંગમાં વધુ કથાઓ સાંભળવાથી"
+        ],
+        "why": "દેશ, કાળાદિક રૂડાં હોય ને અંતર ભૂંડું થાય તો પૂર્વનું પાપ અથવા મોટા ભક્તનો દ્રોહ નડે છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What is the effective remedy to burn away accumulated sins?",
+        "correct": "Diligently serving the great Purush",
+        "wrong": [
+          "Undergoing harsh physical penances alone",
+          "Performing grand rituals with pomp",
+          "Travelling endlessly to distant shrines"
+        ],
+        "why": "If a person serves the great Purush diligently, his sins will be burnt and reduced to ashes."
+      },
+      "gu": {
+        "q": "સંચિત પાપોને બાળીને ભસ્મ કરવાનો શ્રેષ્ઠ ઉપાય કયો છે?",
+        "correct": "મોટાપુરુષની સેવામાં ખબરદાર રહેવું",
+        "wrong": [
+          "કેવળ કઠોર શારીરિક તપશ્ચર્યા કરવી",
+          "આડંબર સાથે મોટા યજ્ઞો કરવા",
+          "નિરંતર દેશાટન અને તીર્થયાત્રા કરવી"
+        ],
+        "why": "મોટાપુરુષની સેવામાં ખબડદાર થઈને રહે તો એનાં પાપ બળીને ભસ્મ થઈ જાય છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What is the consequence of associating with grave sinners?",
+        "correct": "Sins increase and good merits perish",
+        "wrong": [
+          "One immediately loses social status",
+          "Physical wealth is entirely taken away",
+          "Knowledge of worldly arts is erased"
+        ],
+        "why": "If a person associates with a grave sinner, sins increase and any pious deeds performed are destroyed."
+      },
+      "gu": {
+        "q": "અતિ પાપી મનુષ્યનો સંગ કરવાથી શું પરિણામ આવે છે?",
+        "correct": "પાપ વધે ને સુકૃત નાશ પામે",
+        "wrong": [
+          "સામાજિક પ્રતિષ્ઠા તત્કાળ ઘટી જાય",
+          "પોતાની ભૌતિક સંપત્તિ છીનવાઈ જાય",
+          "લૌકિક વિદ્યાઓનું જ્ઞાન ભૂલાઈ જાય"
+        ],
+        "why": "અતિ પાપીનો સંગ થાય તો પાપનો વધારો થાય અને કાંઈક સુકૃત હોય તે પણ નાશ પામે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Why does Maharaj call someone who indulges in vice and blames God a fool?",
+        "correct": "He created his own ruinous downfall",
+        "wrong": [
+          "He failed to memorize sacred scriptures",
+          "He did not offer enough wealth",
+          "He spoke harshly in the assembly"
+        ],
+        "why": "Blaming God after voluntarily embracing degrading company is the mark of an utter fool."
+      },
+      "gu": {
+        "q": "કુસંગમાં પડીને ભગવાનનો વાંક કાઢનારને મહારાજ કેમ મૂર્ખ કહે છે?",
+        "correct": "તેણે પોતે જ પતન વહોરી લીધું છે",
+        "wrong": [
+          "તેણે શાસ્ત્રો મોઢે કર્યા નથી",
+          "તેણે મંદિરમાં ધન અર્પણ કર્યું નથી",
+          "તે સભામાં કઠોર વચન બોલે છે"
+        ],
+        "why": "મદિરાપાન કરનારીનો સંગ કરીને પછી ભગવાનનો વાંક કાઢે તેને મહારાજ મહામૂર્ખ કહે છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "How does Maharaj describe the nature of a devotee's resoluteness?",
+        "correct": "It has highest, medium and low grades",
+        "wrong": [
+          "It remains permanently identical for all",
+          "It depends entirely on bodily strength",
+          "It never decreases once established"
+        ],
+        "why": "Maharaj explains that resoluteness is of three types: highest, intermediate, and lowest."
+      },
+      "gu": {
+        "q": "ભજન-સ્મરણની દૃઢતા વિશે મહારાજ શું સમજાવે છે?",
+        "correct": "તે ઉત્તમ, મધ્યમ ને કનિષ્ઠ ભેદે છે",
+        "wrong": [
+          "તે સર્વ જીવોમાં સદા સરખી રહે છે",
+          "તે કેવળ બાહ્ય શારીરિક ક્રિયા છે",
+          "તે એકવાર બંધાયા પછી ઘટતી નથી"
+        ],
+        "why": "મહારાજ કહે છે કે તે દૃઢાવ પણ ત્રણ પ્રકારનો છે - ઉત્તમ, મધ્યમ અને કનિષ્ઠ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What does a polluted mind amidst sacred company reveal?",
+        "correct": "Past sins or an offense against devotees",
+        "wrong": [
+          "An excess of scriptural learning",
+          "The natural working of advanced age",
+          "Inadequacy of physical rituals performed"
+        ],
+        "why": "Despite favorable place, time, action and company, a polluted mind indicates past sin or offense against a great devotee."
+      },
+      "gu": {
+        "q": "રૂડા દેશ-કાળમાં પણ અંતર બગડે તો શું સમજવું?",
+        "correct": "પૂર્વનું પાપ કે મોટા ભક્તનો દ્રોહ",
+        "wrong": [
+          "શાસ્ત્રોના અતિશય અભ્યાસનું પરિણામ",
+          "વધતી ઉંમરનો સામાન્ય શારીરિક દોષ",
+          "બાહ્ય પૂજાવિધિમાં રહી ગયેલી ખામી"
+        ],
+        "why": "દેશ, કાળ, ક્રિયા અને સંગ રૂડાં હોય ને અંતર ભૂંડું થાય તો પાપ કે મોટા ભક્તનો દ્રોહ નડે છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What attitude should an aspirant maintain regarding his own spiritual lapses?",
+        "correct": "Take responsibility without blaming God",
+        "wrong": [
+          "Blame one's destiny and stop endeavors",
+          "Complain that God does not protect him",
+          "Assume that bad company cannot harm him"
+        ],
+        "why": "A person who indulges in bad company and then blames God is considered an utter fool."
+      },
+      "gu": {
+        "q": "પોતાના દોષ કે અસ્થિરતા માટે ભક્તે શું કરવું જોઈએ?",
+        "correct": "ભગવાનનો વાંક કાઢ્યા વિના જાતે ચેતવું",
+        "wrong": [
+          "પ્રારબ્ધનો વાંક કાઢી સાધન છોડી દેવા",
+          "ભગવાન રક્ષા નથી કરતા તેવી ફરિયાદ કરવી",
+          "કુસંગથી કાંઈ નુકસાન નહીં થાય તેમ માનવું"
+        ],
+        "why": "મદિરાપાન કરનારીનો સંગ કરીને ભગવાનનો વાંક કાઢનારને મહારાજે મહામૂર્ખ કહ્યો છે."
+      }
+    }
+  ]
+}

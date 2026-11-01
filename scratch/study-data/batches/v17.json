@@ -1,0 +1,254 @@
+{
+  "id": 17,
+  "themes": [
+    "dharma",
+    "sadhana",
+    "bhakti"
+  ],
+  "en": {
+    "key": "One should never utter discouraging words that weaken spiritual endeavors, but always speak courageously and observe dharma and devotion with firm resolve.",
+    "summary": [
+      "Shriji Maharaj addresses the assembly of sadhus, declaring His intention to eliminate a lingering trace of negative influence within Satsang. He identifies this negative influence as the habit of uttering discouraging words. Such speakers argue that no one can observe religious vows or God's commands perfectly, advising that one should practice only as much as is easy because God redeems all. They also claim that beholding God's form in meditation is impossible through personal effort and occurs only through divine grace.",
+      "Maharaj warns that such complacent words dampen spiritual zeal, discouraging devotees from dharma, gnan, vairagya, and bhakti, which are the essential means to please God. He therefore instructs that from that day forward, no one in Satsang should speak discouraging words, but must always speak with courage. Furthermore, anyone who speaks spiritless words should be considered spiritually impotent. To enforce this standard, Maharaj prescribes that whoever utters such discouraging words must observe a fast on that day."
+    ]
+  },
+  "gu": {
+    "key": "સાધનાને મોળી પાડનારી હિંમત વિનાની વાતો ન કરવી, પણ સદા હિંમત રાખીને ધર્મ તથા ભક્તિમાં દૃઢ રહેવું.",
+    "summary": [
+      "શ્રીજીમહારાજ સંતોને બોલાવીને સત્સંગમાં રહેલા કુસંગના એક સૂક્ષ્મ ભાગને દૂર કરવાનો સંકલ્પ પ્રગટ કરે છે. તેઓ સમજાવે છે કે સત્સંગમાં હિંમત વિનાની મોળી વાતો કરવી તે જ મોટો કુસંગ છે. કેટલાક વક્તાઓ એવી વાતો કરે છે કે ભગવાનનાં વચન કે વર્તમાનધર્મ કોઈથી યથાર્થ પળાતાં નથી, માટે જેટલું પળે તેટલું જ પાળવું, કેમ કે ભગવાન તો અધમઉદ્ધારણ હોવાથી કલ્યાણ કરી દેશે. વળી તેઓ એવી મોળી વાત કરે છે કે ભગવાનનું સ્વરૂપ હૃદયમાં ધારવું તે પોતાના પુરુષાર્થથી થતું નથી, પણ ભગવાન દયા કરે ત્યારે જ ધરાય છે.",
+      "મહારાજ ચેતવણી આપે છે કે આવી મોળી વાતોથી ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિ જેવાં ભગવાનને રાજી કરવાનાં સાધનોમાંથી અન્ય ભક્તો પણ મોળા પડી જાય છે. તેથી આજથી કોઈએ પણ સત્સંગમાં હિંમત રહિત વાત ન કરવી, પરંતુ સદા હિંમત રાખીને જ વાત કરવી. જે વ્યક્તિ આવી નિર્બળ વાતો કરે તેને નપુંસક સમાન જાણવી. વધુમાં શ્રીજીમહારાજ એવો કડક નિયમ બાંધે છે કે જે દિવસે કોઈના મુખમાંથી આવી હિંમત વિનાની વાત નીકળી જાય, તો તે દિવસે તેણે ઉપવાસ કરવો."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 2,
+      "en": {
+        "q": "What does Shriji Maharaj identify as the negative influence in Satsang?",
+        "correct": "Uttering discouraging words that weaken striving",
+        "wrong": [
+          "Wearing plain clothes during assemblies",
+          "Reading sacred scriptures in seclusion",
+          "Asking questions to clear spiritual doubts"
+        ],
+        "why": "Maharaj explains that speakers who utter discouraging words represent the negative influence in Satsang."
+      },
+      "gu": {
+        "q": "સત્સંગમાં રહેલો કુસંગનો ભાગ મહારાજ કોને કહે છે?",
+        "correct": "સાધનાને ઢીલી પાડતી મોળી વાતો કરવી",
+        "wrong": [
+          "સભામાં સાદાં શ્વેત વસ્ત્રો પહેરવાં",
+          "એકાંતમાં બેસીને પવિત્ર શાસ્ત્રો વાંચવાં",
+          "શંકા નિવારવા સંતોને પ્રશ્નો પૂછવા"
+        ],
+        "why": "મહારાજ કહે છે કે જે વાતના કરનારા હિંમત વિનાની વાત કરે છે તે સત્સંગમાં કુસંગ છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What flawed argument do discouraging speakers make regarding religious vows?",
+        "correct": "No one can observe them perfectly",
+        "wrong": [
+          "Vows should be observed in secret",
+          "Vows apply only to elderly monks",
+          "Vows are meant solely for scholars"
+        ],
+        "why": "They argue that no one can possibly observe vows perfectly, so devotees should only follow what is easy."
+      },
+      "gu": {
+        "q": "વર્તમાન પાળવા વિષે મોળી વાત કરનારા શો તર્ક કરે છે?",
+        "correct": "વર્તમાનધર્મ કોઈથી યથાર્થ પળાતા નથી",
+        "wrong": [
+          "નિયમો કેવળ ગુપ્ત રીતે પાળવા જોઈએ",
+          "નિયમો કેવળ વૃદ્ધ સાધુઓ માટે છે",
+          "નિયમો ફક્ત મોટા પંડિતો માટે છે"
+        ],
+        "why": "તેઓ કહે છે કે ભગવાનનું વચન કે વર્તમાન કોણ યથાર્થ પાળી શકે, માટે જેટલું પળે તેટલું પાળીએ."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How do discouraging speakers misuse the divine title 'Adham-uddharan'?",
+        "correct": "To justify laxity in spiritual vows",
+        "wrong": [
+          "To inspire heartfelt repentance for sins",
+          "To encourage selfless service to others",
+          "To describe the holiness of pilgrimage"
+        ],
+        "why": "They justify laxity by claiming that because God redeems the wicked, He will liberate them regardless of effort."
+      },
+      "gu": {
+        "q": "વાત કરનારા ‘અધમઉદ્ધારણ’ શબ્દનો કેવો દુરુપયોગ કરે છે?",
+        "correct": "નિયમ-ધર્મમાં શિથિલતાનું સમર્થન કરવા",
+        "wrong": [
+          "પાપ માટે હૃદયમાં પશ્ચાત્તાપ પ્રગટાવવા",
+          "ભક્તોની ઉત્સાહપૂર્વક નિષ્કામ સેવા કરવા",
+          "પવિત્ર તીર્થધામોનો મહિમા વર્ણવવા માટે"
+        ],
+        "why": "તેઓ એવી મોળી વાત કરે છે કે ભગવાન તો અધમઉદ્ધારણ છે તે કલ્યાણ કરી દેશે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What misleading claim do discouraging speakers make regarding meditation?",
+        "correct": "It cannot be achieved by personal striving",
+        "wrong": [
+          "It requires mastering classical Indian music",
+          "It should be practiced only at midnight",
+          "It inevitably causes severe physical fatigue"
+        ],
+        "why": "They claim that beholding God's form is impossible through personal effort and happens only if God shows mercy."
+      },
+      "gu": {
+        "q": "ધ્યાન વિષે મોળી વાત કરનારા કેવો ભ્રમ ફેલાવે છે?",
+        "correct": "સ્વરૂપ ધારવું પોતાના પ્રયત્નથી શક્ય નથી",
+        "wrong": [
+          "ધ્યાન માટે શાસ્ત્રીય સંગીત આવશ્યક છે",
+          "ધ્યાન કેવળ મધ્યરાત્રિએ જ કરવું જોઈએ",
+          "ધ્યાન કરવાથી ખૂબ શારીરિક થાક લાગે છે"
+        ],
+        "why": "તેઓ કહે છે કે ભગવાનનું સ્વરૂપ હૃદયમાં ધારવું તે આપણું ધાર્યું ધરાતું નથી, ભગવાન દયા કરે તો જ ધરાય."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What harmful impact does spiritless speech produce upon fellow devotees?",
+        "correct": "It dampens their spiritual enthusiasm",
+        "wrong": [
+          "It leads them to abandon satsang entirely",
+          "It prompts endless scholastic grammar debates",
+          "It increases their material family worries"
+        ],
+        "why": "Maharaj warns that such complacent speech discourages others from practicing the virtues that please God."
+      },
+      "gu": {
+        "q": "આવી મોળી વાતોથી બીજા સત્સંગીઓ પર શી અસર થાય છે?",
+        "correct": "સાધના માટેનો ઉત્સાહ મોળો પડી જાય છે",
+        "wrong": [
+          "તેઓ સત્સંગનો કાયમ માટે ત્યાગ કરે છે",
+          "તેઓ શાસ્ત્રના વ્યાકરણ પર વિવાદ કરે છે",
+          "તેમની સાંસારિક ચિંતાઓ ખૂબ વધી જાય છે"
+        ],
+        "why": "મહારાજ કહે છે કે આવી મોળી વાતોથી ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિમાંથી બીજાને મોળા પાડે છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Which four virtues to please God are weakened by spiritless talk?",
+        "correct": "Dharma, gnan, vairagya, and bhakti",
+        "wrong": [
+          "Wealth, prestige, status, and power",
+          "Austerity, rituals, astrology, and mantras",
+          "Debate, physical strength, poetry, and logic"
+        ],
+        "why": "Discouraging words weaken the practice of dharma, gnan, vairagya, and bhakti."
+      },
+      "gu": {
+        "q": "મોળી વાત કરવાથી કયાં ચાર સાધનો મોળાં પડે છે?",
+        "correct": "ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિ",
+        "wrong": [
+          "ધન, કીર્તિ, લોકપ્રતિષ્ઠા અને પદ",
+          "તપ, યજ્ઞ, જ્યોતિષ અને મંત્રો",
+          "વાદવિવાદ, શારીરિક બળ, કાવ્ય અને તર્ક"
+        ],
+        "why": "મોળી વાતો કરનારા ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિ જેવાં પ્રસન્નતાનાં સાધનમાંથી બીજાને મોળા પાડે છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How does Shriji Maharaj command devotees to speak from that day onward?",
+        "correct": "Always speak with courage and zeal",
+        "wrong": [
+          "Speak only through silent hand gestures",
+          "Speak only when questioned by elders",
+          "Speak only about worldly family matters"
+        ],
+        "why": "Maharaj instructs: 'From this day onwards, never utter spiritless words; always speak courageously.'"
+      },
+      "gu": {
+        "q": "તે દિવસથી મહારાજ કેવી રીતે વાત કરવાની આજ્ઞા કરે છે?",
+        "correct": "સદા હિંમત રાખીને જ વાત કરવી",
+        "wrong": [
+          "કેવળ હાથના સંકેતથી જ વાત કરવી",
+          "વડીલ સંતો પૂછે ત્યારે જ બોલવું",
+          "કેવળ સંસારના વ્યવહારની વાતો જ કરવી"
+        ],
+        "why": "મહારાજ આજ્ઞા કરે છે કે હવે આજ દિનથી કોઈએ એવી હિંમત રહિત વાત કરવી નહીં, સદા હિંમત સહિત જ વાત કરવી."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How does Shriji Maharaj describe one who utters discouraging words?",
+        "correct": "As spiritually impotent",
+        "wrong": [
+          "As an innocent devotee",
+          "As a philosophical thinker",
+          "As a humble householder"
+        ],
+        "why": "Maharaj states that one who speaks such spiritless words should be known as impotent."
+      },
+      "gu": {
+        "q": "હિંમત વિનાની મોળી વાત કરનારને મહારાજ કેવો ગણે છે?",
+        "correct": "તેને નપુંસક સમાન ગણે છે",
+        "wrong": [
+          "તેને નિર્દોષ ભક્ત ગણે છે",
+          "તેને ગહન તત્ત્વચિંતક ગણે છે",
+          "તેને નમ્ર ગૃહસ્થ ગણે છે"
+        ],
+        "why": "મહારાજ કહે છે કે જે એવી હિંમત રહિત વાત કરે તેને તો નપુંસક જાણવો."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What discipline does Maharaj mandate for the day one speaks discouraging words?",
+        "correct": "Observe a complete fast",
+        "wrong": [
+          "Donate half of one's wealth",
+          "Remain awake the entire night",
+          "Bathe in freezing cold water"
+        ],
+        "why": "Maharaj prescribes that on the day such spiritless words are spoken, one must observe a fast."
+      },
+      "gu": {
+        "q": "હિંમત વિનાની વાત થઈ જાય તે દિવસે મહારાજ શો આદેશ આપે છે?",
+        "correct": "તે દિવસે ઉપવાસ કરવો",
+        "wrong": [
+          "પોતાની અડધી સંપત્તિ દાન કરવી",
+          "આખી રાત અખંડ જાગરણ કરવું",
+          "ઠંડા પાણીથી સ્નાન કરવું"
+        ],
+        "why": "મહારાજ કહે છે કે એવી હિંમત વિનાની વાત જે દિવસ થઈ જાય તો તે દિવસ ઉપવાસ કરવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "To whom does Shriji Maharaj direct this teaching on courageous speech?",
+        "correct": "To all sadhus and householder devotees",
+        "wrong": [
+          "Only to newly initiated sadhus",
+          "Only to elderly devotees of Gadhada",
+          "Only to appointed public speakers"
+        ],
+        "why": "Maharaj emphasizes that this practice applies to all paramhansas, sankhya-yogis, karma-yogis, and satsangis."
+      },
+      "gu": {
+        "q": "હિંમતભરી વાત કરવાનો ઉપદેશ મહારાજ કોના માટે પ્રવર્તાવે છે?",
+        "correct": "સર્વ સાધુ અને ગૃહસ્થ સત્સંગીઓ માટે",
+        "wrong": [
+          "કેવળ નવા દીક્ષિત થયેલા સંતો માટે",
+          "કેવળ ગઢડામાં રહેતા વૃદ્ધ ભક્તો માટે",
+          "કેવળ સભામાં કથા કરતા વક્તાઓ માટે"
+        ],
+        "why": "મહારાજ કહે છે કે આ પ્રકરણ સર્વ પરમહંસ, સાંખ્યયોગી, કર્મયોગી તથા સર્વ સત્સંગીમાં પ્રવર્તે એમ ચલાવવું છે."
+      }
+    }
+  ]
+}

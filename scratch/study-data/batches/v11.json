@@ -1,0 +1,170 @@
+{
+  "id": 11,
+  "themes": ["bhakti", "atma", "sadhana"],
+  "en": {
+    "key": "One should eradicate all desires for worldly objects and offer devotion to God while realizing oneself to be brahmarup.",
+    "summary": [
+      "Shriji Maharaj defines the nature of vasana within the antahkaran. He explains that any longing to indulge in worldly sense objects that have already been seen, heard, or experienced in the past constitutes vasana. Furthermore, He clarifies that even the desire for sense objects that have never been experienced before is equally considered vasana. Thus, all subtle worldly desires lingering within the inner faculties bind the soul.",
+      "Addressing the true qualification of an ekantik devotee, Maharaj explains that such a spiritual aspirant has eliminated every worldly longing and harbors no vasana other than for God. In addition, the devotee transcends physical identification by realizing the self to be brahmarup. Established in that divine consciousness, the devotee engages in pure, unwavering bhakti of God. Maharaj thus reveals that true devotion requires absolute inner detachment combined with divine self-realization."
+    ]
+  },
+  "gu": {
+    "key": "વિષયોની સર્વ વાસના તજીને પોતાને બ્રહ્મરૂપ માની ભગવાનની ભક્તિ કરવી.",
+    "summary": [
+      "શ્રીજીમહારાજ સભામાં અંતઃકરણમાં રહેલી વાસનાનું યથાર્થ સ્વરૂપ સમજાવે છે. પૂર્વે જે વિષયો જોયા હોય, સાંભળ્યા હોય કે ભોગવ્યા હોય તેની અંતઃકરણને વિષે જે ઇચ્છા રહે તેને તેઓ વાસના કહે છે. તે ઉપરાંત, જે સાંસારિક વિષયો ક્યારેય ભોગવ્યામાં ન આવ્યા હોય તેની ઇચ્છા મનમાં જાગે તેને પણ તેઓ વાસના તરીકે જ ઓળખાવે છે. આમ, સંસારના પંચવિષય પ્રત્યેની કોઈપણ પ્રકારની સૂક્ષ્મ કામના એ વાસનાનું જ રૂપ છે.",
+      "ત્યારબાદ ભગવાનના એકાંતિક ભક્તનું વિશિષ્ટ લક્ષણ સ્પષ્ટ કરતાં મહારાજ જણાવે છે કે જેને ભગવાન વિના અન્ય કોઈ વિષયની વાસના રહેતી નથી તે સાચો ભક્ત છે. તે ભક્ત પોતાના દેહભાવને પર મૂકીને પોતાને અખંડ બ્રહ્મરૂપ માનીને જ ભગવાનની નિષ્કામ ભક્તિ કરે છે. આમ, સાંસારિક વાસનાનો સંપૂર્ણ અભાવ અને આત્મનિષ્ઠાપૂર્વક ભગવાનની ઉપાસના-ભક્તિ કરવી એ જ એકાંતિક ભક્તની ખરી સ્થિતિ છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 1,
+      "en": {
+        "q": "What is the desire for previously experienced sense objects called?",
+        "correct": "Vasana",
+        "wrong": ["Vairagya", "Moksha", "Bhakti"],
+        "why": "Maharaj explains that desire within the antahkaran for previously enjoyed vishays is called vasana."
+      },
+      "gu": {
+        "q": "પૂર્વે ભોગવેલા વિષયોની ઇચ્છાને શું કહેવાય?",
+        "correct": "વાસના",
+        "wrong": ["વૈરાગ્ય", "મોક્ષ", "ભક્તિ"],
+        "why": "મહારાજ કહે છે કે પૂર્વે ભોગવેલા વિષયની ઇચ્છા વર્તે તેને વાસના કહીએ."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What does Maharaj say about the desire for unexperienced sense objects?",
+        "correct": "It is also called vasana",
+        "wrong": ["It is pure devotion", "It is natural curiosity", "It is spiritual wisdom"],
+        "why": "Maharaj explains that a desire within the antahkaran for unexperienced vishays is also called vasana."
+      },
+      "gu": {
+        "q": "ન ભોગવેલા વિષયોની ઇચ્છા વિષે મહારાજ શું કહે છે?",
+        "correct": "તે પણ વાસના કહેવાય છે",
+        "wrong": ["તે સાચી ભક્તિ ગણાય છે", "તે માત્ર સહજ જિજ્ઞાસા છે", "તે આધ્યાત્મિક જ્ઞાન છે"],
+        "why": "મહારાજ કહે છે કે ભોગવ્યામાં ન આવ્યા હોય તેની ઇચ્છા વર્તે તેને પણ વાસના કહીએ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Where does the desire known as vasana arise and reside?",
+        "correct": "Within the antahkaran",
+        "wrong": ["Within the gross body", "Within the pranas", "Within external senses"],
+        "why": "Maharaj explains that vasana is a desire that operates within the antahkaran."
+      },
+      "gu": {
+        "q": "વાસનારૂપ ઇચ્છા ક્યાં ઉત્પન્ન થઈને રહે છે?",
+        "correct": "અંતઃકરણને વિષે",
+        "wrong": ["સ્થૂળ દેહને વિષે", "પ્રાણને વિષે", "બાહ્ય ઇન્દ્રિયોને વિષે"],
+        "why": "મહારાજ કહે છે કે અંતઃકરણને વિષે જે વિષયની ઇચ્છા વર્તે તેને વાસના કહીએ."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Besides indulged objects, what other desires form vasana?",
+        "correct": "Objects previously seen or heard",
+        "wrong": ["Objects imagined in deep sleep", "Objects attained in liberation", "Objects offered in ritual worship"],
+        "why": "Maharaj says that desiring vishays previously seen, heard, or indulged in is called vasana."
+      },
+      "gu": {
+        "q": "ભોગવેલા ઉપરાંત કયા વિષયોની ઇચ્છા વાસના કહેવાય?",
+        "correct": "પૂર્વે દીઠા ને સાંભળ્યા હોય તેવા",
+        "wrong": ["સુષુપ્તિમાં કલ્પેલા હોય તેવા", "મોક્ષમાં પ્રાપ્ત થતા હોય તેવા", "પૂજામાં અર્પણ થતા હોય તેવા"],
+        "why": "મહારાજ કહે છે કે પૂર્વે દીઠા હોય અને સાંભળ્યા હોય તેની ઇચ્છા વર્તે તેને વાસના કહીએ."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What is the only desire harbored by an ekantik bhakta?",
+        "correct": "Desire only for God",
+        "wrong": ["Desire for heavenly pleasures", "Desire for worldly renown", "Desire for yogic powers"],
+        "why": "Maharaj explains that an ekantik bhakta has no vasana except that of God."
+      },
+      "gu": {
+        "q": "એકાંતિક ભક્તને શેની એકમાત્ર વાસના હોય છે?",
+        "correct": "કેવળ ભગવાનની વાસના",
+        "wrong": ["સ્વર્ગના સુખોની વાસના", "જગતમાં માન-કીર્તિની વાસના", "સિદ્ધિઓ પ્રાપ્ત કરવાની વાસના"],
+        "why": "મહારાજ કહે છે કે જેને ભગવાન વિના બીજી કોઈ વાસના ન હોય તે એકાંતિક ભક્ત કહેવાય."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "How does an ekantik bhakta realize their own self?",
+        "correct": "As brahmarup",
+        "wrong": ["As the physical body", "As a worldly doer", "As a mortal creature"],
+        "why": "Maharaj explains that an ekantik bhakta offers bhakti realizing himself to be brahmarup."
+      },
+      "gu": {
+        "q": "એકાંતિક ભક્ત પોતાનું સ્વરૂપ કેવું માને છે?",
+        "correct": "પોતાને બ્રહ્મરૂપ માને છે",
+        "wrong": ["પોતાને સ્થૂળ દેહરૂપ માને છે", "પોતાને સાંસારિક કર્તા માને છે", "પોતાને નાશવંત જીવ માને છે"],
+        "why": "મહારાજ કહે છે કે પોતાને બ્રહ્મરૂપ માનીને ભગવાનની ભક્તિ કરતો હોય તે એકાંતિક ભક્ત કહેવાય."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What practice does an ekantik bhakta perform after becoming brahmarup?",
+        "correct": "Offers devotion to God",
+        "wrong": ["Renounces all actions completely", "Seeks temporary celestial realms", "Identifies with worldly family"],
+        "why": "Maharaj states that an ekantik bhakta realizes himself to be brahmarup and offers bhakti to God."
+      },
+      "gu": {
+        "q": "પોતાને બ્રહ્મરૂપ માનીને એકાંતિક ભક્ત શું કરે છે?",
+        "correct": "ભગવાનની ભક્તિ કરે છે",
+        "wrong": ["સર્વ ક્રિયાઓનો ત્યાગ કરે છે", "ક્ષણિક દેવલોકની ઇચ્છા કરે છે", "સંસારી કુટુંબ સાથે જોડાય છે"],
+        "why": "મહારાજ કહે છે કે પોતાને બ્રહ્મરૂપ માનીને ભગવાનની ભક્તિ કરતો હોય તે એકાંતિક ભક્ત કહેવાય."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "If an aspirant craves never-experienced pleasures, what does that desire represent?",
+        "correct": "Worldly vasana",
+        "wrong": ["Spiritual detachment", "Attainment of liberation", "Spiritual wisdom"],
+        "why": "Maharaj teaches that desiring pleasures that have never even been experienced is still vasana."
+      },
+      "gu": {
+        "q": "સાધક અણભોગવેલા વિષયોની ઇચ્છા રાખે તો તે શું ગણાય?",
+        "correct": "સાંસારિક વાસના",
+        "wrong": ["સાચો વૈરાગ્ય", "મુક્તિની પ્રાપ્તિ", "આત્મજ્ઞાનનું લક્ષણ"],
+        "why": "મહારાજ શીખવે છે કે જે વિષય ભોગવ્યામાં ન આવ્યા હોય તેની ઇચ્છા વર્તે તેને પણ વાસના કહીએ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What must be completely absent in a true ekantik devotee?",
+        "correct": "Any vasana except for God",
+        "wrong": ["Reverence for divine avatars", "Love for devotional worship", "Knowledge of spiritual truth"],
+        "why": "Maharaj states that an ekantik bhakta has no vasana except that of God."
+      },
+      "gu": {
+        "q": "એકાંતિક ભક્તમાં શેનો સંપૂર્ણ અભાવ હોવો જોઈએ?",
+        "correct": "ભગવાન સિવાય અન્ય વાસનાનો",
+        "wrong": ["ઈશ્વર પ્રત્યે આદરભાવનો", "ભક્તિભાવ અને પૂજાનો", "આધ્યાત્મિક સત્યના જ્ઞાનનો"],
+        "why": "મહારાજ જણાવે છે કે જેને ભગવાન વિના બીજી કોઈ વાસના ન હોય તે એકાંતિક ભક્ત કહેવાય."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Which two conditions characterize an ekantik devotee in this discourse?",
+        "correct": "No worldly vasana and brahmarup devotion",
+        "wrong": ["Rigid fasting and continuous pilgrimage", "Physical renunciation and deep silence", "Scriptural scholarship and worldly wealth"],
+        "why": "Maharaj defines an ekantik devotee as one having no vasana except God and offering bhakti as brahmarup."
+      },
+      "gu": {
+        "q": "આ વચનામૃત મુજબ એકાંતિક ભક્તનાં બે મુખ્ય લક્ષણ કયાં છે?",
+        "correct": "અન્ય વાસનાનો ત્યાગ અને બ્રહ્મરૂપ ભક્તિ",
+        "wrong": ["કઠિન ઉપવાસ અને તીર્થયાત્રા કરવી", "શારીરિક ત્યાગ અને કેવળ મૌન રાખવું", "શાસ્ત્રોનું પાંડિત્ય અને ધનસંચય કરવો"],
+        "why": "મહારાજ એકાંતિક ભક્તનું લક્ષણ કહે છે: ભગવાન વિના બીજી વાસના ન હોય અને બ્રહ્મરૂપ માની ભક્તિ કરતો હોય."
+      }
+    }
+  ]
+}

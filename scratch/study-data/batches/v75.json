@@ -1,0 +1,256 @@
+{
+  "id": 75,
+  "themes": [
+    "sant",
+    "bhakti",
+    "upasana"
+  ],
+  "en": {
+    "key": "One should understand the supreme greatness of God's devotee and foster sincere affection for him, while perfecting gnan, vairagya, bhakti, and dharma to attain resolute faith.",
+    "summary": [
+      "Shriji Maharaj addresses the scriptural proclamation that seventy-one generations of a devotee's lineage attain liberation, explaining the true condition under which this occurs. Citing the examples of Devhuti's love for Kardam Rishi and the fifty daughters of King Mandhata who married Saubhari Rishi, Maharaj illustrates how affection for a holy person leads to salvation. A devotee's relatives or ancestors in heaven are redeemed only if they appreciate their great fortune in having a devotee in their family and cherish him with reverent love.",
+      "Conversely, Maharaj warns that anyone who harbors hatred or malice towards a devotee of God can never attain liberation. As animosity grows, that person's intellect becomes increasingly corrupted, and upon passing away, he falls into the terrifying pits of hell reserved for those who commit the five grave sins. Thus, salvation does not belong automatically to mere blood relatives, but to all who hold genuine affection for a devotee of God, whether they belong to his family or not.",
+      "Explaining how to distinguish a devotee with unwavering faith from one with weak faith when both appear outwardly pious, Maharaj defines the four essential pillars of perfect faith. Resolute faith coupled with the understanding of God's divine greatness requires precise knowledge of the atma, staunch vairagya, unswerving devotion, and spotless observance of swadharma. If even one of these four factors is missing, the devotee's faith remains deficient and lacks the true comprehension of God's glory."
+    ]
+  },
+  "gu": {
+    "key": "ભગવાનના ભક્તનું માહાત્મ્ય સમજીને તેમાં સ્નેહ રાખવો અને જ્ઞાન, વૈરાગ્ય, ભક્તિ તથા સ્વધર્મ સિદ્ધ કરીને માહાત્મ્ય સહિત પરિપૂર્ણ નિશ્ચય કરવો.",
+    "summary": [
+      "ભગવાનના એક ભક્તથી કુળનાં એકોત્તર પરિયાં તરે છે તે વચનનો સાચો મર્મ સમજાવતાં શ્રીજીમહારાજ સ્પષ્ટ કરે છે કે કેવળ જન્મ માત્રથી કોઈનો ઉદ્ધાર થતો નથી. કર્દમ ઋષિ પ્રત્યે દેવહૂતિના સ્નેહ અને સૌભરિ ઋષિ પ્રત્યે માંધાતા રાજાની પચાસ કન્યાઓના સ્નેહનું ઉદાહરણ આપીને તેઓ જણાવે છે કે પવિત્ર સંતમાં રહેલો હેતભાવ જ મુક્તિનું કારણ બને છે. કુટુંબીજનો કે સ્વર્ગમાં ગયેલા પિતૃઓ જો પોતાના કુળમાં ભક્ત થયાનું અહોભાગ્ય સમજીને ભક્તમાં નિર્મળ હેત રાખે, તો જ તેમનો મોક્ષ થાય છે.",
+      "તેથી ઊલટું, મહારાજ ચેતવણી આપે છે કે જે વ્યક્તિ ભગવાનના ભક્ત પ્રત્યે દ્વેષ કે વૈરબુદ્ધિ રાખે છે તેનો કદાપિ ઉદ્ધાર થતો નથી. જેમ જેમ તે ભક્તનો દ્રોહ કરે છે તેમ તેમ તેની બુદ્ધિ ભ્રષ્ટ થતી જાય છે અને અંતે તે પંચ મહાપાપ કરનારા જીવો પડે છે તેવા ઘોર નરકમાં પડે છે. આથી સ્પષ્ટ થાય છે કે સંબંધી હોય કે અન્ય કોઈ પણ જીવ હોય, જે ભગવાનના સંતમાં સાચો પ્રેમ રાખે છે તેનું જ આત્યંતિક કલ્યાણ થાય છે.",
+      "બહારથી સારા દેખાતા ભક્તોમાંથી કોનો નિશ્ચય પરિપક્વ છે તે ઓળખવાની રીત સમજાવતાં મહારાજ ચાર મૂળભૂત અંગો દર્શાવે છે. જે હરિભક્તને પોતાના આત્મસ્વરૂપનું યથાર્થ જ્ઞાન હોય, સંસારથી દૃઢ વૈરાગ્ય હોય, પ્રભુની અનન્ય ભક્તિ હોય અને સ્વધર્મનું સંપૂર્ણ નિર્દોષ પાલન હોય, તેનો નિશ્ચય જ માહાત્મ્ય સહિત પરિપૂર્ણ ગણાય છે. આ ચાર સાધનોમાંથી જો એક પણ વાનું ઓછું હોય, તો તેનો નિશ્ચય માહાત્મ્ય વિનાનો અને કાચો જાણવો."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 1,
+      "en": {
+        "q": "Under what condition are a devotee's family members redeemed?",
+        "correct": "By having affection for the devotee",
+        "wrong": [
+          "Simply by sharing the same lineage",
+          "By performing extensive rituals",
+          "By giving away vast wealth"
+        ],
+        "why": "Maharaj explains that family members attain liberation if they understand the devotee's greatness and keep affection for him."
+      },
+      "gu": {
+        "q": "કુળના સભ્યો કઈ શરતે ભક્ત દ્વારા મુક્તિ પામે છે?",
+        "correct": "ભક્તનું માહાત્મ્ય સમજીને સ્નેહ રાખવાથી",
+        "wrong": [
+          "માત્ર એક જ કુળમાં જન્મ લેવાથી",
+          "મોટા યજ્ઞો અને વિધિ કરવાથી",
+          "પુષ્કળ ધનનું દાન આપવાથી"
+        ],
+        "why": "મહારાજ સમજાવે છે કે કુળમાં ભક્ત થયાનું માહાત્મ્ય સમજીને હેત રાખે તો સર્વ કુટુંબીનું કલ્યાણ થાય છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Why did King Mandhata's daughters attain liberation through Saubhari Rishi?",
+        "correct": "They had affection for the rishi",
+        "wrong": [
+          "They performed intense yogic penance",
+          "They observed difficult scriptural vows",
+          "They gave up all material comforts"
+        ],
+        "why": "Maharaj notes that even though their affection began with attraction, their love for the rishi led to liberation."
+      },
+      "gu": {
+        "q": "માંધાતા રાજાની કન્યાઓ સૌભરિ ઋષિ દ્વારા કેમ મુક્તિ પામી?",
+        "correct": "તેમને ઋષિ પ્રત્યે સ્નેહ હતો",
+        "wrong": [
+          "તેમણે ઘોર યોગસાધના કરી હતી",
+          "તેમણે કઠિન વ્રતો પાળ્યાં હતાં",
+          "તેમણે સર્વ સુખોનો ત્યાગ કર્યો હતો"
+        ],
+        "why": "મહારાજ કહે છે કે તેમને સૌભરિને વિષે હેત હતું, તેથી તે સર્વેનું કલ્યાણ ઋષિ જેવું થયું."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "How can departed forefathers in swarg attain liberation?",
+        "correct": "By feeling affection for the devotee",
+        "wrong": [
+          "By enjoying their heavenly rewards",
+          "By receiving traditional oblations",
+          "By rebirth in a wealthy family"
+        ],
+        "why": "Maharaj explains that if ancestors in swarg recognize their great fortune and love the devotee, they too are liberated."
+      },
+      "gu": {
+        "q": "સ્વર્ગમાં ગયેલા પિતૃઓ કઈ રીતે કલ્યાણ પામે છે?",
+        "correct": "કુળના ભક્તમાં સ્નેહ રાખીને",
+        "wrong": [
+          "સ્વર્ગનાં સુખો ભોગવીને",
+          "માત્ર શ્રાદ્ધ કે તર્પણ મેળવીને",
+          "ધનવાન કુળમાં પુનર્જન્મ પામીને"
+        ],
+        "why": "મહારાજ સમજાવે છે કે પિતૃઓ પણ જો કુળમાં ભક્ત થયાનું ભાગ્ય સમજીને હેત રાખે તો તેમનું કલ્યાણ થાય છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What happens to a person who keeps animosity towards a devotee?",
+        "correct": "The intellect becomes fully polluted",
+        "wrong": [
+          "The person achieves quick detachment",
+          "The person gains spiritual strength",
+          "The person attains higher realms"
+        ],
+        "why": "Maharaj states that as one continues hatred towards a devotee, one's intellect becomes corrupted and one falls into narak."
+      },
+      "gu": {
+        "q": "ભગવાનના ભક્ત સાથે વૈર રાખનારની શી દશા થાય છે?",
+        "correct": "તેની બુદ્ધિ ભ્રષ્ટ થઈ જાય છે",
+        "wrong": [
+          "તેનો સંસાર પ્રત્યે વૈરાગ્ય વધે છે",
+          "તેનું આધ્યાત્મિક બળ વધી જાય છે",
+          "તે ઉત્તમ લોકની પ્રાપ્તિ કરે છે"
+        ],
+        "why": "મહારાજ કહે છે કે જે ભક્ત સંગાથે વૈર કરે તેની બુદ્ધિ જેમ જેમ વૈર વધે તેમ ભ્રષ્ટ થતી જાય છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Which pit of hell does a hater of God's devotees enter?",
+        "correct": "The pit for five grave sins",
+        "wrong": [
+          "The pit for minor mistakes",
+          "The pit for unfulfilled vows",
+          "The pit for idle talkers"
+        ],
+        "why": "Maharaj states that one who bears animosity towards a devotee falls into the same pit of narak as those committing the five grave sins."
+      },
+      "gu": {
+        "q": "હરિભક્તનો દ્વેષ કરનાર કયા નરકકુંડમાં પડે છે?",
+        "correct": "પંચ મહાપાપ કરનારાના કુંડમાં",
+        "wrong": [
+          "સામાન્ય ભૂલો કરનારાના કુંડમાં",
+          "વ્રત ચૂકી જનારાના કુંડમાં",
+          "આળસુ જીવોના નરકકુંડમાં"
+        ],
+        "why": "મહારાજ જણાવે છે કે પંચ મહાપાપના કરનારા જે નરકના કુંડમાં પડે, તે પણ તે જ કુંડમાં પડે છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Who is eligible for liberation through association with a devotee?",
+        "correct": "Anyone who loves the devotee",
+        "wrong": [
+          "Only direct blood relatives",
+          "Only high-caste ascetics",
+          "Only wealthy patrons of faith"
+        ],
+        "why": "Maharaj clarifies that whoever has affection for a devotee of God, whether a relative or anyone else, attains liberation."
+      },
+      "gu": {
+        "q": "ભગવાનના ભક્તના સંગથી કોનું કલ્યાણ થાય છે?",
+        "correct": "ભક્તમાં સાચો સ્નેહ રાખનાર સૌનું",
+        "wrong": [
+          "માત્ર સગાં ભાઈ-ભાંડુઓનું જ",
+          "માત્ર ઉચ્ચ વર્ણના તપસ્વીઓનું",
+          "માત્ર ધનિક આશ્રયદાતાઓનું"
+        ],
+        "why": "મહારાજ કહે છે કે ભગવાનના ભક્તમાં જેને હેત હોય, તે સંબંધી હોય અથવા બીજો કોઈ હોય, તે સર્વનું કલ્યાણ થાય છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What four virtues signify perfect faith in God?",
+        "correct": "Gnan, vairagya, bhakti, and dharma",
+        "wrong": [
+          "Wealth, fame, charisma, and status",
+          "Fasting, pilgrimage, rituals, and chants",
+          "Power, debate, pride, and authority"
+        ],
+        "why": "Maharaj teaches that precise gnan of the atma, firm vairagya, bhakti, and swadharma signify perfect faith."
+      },
+      "gu": {
+        "q": "ભગવાનમાં પરિપૂર્ણ નિશ્ચય કયાં ચાર અંગોથી ઓળખાય છે?",
+        "correct": "જ્ઞાન, વૈરાગ્ય, ભક્તિ અને સ્વધર્મ",
+        "wrong": [
+          "સંપત્તિ, કીર્તિ, પદ અને પ્રતિષ્ઠા",
+          "ઉપવાસ, તીર્થયાત્રા, વિધિ અને જપ",
+          "વાદવિવાદ, અભિમાન, સત્તા અને હોદ્દો"
+        ],
+        "why": "મહારાજ કહે છે કે આત્માનું યથાર્થ જ્ઞાન, દૃઢ વૈરાગ્ય, ભક્તિ અને સ્વધર્મ પરિપૂર્ણ હોય તેનો નિશ્ચય પરિપૂર્ણ જાણવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What is faith called if even one of the four virtues is missing?",
+        "correct": "Faith without understanding of greatness",
+        "wrong": [
+          "Faith of the highest order",
+          "Absolute and faultless devotion",
+          "Supreme detachment from maya"
+        ],
+        "why": "Maharaj explains that if even one of the four is lacking, faith exists but without the knowledge of greatness."
+      },
+      "gu": {
+        "q": "ચાર ગુણોમાંથી એક પણ ઓછો હોય તો તે નિશ્ચય કેવો કહેવાય?",
+        "correct": "માહાત્મ્ય વિનાનો નિશ્ચય",
+        "wrong": [
+          "સર્વોચ્ચ કક્ષાનો દૃઢ નિશ્ચય",
+          "નિર્દોષ અને અડગ નિશ્ચય",
+          "માયાથી પર પરમ વૈરાગ્ય"
+        ],
+        "why": "મહારાજ કહે છે કે એમાંથી જો એકે વાનું ઓછું હોય તો નિશ્ચય છે તો પણ માહાત્મ્ય વિનાનો છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "When is faith considered coupled with knowledge of God's greatness?",
+        "correct": "When all four virtues are present",
+        "wrong": [
+          "When one possesses mystic powers",
+          "When one performs severe austerities",
+          "When one delivers eloquent lectures"
+        ],
+        "why": "Maharaj states that when all four factors are totally present, that is faith in God coupled with knowledge of His greatness."
+      },
+      "gu": {
+        "q": "ભગવાનનો નિશ્ચય માહાત્મ્ય સહિત ક્યારે ગણાય છે?",
+        "correct": "ચારેય અંગો સંપૂર્ણ હોય ત્યારે",
+        "wrong": [
+          "સિદ્ધિઓ પ્રાપ્ત થઈ હોય ત્યારે",
+          "કઠોર શારીરિક તપ કરે ત્યારે",
+          "સભામાં ઉત્તમ પ્રવચન કરે ત્યારે"
+        ],
+        "why": "મહારાજ કહે છે કે એ ચાર વાનાં સંપૂર્ણ હોય તે માહાત્મ્ય સહિત ભગવાનનો નિશ્ચય જાણવો."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Why does mere physical birth in a devotee's family not guarantee liberation?",
+        "correct": "Liberation requires love for the devotee",
+        "wrong": [
+          "Lineage has no relation to spirituality",
+          "Devotees cannot redeem their relatives",
+          "Physical bodies are completely unreal"
+        ],
+        "why": "Maharaj explains that redemption depends on having affection and recognizing the devotee's greatness, not merely sharing bloodlines."
+      },
+      "gu": {
+        "q": "ભક્તના કુળમાં માત્ર જન્મ લેવાથી જ મોક્ષ કેમ નથી થતો?",
+        "correct": "મોક્ષ માટે ભક્તમાં સ્નેહ અનિવાર્ય છે",
+        "wrong": [
+          "કુળનો અધ્યાત્મ સાથે કોઈ સંબંધ નથી",
+          "ભક્તો પોતાના સંબંધીને તારી શકતા નથી",
+          "સ્થૂળ દેહ સર્વ પ્રકારે મિથ્યા છે"
+        ],
+        "why": "મહારાજ સ્પષ્ટ કરે છે કે ભક્તનું માહાત્મ્ય સમજીને સ્નેહ રાખે તો જ કલ્યાણ થાય છે, વૈર રાખનાર તો નરકમાં જાય છે."
+      }
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "id": 36,
+  "themes": [
+    "vairagya",
+    "sadhana",
+    "sant"
+  ],
+  "en": {
+    "key": "One should consider gold and dust as equal and love only God, without hoarding pleasant objects or neglecting dharma, gnan, vairagya, and bhakti.",
+    "summary": [
+      "Shriji Maharaj draws a striking comparison between an unfaithful ascetic and an impoverished pauper standing before a wealthy tycoon. A destitute pauper scavenges grains from garbage heaps and wears tatters, recognized by himself and society as a wretched sinner reaping the fruits of past misdeeds. In the exact same manner, if someone renounces the world but continuously collects fine clothes and worldly articles while lacking love for dharma, gnan, vairagya, and bhakti, great Ekantik Sadhus regard him as a spiritual sinner. Such an individual proves his sinful inner disposition because his heart remains attached to worldly trifles rather than the divine virtues of God.",
+      "In sharp contrast, Maharaj defines the sublime state of a true renunciant. An authentic renunciant regards dust and gold as entirely equal, having transcended material preferences between pleasant and unpleasant objects. His intellect never distinguishes things as desirable or undesirable, nor does he crave earthly luxuries. Instead, his entire affection remains exclusively centered on the sacred form of God."
+    ]
+  },
+  "gu": {
+    "key": "સાચા ત્યાગીએ કંચન અને કચરાને સમાન ગણી એક ભગવાનમાં જ પ્રીતિ રાખવી અને વસ્ત્રાદિ પદાર્થોનો સંગ્રહ ન કરતાં ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિ દૃઢ કરવાં.",
+    "summary": [
+      "શ્રીજીમહારાજ શાહુકાર આગળ ઊભેલા કંગાલ માણસના દૃષ્ટાંત દ્વારા ત્યાગીના સાચા સ્વરૂપનું નિરૂપણ કરે છે. ઉકરડામાંથી દાણા વીણીને ખાતો અને વસ્ત્ર વિના ભટકતો કંગાલ માણસ પોતાને પાપી સમજે છે અને સમાજ પણ તેનાં પૂર્વપાપનું આ ફળ માને છે. એ જ રીતે, સંસારનો ત્યાગ કરીને સુંદર વસ્ત્રો તથા ભૌતિક પદાર્થોનો સંગ્રહ કરનાર અને ધર્મ, જ્ઞાન, વૈરાગ્ય તથા ભક્તિથી રહિત રહેનાર સાધકને મોટા એકાંતિક સંતો કંગાલ જેવો પાપી ગણે છે. પરમેશ્વરને બદલે તુચ્છ અસત પદાર્થોમાં પ્રીતિ થવી એ જ તેની પાપી સ્થિતિની સાબિતી છે.",
+      "સાચા ત્યાગીનાં પવિત્ર લક્ષણો સમજાવતાં મહારાજ કહે છે કે તેને મન ધૂળ અને સોનું બંને એકસમાન હોય છે. ઉત્તમ ત્યાગીના અંતરમાં આ પદાર્થ સારો છે કે આ પદાર્થ ખરાબ છે એવો કોઈ સાંસારિક ભેદભાવ હોતો નથી. તે ભૌતિક પદાર્થોની તૃષ્ણાથી સંપૂર્ણ પર રહીને પોતાની સમસ્ત પ્રીતિ માત્ર એક ભગવાનના સ્વરૂપમાં જ અખંડ જોડી રાખે છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 3,
+      "en": {
+        "q": "To whom does Shriji Maharaj compare an ascetic who loves worldly objects?",
+        "correct": "A pauper standing before a rich tycoon",
+        "wrong": [
+          "A warrior fleeing from the battlefield",
+          "A merchant suffering financial loss",
+          "A lost traveler stranded in a forest"
+        ],
+        "why": "Maharaj compares an ascetic attached to non-divine objects to a pauper standing before a tycoon."
+      },
+      "gu": {
+        "q": "અસત પદાર્થમાં પ્રીતિવાળા ત્યાગીને મહારાજે કોના જેવા કહ્યા?",
+        "correct": "શાહુકાર આગળ ઊભેલા કંગાલ માણસ જેવા",
+        "wrong": [
+          "રણમેદાન છોડી ભાગતા કાયર યોદ્ધા જેવા",
+          "વેપારમાં નુકસાન વેઠતા વેપારી જેવા",
+          "ગાઢ જંગલમાં અટવાયેલા મુસાફર જેવા"
+        ],
+        "why": "શ્રીજીમહારાજ કહે છે કે પરમેશ્વર વિના અસત પદાર્થમાં પ્રીતિ રાખનાર ત્યાગી શાહુકાર આગળ કંગાલ જેવો છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Why does society consider the pauper scavenging garbage to be a sinner?",
+        "correct": "His misery indicates past sinful karma",
+        "wrong": [
+          "He openly steals from fellow citizens",
+          "He refuses to work for his living",
+          "He speaks ill of pious individuals"
+        ],
+        "why": "People consider the pauper a sinner because severe lack of food and clothing indicates past sinful karma."
+      },
+      "gu": {
+        "q": "ઉકરડામાંથી દાણા વીણતા કંગાલને લોકો શા માટે પાપી સમજે છે?",
+        "correct": "તેની દશા પૂર્વપાપ દર્શાવે છે માટે",
+        "wrong": [
+          "તે અન્ય લોકોની ચોરી કરતો હોવાથી",
+          "તે મહેનત-મજૂરી કરવાની ના પાડતો હોવાથી",
+          "તે સજ્જન લોકોની નિંદા કરતો હોવાથી"
+        ],
+        "why": "લોકો સમજે છે કે એણે પૂર્વજન્મમાં પાપ કર્યાં હશે માટે એને અન્ન અને વસ્ત્ર મળતાં નથી."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What behavior exposes a false renunciant according to this discourse?",
+        "correct": "Hoarding fine clothes with strong craving",
+        "wrong": [
+          "Eating only once during the afternoon",
+          "Sleeping on a plain wooden floor",
+          "Wearing simple unstitched white cloth"
+        ],
+        "why": "Collecting fine clothes with craving while lacking spiritual virtues marks an unworthy ascetic."
+      },
+      "gu": {
+        "q": "આ વચનામૃત અનુસાર ખોટા ત્યાગીનું કયું લક્ષણ જણાવ્યું છે?",
+        "correct": "તૃષ્ણા રાખી સારાં વસ્ત્રો ભેળાં કરવાં",
+        "wrong": [
+          "બપોરે માત્ર એક જ વાર ભોજન લેવું",
+          "લાકડાના સાદા પાટિયા પર શયન કરવું",
+          "સાદાં અણસીવેલાં શ્વેત વસ્ત્રો પહેરવાં"
+        ],
+        "why": "સારાં સારાં વસ્ત્રાદિ પદાર્થોને તૃષ્ણા રાખી ભેળાં કરી રાખે તે ત્યાગીમાં દોષ છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Which four divine virtues should a genuine renunciant cultivate?",
+        "correct": "Dharma, gnan, vairagya, and bhakti",
+        "wrong": [
+          "Fame, power, authority, and wealth",
+          "Fasting, silence, solitude, and travel",
+          "Debate, logic, poetry, and scholarship"
+        ],
+        "why": "Maharaj emphasizes that a true renunciant must have heartfelt affection for dharma, gnan, vairagya, and bhakti."
+      },
+      "gu": {
+        "q": "સાચા ત્યાગીએ કયાં ચાર અંગોમાં પ્રીતિ રાખવી જોઈએ?",
+        "correct": "ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિ",
+        "wrong": [
+          "કીર્તિ, સત્તા, અધિકાર અને સંપત્તિ",
+          "ઉપવાસ, મૌન, એકાંત અને ભ્રમણ",
+          "તર્કશાસ્ત્ર, કાવ્ય અને વ્યાકરણ"
+        ],
+        "why": "સાચા ત્યાગીએ ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિમાં વિશેષ પ્રીતિ રાખવી જોઈએ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Why do great Ekantik Sadhus regard a materialistic renunciant as a sinner?",
+        "correct": "Because he lacks love for divine virtues",
+        "wrong": [
+          "Because he violates social caste rules",
+          "Because he travels without permission",
+          "Because he neglects chanting Vedic hymns"
+        ],
+        "why": "He is considered a sinner because his lack of love for dharma and bhakti shows internal corruption."
+      },
+      "gu": {
+        "q": "મોટા એકાંતિક સંતો પદાર્થપ્રેમી ત્યાગીને પાપી કેમ ગણે છે?",
+        "correct": "તેને ધર્મ અને ભક્તિમાં પ્રીતિ નથી માટે",
+        "wrong": [
+          "તેણે જ્ઞાતિના સામાજિક નિયમો તોડ્યા છે",
+          "તે વડીલોની પરવાનગી વિના પ્રવાસ કરે છે",
+          "તે વેદમંત્રોનું પાઠ-પઠન કરતો નથી"
+        ],
+        "why": "જો એ પાપી ન હોય તો એને ધર્મ, જ્ઞાન, વૈરાગ્ય અને ભક્તિમાં પ્રીતિ કેમ ન થાય?"
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What attitude does a true renunciant hold toward gold and dirt?",
+        "correct": "Regards both as completely equal",
+        "wrong": [
+          "Values gold only for building temples",
+          "Prefers dirt to show severe austerity",
+          "Keeps gold hidden for emergencies"
+        ],
+        "why": "Maharaj teaches that for a genuine renunciant, dirt and gold are viewed as entirely equal."
+      },
+      "gu": {
+        "q": "સાચો ત્યાગી કંચન અને કચરા પ્રત્યે કેવો ભાવ રાખે છે?",
+        "correct": "બંનેને એકસમાન તુચ્છ ગણે છે",
+        "wrong": [
+          "મંદિર નિર્માણ માટે સુવર્ણ સ્વીકારે",
+          "કઠોર ત્યાગ દર્શાવવા ધૂળ પસંદ કરે છે",
+          "મુશ્કેલ સમય માટે સુવર્ણ સાચવી રાખે"
+        ],
+        "why": "મહારાજ સ્પષ્ટ કહે છે કે જે ત્યાગી હોય તેને તો કચરો અને કંચન એ બેય બરોબર હોય."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What distinction does a true renunciant never make regarding worldly objects?",
+        "correct": "Judging objects as pleasant or unpleasant",
+        "wrong": [
+          "Distinguishing temple goods from private ones",
+          "Identifying poisonous from healthy food",
+          "Remembering names of various villages"
+        ],
+        "why": "A true renunciant never discriminates by judging one worldly object as pleasant and another as unpleasant."
+      },
+      "gu": {
+        "q": "સાચો ત્યાગી સાંસારિક પદાર્થો વિશે કયો ભેદભાવ રાખતો નથી?",
+        "correct": "આ સારું અને આ ખરાબ એવો ભેદ",
+        "wrong": [
+          "આશ્રમની અને પોતાની વસ્તુનો ભેદ",
+          "ઝેરી અને ગુણકારી આહારની ઓળખ",
+          "જુદાં જુદાં ગામોનાં નામની સ્મૃતિ"
+        ],
+        "why": "સાચા ત્યાગીને ‘આ પદાર્થ સારું અને આ પદાર્થ ભૂંડું’ એવી સમજણ જ હોતી નથી."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Where is the love of an authentic renunciant exclusively focused?",
+        "correct": "Exclusively on the form of God",
+        "wrong": [
+          "On constructing massive monasteries",
+          "On gaining praise from royal patrons",
+          "On preserving ancient scriptural texts"
+        ],
+        "why": "Maharaj concludes that only he who loves nothing other than God is a true renunciant."
+      },
+      "gu": {
+        "q": "સાચા ત્યાગીની અખંડ પ્રીતિ ક્યાં જોડાયેલી હોય છે?",
+        "correct": "માત્ર એક ભગવાનના સ્વરૂપમાં",
+        "wrong": [
+          "વિશાળ સંત આશ્રમોનું નિર્માણ કરવામાં",
+          "રાજાઓ પાસેથી માન-પ્રશંસા મેળવવામાં",
+          "પ્રાચીન હસ્તપ્રતોનું જતન કરવામાં"
+        ],
+        "why": "જેને એક ભગવાનને વિષે જ પ્રીતિ હોય તે જ વાસ્તવમાં સાચો ત્યાગી છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What does attachment to objects other than God reveal about a renunciant's inner state?",
+        "correct": "His heart is corrupted by sin",
+        "wrong": [
+          "He is advancing toward deep samadhi",
+          "He is rigorously testing his self-control",
+          "He is showing sympathy toward craftsmen"
+        ],
+        "why": "Loving asat objects rather than God proves that the renunciant is spiritually sinful."
+      },
+      "gu": {
+        "q": "પરમેશ્વર સિવાયના પદાર્થોમાં પ્રીતિ ત્યાગીની કઈ સ્થિતિ દર્શાવે છે?",
+        "correct": "તેનું અંતઃકરણ પાપથી ભરેલું છે",
+        "wrong": [
+          "તે ઊંડી સમાધિ તરફ આગળ વધે છે",
+          "તે પોતાના આત્મસંયમની કસોટી કરે છે",
+          "તે કારીગરો પ્રત્યે દયાભાવ રાખે છે"
+        ],
+        "why": "જો એ પાપી છે તો જ એને પરમેશ્વર વિના બીજા પદાર્થમાં પ્રીતિ થાય છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What does the term asat objects refer to in this discourse?",
+        "correct": "Objects other than the form of God",
+        "wrong": [
+          "Weapons used in worldly warfare",
+          "Atheistic and misleading scriptures",
+          "Spoiled food unfit for eating"
+        ],
+        "why": "The discourse defines asat objects as worldly items other than the divine form of God."
+      },
+      "gu": {
+        "q": "આ વચનામૃતમાં અસત પદાર્થ શબ્દનો શો અર્થ થાય છે?",
+        "correct": "ભગવાનના સ્વરૂપ સિવાયના અન્ય પદાર્થો",
+        "wrong": [
+          "યુદ્ધમાં વપરાતાં વિનાશક હથિયારો",
+          "નાસ્તિકો દ્વારા રચાયેલાં પુસ્તકો",
+          "ખાવા અયોગ્ય એવો બગડેલો ખોરાક"
+        ],
+        "why": "પરમેશ્વરના સ્વરૂપ વિના જે સાંસારિક પદાર્થો છે તેને અસત પદાર્થ કહ્યા છે."
+      }
+    }
+  ]
+}

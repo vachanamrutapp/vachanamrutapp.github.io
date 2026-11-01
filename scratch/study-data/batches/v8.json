@@ -1,0 +1,250 @@
+{
+  "id": 8,
+  "themes": ["sadhana", "sant", "vairagya"],
+  "en": {
+    "key": "One should engage the indriyas in the service of God and His Sant, stay within scriptural regulations, and keep the association of the Sant to overcome worldly attachment.",
+    "summary": [
+      "Shriji Maharaj explains the pivotal role of sensory actions in shaping the spiritual destiny of the jiva. When the activities and vruttis of the indriyas are dedicated entirely to the selfless service of God and His devotees, the aspirant's antahkaran becomes thoroughly purified, eradicating sins accumulated since time immemorial. Conversely, if one's senses are permitted to pursue worldly sensual pleasures, the antahkaran becomes corrupted, causing the aspirant to fall away from the path of liberation. Therefore, one must strictly observe scriptural boundaries regarding worldly objects and never transgress the moral disciplines ordained by sacred texts.",
+      "Maharaj further emphasizes the profound necessity of shunning bad company and associating continually with the Sant. Through genuine association with holy sadhus, the aspirant successfully uproots bodily ego—the persistent identification of the self with the physical body—as well as possessiveness toward bodily relations. In place of worldly entanglements, the devotee cultivates extraordinary love for God and develops deep detachment from all worldly objects. Maharaj thus reveals that disciplined senses combined with holy fellowship form the true foundation of spiritual redemption."
+    ]
+  },
+  "gu": {
+    "key": "ઇન્દ્રિયોને ભગવાન તથા સંતની સેવામાં જોડવી, શાસ્ત્રમર્યાદામાં રહેવું અને કુસંગ તજી સંતનો સંગ રાખી દેહભાવ તથા મમત્વ ટાળવું.",
+    "summary": [
+      "શ્રીજીમહારાજ જીવના કલ્યાણમાં ઇન્દ્રિયોની ક્રિયાઓનું મહત્ત્વ સમજાવે છે. જો ઇન્દ્રિયોની સર્વ વૃત્તિઓને શ્રીકૃષ્ણ ભગવાન અને તેમના ભક્તોની સેવામાં જોડવામાં આવે, તો જીવનું અંતઃકરણ પરમ પવિત્ર બને છે અને અનંત કાળનાં પાપોનો નાશ થાય છે. તેનાથી ઊલટું, જો ઇન્દ્રિયોને સાંસારિક વિષયભોગો તરફ પ્રવર્તાવવામાં આવે તો અંતઃકરણ મલિન થાય છે અને જીવ મોક્ષના માર્ગ પરથી ભ્રષ્ટ થઈ જાય છે. તેથી શાસ્ત્રની મર્યાદાનું ઉલ્લંઘન કર્યા વિના, શાસ્ત્રના નિયમ પ્રમાણે જ વિષયોનો વ્યવહાર કરવો જોઈએ.",
+      "વધુમાં મહારાજ કુસંગનો ત્યાગ કરીને સંતનો સંગ રાખવાનો વિશેષ મહિમા સમજાવે છે. સાચા સંતના પવિત્ર સમાગમથી દેહમાં રહેલી ‘હું’-પણાની અહંબુદ્ધિ તથા દેહના સંબંધીઓમાં રહેલી ‘મારું’-પણાની મમત્વબુદ્ધિ સદંતર નિવૃત્ત થઈ જાય છે. પરિણામે સાધકને ભગવાનમાં અસાધારણ સ્નેહ ઉપજે છે અને ભગવાન સિવાયના તમામ સાંસારિક પદાર્થો પ્રત્યે સહજ વૈરાગ્ય ઉત્પન્ન થાય છે. આમ, ઇન્દ્રિયોનું નિયમન અને સંતસમાગમ એ જ આત્મકલ્યાણનો સાચો રાજમાર્ગ છે એવો ઉપદેશ મહારાજ આપે છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 2,
+      "en": {
+        "q": "What happens when the indriyas serve God and His devotees?",
+        "correct": "Antahkaran is purified and sins destroyed",
+        "wrong": [
+          "Material wealth multiplies across worldly realms",
+          "One gains fame and physical prowess",
+          "The body becomes entirely free of disease"
+        ],
+        "why": "Engaging indriyas in service purifies the antahkaran and destroys sins attached since time immemorial."
+      },
+      "gu": {
+        "q": "ઇન્દ્રિયોને ભગવાન અને સંતની સેવામાં જોડવાથી શું ફળ મળે છે?",
+        "correct": "અંતઃકરણ શુદ્ધ થાય અને પાપ નાશ પામે",
+        "wrong": [
+          "સંસારમાં પુષ્કળ ધન અને દોલત વધે",
+          "લૌકિક કીર્તિ અને શારીરિક બળ વધે",
+          "દેહ સર્વ રોગોથી કાયમ મુક્ત થાય"
+        ],
+        "why": "સેવા કરવાથી અંતઃકરણ શુદ્ધ થાય છે અને અનંત કાળનાં પાપનો નાશ થાય છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What is the danger of directing indriyas towards sensual pleasures?",
+        "correct": "Antahkaran is polluted and liberation lost",
+        "wrong": [
+          "One gains temporary praise from worldly people",
+          "Scriptures become completely forgotten in mind",
+          "Mental focus increases in ritual worship"
+        ],
+        "why": "Directing indriyas to vishays pollutes the antahkaran and causes one to fall from liberation."
+      },
+      "gu": {
+        "q": "ઇન્દ્રિયોને વિષયોમાં પ્રવર્તાવવાથી કેવું નુકસાન થાય છે?",
+        "correct": "અંતઃકરણ ભ્રષ્ટ થાય ને કલ્યાણ બગડે",
+        "wrong": [
+          "સંસારી લોકો તરફથી ક્ષણિક પ્રશંસા મળે",
+          "શાસ્ત્રોના શબ્દો મનમાંથી સાવ ભુલાઈ જાય",
+          "પૂજાવિધિમાં ચિત્તની એકાગ્રતા વધી જાય"
+        ],
+        "why": "વિષયમાં પ્રવર્તાવે તો અંતઃકરણ ભ્રષ્ટ થાય છે અને કલ્યાણના માર્ગ થકી પડી જાય છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How should a devotee indulge in vishays according to Maharaj?",
+        "correct": "Within limits prescribed by scriptures",
+        "wrong": [
+          "Whenever personal desires arise strongly",
+          "According to custom of worldly elders",
+          "By indulging without any moral boundaries"
+        ],
+        "why": "Maharaj teaches one to indulge in vishays only as prescribed in the scriptures."
+      },
+      "gu": {
+        "q": "સાધકે વિષયોનો વ્યવહાર કેવી રીતે કરવો જોઈએ?",
+        "correct": "શાસ્ત્રની મર્યાદા અને નિયમમાં રહીને",
+        "wrong": [
+          "જ્યારે મનમાં તીવ્ર ઇચ્છા જાગે ત્યારે",
+          "સાંસારિક વડીલોના રિવાજ મુજબ જ",
+          "કોઈપણ નૈતિક બંધન વિના મનસ્વીપણે"
+        ],
+        "why": "શાસ્ત્રમાં જે રીતે કહ્યું છે તેવી રીતે નિયમમાં રહીને વિષય ભોગવવા."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What essential association does Shriji Maharaj advocate?",
+        "correct": "Keeping association with the Sant",
+        "wrong": [
+          "Gathering among prominent politicians",
+          "Befriending materialistic wealthy merchants",
+          "Living alone in total wilderness"
+        ],
+        "why": "Maharaj explicitly instructs to keep association with the Sant and shun bad company."
+      },
+      "gu": {
+        "q": "શ્રીજીમહારાજ કોનો સંગ રાખવાની આજ્ઞા કરે છે?",
+        "correct": "ભગવાનના સાચા સંતનો સંગ રાખવો",
+        "wrong": [
+          "પ્રભાવશાળી રાજકારણીઓનો સંગ કરવો",
+          "માયિક ધનવાન વેપારીઓની સંગત કરવી",
+          "સદા જંગલમાં એકાંતવાસ ભોગવવો"
+        ],
+        "why": "મહારાજ આજ્ઞા કરે છે કે સાધુનો સંગ રાખવો અને કુસંગનો ત્યાગ કરવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What must a spiritual aspirant firmly abandon?",
+        "correct": "All forms of bad company",
+        "wrong": [
+          "Physical care of one's body",
+          "Basic duties toward honest family",
+          "Daily respectful study of scriptures"
+        ],
+        "why": "Maharaj clearly commands that one should shun bad company."
+      },
+      "gu": {
+        "q": "આધ્યાત્મિક સાધકે કોનો દૃઢતાથી ત્યાગ કરવો જોઈએ?",
+        "correct": "તમામ પ્રકારના કુસંગનો ત્યાગ કરવો",
+        "wrong": [
+          "શરીરની પાયાની સંભાળ લેવાનો",
+          "પ્રામાણિક કુટુંબ પ્રત્યેની ફરજોનો",
+          "શાસ્ત્રોના નિત્ય આદરપૂર્વક અભ્યાસનો"
+        ],
+        "why": "મહારાજ કહે છે કે કુસંગનો ત્યાગ કરવો."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What happens to bodily ego when one associates with the Sant?",
+        "correct": "Sense of I-ness is eradicated",
+        "wrong": [
+          "Bodily pride increases significantly",
+          "One becomes attached to physical looks",
+          "Desire for physical comfort expands"
+        ],
+        "why": "Association with the Sant eradicates the sense of I-ness towards the body."
+      },
+      "gu": {
+        "q": "સંતનો સંગ કરવાથી દેહભાવમાં શું પરિવર્તન આવે છે?",
+        "correct": "દેહમાં રહેલી અહંબુદ્ધિ નિવૃત્ત થાય છે",
+        "wrong": [
+          "દેહનું અભિમાન ખૂબ વધી જાય છે",
+          "શારીરિક રૂપ-રંગ પ્રત્યે આસક્તિ વધે છે",
+          "શરીરના ભોગો ભોગવવાની ઇચ્છા વધે છે"
+        ],
+        "why": "કુસંગનો ત્યાગ કરીને સાધુનો સંગ કરે છે ત્યારે દેહને વિષે અહંબુદ્ધિ નિવૃત્તિ પામે છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How does holy association affect feelings toward bodily relatives?",
+        "correct": "Possessiveness toward them is removed",
+        "wrong": [
+          "Attachment toward them grows deeper",
+          "One starts treating them as enemies",
+          "Desire for their inheritance intensifies"
+        ],
+        "why": "Sense of my-ness harbored toward bodily relations is eradicated through the Sant's company."
+      },
+      "gu": {
+        "q": "સંતસમાગમથી દેહના સગાં-સંબંધીઓ પ્રત્યે શું ભાવ થાય છે?",
+        "correct": "તેમના પ્રત્યેની મમત્વબુદ્ધિ ટળી જાય છે",
+        "wrong": [
+          "તેમના પ્રત્યે મોહ અને આસક્તિ વધે છે",
+          "તેમને પોતાના શત્રુ ગણી વેર બાંધે છે",
+          "તેમની મિલકત પડાવી લેવાનો લોભ જાગે છે"
+        ],
+        "why": "દેહના સંબંધીને વિષે જે મમત્વબુદ્ધિ છે તે નિવૃત્તિ પામે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What positive devotion arises from shunning kusang and keeping satsang?",
+        "correct": "Profound love for God develops",
+        "wrong": [
+          "Pride in personal spiritual disciplines",
+          "Desire for earthly respect and praises",
+          "Curiosity about mystic tantric spells"
+        ],
+        "why": "By shunning bad company and keeping the Sant's company, profound love for God arises."
+      },
+      "gu": {
+        "q": "કુસંગ તજી સંતનો સંગ કરવાથી ભક્તમાં શું પ્રગટે છે?",
+        "correct": "ભગવાનને વિષે અસાધારણ પ્રીતિ થાય છે",
+        "wrong": [
+          "પોતાની તપશ્ચર્યાનું મોટું અભિમાન જાગે છે",
+          "લૌકિક માન અને પૂજા મેળવવાની ઇચ્છા",
+          "તંત્ર-મંત્ર અને ચમત્કારો જાણવાની ઉત્સુકતા"
+        ],
+        "why": "ભગવાનને વિષે અસાધારણ પ્રીતિ થાય છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What feeling develops toward worldly objects outside of God?",
+        "correct": "Deep detachment from all worldly things",
+        "wrong": [
+          "Subtle longing to enjoy them later",
+          "Jealousy toward those who possess them",
+          "Fear of losing worldly material wealth"
+        ],
+        "why": "One develops vairagya towards everything except God."
+      },
+      "gu": {
+        "q": "ભગવાન સિવાયના અન્ય પદાર્થો પ્રત્યે કેવો ભાવ જાગે છે?",
+        "correct": "અન્ય સર્વ પદાર્થો પ્રત્યે વૈરાગ્ય થાય છે",
+        "wrong": [
+          "પાછળથી તે ભોગવવાની સૂક્ષ્મ વાસના જાગે છે",
+          "તે ભોગવનારા લોકો પ્રત્યે ઈર્ષ્યા જાગે છે",
+          "લૌકિક સંપત્તિ ગુમાવવાનો ભારે ભય પેસે છે"
+        ],
+        "why": "ભગવાન વિના અન્યને વિષે વૈરાગ્ય થાય છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What is the primary spiritual foundation taught in this discourse?",
+        "correct": "Subduing senses and seeking holy company",
+        "wrong": [
+          "Studying worldly philosophy and sciences",
+          "Performing elaborate public fire rituals",
+          "Amassing gold for building grand monuments"
+        ],
+        "why": "Maharaj teaches disciplining indriyas in service and keeping the company of the Sant."
+      },
+      "gu": {
+        "q": "આ વચનામૃતમાં સાધનાનો કયો મુખ્ય પાયો દર્શાવ્યો છે?",
+        "correct": "ઇન્દ્રિયોની સેવા અને સંતનો દૃઢ સંગ",
+        "wrong": [
+          "લૌકિક તર્કશાસ્ત્ર અને વિજ્ઞાનનો અભ્યાસ",
+          "જાહેરમાં મોટા મોટા યજ્ઞોનું આયોજન",
+          "વિશાળ ભવનો બાંધવા માટે ધન એકઠું કરવું"
+        ],
+        "why": "ઇન્દ્રિયોને ભગવાન-સંતની સેવામાં રાખવી અને સાધુનો સંગ રાખવો એ સાધનાનો પાયો છે."
+      }
+    }
+  ]
+}

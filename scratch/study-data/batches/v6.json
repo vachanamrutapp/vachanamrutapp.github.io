@@ -1,0 +1,250 @@
+{
+  "id": 6,
+  "themes": ["sadhana", "sant"],
+  "en": {
+    "key": "One should renounce pride in one's own virtues, perceive virtues in God and His Sant, and gratefully accept their harsh advice for spiritual growth.",
+    "summary": [
+      "Shriji Maharaj draws a clear distinction between a wise devotee and one who lacks wisdom in Satsang. A person endowed with wisdom constantly examines himself and perceives his own shortcomings while seeing only virtues in God and fellow devotees. Furthermore, when God or the Sant reprimand him with stern words for his own spiritual upliftment, he welcomes their counsel as beneficial without taking offense. Because of this humility and genuine receptivity, such a devotee steadily grows and attains spiritual greatness in Satsang.",
+      "In contrast, an unwise person misuses Satsang by becoming conceited and imagining virtues within himself as he listens to discourses. Whenever God or the Sant point out his faults, his arrogance causes him to misinterpret their guidance and perceive flaws in the speaker instead. Maharaj explains that this toxic pride causes the unwise aspirant to decline steadily and lose his standing. To overcome this destructive ignorance, one must courageously renounce pride in personal virtues and maintain firm faith in God and His Sant."
+    ]
+  },
+  "gu": {
+    "key": "પોતાના ગુણોના માનનો ત્યાગ કરીને ભગવાન અને સંતમાં ગુણ જોવા તથા તેમનાં કઠણ વચનોને હિતકારી માનવાં.",
+    "summary": [
+      "શ્રીજીમહારાજ સત્સંગમાં વિવેકી અને અવિવેકી ભક્ત વચ્ચેનો ભેદ સ્પષ્ટ કરતાં વિવેકીનાં લક્ષણો સમજાવે છે. વિવેકી મનુષ્ય સત્સંગમાં રહીને પ્રતિદિન પોતાના દોષો અને ન્યૂનતાઓને જુએ છે, જ્યારે ભગવાન અને તેમના ભક્તોમાં સદાય ગુણ જ જુએ છે. વળી, પોતાના આધ્યાત્મિક કલ્યાણ માટે ભગવાન કે સંત કઠણ વચન કહે ત્યારે તે તેને પરમ હિતકારી માનીને હૃદયમાં જરાય દુઃખ લગાડતો નથી. આવી નમ્રતા અને ગ્રહણશીલતાને કારણે તે સત્સંગમાં દિન-પ્રતિદિન મોટપ પામે છે.",
+      "તેનાથી વિપરીત, અવિવેકી વ્યક્તિ જેમ જેમ સત્સંગની વાતો સાંભળે છે તેમ તેમ પોતાનામાં ગુણ માનીને અહંકારી બને છે. જ્યારે ભગવાન અને સંત તેના દોષ દેખાડીને શિખામણ આપે ત્યારે તે માનને લીધે વાતને અવળી સમજે છે અને ઉપદેશ આપનારામાં જ અવગુણ પરઠે છે. મહારાજ જણાવે છે કે આવો મનુષ્ય દિવસે દિવસે પાછો પડતો જાય છે અને સત્સંગમાં પ્રતિષ્ઠા ગુમાવે છે. આ અવિવેકને ટાળવા માટે પોતાના ગુણનું માન તજીને શૂરવીર થવું અને ભગવાન તથા સંતમાં દૃઢ વિશ્વાસ રાખવો જરૂરી છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 0,
+      "en": {
+        "q": "What does a wise person see within himself in Satsang?",
+        "correct": "His own flaws and shortcomings",
+        "wrong": [
+          "Flawless perfection and greatness",
+          "Superiority over other devotees",
+          "Complete mastery over all desires"
+        ],
+        "why": "A wise person increasingly finds flaws within himself."
+      },
+      "gu": {
+        "q": "સત્સંગમાં વિવેકી મનુષ્ય પોતાની જાતમાં શું જુએ છે?",
+        "correct": "પોતાના દોષો અને ન્યૂનતાઓ",
+        "wrong": [
+          "પોતાની નિર્દોષતા અને શ્રેષ્ઠતા",
+          "અન્ય ભક્તો કરતાં મોટપ",
+          "સર્વ વિષયો પર પૂર્ણ વિજય"
+        ],
+        "why": "વિવેકી મનુષ્ય દિવસે દિવસે પોતાને વિષે અવગુણને દેખે છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "How does a wise person view God and His devotees?",
+        "correct": "He continually perceives virtues in them",
+        "wrong": [
+          "He searches for hidden human faults",
+          "He ignores their words and actions",
+          "He judges their spiritual status constantly"
+        ],
+        "why": "A wise devotee perceives virtues in God and His devotees."
+      },
+      "gu": {
+        "q": "વિવેકી વ્યક્તિ ભગવાન અને તેમના ભક્તોને કેવી રીતે જુએ છે?",
+        "correct": "તેમનામાં સદાય ગુણ જ જુએ છે",
+        "wrong": [
+          "તેમના માનવીય દોષો શોધે છે",
+          "તેમનાં વચનોની ઉપેક્ષા કરે છે",
+          "તેમની સાધનાનું મૂલ્યાંકન કરે છે"
+        ],
+        "why": "વિવેકી ભગવાન અને ભગવાનના ભક્તને વિષે ગુણને દેખે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How does a wise devotee receive harsh words from the Sant?",
+        "correct": "Accepts them as truly beneficial",
+        "wrong": [
+          "Takes deep offense and leaves",
+          "Argues defensively in retaliation",
+          "Harbors resentment within the heart"
+        ],
+        "why": "A wise person accepts harsh words as beneficial and is not hurt by them."
+      },
+      "gu": {
+        "q": "ભગવાન કે સંત કઠણ વચન કહે ત્યારે વિવેકી શું માને છે?",
+        "correct": "તેને પોતાનું પરમ હિતકારી માને છે",
+        "wrong": [
+          "અપમાન સમજીને સત્સંગ છોડી દે છે",
+          "સામે ક્રોધથી દલીલો કરવા લાગે છે",
+          "હૃદયમાં ઊંડો દ્વેષ બાંધી રાખે છે"
+        ],
+        "why": "કઠણ વચન કહે તેને પોતાનાં હિતકારી માને છે અને દુઃખ નથી લગાડતો."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What spiritual outcome does a wise person attain in Satsang?",
+        "correct": "He steadily attains greatness",
+        "wrong": [
+          "He gains supreme worldly wealth",
+          "He acquires mystic miraculous powers",
+          "He loses interest in meditation"
+        ],
+        "why": "Such a person steadily attains greatness in Satsang."
+      },
+      "gu": {
+        "q": "વિવેકી ભક્ત સત્સંગમાં કેવું પરિણામ પ્રાપ્ત કરે છે?",
+        "correct": "તે દિવસે દિવસે મોટ્યપ પામે છે",
+        "wrong": [
+          "તેને પુષ્કળ લૌકિક સંપત્તિ મળે છે",
+          "તે ચમત્કારી સિદ્ધિઓ પ્રાપ્ત કરે છે",
+          "તેનો ભક્તિમાંથી રસ ઊડી જાય છે"
+        ],
+        "why": "તે તો દિવસે દિવસે સત્સંગને વિષે મોટ્યપને પામે છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What reaction does an unwise person have while listening to satsang discourses?",
+        "correct": "Continually imagines virtues within himself",
+        "wrong": [
+          "Repents deeply for his past sins",
+          "Recognizes his spiritual weaknesses",
+          "Prays humbly for inner purification"
+        ],
+        "why": "An unwise person continually perceives virtues within himself as he hears discourses."
+      },
+      "gu": {
+        "q": "અવિવેકી મનુષ્ય સત્સંગની વાતો સાંભળીને શું કરે છે?",
+        "correct": "પોતાને વિષે ગુણ પરઠે છે",
+        "wrong": [
+          "પોતાનાં પાપો માટે પશ્ચાત્તાપ કરે છે",
+          "પોતાની નિર્બળતાઓ સ્વીકારે છે",
+          "નમ્ર ભાવે કૃપા યાચે છે"
+        ],
+        "why": "જેમ જેમ સત્સંગની વાત સાંભળે છે તેમ તેમ પોતાને વિષે ગુણ પરઠે છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Why does an unwise person misinterpret advice given by God or the Sant?",
+        "correct": "Due to arrogance and self-importance",
+        "wrong": [
+          "Because he lacks basic intelligence",
+          "Because the advice was confusing",
+          "Due to fear of physical punishment"
+        ],
+        "why": "He misinterprets advice due to his arrogance when his flaws are pointed out."
+      },
+      "gu": {
+        "q": "અવિવેકી વ્યક્તિ સંતની શિખામણને શા માટે અવળી લે છે?",
+        "correct": "પોતાના અહંકાર અને માનને કારણે",
+        "wrong": [
+          "તેને સામાન્ય બુદ્ધિ ન હોવાથી",
+          "ઉપદેશ સ્પષ્ટ ન હોવાને લીધે",
+          "શારીરિક શિક્ષાના ડરના કારણે"
+        ],
+        "why": "સંત એનો દોષ દેખાડીને વાત કરે છે, તે વાતને માને કરીને અવળી લે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What does an unwise person do when his flaws are pointed out?",
+        "correct": "Perceives flaws in the speaker",
+        "wrong": [
+          "Humbly begs for forgiveness",
+          "Strives diligently to improve",
+          "Expresses gratitude for the lesson"
+        ],
+        "why": "He misinterprets the counsel and perceives flaws in the speaker."
+      },
+      "gu": {
+        "q": "દોષ દેખાડવામાં આવે ત્યારે અવિવેકી મનુષ્ય શું કરે છે?",
+        "correct": "વાત કરનારાનો જ અવગુણ લે છે",
+        "wrong": [
+          "હાથ જોડીને ક્ષમા માગી લે છે",
+          "દોષ ટાળવા પરિશ્રમ કરે છે",
+          "શિખામણ માટે આભાર માને છે"
+        ],
+        "why": "તે વાતને માને કરીને અવળી લે છે અને વાતના કરનારાનો અવગુણ લે છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What is the eventual downfall of an unwise person in Satsang?",
+        "correct": "He declines and loses reputation",
+        "wrong": [
+          "He becomes a prominent scholar",
+          "He is praised by all assemblies",
+          "He gains deep peace of mind"
+        ],
+        "why": "Such a person steadily declines and loses his reputation in Satsang."
+      },
+      "gu": {
+        "q": "સત્સંગમાં અવિવેકી વ્યક્તિની કેવી દશા થાય છે?",
+        "correct": "તે ઘટે છે અને પ્રતિષ્ઠાહીન થાય છે",
+        "wrong": [
+          "તે મોટો વિદ્વાન પંડિત બને છે",
+          "તે સભામાં ભારે પ્રશંસા મેળવે છે",
+          "તેને પરમ શાંતિ પ્રાપ્ત થાય છે"
+        ],
+        "why": "તે તો દિવસે દિવસે ઘટતો જાય છે અને સત્સંગમાં પ્રતિષ્ઠાહીન થઈ જાય છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What must one renounce to overcome ignorance in Satsang?",
+        "correct": "Pride in one's own virtues",
+        "wrong": [
+          "Daily association with good company",
+          "Regular reading of sacred scriptures",
+          "Devotional chanting of God's name"
+        ],
+        "why": "Maharaj instructs one to renounce the vanity of one's own virtues."
+      },
+      "gu": {
+        "q": "અવિવેક ટાળવા માટે સાધકે શેનો ત્યાગ કરવો જોઈએ?",
+        "correct": "પોતાના ગુણોના માનનો ત્યાગ",
+        "wrong": [
+          "સત્સંગના નિયમિત સમાગમનો",
+          "શાસ્ત્રોના નિત્ય વાચનનો",
+          "ભગવાનના દિવ્ય નામસ્મરણનો"
+        ],
+        "why": "પોતાને વિષે જે ગુણનું માન તેનો ત્યાગ કરવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "How can an aspirant successfully eradicate ignorance according to Maharaj?",
+        "correct": "By bravely placing faith in God and Sant",
+        "wrong": [
+          "By defeating others in verbal debates",
+          "By accumulating great external riches",
+          "By practicing harsh physical austerities"
+        ],
+        "why": "Becoming brave and keeping faith in God and His Sant eradicates ignorance."
+      },
+      "gu": {
+        "q": "મહારાજના ઉપદેશ મુજબ અવિવેક કેવી રીતે ટળી જાય છે?",
+        "correct": "શૂરવીર થઈ ભગવાન અને સંતમાં વિશ્વાસ રાખીને",
+        "wrong": [
+          "શાસ્ત્રાર્થમાં અન્યોને પરાજિત કરીને",
+          "વિપુલ ધન-સંપત્તિ એકઠી કરીને",
+          "શરીરને કષ્ટ આપનારાં તપ કરીને"
+        ],
+        "why": "શૂરવીર થઈને ભગવાન અને ભગવાનના સંતને વિષે વિશ્વાસ રાખે તો એનો અવિવેક ટળી જાય છે."
+      }
+    }
+  ]
+}

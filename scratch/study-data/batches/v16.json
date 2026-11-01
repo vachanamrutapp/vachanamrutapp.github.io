@@ -1,0 +1,254 @@
+{
+  "id": 16,
+  "themes": [
+    "atma",
+    "sant",
+    "sadhana"
+  ],
+  "en": {
+    "key": "One should cultivate true wisdom by eliminating personal flaws, seeing only virtues in God and the Sant, and living as the pure atma distinct from the body and mind.",
+    "summary": [
+      "Shriji Maharaj describes the distinguishing characteristics of a devotee endowed with the wisdom to discern between sat and asat. Such a devotee identifies the flaws within his own heart and thoughtfully eradicates them. When apparent shortcomings appear to him in the Sant or fellow devotees, he discards those negative perceptions and imbibes only their virtues. Above all, he never perceives any flaw whatsoever in God, and he accepts every word spoken by God and the Sant as supreme truth without harboring any doubt.",
+      "Furthermore, when the Sant instructs him that he is the eternal atma distinct from the body, senses, mind, and vital breaths, the devotee internalizes this truth. He behaves as the atma rather than merging with the wandering impulses of his mind. He also identifies worldly objects and evil associations that could cause bondage or undermine his ekantik dharma, keeping himself far removed from their influence. By consistently embracing wholesome thoughts and renouncing adverse thoughts, he lives with genuine spiritual wisdom."
+    ]
+  },
+  "gu": {
+    "key": "પોતાના દોષો ટાળી, ભગવાન અને સંતમાં કેવળ ગુણ જોઈ, તથા દેહ-મનથી જુદા આત્મારૂપે વર્તીને સત્-અસત્નો સાચો વિવેક રાખવો.",
+    "summary": [
+      "શ્રીજીમહારાજ સત્ અને અસત્નો વિવેક ધરાવતા ભક્તનાં લક્ષણો સમજાવે છે. આવો વિવેકી ભક્ત પોતાનામાં રહેલા અવગુણોને ઓળખીને વિચારપૂર્વક તેનો ત્યાગ કરે છે. જો સંત કે સત્સંગીઓમાં કોઈ દોષ ભાસે, તો તે વિચારને છોડીને કેવળ તેમના ગુણોનું જ ગ્રહણ કરે છે. વળી, પરમેશ્વરને વિષે તો તેને ક્યારેય કોઈ અવગુણ ભાસતો જ નથી. ભગવાન અને સંત જે વચન કહે તેને તે પરમ સત્ય માને છે અને તેમાં કોઈ સંશય કરતો નથી.",
+      "જ્યારે સંત તેને ઉપદેશ આપે છે કે તું દેહ, ઇન્દ્રિયો, મન અને પ્રાણથી જુદો આત્મા છે અને એ સર્વેનો જાણનારો છે, ત્યારે તે એ વચનને સત્ય માનીને આત્મારૂપે વર્તે છે. તે મનના સંકલ્પો સાથે ભળી જતો નથી. ઉપરાંત, જેનાથી પોતાને બંધન થાય અને એકાંતિક ધર્મમાં ખોટ આવે તેવા સાંસારિક પદાર્થો તથા કુસંગને ઓળખીને તેનાથી સદા છેટો રહે છે. સવળા વિચારને ગ્રહણ કરીને અને અવળા વિચારનો ત્યાગ કરીને જે આ રીતે વર્તે છે, તે સાચો વિવેકી કહેવાય છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 0,
+      "en": {
+        "q": "How does a devotee with spiritual wisdom handle his own flaws?",
+        "correct": "He thoughtfully eradicates them",
+        "wrong": [
+          "He justifies them as natural habits",
+          "He conceals them from everyone",
+          "He blames his past karma"
+        ],
+        "why": "Maharaj says a wise devotee identifies the flaws within himself and thoughtfully eradicates them."
+      },
+      "gu": {
+        "q": "વિવેકી ભક્ત પોતાના અવગુણ વિષે શું કરે છે?",
+        "correct": "વિચારીને તેનો ત્યાગ કરે છે",
+        "wrong": [
+          "તેને સહજ માનીને બચાવ કરે છે",
+          "તેને લોકોથી છુપાવી રાખે છે",
+          "તેના માટે પૂર્વકર્મને દોષ દે છે"
+        ],
+        "why": "મહારાજ કહે છે કે જે જે અવગુણ પોતામાં હોય તેને જાણે અને વિચારીને તેનો ત્યાગ કરી દે છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What does a wise devotee do when apparent flaws appear in other devotees?",
+        "correct": "He discards them and imbibes virtues",
+        "wrong": [
+          "He discusses them with senior leaders",
+          "He distances himself from all devotees",
+          "He investigates whether flaws are true"
+        ],
+        "why": "Maharaj teaches that if he perceives flaws in the Sant or a satsangi, he discards them and imbibes only their virtues."
+      },
+      "gu": {
+        "q": "સંત કે સત્સંગીમાં અવગુણ ભાસે ત્યારે વિવેકી શું કરે છે?",
+        "correct": "તેનો ત્યાગ કરી કેવળ ગુણ ગ્રહે છે",
+        "wrong": [
+          "મોટા સંતો આગળ તેની ચર્ચા કરે છે",
+          "સર્વ સત્સંગીઓથી અંતર બનાવી લે છે",
+          "દોષ સાચો કે ખોટો તપાસે છે"
+        ],
+        "why": "મહારાજ કહે છે કે સંતમાં કે સત્સંગીમાં અવગુણ ભાસતો હોય તો તેનો ત્યાગ કરીને તેમના ગુણનું જ ગ્રહણ કરે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What attitude does a wise devotee hold regarding perceived flaws in God?",
+        "correct": "He never perceives any flaw whatsoever",
+        "wrong": [
+          "He sees flaws during difficult trials",
+          "He wonders why God tests him harshly",
+          "He questions divine actions privately"
+        ],
+        "why": "Maharaj states that in God, a wise devotee perceives no flaws whatsoever."
+      },
+      "gu": {
+        "q": "પરમેશ્વરને વિષે વિવેકી ભક્તની દૃષ્ટિ કેવી હોય છે?",
+        "correct": "તેને કોઈ અવગુણ ભાસતો જ નથી",
+        "wrong": [
+          "કઠિન કસોટી વખતે થોડો દોષ દેખાય છે",
+          "ભગવાન કસોટી કેમ કરે તે વિચારે છે",
+          "ભગવાનની લીલા વિષે ખાનગીમાં શંકા કરે છે"
+        ],
+        "why": "મહારાજ કહે છે કે પરમેશ્વરને વિષે તો તેને કોઈ અવગુણ ભાસે જ નહીં."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How does a wise devotee receive the words of God and the Sant?",
+        "correct": "As supreme truth without any doubt",
+        "wrong": [
+          "As symbolic teachings for contemplation",
+          "As ethical rules for worldly life",
+          "As guidance to follow when convenient"
+        ],
+        "why": "Maharaj states that he accepts whatever words God and the Sant speak as the highest truth without doubt."
+      },
+      "gu": {
+        "q": "ભગવાન અને સંતનાં વચનને વિવેકી કેવી રીતે માને છે?",
+        "correct": "સંશય વિના પરમ સત્ય કરીને માને છે",
+        "wrong": [
+          "કેવળ ચિંતન કરવાના પ્રતીકાત્મક વિચારો માને છે",
+          "સંસારી જીવન જીવવાના સામાજિક નિયમો માને છે",
+          "અનુકૂળ આવે ત્યારે જ પાળવા યોગ્ય ગણે"
+        ],
+        "why": "મહારાજ કહે છે કે ભગવાન અને સંત જે જે વચન કહે તેને પરમ સત્ય કરીને માને, પણ તે વચનને વિશે સંશય કરે નહીં."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What truth does the Sant teach the devotee about his identity?",
+        "correct": "He is atma beyond body and mind",
+        "wrong": [
+          "He is identical with physical senses",
+          "He is merely a mortal earthly creature",
+          "His mind and soul are one entity"
+        ],
+        "why": "The Sant teaches him that he is distinct from the body, senses, mind, and prans, and is the knower of them all."
+      },
+      "gu": {
+        "q": "સંત જીવના સાચા સ્વરૂપ વિષે કયું વચન કહે છે?",
+        "correct": "તું દેહ અને મનથી જુદો આત્મા છે",
+        "wrong": [
+          "તું પંચભૂત અને ઇન્દ્રિયોનું જ સ્વરૂપ છે",
+          "તું કેવળ નાશવંત પાર્થિવ જીવ માત્ર છે",
+          "તારું મન અને આત્મા એક જ છે"
+        ],
+        "why": "સંત કહે છે કે તું દેહ, ઇન્દ્રિય, મન, પ્રાણથી જુદો અને સત્ય છું અને એનો જાણનારો છું, અને દેહાદિક અસત્ય છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Having realized he is the atma, what does the devotee avoid doing?",
+        "correct": "Merging with the impulses of the mind",
+        "wrong": [
+          "Engaging in devotional services of God",
+          "Maintaining humility before senior devotees",
+          "Remembering the divine forms of God"
+        ],
+        "why": "Maharaj says he behaves as the atma distinct from everything, but never merges into the wandering thoughts of his mind."
+      },
+      "gu": {
+        "q": "આત્મારૂપે વર્તતો ભક્ત શેમાં ભળતો નથી?",
+        "correct": "મનના ઘાટ ભેળો ભળી જતો નથી",
+        "wrong": [
+          "ભગવાનની નિત્ય ભક્તિસેવામાં જોડાતો નથી",
+          "મોટા સંતો આગળ નમ્રતા રાખવામાં ભળતો નથી",
+          "ભગવાનના દિવ્ય સ્વરૂપનું સ્મરણ કરતો નથી"
+        ],
+        "why": "મહારાજ કહે છે કે તે આત્મારૂપે વર્તે પણ મનના ઘાટ ભેળો ભળી જાય નહીં."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How does a wise devotee deal with bad company and binding objects?",
+        "correct": "He identifies them and stays far away",
+        "wrong": [
+          "He interacts with them to test restraint",
+          "He attempts to accommodate them socially",
+          "He considers them harmless for sadhana"
+        ],
+        "why": "Maharaj teaches that he identifies objects and evil company that cause bondage or flaws in ekantik dharma, staying away from them."
+      },
+      "gu": {
+        "q": "એકાંતિક ધર્મમાં બાધક કુસંગ પ્રત્યે વિવેકી શું કરે છે?",
+        "correct": "તેને ઓળખીને તેથી છેટે જ રહે છે",
+        "wrong": [
+          "પોતાનો સંયમ ચકાસવા તેમાં સામેલ થાય છે",
+          "સમાજમાં મેળ રાખવા તેની સાથે ભળે છે",
+          "સાધના માટે તેને બિનહાનિકારક ગણી સ્વીકારે છે"
+        ],
+        "why": "મહારાજ કહે છે કે જેનાથી એકાંતિક ધર્મમાં ખોટ આવે એવા પદાર્થ તથા કુસંગને ઓળખી રાખે અને તેથી છેટે જ રહે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What mental discipline does a wise devotee maintain regarding thoughts?",
+        "correct": "He adopts good thoughts and rejects bad",
+        "wrong": [
+          "He lets all thoughts pass without judgment",
+          "He rejects good thoughts fearing pride",
+          "He focuses entirely on worldly news"
+        ],
+        "why": "Maharaj states that he imbibes positive thoughts and avoids negative thoughts."
+      },
+      "gu": {
+        "q": "વિચારો વિષે વિવેકી ભક્ત કયો નિયમ પાળે છે?",
+        "correct": "સવળા વિચાર ગ્રહે અને અવળાનો ત્યાગ કરે",
+        "wrong": [
+          "સર્વ વિચારોને સમાન ગણી મનમાં રહેવા દે",
+          "અભિમાનના ભયથી સારા વિચારો પણ છોડી દે",
+          "જગતની નકામી અફવાઓ પર મન રાખે છે"
+        ],
+        "why": "મહારાજ કહે છે કે સવળો વિચાર હોય તેને ગ્રહણ કરે અને અવળો વિચાર હોય તેનો ત્યાગ કરે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "According to Shriji Maharaj, who is truly known to possess wisdom (vivek)?",
+        "correct": "One who discerns sat and acts accordingly",
+        "wrong": [
+          "One who excels at scholastic grammar debates",
+          "One who displays severe austerities publicly",
+          "One who eloquently recites verses from memory"
+        ],
+        "why": "Maharaj concludes that one who behaves with such spiritual discernment between sat and asat is known to possess wisdom."
+      },
+      "gu": {
+        "q": "શ્રીજીમહારાજના મત મુજબ સાચો વિવેકી કોણ કહેવાય?",
+        "correct": "સત્-અસત્ પારખી તે મુજબ આચરણ કરે તે",
+        "wrong": [
+          "શાસ્ત્રના વ્યાકરણ પર વિવાદમાં વિજય મેળવે તે",
+          "લોકોમાં મહાન દેખાવા કઠોર તપ કરે તે",
+          "સુંદર વાણીમાં શાસ્ત્રના શ્લોકો મુખપાઠ બોલે તે"
+        ],
+        "why": "મહારાજ કહે છે કે એવી રીતે જે વર્તતો હોય ત્યારે જાણીએ જે તેને વિવેક છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What distinction between the soul and body is accepted by the wise devotee?",
+        "correct": "The knower is satya; body is asatya",
+        "wrong": [
+          "Both the knower and body are eternal",
+          "The body is satya; knower changes",
+          "Both body and soul perish at death"
+        ],
+        "why": "The Sant explains that the soul is satya and the knower, whereas the body and indriyas are all asatya."
+      },
+      "gu": {
+        "q": "સંતના ઉપદેશ મુજબ આત્મા અને દેહ વચ્ચે શો ભેદ છે?",
+        "correct": "જાણનારો સત્ય છે અને દેહાદિક અસત્ય છે",
+        "wrong": [
+          "જાણનારો અને દેહ બંને સદા શાશ્વત છે",
+          "દેહ સત્ય છે અને જાણનારો બદલાય છે",
+          "દેહ અને આત્મા બંને નાશવંત છે"
+        ],
+        "why": "સંત વચન કહે છે કે તું એનો જાણનારો અને સત્ય છું, અને દેહાદિક સર્વે અસત્ય છે."
+      }
+    }
+  ]
+}

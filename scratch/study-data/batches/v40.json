@@ -1,0 +1,250 @@
+{
+  "id": 40,
+  "themes": ["upasana", "bhakti", "sadhana"],
+  "en": {
+    "key": "One should transcend all desires to remain engrossed in God like Aksharbrahma, engage in ninefold devotion, and maintain an unshakeable conviction that God is eternally possessing a divine form.",
+    "summary": [
+      "Shriji Maharaj explains the distinction between savikalp and nirvikalp samadhi. A devotee in savikalp samadhi has eliminated all impure desires, yet retains pure spiritual aspirations, such as wishing to be like Narad, the Sanakadik, or Shukji, or longing to perform austerities in Badrikashram or Shwetdwip. In contrast, one in nirvikalp samadhi entertains no such desires whatsoever. Having attained the spiritual attributes of Aksharbrahma, such a devotee remains exclusively absorbed in the divine form of God without any other thoughts.",
+      "Addressing the difference between bhakti and upasana, Maharaj defines bhakti as worshipping God through the traditional ninefold modes, such as listening, singing praises, remembering, and offering oneself entirely. Upasana, however, is the unshakeable conviction that God eternally possesses a form. Even if a devotee becomes brahmarup, or encounters philosophical texts that describe God as formless, his conviction that God is eternally possessing a form never wavers. Regardless of any opposing arguments, a true devotee staunchly defends this truth and never permits his upasana to be refuted."
+    ]
+  },
+  "gu": {
+    "key": "અક્ષરબ્રહ્મ જેવા થઈ કેવળ ભગવાનની મૂર્તિમાં નિમગ્ન રહેવું, નવધા ભક્તિ કરવી અને ભગવાન સદા સાકાર છે તેવી અડગ ઉપાસના રાખવી.",
+    "summary": [
+      "શ્રીજીમહારાજ સવિકલ્પ અને નિર્વિકલ્પ સમાધિનો ભેદ સ્પષ્ટ કરતાં સમજાવે છે કે ભગવાનના સ્વરૂપમાં સ્થિતિવાળા ભક્તને અશુભ વાસના ટળી ગઈ હોય, છતાં શુભ વાસના રહી હોય તેને સવિકલ્પ સમાધિ કહીએ. તેમાં ભક્ત નારદ, સનકાદિક કે શુકજી જેવો થવાનો અથવા નરનારાયણના આશ્રમમાં કે શ્વેતદ્વીપમાં જઈ તપ કરવાનો સંકલ્પ રાખે છે. જ્યારે નિર્વિકલ્પ સમાધિવાળાને આવો કોઈ વિકલ્પ રહેતો નથી; તે અક્ષરબ્રહ્મનું સાધર્મ્યપણું પામીને કેવળ ભગવાનની મૂર્તિમાં જ નિમગ્ન રહે છે.",
+      "ત્યારબાદ ભક્તિ અને ઉપાસનાનો વિવેક દર્શાવતાં મહારાજ જણાવે છે કે શ્રવણ, કીર્તન, સ્મરણ અને આત્મનિવેદન આદિક નવ પ્રકારે ભગવાનનું ભજન કરવું તે ભક્તિ છે. જ્યારે ભગવાનના સ્વરૂપને સદા સાકાર માનવાની દૃઢ નિષ્ઠા રાખવી તેને ઉપાસના કહેવાય છે. આવો ભક્ત પોતે બ્રહ્મરૂપ થાય તો પણ તેની સાકારપણાની નિષ્ઠા ડગતી નથી. વળી, નિરાકારનું પ્રતિપાદન કરતા ગ્રંથો સાંભળવા છતાં તે ભગવાનને સદા સાકાર જ સમજે છે અને પોતાની ઉપાસનાનું કદી ખંડન થવા દેતો નથી."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 1,
+      "en": {
+        "q": "What type of desire remains in savikalp samadhi?",
+        "correct": "Only pure spiritual desires",
+        "wrong": [
+          "Subtle worldly attachments",
+          "Material fame and honor",
+          "Deep-seated impure impulses"
+        ],
+        "why": "Maharaj explains that one in savikalp samadhi has no impure desires, but retains pure desires."
+      },
+      "gu": {
+        "q": "સવિકલ્પ સમાધિવાળાને કેવા પ્રકારની વાસના રહે છે?",
+        "correct": "કેવળ શુભ વાસના રહે છે",
+        "wrong": [
+          "સૂક્ષ્મ સાંસારિક વાસના",
+          "માન-બડાઈ પામવાની વાસના",
+          "તીવ્ર અશુભ વાસના"
+        ],
+        "why": "મહારાજ કહે છે કે જેને અશુભ વાસના ન હોય ને શુભ વાસના રહી હોય તેને સવિકલ્પ સમાધિવાળો કહીએ."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "Which desire exemplifies the savikalp samadhi state?",
+        "correct": "Desiring to be like Narad or Shukji",
+        "wrong": [
+          "Desiring to gain occult powers",
+          "Desiring to establish a great kingdom",
+          "Desiring to outshine all other scholars"
+        ],
+        "why": "Maharaj cites the desire to become like Narad, the Sanakadik, or Shukji as a characteristic of savikalp samadhi."
+      },
+      "gu": {
+        "q": "સવિકલ્પ સમાધિમાં કયો શુભ સંકલ્પ ઉદાહરણરૂપે કહ્યો છે?",
+        "correct": "નારદ કે શુકજી જેવા થવાની ઇચ્છા",
+        "wrong": [
+          "અષ્ટ સિદ્ધિઓ પ્રાપ્ત કરવાની ઇચ્છા",
+          "મોટું રાજ્ય સ્થાપન કરવાની ઇચ્છા",
+          "વિદ્વાનોમાં શ્રેષ્ઠ દેખાવાની ઇચ્છા"
+        ],
+        "why": "મહારાજે કહ્યું કે ‘હું નારદ કે શુકજી જેવો થાઉં’ એવો વિકલ્પ રહે તેને સવિકલ્પ સમાધિ કહીએ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Which sacred place is mentioned for performing austerities?",
+        "correct": "The hermitage of Narnarayan",
+        "wrong": [
+          "The banks of the Yamuna",
+          "The dense Dandaka forest",
+          "The peak of Mount Meru"
+        ],
+        "why": "Maharaj mentions wishing to go to the hermitage of Narnarayan or Shwetdwip to perform austerities."
+      },
+      "gu": {
+        "q": "સવિકલ્પ સમાધિના વિકલ્પમાં કયા તપોભૂમિ આશ્રમનો ઉલ્લેખ છે?",
+        "correct": "નરનારાયણ ભગવાનના આશ્રમનો",
+        "wrong": [
+          "યમુનાજીના રમણીય કિનારાનો",
+          "દંડકારણ્યના ગાઢ વનનો",
+          "મેરુ પર્વતના શિખરનો"
+        ],
+        "why": "મહારાજ જણાવે છે કે ‘નરનારાયણના આશ્રમમાં જઈ મુનિ ભેળો રહી તપ કરું’ એવો વિકલ્પ થાય છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What defines one who has attained nirvikalp samadhi?",
+        "correct": "Remaining engrossed solely in God's form",
+        "wrong": [
+          "Mastering every ritual without error",
+          "Possessing knowledge of worldly sciences",
+          "Performing severe bodily penances"
+        ],
+        "why": "Maharaj states that one who lacks such desires and remains engrossed only in God's form is in nirvikalp samadhi."
+      },
+      "gu": {
+        "q": "નિર્વિકલ્પ સમાધિવાળાનું મુખ્ય લક્ષણ શ્રીજીમહારાજે શું કહ્યું?",
+        "correct": "કેવળ ભગવાનની મૂર્તિમાં જ નિમગ્ન રહેવું",
+        "wrong": [
+          "કર્મકાંડની સર્વ વિધિમાં નિપુણ થવું",
+          "સંસારી વિદ્યાઓનું પૂર્ણ જ્ઞાન મેળવવું",
+          "શરીરને સૂકવી નાખે તેવું કષ્ટ વેઠવું"
+        ],
+        "why": "મહારાજ કહે છે કે જેને કોઈ વિકલ્પ ન હોય ને કેવળ ભગવાનની મૂર્તિમાં જ નિમગ્ન રહેતો હોય તે નિર્વિકલ્પ સમાધિવાળો છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "Whose spiritual attributes does a nirvikalp devotee attain?",
+        "correct": "The attributes of Aksharbrahma",
+        "wrong": [
+          "The celestial power of Indra",
+          "The creative capacity of Brahma",
+          "The physical endurance of yogis"
+        ],
+        "why": "Maharaj teaches that one in nirvikalp samadhi attains the attributes of Aksharbrahma."
+      },
+      "gu": {
+        "q": "નિર્વિકલ્પ સમાધિવાળો ભક્ત કોનું સાધર્મ્યપણું પામે છે?",
+        "correct": "અક્ષરબ્રહ્મનું સાધર્મ્યપણું",
+        "wrong": [
+          "દેવરાજ ઇન્દ્રની સામર્થી",
+          "બ્રહ્માજીની સર્જનશક્તિ",
+          "હઠયોગીઓનું શારીરિક બળ"
+        ],
+        "why": "મહારાજ જણાવે છે કે તે અક્ષરબ્રહ્મના સાધર્મ્યપણાને પામીને ભગવાનની મૂર્તિમાં નિમગ્ન રહે છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How does Shriji Maharaj define bhakti in this discourse?",
+        "correct": "Worshipping God through ninefold devotion",
+        "wrong": [
+          "Performing difficult yogic postures",
+          "Reciting poetry in royal courts",
+          "Withdrawing alone into the forest"
+        ],
+        "why": "Maharaj cites the verse of navadha bhakti and states that worshipping God in these nine ways is known as bhakti."
+      },
+      "gu": {
+        "q": "શ્રીજીમહારાજે આ વચનામૃતમાં ભક્તિનું શું લક્ષણ આપ્યું?",
+        "correct": "નવ પ્રકારે ભગવાનનું ભજન કરવું તે",
+        "wrong": [
+          "કઠિન યોગાસનો સિદ્ધ કરવાં તે",
+          "રાજદરબારમાં કાવ્યગાન કરવું તે",
+          "એકાંત અરણ્યમાં જઈને રહેવું તે"
+        ],
+        "why": "મહારાજ શ્લોક ટાંકીને કહે છે કે નવ પ્રકારે કરીને જે ભગવાનને ભજવા તેને ભક્તિ કહીએ."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What is the core definition of upasana?",
+        "correct": "Firm conviction that God has a form",
+        "wrong": [
+          "Practicing rigorous fasting every week",
+          "Memorizing verses of the scriptures",
+          "Building charitable rest houses"
+        ],
+        "why": "Maharaj defines upasana as having a firm conviction that God eternally possesses a form."
+      },
+      "gu": {
+        "q": "શ્રીજીમહારાજે ઉપાસનાનું મૂળ લક્ષણ શું જણાવ્યું?",
+        "correct": "ભગવાનના સ્વરૂપમાં સદા સાકારપણાની દૃઢ નિષ્ઠા",
+        "wrong": [
+          "દર સપ્તાહે કઠોર ઉપવાસ કરવા",
+          "શાસ્ત્રોના શ્લોકો મોઢે યાદ રાખવા",
+          "લોકો માટે ધર્મશાળાઓનું નિર્માણ કરવું"
+        ],
+        "why": "મહારાજ કહે છે કે ભગવાનના સ્વરૂપને વિષે સદા સાકારપણાની દૃઢ નિષ્ઠા હોય તેને ઉપાસના કહીએ."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What happens to upasana when a devotee becomes brahmarup?",
+        "correct": "Conviction in God's form never leaves",
+        "wrong": [
+          "The devotee merges into formlessness",
+          "Devotion is no longer necessary",
+          "The mind forgets God's holy name"
+        ],
+        "why": "Maharaj states that even if the devotee becomes brahmarup, his conviction in God's form never disappears."
+      },
+      "gu": {
+        "q": "ભક્ત પોતે બ્રહ્મરૂપ થાય ત્યારે તેની ઉપાસનાનું શું થાય છે?",
+        "correct": "સાકારપણાની નિષ્ઠા કદી જતી નથી",
+        "wrong": [
+          "તે સાધક નિરાકારમાં લીન થઈ જાય છે",
+          "તેને ઉપાસના કરવાની જરૂર રહેતી નથી",
+          "તે ભગવાનનું દિવ્ય નામ ભૂલી જાય છે"
+        ],
+        "why": "મહારાજ કહે છે કે પોતે ભજનનો કરનારો બ્રહ્મરૂપ થાય તો પણ તે સાકારપણાની નિષ્ઠા જાય જ નહીં."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How does a devotee with firm upasana view formless texts?",
+        "correct": "Still understands God to be sakar",
+        "wrong": [
+          "Doubts the reality of God's form",
+          "Abandons personal daily worship",
+          "Immediately stops reading all books"
+        ],
+        "why": "Even if he listens to scriptures propounding God as formless, he still understands God to always have a form."
+      },
+      "gu": {
+        "q": "નિરાકારનું પ્રતિપાદન કરતા ગ્રંથો સાંભળવા છતાં ઉપાસનાવાળો શું સમજે છે?",
+        "correct": "ભગવાનને સદા સાકાર જ સમજે છે",
+        "wrong": [
+          "ભગવાનના સાકારપણામાં સંશય કરે છે",
+          "પોતાની દૈનિક ભક્તિ છોડી દે છે",
+          "શાસ્ત્રો વાંચવાનું તત્કાળ બંધ કરે છે"
+        ],
+        "why": "ગમે તેવા નિરાકાર પ્રતિપાદનના ગ્રંથને સાંભળે તો પણ ભગવાનના સ્વરૂપને સદા સાકાર જ સમજે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What should a devotee with true upasana never permit?",
+        "correct": "His upasana to be refuted",
+        "wrong": [
+          "Others to practice severe penance",
+          "Satsang assemblies to be organized",
+          "Charity to be given to the needy"
+        ],
+        "why": "Maharaj teaches that one who propounds God's form and never allows his upasana to be refuted possesses true upasana."
+      },
+      "gu": {
+        "q": "સાચી ઉપાસનાવાળો ભક્ત શું કદી થવા દેતો નથી?",
+        "correct": "પોતાની ઉપાસનાનું ખંડન થવા દેતો નથી",
+        "wrong": [
+          "અન્ય ભક્તોને કઠિન તપ કરવા દેતો નથી",
+          "સત્સંગ સભાઓનું આયોજન થવા દેતો નથી",
+          "ગરીબોને દાન આપવા દેતો નથી"
+        ],
+        "why": "પોતે ભગવાનના સાકાર સ્વરૂપનું જ પ્રતિપાદન કરે પણ પોતાની ઉપાસનાનું ખંડન થવા દે જ નહીં."
+      }
+    }
+  ]
+}

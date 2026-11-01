@@ -1,0 +1,250 @@
+{
+  "id": 7,
+  "themes": ["upasana", "atma"],
+  "en": {
+    "key": "One should understand the eternal distinction among the five entities—jiva, ishwar, maya, Aksharbrahma, and Parabrahma—through their distinct anvay and vyatirek aspects.",
+    "summary": [
+      "Shriji Maharaj addresses the profound confusion that readers encounter when studying philosophical principles in the sacred scriptures. To bring absolute clarity, He systematically defines the immanent (anvay) and transcendent (vyatirek) aspects of both the jiva and ishwar. For the jiva, behaving as if united with its sthul, sukshma, and karan bodies constitutes its anvay aspect, while existing separate from these three bodies as pure consciousness is its vyatirek aspect. Similarly, ishwar associated with its cosmic bodies of virat, sutratma, and avyakrut is its anvay form, whereas existing distinct from them as pure consciousness represents its vyatirek state.",
+      "Maharaj then elucidates the higher divine realities of Aksharbrahma and Parabrahma. Aksharbrahma's anvay form pervades maya and the countless millions of brahmands, while its vyatirek state is transcendent, characterized by eternal existence, consciousness, and bliss. Above all, Shri Krishna Bhagwan is anvay as the inner controller and indwelling witness of Aksharbrahma, ishwars, jivas, and maya; yet He is simultaneously vyatirek, eternally distinct from all and residing in His supreme divine abode. Maharaj concludes by declaring that these five fundamental entities—Parabrahma, Aksharbrahma, maya, ishwar, and jiva—are eternally distinct and separate."
+    ]
+  },
+  "gu": {
+    "key": "જીવ, ઈશ્વર, માયા, અક્ષરબ્રહ્મ અને પરબ્રહ્મ એ પાંચેય અનાદિ તત્ત્વોના અન્વય તથા વ્યતિરેક સ્વરૂપને યથાર્થપણે સમજવું.",
+    "summary": [
+      "શાસ્ત્રોમાં આવતી અધ્યાત્મવાર્તાને સમજવામાં જીવો ભ્રમિત થઈ જતા હોવાથી શ્રીજીમહારાજ તેને યથાર્થ રીતે સ્પષ્ટ કરે છે. તેઓ જીવ અને ઈશ્વરના અન્વય તથા વ્યતિરેક સ્વરૂપનું નિરૂપણ કરતાં જણાવે છે કે સ્થૂળ, સૂક્ષ્મ અને કારણ એ ત્રણ દેહ સાથે એકાત્મપણે વર્તવું તે જીવનું અન્વયપણું છે, અને એ ત્રણેય દેહથી પૃથક્ કેવળ સત્તામાત્ર રહેવું તે જીવનું વ્યતિરેકપણું છે. તેવી જ રીતે વિરાટ, સૂત્રાત્મા અને અવ્યાકૃત એ ત્રણ શરીરો સાથે પ્રવર્તવું તે ઈશ્વરનું અન્વયપણું છે, અને તે શરીરોથી પર કેવળ સત્તામાત્ર રહેવું તે ઈશ્વરનું વ્યતિરેકપણું છે.",
+      "આગળ સમજાવતાં મહારાજ અક્ષરબ્રહ્મ અને પરબ્રહ્મનાં સ્વરૂપ વર્ણવે છે. અક્ષરબ્રહ્મ માયા અને તેના કાર્યરૂપ અનંત કોટિ બ્રહ્માંડમાં વ્યાપક રહે તે એમનું અન્વયપણું છે, અને સર્વથી પર સચ્ચિદાનંદરૂપે રહેવું તે એમનું વ્યતિરેકપણું છે. પરબ્રહ્મ શ્રીકૃષ્ણ ભગવાન અક્ષરબ્રહ્મ, ઈશ્વર, જીવ અને માયાના અંતર્યામી અને નિયંતા રહે તે ભગવાનનું અન્વયપણું છે, અને સર્વથી પૃથક્ પોતાના ધામમાં દિવ્ય જ્યોતિમાં બિરાજમાન રહેવું તે એમનું વ્યતિરેકપણું છે. અંતમાં મહારાજ બોધ આપે છે કે પરબ્રહ્મ, અક્ષરબ્રહ્મ, માયા, ઈશ્વર અને જીવ એ પાંચ ભેદ અનાદિ છે."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 1,
+      "en": {
+        "q": "Why did Shriji Maharaj clarify the philosophical principles of the scriptures?",
+        "correct": "People get confused reading them",
+        "wrong": [
+          "The scriptures had become corrupted",
+          "No scriptures existed in writing",
+          "Only scholars could read Sanskrit"
+        ],
+        "why": "Maharaj explains that no one understands these principles and all are confused by them."
+      },
+      "gu": {
+        "q": "શાસ્ત્રોની અધ્યાત્મવાર્તા શ્રીજીમહારાજે શા માટે યથાર્થપણે કહી?",
+        "correct": "તે વાંચીને લોકો ભ્રમિત થઈ જતા",
+        "wrong": [
+          "પ્રાચીન શાસ્ત્રો લુપ્ત થઈ ગયાં હતાં",
+          "શાસ્ત્રોનું લખાણ ઉપલબ્ધ નહોતું",
+          "કેવળ પંડિતો જ સંસ્કૃત જાણતા હતા"
+        ],
+        "why": "શાસ્ત્રમાં અધ્યાત્મવાર્તા કોઈને સમજાતી નથી અને ભ્રમી જવાય છે તેથી મહારાજે સ્પષ્ટ કરી."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What is the anvay form of the jiva?",
+        "correct": "Behaving as united with three bodies",
+        "wrong": [
+          "Remaining fully detached as pure spirit",
+          "Ruling over millions of cosmic worlds",
+          "Merging completely into divine light"
+        ],
+        "why": "Behaving as if united with the three bodies of sthul, sukshma, and karan is the anvay form of the jiva."
+      },
+      "gu": {
+        "q": "જીવનું અન્વયપણું શું છે?",
+        "correct": "ત્રણ દેહ સાથે એકાત્મપણે વર્તવું",
+        "wrong": [
+          "શરીરથી સાવ નિર્લેપ થઈને રહેવું",
+          "અનંત બ્રહ્માંડો પર શાસન કરવું",
+          "પરમ તેજમાં સંપૂર્ણ લીન થવું"
+        ],
+        "why": "સ્થૂળ, સૂક્ષ્મ અને કારણ એ ત્રણ દેહને વિષે એકાત્મપણે જે વર્તવું તે જીવનું અન્વયપણું છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What constitutes the vyatirek form of the jiva?",
+        "correct": "Existing distinct from the three bodies",
+        "wrong": [
+          "Identifying with physical sensations",
+          "Performing religious rites in society",
+          "Wandering in various worldly rebirths"
+        ],
+        "why": "The jiva as distinct from the three bodies and characterized by eternal existence is its vyatirek form."
+      },
+      "gu": {
+        "q": "જીવનું વ્યતિરેકપણું કયું છે?",
+        "correct": "ત્રણ દેહથી પૃથક્ સત્તામાત્ર રહેવું",
+        "wrong": [
+          "શારીરિક ઇન્દ્રિયો સાથે લીન થવું",
+          "સમાજમાં વિવિધ ધાર્મિક વિધિ કરવી",
+          "અનેક લૌકિક યોનિઓમાં ભટકતા રહેવું"
+        ],
+        "why": "ત્રણ દેહથી પૃથક્‌પણે સત્તામાત્ર જે કહેવો તે જીવનું વ્યતિરેકપણું છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Which three bodies are associated with ishwar in its anvay form?",
+        "correct": "Virat, sutratma, and avyakrut",
+        "wrong": [
+          "Sthul, sukshma, and karan",
+          "Earth, water, and fire",
+          "Mind, intellect, and ego"
+        ],
+        "why": "Ishwar when together with its three bodies of virat, sutratma, and avyakrut is its anvay form."
+      },
+      "gu": {
+        "q": "ઈશ્વરના અન્વયપણામાં કયા ત્રણ શરીરો જોડાયેલાં છે?",
+        "correct": "વિરાટ, સૂત્રાત્મા અને અવ્યાકૃત",
+        "wrong": [
+          "સ્થૂળ, સૂક્ષ્મ અને કારણ",
+          "પૃથ્વી, જળ અને અગ્નિ",
+          "મન, બુદ્ધિ અને અહંકાર"
+        ],
+        "why": "વિરાટ, સૂત્રાત્મા અને અવ્યાકૃત એ ત્રણ શરીરે સહિત જે ઈશ્વરને કહેવા તે ઈશ્વરનું અન્વયપણું છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What represents the vyatirek state of ishwar?",
+        "correct": "Existing distinct from its three bodies",
+        "wrong": [
+          "Creating physical planets and stars",
+          "Controlling the movements of oceans",
+          "Appearing in various earthly forms"
+        ],
+        "why": "Ishwar as distinct from those three bodies and characterized by pure existence is its vyatirek form."
+      },
+      "gu": {
+        "q": "ઈશ્વરનું વ્યતિરેકપણું શું દર્શાવે છે?",
+        "correct": "ત્રણ શરીરથી પૃથક્ સત્તામાત્ર રહેવું",
+        "wrong": [
+          "નવા તારામંડળોનું સર્જન કરવું",
+          "સમુદ્ર અને વાયુ પર શાસન કરવું",
+          "પૃથ્વી પર મનુષ્ય રૂપે જન્મવું"
+        ],
+        "why": "ત્રણ શરીરથી પૃથક્ ને સત્તામાત્રપણે કહેવા તે ઈશ્વરનું વ્યતિરેકપણું છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "How is Aksharbrahma described in its anvay aspect?",
+        "correct": "Pervading maya and all cosmic realms",
+        "wrong": [
+          "Remaining completely unaware of creation",
+          "Bound within a single physical form",
+          "Subject to the three gunas of maya"
+        ],
+        "why": "When Aksharbrahma pervades maya and the entities evolved from maya, it is in its anvay form."
+      },
+      "gu": {
+        "q": "અક્ષરબ્રહ્મનું અન્વયપણું શામાં રહેલું છે?",
+        "correct": "માયા અને અનંત બ્રહ્માંડમાં વ્યાપકપણે રહેવું",
+        "wrong": [
+          "સૃષ્ટિના સર્જનથી તદ્દન અજાણ રહેવું",
+          "એક જ ભૌતિક શરીરમાં બંધાયેલા રહેવું",
+          "માયાના ત્રિગુણથી પ્રભાવિત થઈ જવું"
+        ],
+        "why": "માયા અને માયાનાં કાર્ય જે અનંત કોટિ બ્રહ્માંડ તેને વિષે વ્યાપકપણે અક્ષરબ્રહ્મને કહેવા તે એનું અન્વયપણું છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "What characterizes the vyatirek aspect of Aksharbrahma?",
+        "correct": "Distinct from all as sat-chit-anand",
+        "wrong": [
+          "Dependent on the cosmic deities",
+          "Governed by karma and material time",
+          "Subject to dissolution and rebirth"
+        ],
+        "why": "When it is distinct from everything and has attributes of sat-chit-anand, that is its vyatirek form."
+      },
+      "gu": {
+        "q": "અક્ષરબ્રહ્મનું વ્યતિરેકપણું શું છે?",
+        "correct": "સર્વથી પર સચ્ચિદાનંદરૂપે રહેવું",
+        "wrong": [
+          "દેવતાઓની શક્તિઓ પર નિર્ભર રહેવું",
+          "કર્મ અને કાળના બંધનમાં સપડાવું",
+          "સમય જતાં પ્રલયને આધીન થવું"
+        ],
+        "why": "એ સર્વથી વ્યતિરેક સચ્ચિદાનંદપણે જે અક્ષરબ્રહ્મને કહેવા તે એનું વ્યતિરેકપણું છે."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What constitutes the anvay aspect of supreme God?",
+        "correct": "Dwelling as antaryami and controller of all",
+        "wrong": [
+          "Taking rebirth compelled by past karma",
+          "Sleeping passively in the causal ocean",
+          "Merging His divine form into nature"
+        ],
+        "why": "When God is the antaryami and controller of Aksharbrahma, ishwars, jivas, and maya, that is His anvay form."
+      },
+      "gu": {
+        "q": "ભગવાનનું અન્વયપણું કયું છે?",
+        "correct": "સર્વના અંતર્યામી અને નિયંતાપણે રહેવું",
+        "wrong": [
+          "કર્મવશ થઈને સંસારમાં જન્મ લેવો",
+          "કારણ સમુદ્રમાં નિષ્ક્રિય સૂઈ રહેવું",
+          "પોતાનું સ્વરૂપ પ્રકૃતિમાં વિલીન કરવું"
+        ],
+        "why": "અક્ષરબ્રહ્મ, ઈશ્વર, જીવ, માયા અને બ્રહ્માંડ એમને વિષે અંતર્યામી અને નિયંતાપણે કહેવા તે અન્વયપણું છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What is the vyatirek aspect of supreme God?",
+        "correct": "Residing distinct in His divine abode",
+        "wrong": [
+          "Dispersing into unmanifest void space",
+          "Becoming completely formless light only",
+          "Dividing Himself into mortal creatures"
+        ],
+        "why": "When He is distinct from all and resides amidst divine light in His abode, that is His vyatirek form."
+      },
+      "gu": {
+        "q": "પરમ પુરુષોત્તમ ભગવાનનું વ્યતિરેકપણું શું છે?",
+        "correct": "સર્વથી પૃથક્ પોતાના ધામમાં બિરાજવું",
+        "wrong": [
+          "નિરાકાર શૂન્યાવકાશમાં વિલીન થઈ જવું",
+          "કેવળ નિરાકાર પ્રકાશ બનીને રહેવું",
+          "પોતાના અંશોથી મર્ત્ય જીવો બનવું"
+        ],
+        "why": "સર્વથી પૃથક્‌પણે કરીને પોતાના ધામને વિષે રહ્યા છે એમ જે કહેવું તે એ ભગવાનનું વ્યતિરેકપણું છે."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What fundamental truth does Maharaj declare about the five entities?",
+        "correct": "All five entities are eternal",
+        "wrong": [
+          "Only Parabrahma exists while others vanish",
+          "They originated from a cosmic explosion",
+          "They merge into nothingness at dissolution"
+        ],
+        "why": "Maharaj states that these five entities are eternal."
+      },
+      "gu": {
+        "q": "મહારાજ આ પાંચ તત્ત્વો વિશે કયું અંતિમ સત્ય જણાવે છે?",
+        "correct": "આ પાંચેય તત્ત્વો અનાદિ છે",
+        "wrong": [
+          "માત્ર પરબ્રહ્મ છે ને બાકીના મિથ્યા છે",
+          "તેઓ મહાવિસ્ફોટમાંથી ઉત્પન્ન થયા છે",
+          "પ્રલયકાળે સર્વ કાયમ શૂન્ય થઈ જાય છે"
+        ],
+        "why": "પુરુષોત્તમ ભગવાન, અક્ષરબ્રહ્મ, માયા, ઈશ્વર અને જીવ એ પાંચ ભેદ અનાદિ છે."
+      }
+    }
+  ]
+}

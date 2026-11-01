@@ -1,0 +1,250 @@
+{
+  "id": 22,
+  "themes": ["bhakti", "sadhana"],
+  "en": {
+    "key": "One should vigilantly practice remembering the form of God during all daily activities so that the mind remains steadily focused during worship.",
+    "summary": [
+      "Shriji Maharaj instructs the assembly on the true essence of devotional singing and music. He emphasizes that singing devotional songs with musical instruments like the mrudang, sarangi, and tal is futile if one does not remember God in the process. Many worldly musicians sing skillfully without remembering God, yet they fail to attain inner peace of mind. Therefore, whether a devotee sings devotional kirtans, chants God's holy name, or recites the divine dhun, every act of devotion must be performed while consciously remembering the form of God.",
+      "Shriji Maharaj further explains how to cultivate continuous remembrance in practical life. If a spiritual aspirant focuses on God only during formal worship and neglects Him during routine duties, the mind will fail to remain steady even when returning to worship. Therefore, one must vigilantly practice keeping one's vrutti fixed on God's divine form while walking, moving, eating, and drinking throughout the day. Through continuous vigilance, devotion becomes natural during everyday tasks, whereas spiritual negligence causes the mind to wander even during dedicated meditation."
+    ]
+  },
+  "gu": {
+    "key": "ભજનમાં મન સ્થિર રહે તે માટે હાલતાં, ચાલતાં સર્વ ક્રિયાઓમાં સાવધાન થઈને ભગવાનની મૂર્તિની સ્મૃતિ રાખવાનો અભ્યાસ કરવો.",
+    "summary": [
+      "શ્રીજીમહારાજ ભક્તિના સાચા રહસ્યને સમજાવતાં કહે છે કે મૃદંગ, સારંગી, સરોદા અને તાલ જેવાં વાજિંત્રો વગાડીને કીર્તન ગાવું, તેમાં જો ભગવાનની સ્મૃતિ ન રહે તો તે ગાયું ન ગાયા જેવું નિરર્થક છે. જગતમાં અનેક લોકો ભગવાનને સંભાર્યા વિના ગાય છે અને વાજિંત્રો વગાડે છે, પરંતુ તેથી તેમના મનમાં કદી શાંતિ વળતી નથી. આથી કીર્તનગાન, નામરટન કે નારાયણધૂન્ય જે કાંઈ ભક્તિ કરવામાં આવે તે સર્વે ભગવાનની મૂર્તિને સંભારીને જ કરવું જોઈએ.",
+      "ભગવાનમાં અખંડ વૃત્તિ રાખવાનો ઉપાય દર્શાવતાં મહારાજ જણાવે છે કે સાધક માત્ર ભજન વખતે જ વૃત્તિ જોડે અને વ્યવહારની અન્ય ક્રિયાઓમાં ભગવાનને ભૂલી જાય, તો ફરી ભજનમાં બેસતી વખતે પણ તેની વૃત્તિ સ્થિર થતી નથી. તેથી હાલતાં, ચાલતાં, ખાતાં, પીતાં સર્વ ક્રિયાઓમાં ભગવાનના સ્વરૂપમાં વૃત્તિ રાખવાનો સતત અભ્યાસ કરવો જોઈએ. જો સાધક સાવધાન રહીને અભ્યાસ કરે તો કામકાજ કરતી વખતે પણ વૃત્તિ ભગવાનમાં જોડાયેલી રહે છે, જ્યારે ગાફલાઈ રાખનારની વૃત્તિ ભજનમાં બેસવા છતાં ભગવાનમાં સ્થિર રહી શકતી નથી."
+    ]
+  },
+  "quiz": [
+    {
+      "a": 0,
+      "en": {
+        "q": "According to Shriji Maharaj, when is devotional singing considered as good as not singing?",
+        "correct": "When sung without remembering God",
+        "wrong": [
+          "When performed without expensive instruments",
+          "When sung without a trained voice",
+          "When sung in front of crowds"
+        ],
+        "why": "Maharaj states that singing without remembering God is as good as not having sung at all."
+      },
+      "gu": {
+        "q": "કીર્તન ગાયું તે ન ગાયા જેવું ક્યારે ગણાય છે?",
+        "correct": "ભગવાનની સ્મૃતિ વિના ગાયું હોય ત્યારે",
+        "wrong": [
+          "મોંઘા વાજિંત્રો વગાડ્યા વિના ગાયું હોય ત્યારે",
+          "શાસ્ત્રીય સંગીતના જ્ઞાન વિના ગાયું હોય",
+          "લોકોની મોટી સભા સમક્ષ ગાયું હોય ત્યારે"
+        ],
+        "why": "મહારાજ કહે છે કે કીર્તન ગાવવામાં જો ભગવાનની સ્મૃતિ ન રહે તો એ ગાયું તે ન ગાયા જેવું છે."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "Why do worldly musicians fail to attain inner peace despite singing?",
+        "correct": "They sing without remembering God",
+        "wrong": [
+          "They lack expensive musical equipment",
+          "They do not practice long hours",
+          "They play only simple melodies"
+        ],
+        "why": "Maharaj explains that many people sing without remembering God, so they do not attain peace of mind."
+      },
+      "gu": {
+        "q": "સાંસારિક ગાયકો ગાવા છતાં મનમાં શાંતિ કેમ પામતા નથી?",
+        "correct": "ભગવાનને વિસારીને ગાતા હોવાથી",
+        "wrong": [
+          "કિંમતી વાજિંત્રો ન હોવાને કારણે",
+          "પૂરતા કલાકો રિયાઝ ન કરવાથી",
+          "માત્ર સાદા રાગો વગાડવાને લીધે"
+        ],
+        "why": "મહારાજ કહે છે કે ભગવાનને વિસારીને ગાય છે તેથી મનમાં શાંતિ આવતી નથી."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "Which instruments are mentioned by Maharaj during devotional singing?",
+        "correct": "Mrudang, sārangi, sarodā and tāl",
+        "wrong": [
+          "Flute, veena, conch and bells",
+          "Drums, cymbals, trumpets and horns",
+          "Sitar, harmonium, tabla and violin"
+        ],
+        "why": "Maharaj mentions singing to the accompaniment of a mrudang, sarangi, saroda, tal and other instruments."
+      },
+      "gu": {
+        "q": "શ્રીજીમહારાજે કીર્તન સાથે ક્યાં વાજિંત્રોનો ઉલ્લેખ કર્યો?",
+        "correct": "મૃદંગ, સારંગી, સરોદા અને તાલ",
+        "wrong": [
+          "વાંસળી, વીણા, શંખ અને ઘંટડી",
+          "ઢોલ, કરતાલ, શરણાઈ અને ભુંગળ",
+          "સિતાર, હાર્મોનિયમ, તબલા અને વાયોલિન"
+        ],
+        "why": "મહારાજ મૃદંગ, સારંગી, સરોદા, તાલ ઇત્યાદિક વાદિત્રનો ઉલ્લેખ કરે છે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "How should a devotee perform devotional activities like chanting dhun?",
+        "correct": "Remembering the form of God",
+        "wrong": [
+          "Expecting praise from other people",
+          "Displaying artistic vocal skills",
+          "Competing with fellow singers"
+        ],
+        "why": "Maharaj states that singing kirtans or chanting dhun must be done only while remembering the form of God."
+      },
+      "gu": {
+        "q": "ધૂન્ય અને નામરટન જેવી ક્રિયાઓ ભક્તે કેવી રીતે કરવી?",
+        "correct": "ભગવાનની મૂર્તિને સંભારીને જ કરવી",
+        "wrong": [
+          "લોકો પાસેથી પ્રશંસા મેળવવા માટે",
+          "સંગીતની કુશળતાનું પ્રદર્શન કરવા",
+          "અન્ય ગાયકો સાથે હરીફાઈ કરવા માટે"
+        ],
+        "why": "મહારાજ કહે છે કે જે જે કરવું તે ભગવાનની મૂર્તિને સંભારીને જ કરવું."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What happens if one forgets God while performing routine daily duties?",
+        "correct": "Mind will not steady during worship",
+        "wrong": [
+          "One loses physical bodily strength",
+          "Daily work is immediately ruined",
+          "Senses become permanently disabled"
+        ],
+        "why": "Maharaj explains that if one does not keep vrutti on God during other work, it will not steady even in worship."
+      },
+      "gu": {
+        "q": "કામકાજ કરતી વખતે ભગવાન ભુલાઈ જાય તો શું પરિણામ આવે?",
+        "correct": "ભજનમાં બેસતાં વૃત્તિ સ્થિર થતી નથી",
+        "wrong": [
+          "શરીરની શારીરિક શક્તિ ઘટી જાય છે",
+          "વ્યવહારનું કામકાજ તરત બગડી જાય છે",
+          "ઇન્દ્રિયો કાયમ માટે નિષ્ક્રિય થઈ જાય"
+        ],
+        "why": "મહારાજ કહે છે કે કામકાજમાં વૃત્તિ ન રાખે તો ભજનમાં બેસે ત્યારે પણ વૃત્તિ સ્થિર થાય નહીં."
+      }
+    },
+    {
+      "a": 0,
+      "en": {
+        "q": "When should a devotee practice maintaining their vrutti on God?",
+        "correct": "In all activities throughout the day",
+        "wrong": [
+          "Only during quiet morning hours",
+          "Only when sitting inside temples",
+          "Only during annual religious festivals"
+        ],
+        "why": "Maharaj instructs to practice maintaining vrutti on God while walking, moving, eating and drinking."
+      },
+      "gu": {
+        "q": "ભક્તે ભગવાનમાં વૃત્તિ રાખવાનો અભ્યાસ ક્યારે કરવો?",
+        "correct": "હાલતાં, ચાલતાં સર્વ ક્રિયાઓને વિષે",
+        "wrong": [
+          "માત્ર વહેલી સવારના એકાંતમાં",
+          "માત્ર મંદિરમાં દર્શન કરતી વખતે",
+          "માત્ર વાર્ષિક ઉત્સવોના દિવસોમાં"
+        ],
+        "why": "મહારાજ કહે છે કે હાલતાં, ચાલતાં, ખાતાં, પીતાં સર્વ ક્રિયાને વિષે અભ્યાસ કરવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What is the fruit of continuously practicing remembrance during work?",
+        "correct": "Vrutti stays focused even during worship",
+        "wrong": [
+          "Immunity from all physical hunger",
+          "Power to foresee future events",
+          "Freedom from all earthly labor"
+        ],
+        "why": "Maharaj says that practicing during all activities enables the vrutti to steady on God during worship."
+      },
+      "gu": {
+        "q": "વ્યવહારમાં પણ સ્મૃતિનો અભ્યાસ રાખવાનું શું ફળ મળે છે?",
+        "correct": "ભજનમાં વૃત્તિ આપોઆપ સ્થિર થાય છે",
+        "wrong": [
+          "ભૂખ અને તરસ સંપૂર્ણ મટી જાય છે",
+          "ભવિષ્યની ઘટનાઓ જોવાની શક્તિ મળે છે",
+          "સાંસારિક કર્તવ્યોમાંથી કાયમી મુક્તિ મળે"
+        ],
+        "why": "મહારાજ કહે છે કે સર્વ ક્રિયામાં અભ્યાસ રાખે તો ભજનમાં બેસે ત્યારે ભગવાનમાં વૃત્તિ સ્થિર થાય."
+      }
+    },
+    {
+      "a": 3,
+      "en": {
+        "q": "What prevents a person's vrutti from steadying on God during worship?",
+        "correct": "Carelessness and complacency",
+        "wrong": [
+          "Excessive love for devotional songs",
+          "Lack of formal academic education",
+          "Living in simple rural villages"
+        ],
+        "why": "Maharaj says that if one is complacent, vrutti will not remain on God even when sitting for worship."
+      },
+      "gu": {
+        "q": "ભજનમાં બેસવા છતાં ભગવાનમાં વૃત્તિ કેમ નથી રહેતી?",
+        "correct": "પોતાની ગાફલાઈ હોવાને લીધે",
+        "wrong": [
+          "કીર્તનો પ્રત્યે અતિશય પ્રેમ હોવાથી",
+          "શાસ્ત્રોનું ભણતર ન હોવાને કારણે",
+          "સાદા ગામડામાં રહેવાને લીધે"
+        ],
+        "why": "મહારાજ કહે છે કે જેને ગાફલાઈ હોય તેને તો ભજનમાં બેસે ત્યારે પણ ભગવાનમાં વૃત્તિ ન રહે."
+      }
+    },
+    {
+      "a": 1,
+      "en": {
+        "q": "What attitude must a devotee adopt to maintain vrutti on God?",
+        "correct": "Constant spiritual vigilance",
+        "wrong": [
+          "Careless and relaxed indifference",
+          "Rigid and harsh outward silence",
+          "Pride in one's devotional actions"
+        ],
+        "why": "Maharaj concludes that a devotee should vigilantly practice maintaining vrutti on the form of God."
+      },
+      "gu": {
+        "q": "ભગવાનમાં વૃત્તિ રાખવા ભક્તે કેવા રહેવું જોઈએ?",
+        "correct": "સાવધાન થઈને અભ્યાસ કરવો",
+        "wrong": [
+          "આળસ અને બેદરકારીમાં રહેવું",
+          "કઠોર અને બાહ્ય મૌન ધારણ કરવું",
+          "પોતાની ભક્તિનું અભિમાન રાખવું"
+        ],
+        "why": "મહારાજ કહે છે કે સાવધાન થઈને ભગવાનના સ્વરૂપમાં વૃત્તિ રાખવાનો અભ્યાસ ભગવાનના ભક્તને કરવો."
+      }
+    },
+    {
+      "a": 2,
+      "en": {
+        "q": "What does this Vachanamrut teach regarding formal meditation and daily work?",
+        "correct": "Constant remembrance unites work and worship",
+        "wrong": [
+          "Devotees must abandon all daily work",
+          "Meditation is only for temple ascetics",
+          "Music is useless in spiritual path"
+        ],
+        "why": "Maharaj shows that continuous remembrance during daily work makes worship deep and focused."
+      },
+      "gu": {
+        "q": "ભજન અને વ્યવહાર વચ્ચે શ્રીજીમહારાજ શું મેળ બેસાડે છે?",
+        "correct": "અખંડ સ્મૃતિથી વ્યવહાર અને ભજન જોડાય",
+        "wrong": [
+          "સાધકે તમામ વ્યવહારિક કામ છોડી દેવાં",
+          "ધ્યાન માત્ર ત્યાગી સાધુઓ માટે જ છે",
+          "ભક્તિના માર્ગમાં સંગીત સાવ નકામું છે"
+        ],
+        "why": "મહારાજ દર્શાવે છે કે સર્વ ક્રિયામાં મૂર્તિ સંભારીને રાખવાથી ભજનમાં વૃત્તિ સ્થિર થાય છે."
+      }
+    }
+  ]
+}

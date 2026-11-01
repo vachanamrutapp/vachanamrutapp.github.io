@@ -93,7 +93,7 @@ function recordCurrentPage() {
     if (active.id === 'section-detail-screen') snapshot.sectionIndex = Number(active.dataset.sectionIndex);
     if (active.id === 'vachanamrut-detail-screen') snapshot.vachanamrutId = activeVachanamrutId;
     if (active.id === 'shikshapatri-detail-screen') snapshot.slokaId = Number(document.getElementById('sloka-slider').value);
-    if (active.id === 'notes-screen') {
+    if (active.id === 'saved-screen') {
         snapshot.savedTab = document.querySelector('[data-saved-tab].active')?.dataset.savedTab || 'favourites';
         snapshot.savedScripture = savedScripture;
     }
@@ -125,7 +125,7 @@ async function goBackToPreviousPage() {
             await Shikshapatri.showList(false);
         } else {
             showScreen(screenId, false);
-            if (screenId === 'notes-screen') {
+            if (screenId === 'saved-screen') {
                 setSavedScripture(previous.savedScripture || 'vachanamrut');
                 setSavedTab(previous.savedTab || 'favourites');
             }
@@ -381,6 +381,7 @@ let currentScripture = 'vachanamrut';
 const lastPlace = { vachanamrut: null, shikshapatri: null };
 const footerSettingsBtn = document.getElementById('footer-settings-btn');
 const footerNotesBtn = document.getElementById('footer-notes-btn');
+const footerSavedBtn = document.getElementById('footer-saved-btn');
 const footerAudioBtn = document.getElementById('footer-audio-btn');
 if (footerAudioBtn && localStorage.getItem('audioEnabled') === 'false') footerAudioBtn.style.display = 'none'; // Settings → Audio narration is off
 const readingFooter = document.getElementById('reading-footer');
@@ -1725,7 +1726,7 @@ function saveNididhyas() {
     if (isShik) window.Shikshapatri?.updateFavouriteButton();
     closeNididhyasPanel();
     showToast(wasSaved ? (uiEnglish() ? 'Study Time updated' : 'અભ્યાસ સમય બદલાયો') : (uiEnglish() ? 'Saved to Study Time' : 'અભ્યાસ સમયમાં સાચવ્યું'), 'fas fa-heart');
-    if (document.getElementById('notes-screen').classList.contains('active')) renderSavedPage();
+    if (document.getElementById('saved-screen').classList.contains('active')) renderSavedPage();
 }
 
 function removeFavourite(id) {
@@ -1740,7 +1741,7 @@ function removeFavourite(id) {
     if (!isShik && btn && activeVachanamrutId === id) btn.innerHTML = '<i class="far fa-heart"></i>';
     if (isShik) window.Shikshapatri?.updateFavouriteButton();
     closeNididhyasPanel();
-    if (document.getElementById('notes-screen').classList.contains('active')) renderSavedPage();
+    if (document.getElementById('saved-screen').classList.contains('active')) renderSavedPage();
     showToast(uiEnglish() ? 'Removed from favourites' : 'મનપસંદમાંથી દૂર કર્યું', 'far fa-heart');
 }
 
@@ -3004,6 +3005,8 @@ function scrollToBookmark() {
 }
 
 // Saved screen: favourites and annotations share one bottom-tab destination.
+const SAVED_TABS = ['favourites', 'annotations'];
+const currentSavedTab = () => document.querySelector('[data-saved-tab].active')?.dataset.savedTab || 'favourites';
 function setSavedTab(tab) {
     if (savedScripture === 'shikshapatri' && tab === 'annotations') tab = 'favourites';
     document.querySelectorAll('[data-saved-tab]').forEach(button => {
@@ -3012,8 +3015,7 @@ function setSavedTab(tab) {
         button.setAttribute('aria-selected', String(active));
         button.tabIndex = active ? 0 : -1;
     });
-    document.getElementById('saved-favourites-panel').hidden = tab !== 'favourites';
-    document.getElementById('saved-annotations-panel').hidden = tab !== 'annotations';
+    SAVED_TABS.forEach(name => { document.getElementById(`saved-${name}-panel`).hidden = tab !== name; });
 }
 
 function setSavedScripture(scripture) {
@@ -3024,7 +3026,7 @@ function setSavedScripture(scripture) {
         button.setAttribute('aria-selected', String(active));
     });
     document.getElementById('saved-annotations-tab').hidden = savedScripture === 'shikshapatri';
-    if (savedScripture === 'shikshapatri') setSavedTab('favourites');
+    setSavedTab(currentSavedTab());
     renderSavedPage();
     if (savedScripture === 'shikshapatri' && !window.Shikshapatri?.count) {
         window.Shikshapatri?.ensureLoaded().then(() => {
@@ -3163,6 +3165,12 @@ function setupMenu() {
             else showScreen('notes-screen');
         });
     }
+    if (footerSavedBtn) {
+        footerSavedBtn.addEventListener('click', () => {
+            if (document.getElementById('saved-screen').classList.contains('active')) returnToScripture();
+            else showScreen('saved-screen');
+        });
+    }
 
     document.querySelectorAll('[data-saved-scripture]').forEach(button => {
         button.addEventListener('click', () => setSavedScripture(button.dataset.savedScripture));
@@ -3172,9 +3180,10 @@ function setupMenu() {
         button.addEventListener('keydown', event => {
             if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
             event.preventDefault();
-            if (savedScripture === 'shikshapatri') return;
-            const next = event.key === 'Home' ? 'favourites' : event.key === 'End' ? 'annotations'
-                : button.dataset.savedTab === 'favourites' ? 'annotations' : 'favourites';
+            const tabs = SAVED_TABS.filter(name => !(savedScripture === 'shikshapatri' && name === 'annotations'));
+            const at = tabs.indexOf(button.dataset.savedTab);
+            const next = event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs[tabs.length - 1]
+                : tabs[(at + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
             setSavedTab(next);
             document.querySelector(`[data-saved-tab="${next}"]`).focus();
         });
@@ -3272,7 +3281,7 @@ function setupMenu() {
     if (journeyFavouritesChip) {
         journeyFavouritesChip.addEventListener('click', () => {
             setSavedTab('favourites');
-            showScreen('notes-screen');
+            showScreen('saved-screen');
         });
     }
 
@@ -3425,6 +3434,7 @@ function showScreen(screenId, pushState = true) {
         footerSettingsBtn.classList.toggle('active', screenId === 'settings-screen' || screenId === 'journey-screen');
     }
     if (footerNotesBtn) footerNotesBtn.classList.toggle('active', screenId === 'notes-screen');
+    if (footerSavedBtn) footerSavedBtn.classList.toggle('active', screenId === 'saved-screen');
     if (footerAudioBtn) footerAudioBtn.classList.toggle('active', screenId === 'audio-screen');
     footerHomeBtn.classList.toggle('active', screenId === 'home-screen' || screenId === 'section-detail-screen' || screenId === 'shikshapatri-list-screen');
 
@@ -3446,7 +3456,7 @@ function showScreen(screenId, pushState = true) {
     } else if (screenId === 'section-detail-screen') {
         footer.style.display = 'flex';
         if (fabBtn) fabBtn.style.display = 'none';
-    } else if (screenId === 'settings-screen' || screenId === 'journey-screen' || screenId === 'notes-screen' || screenId === 'audio-screen') {
+    } else if (screenId === 'settings-screen' || screenId === 'journey-screen' || screenId === 'notes-screen' || screenId === 'saved-screen' || screenId === 'audio-screen') {
         footer.style.display = 'flex';
         backBtn.style.display = 'block';
         bookmarkBtn.style.display = 'none';
@@ -3454,7 +3464,8 @@ function showScreen(screenId, pushState = true) {
         if (screenId === 'journey-screen') {
             renderJourneyPage();
         }
-        if (screenId === 'notes-screen') setSavedScripture(currentScripture);
+        if (screenId === 'saved-screen') setSavedScripture(currentScripture);
+        if (screenId === 'notes-screen' && window.Study) Study.render();
         if (screenId === 'audio-screen' && window.AudioPage) AudioPage.show();
     } else if (screenId === 'shikshapatri-list-screen' || screenId === 'shikshapatri-detail-screen') {
         const isList = screenId === 'shikshapatri-list-screen';
@@ -3759,8 +3770,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else if (activeScreenId === 'journey-screen') {
                     renderJourneyPage();
-                } else if (activeScreenId === 'notes-screen') {
+                } else if (activeScreenId === 'saved-screen') {
                     renderSavedPage();
+                } else if (activeScreenId === 'notes-screen' && window.Study) {
+                    Study.render();
                 } else if (activeScreenId === 'audio-screen' && window.AudioPage) {
                     AudioPage.show();
                 }
@@ -3897,7 +3910,10 @@ function updateSEOMetadata(screenId, vachanamrut = null) {
         titleString = isGuj ? 'ઓડિયો | વચનામૃત' : 'Audio | Vachanamrut';
         descString = isGuj ? 'બધા વચનામૃત ઓડિયો સ્વરૂપે સાંભળો.' : 'Listen to every Vachanamrut as audio.';
     } else if (screenId === 'notes-screen') {
-        titleString = isGuj ? 'અભ્યાસ સમય | વચનામૃત અને શિક્ષાપત્રી' : 'Study Time | Vachanamrut and Shikshapatri';
+        titleString = isGuj ? 'અભ્યાસ સમય | વચનામૃત' : 'Study Time | Vachanamrut';
+        descString = isGuj ? 'દરેક વચનામૃતનો સારાંશ વાંચો અને ક્વિઝ આપો.' : 'Read the summary of each Vachanamrut and take its quiz.';
+    } else if (screenId === 'saved-screen') {
+        titleString = isGuj ? 'મનપસંદ અને નોંધ | વચનામૃત અને શિક્ષાપત્રી' : 'Favourites & Notes | Vachanamrut and Shikshapatri';
         descString = isGuj ? 'બંને ગ્રંથોના મનપસંદ પાઠ અને તમારી નોંધ એક જગ્યાએ.' : 'Favourite readings and notes from both scriptures in one place.';
     } else if (screenId === 'settings-screen') {
         if (isGuj) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.126.0';
+const CACHE_NAME = '1.132.1';
 
 // ---- App shell (cached on install — blocks SW activation) -------------------
 const APP_SHELL = [
@@ -15,6 +15,7 @@ const APP_SHELL = [
     './js/annotations.js',
     './js/background-audio.js',
     './js/audio-page.js',
+    './js/study.js',
     './js/reminders.js',
     './js/onboarding.js',
     './js/appearance.js',
